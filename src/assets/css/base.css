@@ -1,0 +1,104 @@
+/* @import "./normalize.css";
+@import "./siJiao.css"; */
+/*:root -> 伪类，获取根元素html，下面是定义的CSS变量方式*/
+:root {
+  --color-text: #fff; /* 文字颜色  */
+  --color-high-text: #ff5777; /* 文字高亮的颜色 */
+  --color-tint: #ff8198; /* 整体的背景颜色，这里设置导航的背景颜色 */
+  --color-background: #fff; /* 白色的单体背景 */
+  --font-size: 14px; /* 整体字体的大小 */
+  --line-height: 1.5; /*  */
+}
+
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+/*html{*/
+/*  !*用于3d的显示,会引起页面覆盖不满屏*!*/
+/*  perspective: 800px;*/
+/*}*/
+html {
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  margin: 0;
+}
+body {
+  font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB",
+    "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
+  user-select: none; /* 禁止用户鼠标在页面上选中文字/图片等 */
+  -webkit-tap-highlight-color: transparent; /* webkit是苹果浏览器引擎，tap点击，highlight背景高亮，color颜色，颜色用数值调节 */
+  /* background: var(--color-background); */
+  color: var(--color-text);
+  color: #fff;
+  /* rem vw/vh */
+  /*width: 100vw;*/
+  /* background-color: blue; */
+  /* width: 40rem;
+  height: 20.5rem; */
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  margin: 0;
+}
+/* @font-face {
+  font-family: myFirstFont;
+  src: url("./DS-DIGIB-2.ttf");
+} */
+/*a {*/
+/*  color: var(--color-text);*/
+/*  text-decoration: none;*/
+/*}*/
+
+div {
+  box-sizing: border-box;
+}
+ol,
+ul,
+dl {
+  margin-top: 0;
+  margin-bottom: 0;
+  list-style: none;
+}
+fieldset,
+img,
+input,
+button {
+  border: none;
+  padding: 0;
+  margin: 0;
+  outline-style: none;
+}
+img {
+  border: 0;
+  vertical-align: middle;
+}
+
+a {
+  text-decoration: none;
+  cursor: pointer;
+}
+.clear-fix::after {
+  clear: both;
+  content: "";
+  display: block;
+  width: 0;
+  height: 0;
+  visibility: hidden;
+}
+
+.clear-fix {
+  zoom: 1;
+}
+
+.left {
+  float: left;
+}
+
+.right {
+  float: right;
+}
