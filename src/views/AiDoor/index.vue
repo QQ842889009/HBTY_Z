@@ -1,5 +1,5 @@
 <template>
-  <div>AI户阀界面</div>
+  <div>AI户阀界面hhhh</div>
 </template>
 
 <script>
