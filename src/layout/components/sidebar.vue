@@ -29,11 +29,12 @@
     <!-- :collapse-transition="false" -> 关闭动画 -->
     <!-- router -> 导航开启路由模式 -->
     <!-- 一级菜单  -->
-    <el-submenu :index="item.id + ''" v-for="item in menuList" :key="item.id">
+    <el-submenu :index="item.id + ''" :popper-append-to-body='false' v-for="item in menuList" :key="item.id
+    "  >
       <!-- 一级菜单的模板区域 -->
       <!--  @click="saveNavState('/' + subItem.path)" -->
       <template slot="title">
-        <i :class="iconObj[item.id]"></i>
+        <i :class="iconObj[item.id]" style="color:#fff"></i>
         <span>{{ item.name }}</span>
       </template>
       <!-- 二级菜单 -->
@@ -190,15 +191,16 @@ export default {
 <style lang="scss" scoped>
 .el-menu {
   border-right: none;
-  background-color: transparent !important;
+   background-color: transparent ;
   // background-color: "red";
 
-  color: #000;
+  color: #fff;
   width: 50%;
   position: relative;
   left: 600px;
   top: 20px;
 }
+
 .el-menu.el-menu--horizontal {
   border-bottom: none !important; //去掉下面的一条直线
   // background-color: red !important;
@@ -207,16 +209,20 @@ export default {
   //   margin-top: 5px;
   //   background-color: red !important;
   // }
+// }
+
 }
 ::v-deep {
-  .el-menu--horizontal .el-menu .el-menu-item,
-  .el-menu--horizontal .el-menu .el-submenu__title {
-    background-color: red !important;
-    float: none;
-    height: 36px;
-    line-height: 36px;
-    padding: 0 10px;
-  }
+  // .el-menu--horizontal .el-menu .el-menu-item{
+  //   background-color: rgb(18, 219, 135);
+  // }
+  // .el-menu--horizontal .el-menu .el-submenu__title {
+  //   background-color: red !important;
+  //   float: none;
+  //   height: 36px;
+  //   line-height: 36px;
+  //   padding: 0 10px;
+  // }
   // .el-menu.el-menu--horizontal {
   //   border-bottom: solid 1px #e6e6e6;
   // }
@@ -229,49 +235,53 @@ export default {
     //   background-color: red !important;
     // }
   }
-  .el-menu.el-menu--horizontal:hover {
-    background: #1c88cf !important;
-    background-color: transparent !important;
-    color: rgb(20, 235, 110) !important;
-  }
+  // .el-menu.el-menu--horizontal:hover {
+  //   background: #1c88cf !important;
+  //   background-color: transparent !important;
+  //   color: rgb(20, 235, 110) !important;
+  // }
 
-  .el-menu-item:hover {
-    background: #1c88cf !important;
-    background-color: transparent !important;
-    color: rgb(165, 209, 43) !important;
-  }
+  // .el-menu-item:hover {
+  //   background: #1c88cf !important;
+  //   background-color: transparent !important;
+  //   color: rgb(165, 209, 43) !important;
+  // }
 
-  .el-submenu__title:hover {
-    background: #1c88cf !important;
-    background-color: transparent !important;
-    color: rgb(149, 228, 23) !important;
+  //一级菜单
+ .el-submenu__title{
+  font-size:20px;
+  //background: rgb(107, 77, 77);
+  color:#fff !important;
+ }
+//一级菜单效果
+  .el-submenu__title:hover,.el-submenu__title:focus{
+    
+    background-color: transparent !important; //背景颜色
+    color: rgb(149, 228, 23) !important;  //颜色
   }
-  .el-menu-item.is-active {
-    background-color: transparent !important;
-    // background: #1c88cf !important;
-    color: rgb(243, 49, 49) !important;
-  }
-  .el-submenu__title.is-active {
-    background: #1c88cf !important;
-    background-color: transparent !important;
-    color: rgb(216, 37, 37) !important;
-    color: rgb(243, 49, 49) !important;
-  }
+  .el-submenu.is-opened .el-submenu__title{
+  // background-color: transparent !important; //背景颜色
+    color: rgb(149, 228, 23) ;  //颜色
+}
+  .el-submenu.is-active .el-submenu__title{
+  // background-color: transparent !important; //背景颜色
+    color: rgb(149, 228, 23) ;  //颜色
+}
 
-  .el-menu--collapse .el-menu .el-submenu,
-  .el-menu--popup {
-    background-color: transparent !important;
-  }
+  //二级菜单
+ li.el-menu-item {
+   color: #fff !important;
+  background-color: #57a4e7 !important;
+   font-size:18px;
+}
 
-  .el-submenu__icon-arrow .el-icon-arrow-down {
-    background-color: transparent !important;
-  }
-  .el-menu--popup-bottom-start {
-    margin-top: 5px;
-    background-color: red !important;
-  }
+//二级菜单弹出框
+.el-menu--popup-bottom-start {
+   
+    padding: 1px;
+}
 }
 </style>
+<style lang="scss">
 
-
-
+</style>
