@@ -24,9 +24,9 @@ const getters = {
 const actions = {}
 
 const mutations = {
-  STATION(state) {
+  STATION(state) {  
     station.station(state.station, state.stationLenght)
-    // console.log("换热站的初始化占位", state.station)
+    //console.log("换热站的初始化占位", state.station)
   },
 
   STATIONDATA(state, data) {
