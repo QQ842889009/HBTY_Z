@@ -120,7 +120,7 @@ export default {
               name: "区间报表",
               id: "225",
               // path: "pfd",
-              path: "HistoryQuery",
+              path: "TableSection",
             },
             {
               name: "历史查询",
