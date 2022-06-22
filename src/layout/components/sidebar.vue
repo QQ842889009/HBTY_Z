@@ -35,7 +35,7 @@
       <!--  @click="saveNavState('/' + subItem.path)" -->
       <template slot="title">
         <i :class="iconObj[item.id]" style="color:#fff"></i>
-        <span>{{ item.name }}</span>
+        <span class="yy">{{ item.name }}</span>
       </template>
       <!-- 二级菜单 -->
       <el-menu-item
@@ -74,8 +74,21 @@ export default {
         17: "iconfont icon-kongzhi",
         18: "iconfont icon-zhexian  ",
         19: "iconfont icon-houtaiguanli ",
+        1511: "iconfont icon-keshihua-blue ",
       },
       menuList: [
+        {
+          name: "可视化",
+          id: "1511",
+
+          children: [
+            {
+              name: "可视化",
+              id: "1121",
+              path: "Visual",
+            },
+          ],
+        },
         {
           name: "热源",
           id: "11",
@@ -189,6 +202,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.yy{
+  padding: 5px;
+}
 .el-menu {
   border-right: none;
    background-color: transparent ;
@@ -251,7 +267,7 @@ export default {
  .el-submenu__title{
   font-size:20px;
   //background: rgb(107, 77, 77);
-  color:#fff !important;
+  color:rgb(250, 244, 244) !important;
  }
 //一级菜单效果
   .el-submenu__title:hover,.el-submenu__title:focus{
@@ -261,24 +277,26 @@ export default {
   }
   .el-submenu.is-opened .el-submenu__title{
   // background-color: transparent !important; //背景颜色
-    color: rgb(149, 228, 23) ;  //颜色
+    color: rgb(149, 228, 23) !important;  //颜色
 }
   .el-submenu.is-active .el-submenu__title{
   // background-color: transparent !important; //背景颜色
-    color: rgb(149, 228, 23) ;  //颜色
+    color: rgb(149, 228, 23) !important;  //颜色
 }
 
   //二级菜单
  li.el-menu-item {
-   color: #fff !important;
+   color: rgb(252, 250, 250) !important;
   background-color: #57a4e7 !important;
    font-size:18px;
 }
+
 
 //二级菜单弹出框
 .el-menu--popup-bottom-start {
    
     padding: 1px;
+    // background-color: red;
 }
 }
 </style>
