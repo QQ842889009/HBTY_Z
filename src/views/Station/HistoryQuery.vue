@@ -1,6 +1,6 @@
-/** 换热站 温度控制*/
+/** 换热站 历史查询*/
 <template>
-  <div>换热站 温度控制</div>
+  <div>换热站 历史查询</div>
 </template>
 
 <script>

@@ -1,6 +1,6 @@
 
 <template>
-  <div class="fence-container">
+  <div class="fence-container" :style="add">
     <!-- <div class="border_corner border_corner_right_top"></div> -->
     <div class="border_corner border_corner_left_bottom"></div>
     <div class="border_corner border_corner_right_bottom"></div>
@@ -50,7 +50,19 @@ export default {
   data() {
     return {};
   },
-  computed: {},
+  props: {
+    weight: {
+      type: String,
+      default: "100%",
+    },
+  },
+  computed: {
+    add() {
+      return {
+        "--weight": this.weight,
+      };
+    },
+  },
   mounted() {},
   methods: {},
 };

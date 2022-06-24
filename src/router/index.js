@@ -30,7 +30,9 @@ export const constantRoutes = [
 
   {
     path: "/layout",
-    name: "layout",
+    // name: "layout",
+    // redirect: "/index",
+
     // redirect: "/Visual",
     meta: { title: "首页" },
     // redirect: "/Visual", //首页指向
@@ -42,7 +44,7 @@ export const constantRoutes = [
         name: "Visual",
         meta: { title: "可视化" },
 
-        component: Visual
+        component: Visual,
       },
 
       hot,
@@ -55,14 +57,14 @@ export const constantRoutes = [
     ]
   }
 ]
-export const asyncRoutes = [
-  {
-    path: "/index",
-    name: "index",
-    meta: { title: "可视化" },
-    component: Visual
-  }
-]
+// export const asyncRoutes = [
+//   {
+//     path: "/index",
+//     name: "index",
+//     meta: { title: "可视化" },
+//     component: Visual
+//   }
+// ]
 
 const router = new VueRouter({
   routes: constantRoutes

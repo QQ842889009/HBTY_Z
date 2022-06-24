@@ -41,12 +41,12 @@ export default {
 
 
 <style lang="scss" scoped>
-.aa {
-  display: inline-block;
-  background-color: brown;
-  background-color: transparent !important;
-}
-.sideItem {
-  background-color: transparent !important;
-}
+// .aa {
+//   display: inline-block;
+//   background-color: rgb(234, 238, 14);
+//   background-color: transparent !important;
+// }
+// .sideItem {
+//   background-color: transparent !important;
+// }
 </style>
