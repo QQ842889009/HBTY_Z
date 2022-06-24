@@ -82,21 +82,6 @@
             @handleSizeChange="handleSizeChange"
             @handleCurrentChange="handleCurrentChange"
           >
-            <!-- <template v-slot:FVSP="slotData">
-              <el-input
-                type="number"
-                size="mini"
-                max="100"
-                min="0"
-                v-model="slotData.data.FVSP"
-                onkeyup="this.value=this.value.replace(/[\u4E00-\u9FA5]/g,'') "
-                oninput="if(value>100)value=100;if(value<0)value=0"
-                @change="changeInput(slotData)"
-                :disabled="slotData.data.Sid == disabled.is"
-              >
-              </el-input
-            ></template> -->
-
             <template v-slot:TE="slotData">
               <span :style="myStyle(slotData.data.TE)">{{
                 slotData.data.TE
@@ -159,7 +144,7 @@
               </div>
             </div>
             <div class="ff">
-              888
+              {{ indoorque }}
               <!-- <A333
                 :xData="xData"
                 :yData="TE"
@@ -181,21 +166,21 @@
   </div>
 </template>
 <script>
-import Collocate from "./Collocate" //配置显示和隐藏的
-import SelectSearch from "./SelectSearch" //配置显示和隐藏的
-import Tab from "components/common/Tab" //table表格公共模板
-import InputSearch from "components/common/InputSearch" //输入关键词查找模板
-import DateTimePicker from "components/common/DateTimePicker" //选择日期时间的模板
-import SysDlialog22 from "./SysDlialog22" ////
+import Collocate from "./Collocate"; //配置显示和隐藏的
+import SelectSearch from "./SelectSearch"; //配置显示和隐藏的
+import Tab from "components/common/Tab"; //table表格公共模板
+import InputSearch from "components/common/InputSearch"; //输入关键词查找模板
+import DateTimePicker from "components/common/DateTimePicker"; //选择日期时间的模板
+import SysDlialog22 from "./SysDlialog22"; ////
 
 import {
   DoorRequestSingle,
   inDoorRequestAll_node,
-  teHistory
-} from "@/utils/common"
-const { tableHeader, sendThis } = require("./TableConfig")
+  teHistory,
+} from "@/utils/common";
+const { tableHeader, sendThis } = require("./TableConfig");
 
-import { Input } from "element-ui"
+import { Input } from "element-ui";
 
 export default {
   data() {
@@ -205,7 +190,7 @@ export default {
       //结束时间
       zzz: {
         sta: null,
-        db: null
+        db: null,
       },
 
       name: null,
@@ -218,13 +203,13 @@ export default {
       kong: [],
       activeName: "first",
       disabled: {
-        is: "qwer" //设置点击后的禁用
+        is: "qwer", //设置点击后的禁用
       },
 
       wide: "220px", //宽度
       findName: {
         findName1: "Station", //要搜索的关键词
-        findName2: "Community" //要搜索的关键词
+        findName2: "Community", //要搜索的关键词
       },
 
       placeholder: "站点/小区", //提示
@@ -242,8 +227,8 @@ export default {
           crossingOne: "#ffffff",
           crossingTwo: "#f5f7fd",
           colorOne: "#000",
-          colorTwo: "#000"
-        }
+          colorTwo: "#000",
+        },
       },
       //斑马线的参数
 
@@ -254,138 +239,115 @@ export default {
       pagination: {
         current: 1,
         size: 10,
-        total: 0
+        total: 0,
       },
       //弹框的开始
-      dialogVisible: false
+      dialogVisible: false,
       //弹框的结束
-    }
+    };
   },
   created() {
     // inDoorRequestAll();
-    this.tableData = this.$store.getters.get_inDoorDataAndInfo //表格数据
+    this.tableData = this.$store.getters.get_inDoorDataAndInfo; //表格数据
     // console.log("eeeeee", this.tableData)
-    this.pagination.total = this.tableData.length //数据的长度给分页总数用
+    this.pagination.total = this.tableData.length; //数据的长度给分页总数用
 
-    this.transuFindData = this.$store.getters.get_inDoorDataAndInfo
+    this.transuFindData = this.$store.getters.get_inDoorDataAndInfo;
     // console.log("sssss", this.transuFindData)
   },
   watch: {},
   computed: {
     //接收室内温度的数据
     indoorque() {
-      return this.$store.getters.inDoorDataQue
+      return this.$store.getters.get_inDoorDataQue;
     },
     stationInfo() {
-      return this.$store.getters.xx
+      return this.$store.getters.xx;
     },
-    TE() {
-      return [
-        {
-          name: "供水温度",
-          type: "line", //类型散点
-          //   symbol: "arrow",
-          // showEffectOn: "emphasis",
-          symbolSize: "6", //图标大小
-          data: this.indoorque.map((item) => item.temp),
-          color: "red"
-        }
-      ]
-    },
-    xData() {
-      return this.indoorque.map((item) => item.event_time)
-    }
   },
   mounted() {
-    sendThis(this) // 设置this指
-    // if (sessionStorage.getItem("headArr_indoor")) {
-    //   this.columnArr = JSON.parse(sessionStorage.getItem("columnArr_indoor"))
-    //   this.tableConfig = JSON.parse(sessionStorage.getItem("headArr_indoor"))
-    // } else {
-    //   this.columnArr = inDoorColumnCheckbox
-    //   this.tableConfig = tableHeader
-    // }
+    sendThis(this); // 设置this指
   },
   methods: {
     //历史查询
     historyInquire(v) {
-      console.log("室内温度历史查询", v)
-      teHistory(v.Sn, this.starttime, this.endtime)
+      console.log("室内温度历史查询", v);
+      teHistory(v.Sn, this.starttime, this.endtime);
     },
     requestData() {
-      console.log("请求数据")
-      inDoorRequestAll_node()
+      console.log("请求数据");
+      inDoorRequestAll_node();
     },
     createData(v) {
-      console.log("增加", v)
-      this.$refs.dialog.dialogVisible = true
+      console.log("增加", v);
+      this.$refs.dialog.dialogVisible = true;
     },
     deleteData(v) {
-      console.log("删除", v)
-      this.$refs.dialog.dialogVisible = true
+      console.log("删除", v);
+      this.$refs.dialog.dialogVisible = true;
     },
     updateData(v) {
-      console.log("修改", v)
-      this.$refs.dialog.dialogVisible = true
+      console.log("修改", v);
+      this.$refs.dialog.dialogVisible = true;
     },
     readData(v) {
-      console.log("查看", v)
-      this.$refs.dialog.dialogVisible = true
+      console.log("查看", v);
+      this.$refs.dialog.dialogVisible = true;
     },
     myStyle(value) {
       if (value > 18 && value <= 22) {
-        return { color: "#14e90d", fontWeight: "900" }
+        return { color: "#14e90d", fontWeight: "900" };
       } else if (value > 23 && value < 30) {
-        return { color: "red", fontWeight: "900" }
+        return { color: "red", fontWeight: "900" };
       } else if (value < 18) {
-        return { color: "#8d8787" }
+        return { color: "#8d8787" };
       }
     },
 
     //通讯localStorage//sessionStorage
     changeValueT(v) {
-      console.log("通讯")
-      console.log(v)
+      console.log("通讯");
+      console.log(v);
     },
 
     //接收table列显示隐藏的配置项
     receiveTableConfig(v) {
-      console.log("接收table列显示隐藏的配置项", v)
-      this.table_config.thead = v
+      console.log("接收table列显示隐藏的配置项", v);
+      this.table_config.thead = v;
       // console.log("接收table列显示隐藏的配置项", v);
     },
     //DateTimePicker传过来的选择的日期时间
     receiveDateTimePicker(v) {
-      this.startAndEndDateAndTime = v
+      this.startAndEndDateAndTime = v;
 
-      this.starttime = v[0]
-      this.endtime = v[1]
+      this.starttime = v[0];
+      this.endtime = v[1];
     },
 
     receiveSelectValue(v) {
-      console.log("选择器传递过来的数据", v)
-      this.tableData = v
-      this.pagination.total = v.length
+      console.log("选择器传递过来的数据", v);
+      this.tableData = v;
+      this.pagination.total = v.length;
       // this.findName.findName1 = v;
     },
 
     receiveChangeDialog() {
-      this.dialogVisible = false
+      this.dialogVisible = false;
     },
 
     gg() {
-      inDoorRequestAll_node()
+      inDoorRequestAll_node();
     },
     handleClick(tab, event) {
-      console.log(tab, event)
+      console.log(tab, event);
     },
     changeInput(v) {
-      this.disabled.is = v.data.Sid
-      inDoorFvsp2(v, this.disabled)
+      this.disabled.is = v.data.Sid;
+      inDoorFvsp2(v, this.disabled);
     },
 
     handleEdit(index, row) {
-      console.log(row, "1")
+      console.log(row, "1");
     },
     //单个室内温度历史查询
     //本体
@@ -394,18 +356,18 @@ export default {
     // },
 
     change(val) {
-      console.log("TTTT", val)
-      this.tableData = val
-      this.pagination.total = val.length
+      console.log("TTTT", val);
+      this.tableData = val;
+      this.pagination.total = val.length;
     },
     handleSizeChange(val) {
       //接收子组件传递过来的值，改变父组件的值又传递给子组件
-      this.pagination.size = val
+      this.pagination.size = val;
     },
     handleCurrentChange(val) {
       //接收子组件传递过来的值，改变父组件的值又传递给子组件
-      this.pagination.current = val
-    }
+      this.pagination.current = val;
+    },
   },
   components: {
     // ss,
@@ -418,9 +380,9 @@ export default {
     InputSearch,
     SelectSearch,
     DateTimePicker,
-    SysDlialog22
-  }
-}
+    SysDlialog22,
+  },
+};
 </script>
 <style lang="scss" scoped>
 .indoor-consumer {

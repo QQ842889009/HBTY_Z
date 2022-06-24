@@ -79,7 +79,7 @@ function onMsg(e) {
 
     case "/hbty/te/dataQue":
       console.log("触发室内温度数据间隔查询的数组AAATE", msg.data)
-      //that.$store.commit("inDoorDataQue", msg.data)
+      that.$store.commit("INDOORDATAQUE", msg.data)
 
       break
 

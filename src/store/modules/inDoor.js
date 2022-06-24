@@ -15,6 +15,9 @@ export default {
   getters: {
     get_inDoorDataAndInfo(state) {
       return state.inDoorDataAndInfo
+    },
+    get_inDoorDataQue(state) {
+      return state.inDoorDataQue
     }
   },
 
@@ -82,7 +85,7 @@ export default {
           Vue.set(state.inDoorDataAndInfo[j], key, obj[key])
         }
       }
-    }
+    },
 
     // inDoorDataNode(state, data) {
     //   //
@@ -97,9 +100,11 @@ export default {
     // },
 
     //室内温度历史查询
-    // inDoorDataQue(state, data) {
-    //   state.inDoorDataQue = data
-    // }
+
+    INDOORDATAQUE(state, data) {
+      console.log("室内温度查询进入仓库")
+      state.inDoorDataQue = data
+    }
   },
   actions: {}
 }
