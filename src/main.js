@@ -33,9 +33,9 @@ new Promise((resolve, reject) => {
   resolve()
 }).then(() => {
   ////生产环境的连接开始
-  // socketAiUnit.connected(
-  //   "http://221.206.242.116:1668/endpoint-websocket-tlgw" //生产环境户阀//
-  // )
+  socketAiUnit.connected(
+    "http://221.206.242.116:1668/endpoint-websocket-tlgw" //生产环境户阀//
+  )
   socketAiInDoor.connected(
     "http://221.206.242.116:2060/hbty/endpoint-websocket-te" //室内温度的2022生产//生产环境室内温度
   )
