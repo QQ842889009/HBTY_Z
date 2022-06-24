@@ -30,7 +30,7 @@ export const constantRoutes = [
 
   {
     path: "/layout",
-    name: "layout",
+    // name: "layout",
     // redirect: "/index",
 
     // redirect: "/Visual",
@@ -44,7 +44,7 @@ export const constantRoutes = [
         name: "Visual",
         meta: { title: "可视化" },
 
-        component: Visual
+        component: Visual,
       },
 
       hot,

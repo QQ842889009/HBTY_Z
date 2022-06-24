@@ -120,7 +120,7 @@ export default {
   align-items: center;
   .lineBox {
     height: 97.5%;
-    width: 28%;
+    width: 30%;
   }
   .barBox {
     height:97.5%;
@@ -128,7 +128,7 @@ export default {
   }
   .pieBox{
     height:97.5%;
-    width: 28%;
+    width: 25%;
     // background-color: red;
     // display: flex;
     // flex-direction: column;
