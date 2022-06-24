@@ -18,10 +18,13 @@ import "./filters/index"
 import "./permission" //路由拦截
 import animated from "animate.css" //引入移动动画库
 Vue.use(animated) //注册移动动画库
+import { plcdataType, echartdataType } from "assets/js/storeBox/dataType.js";
 import socketAiUnit from "assets/js/socketJsControl/socketAiUnit" //改版后的楼宇单元和户阀的连接
 import socketAiInDoor from "assets/js/socketJsControl/socketAiInDoor" //改版后的楼宇单元和户阀的连接
 import socketStation from "assets/js/socketJsControl/socketStation" //改版后的楼宇单元和户阀的连接
 new Promise((resolve, reject) => {
+  store.commit("plcS7/mutaPlcDataInit", plcdataType);
+  store.commit("plcS7/mutaEchartDataInit", echartdataType);
   // //10.30穆棱福通热力***这是初始化数据，去仓库执行wtS7InitDatas，干啥的？装每一个站的数据，不能往空数组中装，先把设定的值假（初始值）值装进去
   // store.commit("wtS7InitDatas", "数据和信息数据的初始化");
 
@@ -33,7 +36,7 @@ new Promise((resolve, reject) => {
   // store.commit("aiUnitSx", "单元AI的初始化"); //*****改造新加四新Ai的初始化
   // store.commit("door", "户阀的初始化"); //*****改造新加
   // store.commit("inDoor", "室内温度的初始化"); //*****改造新加
-  store.commit("STATION", "换热站的初始化") //*****改造新加
+  // store.commit("STATION", "换热站的初始化") //*****改造新加
   store.commit("AIUNIT", "单元AI的初始化") //*****改造新加
   // store.commit("wtMeterInitDatassp", "数据和信息数据的初始化");
 

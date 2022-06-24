@@ -21,7 +21,7 @@ export default {
 <style lang="scss" scoped>
 .app-main {
   width: 100%;
-  height: 100%;
+  height: 97.5%;
   //background-color: rgb(218, 28, 28);
   // margin: 5rem;
   padding: 20px 50px 20px 50px;

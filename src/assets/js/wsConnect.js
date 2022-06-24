@@ -1,6 +1,6 @@
 import Vue from "vue"
 import that from "@/main.js"
-//import { wsPlcDataProcess } from "assets/js/wsDataProcess/plcDataProcess.js";
+import { wsPlcDataProcess, wsEchartDataProcess } from "assets/js/wsDataProcess/plcDataProcess.js";
 // PATH = "ws://localhost:3000";
 //PATH是需要连接的node的地址，当前测试vue和node在同一个电脑，采用上面的地址模式，
 //这个函数一旦被引用，传入了上面的地址，本程序就会作为客户端连接服务器，
@@ -81,16 +81,15 @@ function onMsg(e) {
 
     //更新的曲线
     case "/hbty/plcData/info":
-      console.log("换热站信息", msg.data)
-
-      // that.$store.commit("plcS7/mutaPlcDataInfoUpdata", msg.data)
-
+      that.$store.commit("plcS7/mutaPlcDataInfoUpdata", msg.data);
+      that.$store.commit("plcS7/mutaEchartDataInfoUpdata", msg.data);
       break
     case "/hbty/simulatePlcData":
       console.log("换热站数据", msg.data)
 
-      that.$store.commit("stationData", msg.data)
-      //  wsPlcDataProcess(msg.data)
+      // that.$store.commit("stationData", msg.data)
+      wsPlcDataProcess(msg.data);
+      wsEchartDataProcess(msg.data);
       break
     // 高限低限每次来都是数组，只要建立初始值  每次后端来会自动更新
 

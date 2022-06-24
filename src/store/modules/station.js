@@ -44,6 +44,7 @@ const mutations = {
   },
 
   stationData(state, data) {
+    // console.log('-----------data',data);
     let j = parseInt(data.Sid)
     if (j < state.stationLenght) {
       let obj = isNumber.isNumberObj(data)
@@ -53,7 +54,7 @@ const mutations = {
           Vue.set(state.station[j], key, obj[key])
         }
       }
-      //  console.log("换热站数据", state.station)
+       console.log("换热站数据----------", state.station)
     }
   },
   SETROLES: (state, d) => {
