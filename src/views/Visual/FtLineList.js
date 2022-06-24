@@ -2,10 +2,10 @@
 *FtLine所需要的列表数组
 */
 export default {
-    "一网温度": [
+    "一网温度": [  //echarts左上角表名
         {
-            name: '供温',
-            value: '一供温度'
+            name: '供温',  //左上角按钮名
+            value: '一供温度'   //series绘制所根据的数据
         },
         {
             name: '回温',
