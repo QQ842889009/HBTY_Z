@@ -43,8 +43,8 @@ let socketOnDataInDoor = (stompClient) => {
     stompClient.send("/hbty/fyGetHouseholderInfos", {}, JSON.stringify({})) //室内温度信息
     //室内温度信息的接收汉腾品牌
     stompClient.subscribe("/data/wtOnHouseholderInfos", (msg) => {
-      console.log("室内温度信息", msg)
-      // manageDataInDoor.inDoortInfos(JSON.parse(msg.body))
+      console.log("接收后端的室内温度信息", msg)
+      manageDataInDoor.inDoorInfo(JSON.parse(msg.body))
     })
     //室内温度数据
     // /data/wtOnRoomTeData
@@ -52,8 +52,8 @@ let socketOnDataInDoor = (stompClient) => {
       // if (JSON.parse(msg.body).sid === "717") {
       //   console.log(JSON.parse(msg.body));
       // }
-      // console.log("室内温度data", msg);
-      // manageDataInDoor.inDoorData(JSON.parse(msg.body))
+      // console.log("JAV——室内温度data", msg)
+      manageDataInDoor.inDoorData(JSON.parse(msg.body))
     })
 
     stompClient.subscribe("/info/heartbeatTeEvent", (msg) => {

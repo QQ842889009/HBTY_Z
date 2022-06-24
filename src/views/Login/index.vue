@@ -189,7 +189,7 @@ export default {
   },
   methods: {
     submitForm(formName) {
-      this.$router.push("/home");
+      this.$router.push("/layout");
     },
 
     resetForm(formName) {

@@ -23,25 +23,25 @@ export const constantRoutes = [
   //常规配置
   {
     path: "/",
-    redirect: "/login"
+
+    redirect: "/Login" //首页指向
   },
-  {
-    path: "/login",
-    name: "login",
-    component: Login
-  },
+  { path: "/Login", component: Login },
 
   {
-    path: "/home",
-    name: "home",
-    redirect: "/index",
+    path: "/layout",
+    name: "layout",
+    // redirect: "/Visual",
     meta: { title: "首页" },
+    // redirect: "/Visual", //首页指向
     component: layout,
     children: [
+      { path: "/", redirect: "/Visual" }, //指定向
       {
-        path: "/index",
-        name: "index",
+        path: "/Visual",
+        name: "Visual",
         meta: { title: "可视化" },
+
         component: Visual
       },
 
