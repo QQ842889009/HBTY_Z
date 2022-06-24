@@ -21,7 +21,7 @@
         }"
         @row-click="clickRow"
       >
-        <template v-for="(item, ide) in tableHeader" >
+        <template v-for="(item, ide) in tableHeader">
           <table-column :key="ide" :coloumn-header="item"></table-column>
         </template>
       </el-table>
@@ -164,7 +164,7 @@ export default {
   justify-content: space-around;
 
   // flex-direction: column;
-//  background-color:#fff;
+  //  background-color:#fff;
   .tableDataBox {
     // margin-left: 5px;
     // margin-right: 5px;
@@ -181,7 +181,7 @@ export default {
 
       .el-table .el-table__cell.gutter {
         //设置滚动条上方的小方框的颜色，不是滚动条部分的
-         display: none;
+        display: none;
         // background: #5b2b34;
       }
 
@@ -219,17 +219,16 @@ export default {
       // }
 
       .customer-table .add-row {
-        // background-color: #14375c;
-        background-color:transparent;
+        background-color: #14375c;
+        // background-color:transparent;
         color: white;
       }
       .customer-table .odd-row {
-        // background-color: #060f29;
-          background-color:transparent;
+        background-color: #060f29;
+        // background-color:transparent;
         color: white;
       }
     }
   }
- 
 }
 </style>

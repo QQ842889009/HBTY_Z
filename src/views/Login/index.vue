@@ -190,6 +190,11 @@ export default {
   methods: {
     submitForm(formName) {
       this.$router.push("/layout");
+      this.$wsSendTe("login", {
+        name: "aap" + Math.random() * 100,
+
+        password: "HBTYyyds",
+      });
     },
 
     resetForm(formName) {
