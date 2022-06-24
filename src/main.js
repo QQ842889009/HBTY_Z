@@ -8,8 +8,10 @@ import "@/styles/index.scss"
 import "./assets/fonts/iconfont.css" //引入阿里图标
 import "./assets/fonts/iconfont.js" //要使用svg图标时要引入这个
 //新通讯加的开始
-import wsConnect from "./assets/js/wsConnect.js"
+import wsConnect from "./assets/js/wsNode/wsConnect.js"
+import wsConnectTe from "./assets/js/wsNode/wsConnectTe.js"
 wsConnect.wsInit("ws://182.61.54.22:6510") //模拟数据
+wsConnectTe.wsInit("ws://221.206.242.116:6500") //室内温度最后一次上数据  生产环境
 // 引入全局自定义组件
 import "./components/global"
 // 引入全局自定义filters
@@ -18,7 +20,9 @@ import "./filters/index"
 import "./permission" //路由拦截
 import animated from "animate.css" //引入移动动画库
 Vue.use(animated) //注册移动动画库
+
 import { plcdataType, echartdataType } from "assets/js/storeBox/dataType.js";
+import { inDoorDataInitTemplate } from "assets/js/storeDataInitTemplate" //初始化模板
 import socketAiUnit from "assets/js/socketJsControl/socketAiUnit" //改版后的楼宇单元和户阀的连接
 import socketAiInDoor from "assets/js/socketJsControl/socketAiInDoor" //改版后的楼宇单元和户阀的连接
 import socketStation from "assets/js/socketJsControl/socketStation" //改版后的楼宇单元和户阀的连接
@@ -46,29 +50,21 @@ new Promise((resolve, reject) => {
   // //先对所要装载数据的数组store.state.wtS7.datas进行初始化
 
   // store.commit("wtS7InitAlarmDatas", "报警数据的初始化");
+  store.commit("MUINDOORDATAINIT", inDoorDataInitTemplate) //室内温度信息初始化
+  // store.commit("STATION", "换热站的初始化") //*****改造新加
+  // store.commit("AIUNIT", "单元AI的初始化") //*****改造新加
 
   resolve()
 }).then(() => {
   ////生产环境的连接开始
-  socketAiUnit.connected(
-    "http://221.206.242.116:1668/endpoint-websocket-tlgw" //生产环境户阀//
-  )
+  // socketAiUnit.connected(
+  //   "http://221.206.242.116:1668/endpoint-websocket-tlgw" //生产环境户阀//
+  // )
   socketAiInDoor.connected(
     "http://221.206.242.116:2060/hbty/endpoint-websocket-te" //室内温度的2022生产//生产环境室内温度
   )
-  // socketAiUnitSx.connected(
-  //   "http://221.206.242.116:1868/endpoint-websocket-sixin-ml" //生产环境四信单元阀门
-  // );
-  // socketJsControlInDoor.connected(
-  //   "http://221.206.242.116:2060/hbty/endpoint-websocket-te" //室内温度的2022生产//生产环境室内温度
-  // );
+
   socketStation.connected("http://221.206.242.116:1666/endpoint-websocket") //生产和开发环境的PLC换热站连接不包括热源
-  ///生产环境的连接结束
-  //开发环境开始
-  // socketAiUnit.connected(
-  //   'http://192.168.100.201:1668/endpoint-websocket-tlgw' //生产环境户阀
-  // )
-  //开发环境结束
 })
 
 import moment from "moment" //导入时间插件npm install moment –save

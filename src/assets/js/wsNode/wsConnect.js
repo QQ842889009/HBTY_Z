@@ -83,13 +83,16 @@ function onMsg(e) {
     case "/hbty/plcData/info":
       that.$store.commit("plcS7/mutaPlcDataInfoUpdata", msg.data);
       that.$store.commit("plcS7/mutaEchartDataInfoUpdata", msg.data);
+      // console.log("换热站信息", msg.data)
+      // that.$store.commit("plcS7/mutaPlcDataInfoUpdata", msg.data)
       break
     case "/hbty/simulatePlcData":
-      console.log("换热站数据", msg.data)
+      //  console.log("换热站数据", msg.data)
 
       // that.$store.commit("stationData", msg.data)
       wsPlcDataProcess(msg.data);
       wsEchartDataProcess(msg.data);
+      //  wsPlcDataProcess(msg.data)
       break
     // 高限低限每次来都是数组，只要建立初始值  每次后端来会自动更新
 
