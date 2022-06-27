@@ -70,7 +70,7 @@ export default {
       Height: "168px",
       Width: "440px",
      tableConfigZnsj,
-      clickRowSta: "数据展示",
+      clickRowSta: "数据展示"||0,
       stationData: {},
       // series: [
       //   {

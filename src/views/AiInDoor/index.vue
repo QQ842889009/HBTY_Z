@@ -144,15 +144,7 @@
               </div>
             </div>
             <div class="ff">
-              {{ indoorque }}
-              <!-- <A333
-                :xData="xData"
-                :yData="TE"
-                :Width="Width"
-                :Height="Height"
-                :yUnit="'℃'"
-              >
-              </A333> -->
+            <EchartLine :getData="indoorque"/>
             </div>
           </el-card>
         </el-tab-pane>
@@ -172,6 +164,7 @@ import Tab from "components/common/Tab"; //table表格公共模板
 import InputSearch from "components/common/InputSearch"; //输入关键词查找模板
 import DateTimePicker from "components/common/DateTimePicker"; //选择日期时间的模板
 import SysDlialog22 from "./SysDlialog22"; ////
+import EchartLine from "../Visual/components/EchartLine.vue"
 
 import {
   DoorRequestSingle,
@@ -244,6 +237,18 @@ export default {
       //弹框的开始
       dialogVisible: false,
       //弹框的结束
+
+      indoorque:[
+        {
+         "event-time":"2022-06-23",
+         temp:'24'
+        },
+         {
+         "event-time":"2022-06-24",
+         temp:'10'
+        }  
+      ]
+    
     };
   },
   created() {
@@ -254,13 +259,14 @@ export default {
 
     this.transuFindData = this.$store.getters.get_inDoorDataAndInfo;
     // console.log("sssss", this.transuFindData)
+    console.log('-------store',this.$store);
   },
   watch: {},
   computed: {
     //接收室内温度的数据
-    indoorque() {
-      return this.$store.getters.get_inDoorDataQue;
-    },
+    // indoorque() {
+    //   return this.$store.getters.get_inDoorDataQue;
+    // },
     stationInfo() {
       return this.$store.getters.xx;
     },
@@ -273,6 +279,9 @@ export default {
     historyInquire(v) {
       console.log("室内温度历史查询", v);
       teHistory(v.Sn, this.starttime, this.endtime);
+      this.indoorque.splice(0,this.indoorque.length)
+      this.indoorque=this.$store.getters.get_inDoorDataQue;
+       console.log('+++++++++++++++store',this.indoorque);
     },
     requestData() {
       console.log("请求数据");
@@ -381,6 +390,7 @@ export default {
     SelectSearch,
     DateTimePicker,
     SysDlialog22,
+    EchartLine,
   },
 };
 </script>
@@ -444,7 +454,7 @@ export default {
     }
     .ff {
       height: 155px;
-      width: 1920px;
+      width: 100%;
       // background-color: rgb(106, 223, 71);
     }
 

@@ -222,11 +222,13 @@ export default {
         background-color: #14375c;
         // background-color:transparent;
         color: white;
+        opacity: 0.8;
       }
       .customer-table .odd-row {
         background-color: #060f29;
         // background-color:transparent;
         color: white;
+          opacity: 0.8;
       }
     }
   }
