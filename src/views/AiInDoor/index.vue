@@ -144,7 +144,7 @@
               </div>
             </div>
             <div class="ff">
-            <EchartLine :getData="indoorque"/>
+            <EchartLine :getData="indoorque" :title_name="echartTieleName"/>
             </div>
           </el-card>
         </el-tab-pane>
@@ -240,15 +240,15 @@ export default {
 
       indoorque:[
         {
-         "event-time":"2022-06-23",
+         "event_time":"2022-06-23",
          temp:'24'
         },
          {
-         "event-time":"2022-06-24",
+         "event_time":"2022-06-24",
          temp:'10'
         }  
-      ]
-    
+      ],
+      echartTieleName:'',
     };
   },
   created() {
@@ -259,7 +259,7 @@ export default {
 
     this.transuFindData = this.$store.getters.get_inDoorDataAndInfo;
     // console.log("sssss", this.transuFindData)
-    console.log('-------store',this.$store);
+    console.log('-------indoorque',this.indoorque);
   },
   watch: {},
   computed: {
@@ -281,9 +281,10 @@ export default {
       teHistory(v.Sn, this.starttime, this.endtime);
       this.indoorque.splice(0,this.indoorque.length)
       this.indoorque=this.$store.getters.get_inDoorDataQue;
-       console.log('+++++++++++++++store',this.indoorque);
+       console.log('+++++++++++++++indoorque',this.indoorque);
+      this.echartTieleName=v.HouseholderName;
     },
-    requestData() {
+    requestData(v) {
       console.log("请求数据");
       inDoorRequestAll_node();
     },

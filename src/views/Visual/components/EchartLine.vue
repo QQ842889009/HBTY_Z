@@ -22,6 +22,7 @@
 
 <script>
 import echarts from "components/echart/echartsVue.js";
+
 export default {
   data() {
     return {
@@ -90,7 +91,8 @@ export default {
     getData: {
       handler() {
         this.myChart.clear();
-        this.myChart.setOption(this.option);
+        // this.myChart.setOption(this.option);
+        this.init();
         console.log("EchartLine----data", this.getData);
       },
       deep: true,
@@ -102,6 +104,7 @@ export default {
         // this.myChart = setTimeout(echarts.init(this.$refs.dw),500);
         this.myChart = echarts.init(this.$refs.myEchart);
       }
+      console.log("init被调用了");
       this.option = {
         // backgroundColor: "rgb(6, 17, 39)", //背景颜色
         title: {},
@@ -126,17 +129,10 @@ export default {
         },
         toolbox: {},
 
-        legend: {
-          //图列
-          show: false,
-          textStyle: {
-            color: "#fff",
-          },
-          right: "10%",
-        },
+       
 
         xAxis: {
-          type: "time", //整体X坐标轴的类型，离散值
+          type: "category", //整体X坐标轴的类型，离散值
           //#region   x轴名称设置
           /*   name: "站点", //整体X坐标轴的名称
           nameLocation: "center", //整体X坐标轴的名称的位置
@@ -154,9 +150,8 @@ export default {
           },
           axisTick: {
             //不显示X轴的每一项的刻度
-            show: false,
+            show: true,
           },
-          //data: this.xData,
           axisLine: {
             lineStyle: {
               //坐标轴线
@@ -167,17 +162,17 @@ export default {
         },
         grid: {
           //绘图版的大小
-          top: "5%",
-          left: "7%",
+          top: "8%",
+          left: "5%",
           right: "5%",
-          bottom: "10%",
+          bottom: "5%",
           //height:this.boxHeight,
           // containLabel: true, // 距离是包含坐标轴上的文字
         },
         yAxis: {
           name: this.yUnit,
-          nameTextStyle: { align: "right" }, //坐标轴文字的对齐
-          nameGap: "1", //名字距离轴线的距离
+          // nameTextStyle: { align: "left" }, //坐标轴文字的对齐
+           nameGap: "1", //名字距离轴线的距离
           axisLine: {
             //坐标轴线
             show: true,
@@ -193,7 +188,7 @@ export default {
               },
             },
           },
-          splitLine: { show: false }, //y轴的分割线
+         splitLine: { show: false }, //y轴的分割线
         },
         dataset: [
           //datasetIndex: 0,
@@ -210,29 +205,26 @@ export default {
           name: "温度",
           type: this.seriesType,
           datasetIndex: this.choiceIndex,
-          encode: { x: "event_time", y: "temp" },
-          markLine: {
+            markLine: {
+            lineStyle: { color: "red" ,opaciy:1},
+            silent:true,
             data: [
-              // {
-              //   //达标室温（16℃）
-              //   yAxis:'16',name:'2',
-              //   label:{
-              //     formatter:'2'
-              //   }
-              // }
               {
-                yAxis: 20,
-                name: "aaa",
+                yAxis: 16,
+                name: "Avg",  
                 label: {
-                  formatter: "平均值",
+                  formatter: "16℃",
                 },
               },
             ],
           },
+          encode: { x: "event_time", y: "temp" },
+        
         },
       };
-      this.myChart.clear();
-      this.myChart.setOption(this.option, true);
+      if (this.option && typeof this.option === "object") {
+        this.myChart.setOption(this.option, true);
+      }
       window.addEventListener("resize", () => {
         this.myChart.resize(); //图形随着窗口缩放
       });
@@ -240,8 +232,11 @@ export default {
 
     clickBtn(item, index) {
       this.choiceIndex = index;
+      console.log(this.choiceIndex);
       // setTimeout(this.init(),500) ;
-      this.init();
+      if (this.getData.length != 0) {
+        this.init();
+      }
     },
   },
 };
@@ -267,7 +262,7 @@ export default {
     // background-color: rgb(46, 216, 131);
     position: relative;
     // top: rem;
-    left: 2rem;
+    left: 0.5rem;
     color: rgb(22, 141, 238);
   }
 
