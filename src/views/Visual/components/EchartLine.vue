@@ -165,7 +165,7 @@ export default {
           top: "8%",
           left: "5%",
           right: "5%",
-          bottom: "5%",
+          bottom: "7%",
           //height:this.boxHeight,
           // containLabel: true, // 距离是包含坐标轴上的文字
         },
@@ -283,11 +283,11 @@ export default {
     //width: 10px;
     //text-align: right;
     display: flex;
-    justify-content: center;
-    align-items: center;
+    justify-content: flex-end;
+    // align-items: center;
     //justify-content:flex-end;
-    margin-right: 10px;
     position: relative;
+    right: 265px;
     // background-color: rgb(96, 235, 53);
   }
 
