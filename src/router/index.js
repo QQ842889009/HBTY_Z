@@ -7,6 +7,7 @@ import aiInDoor from "./modules/aiInDoor" //
 import hot from "./modules/hot" //
 import station from "./modules/station" //
 import weather from "./modules/weather" //
+import visual from './modules/visual';
 
 Vue.use(VueRouter)
 
@@ -39,14 +40,7 @@ export const constantRoutes = [
     component: layout,
     children: [
       { path: "/", redirect: "/Visual" }, //指定向
-      {
-        path: "/Visual",
-        name: "Visual",
-        meta: { title: "可视化" },
-
-        component: Visual,
-      },
-
+      visual,
       hot,
       station,
       aiUnit,

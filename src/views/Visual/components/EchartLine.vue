@@ -213,7 +213,7 @@ export default {
                 yAxis: 16,
                 name: "Avg",  
                 label: {
-                  formatter: "16℃",
+                  formatter: "达标室温（16℃）",
                 },
               },
             ],

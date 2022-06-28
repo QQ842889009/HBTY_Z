@@ -1,11 +1,10 @@
 <template>
-  <div class="ftLineBox" :style="{ width: '100%', height: this.boxHeight }">
+  <div class="ftLineBox" :style="{ width: this.width, height: this.height }">
     <div class="title-box">
       <div class="title-left">
         <div class="tipText">{{ title_name }}</div>
       </div>
-      <div class="title-right">
-      </div>
+      <div class="title-right"></div>
     </div>
     <div ref="myEchart" class="myEchart"></div>
   </div>
@@ -13,63 +12,43 @@
 
 <script>
 import echarts from "components/echart/echartsVue.js";
-import ftLineList from "../FtLineList";
+
 export default {
   data() {
     return {
       myChart: null,
       option: {},
-      choiceIndex: 0,
-      normalColor: {
-        color: 'white',
-      },
-      clickColor: {
-        // color:'green',
-        textShadow: '0 0 10px red,0 0 20px red,0 0 30px red,0 0 40px red'
-      },
-     
     };
   },
   created() {
-    console.log('ftlinelist------------',ftLineList);
-    //  console.log('ftline------------',ftLineList[this.title_name]);
-    console.log(this.btnsList);
-
+    console.log(this.getData);
   },
   props: {
     getData: Array,
     //标题
-    title_name: {
-      type: String,
-      default: "一网温度",
-    },
     seriesType: {
       type: String,
       default: "pie",
     },
-    // xData: Array,
-    // yData: Array,
-    
-    boxHeight: {
+    height: {
       type: String,
       default: "100%",
     },
-    /*  width: {
+    width: {
       type: String,
       default: "100%",
-    }, */
+    },
+    title_name: {
+      type: String,
+      default: "面积",
+    },
   },
   computed: {
     echartKyes() {
       return Object.keys(this.getData[0]);
     },
-
-    btnsList(){
-      return ftLineList[this.title_name];
-    }
   },
   mounted() {
-    // console.log(Object.keys(this.getData[0]));
     this.$nextTick(function () {
       this.init();
     });
@@ -93,47 +72,47 @@ export default {
   methods: {
     init() {
       if (this.myChart == null) {
-       // this.myChart = setTimeout(echarts.init(this.$refs.dw),500);
-        this.myChart=echarts.init(this.$refs.myEchart)
+        // this.myChart = setTimeout(echarts.init(this.$refs.dw),500);
+        this.myChart = echarts.init(this.$refs.myEchart);
       }
-
-      /*  console.log('init被调用')
-       console.log('this---',this) */
       this.option = {
         // backgroundColor: "rgb(6, 17, 39)", //背景颜色
-        title: {},
         tooltip: {
           trigger: "item", //柱状、曲线坐标轴触发，如果默认的话散点、饼图触发
-          // axisPointer: {
-          //   //坐标轴指示器
-          //   type: "line", //默认为line，line直线，cross十字准星，shadow阴影
-          //   lineStyle: {
-          //     color: "#43abeb",
-          //     width: 3,
-          //     //type: "dashed",
-          //   },
-          // },
           backgroundColor: "#061028", // 背景颜色
           borderColor: "#00bae4",
-
+          // formatter: '{a} <br/>{b} : {c} ({d}%)',
+          formatter:function(p){
+            console.log('--------pppppp-------',p);
+          },
           textStyle: {
             color: "#fff", //提示框的字体颜色
             fontSize: 15, //提示框的文字大小
           },
         },
-        toolbox: {
-          // feature: {
-          //   saveAsImage: {},
-          // },
+        textStyle: {
+          color: "#fff",
+          fontSize: "15px",
         },
-
         legend: {
           //图列
-          orient: 'vertical',
-          // textStyle: {
-          //   color: "#fff",
-          // },
-          right: "10%",
+          type: "scroll",
+          orient: "vertical",
+          left: "80%",
+          top: "center",
+          height: "50%",
+          padding: 5,
+          itemGap: 20, //图例每项之间的间隔
+          itemWidth: 60,
+          itemHeight: 30,
+          textStyle: {
+            color: "#fff",
+            fontSize: "18px",
+          },
+          //翻页按钮
+          pageIconColor: "#fff",
+          // pageIconInactiveColor: "black",
+          pageIconSize: 20,
         },
 
         grid: {
@@ -153,118 +132,66 @@ export default {
           // {
           //   transform: {
           //     type: "sort",
-          //     config: { dimension:this.btnsList[this.choiceIndex].value , order: "asc" },
+          //     config: { dimension: "面积", order: "asc" },
           //   },
           // },
         ],
-        series: [{
-              name: this.btnsList.name,
-              type: this.seriesType,
-              encode: { x: "站点", y: (this.btnsList.value) },
-        }],
-        /*  series: (function(){
-           var series = [];
-            console.log('func---',this);
-           var index = 0;
-           do {
-             var item = {
-               name: this.title_btns[index].name,
-               type: this.seriesType,
-               datasetIndex: 1,
-               encode: { x: "Station", y: (this.title_btns[index].logo) },
- 
-             }
-             index++;
-             series.push(item);
-           } while (index < this.title_btns.length - 1);
-           return series;
-         })(), */
-        /* series(){
-           console.log(this+'aaaaaaaaaa');
-        } */
+        series: [
+          {
+            name: "面积",
+            type: this.seriesType,
+            roseType: "radius",
+            center: ["40%", "50%"],
+            radius: "75%",
+            encode: { itemName: "站点", value: "面积" },
+            itemStyle: {
+              borderRadius: 10,
+            },
 
-        /*  series: [
-           {
-             type: this.seriesType,
-             name: "供水压力", //this.getSeriesName(this.title_name)[0],
-             datasetIndex: 1,
-             encode: { x: "Station", y: "TE11" },
-           },
-           {
-             type: this.seriesType,
-             name: "回水压力", //this.getSeriesName(this.title_name)[1],
-             datasetIndex: 1,
-             encode: { x: "Station", y: "TE12" },
-           },
-         ] */
+            //饼图图形上的文本标签
+            label: {
+              show: false,
+              color: "#fff",
+              shadowColor: "transparent",
+            },
+            //标签的视觉引导线配置
+            labelLine: {
+              show: false,
+              // length: 5,
+              // length2: 5,
+              lineStyle: {
+                color: "#fff",
+                width: 2,
+                // cap:'round'
+              },
+            },
+          },
+        ],
       };
       this.myChart.setOption(this.option, true);
       window.addEventListener("resize", () => {
         this.myChart.resize(); //图形随着窗口缩放
       });
     },
-
-    /* dataProce() {
-      const newData = {};
-      newData = this.getData.map((item) => item);
-      console.log(dataProce);
-    }, */
-    clickBtn(item, index) {
-      this.choiceIndex = index;
-      this.init();
-      
-    },
-
-    //#region
-    /*  //根据传入的title_name判断series的name
-    getSeriesName(name) {
-      var newName = [];
-      if (name.indexOf("压")) {
-        return newName.push(["供水压力", "回水压力"]);
-      } else if (name.indexOf("温")) {
-        return newName.push(["供水温度", "回水温度"]);
-      }else if (name.indexOf("流")) {
-        return newName.push('流量');
-      }else{
-        return newName
-      }
-
-    }, */
-    /*  //根据name拿到想要的数据
-    proceData(data,name){
-        var newData={};
-        var str=''
-      if (name.indexOf("压")) {
-        return str='PT';
-      } else if (name.indexOf("温")) {
-        return str='te';
-      }else if (name.indexOf("流")) {
-        return str='FT';
-      }else{
-        return str;
-      }
-
-    } */
-    //#endregion
   },
 };
 </script>
 
 <style lang="scss" scoped>
-.ftLineBox{
+.ftLineBox {
   margin-top: 1rem;
   // background-color: red;
 }
 .title-box {
-  height: 4%;
+  height: 0%;
   display: flex;
   justify-content: center;
   align-items: center;
   margin-top: 15px;
-  font-size:18px;
+  font-size: 18px;
   z-index: 1;
   // background-color: red;
-  
+
   .tipText {
     flex: 1;
     // background-color: rgb(46, 216, 131);
@@ -272,7 +199,6 @@ export default {
     // top: rem;
     left: 2rem;
     color: #fff;
-    
   }
 
   .title-left {
@@ -314,9 +240,9 @@ export default {
     z-index: 1;
   }
 }
-.myEchart{
+.myEchart {
   height: 100%;
   width: 100%;
-  
+  text-shadow: none !important;
 }
 </style>

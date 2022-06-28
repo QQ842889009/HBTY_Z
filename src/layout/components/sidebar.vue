@@ -83,9 +83,19 @@ export default {
 
           children: [
             {
-              name: "可视化",
+              name: "热源",
               id: "1121",
-              path: "Visual",
+              path: "Visual1",
+            },
+             {
+              name: "热换站",
+              id: "1122",
+              path: "Visual2",
+            },
+             {
+              name: "楼宇",
+              id: "1123",
+              path: "Visual3",
             },
           ],
         },
