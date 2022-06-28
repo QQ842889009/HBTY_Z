@@ -439,7 +439,7 @@ export default {
       padding: 1px;
     }
     padding: 1px;
-    margin: 10px;
+    // margin: 10px;
     // background-color: rgb(23, 66, 185);
     //position: relative;
     .el-card-title-history {
@@ -447,7 +447,7 @@ export default {
       justify-content: space-between;
       // position: absolute;
       .item {
-        //background-color: rgb(134, 224, 49);
+        // background-color: rgb(134, 224, 49);
         padding: 0;
         height: 32px;
         font-size: 10px;

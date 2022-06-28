@@ -221,7 +221,7 @@ export default {
   // background-color: "red";
 
   color: #fff;
-  width: 50%;
+  width: 80%;
   position: relative;
   left: 600px;
   top: 20px;

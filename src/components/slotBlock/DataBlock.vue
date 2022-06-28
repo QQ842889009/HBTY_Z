@@ -48,7 +48,7 @@ export default {
   // height: 88.3%;
   // width: 90%;
   // aspect-ratio: 1;
-  margin-bottom: 20px;
+  margin-bottom:1rem;
   // border: 1px solid #000;
   // box-shadow: 0 0 3px 4px hsl(0, 0%, 0%, 0.7);
   box-shadow: 0px 0px 5px 4px #3498db inset, 0px 0px 5px -4px #3498db;
@@ -99,7 +99,7 @@ export default {
 
   .dataBox {
     position: relative;
-  //top: 0.375rem;
+    top: 0.375rem;
     height: 100%;
   }
 }

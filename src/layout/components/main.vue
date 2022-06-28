@@ -22,9 +22,10 @@ export default {
 .app-main {
   width: 100%;
   height: 97.5%;
-  //background-color: rgb(218, 28, 28);
+  // background-color: rgb(172, 136, 136);
+  // opacity: 0.6;
   // margin: 5rem;
-  padding: 20px 50px 20px 50px;
+  // padding: 20px 50px 20px 50px;
   // background-color: red;
   display: flex;
   // justify-content: center;
