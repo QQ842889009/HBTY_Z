@@ -19,7 +19,11 @@
       </data-block>
     </div>
     <div class="pieBox">
-     
+      <data-block tipName="流量棒图" :shape="{ height: '100%', width: '100%' }">
+        <template #dataBoxSlot>
+         
+        </template>
+      </data-block>
     </div>
     
   </div>
@@ -32,6 +36,7 @@ import FtLine from "./components/FtLine.vue";
 import FtPie from "./components/FtPie.vue";
 import EchartLine from './components/EchartLine.vue'
 import { createNamespacedHelpers } from "vuex";
+import FtLineDB from './components/FtLineDB.vue';
 
 
 const { mapState } = createNamespacedHelpers("plcS7");
@@ -59,7 +64,8 @@ export default {
     FtBar,
     FtLine,
     FtPie,
-    EchartLine
+    EchartLine,
+    FtLineDB
   },
 };
 </script>

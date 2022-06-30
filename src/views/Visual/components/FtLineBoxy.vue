@@ -3,7 +3,9 @@
 <template>
   <div class="dataBlockBox" :style="{ width: '100%', height: this.boxHeight }">
     <div class="tipBox">
-      <div class="tipText">{{ title_name }}</div>
+      <div class="tipText">
+         <img class="tt" src="~@/assets/img/logo/yiji.png" alt="">
+        {{ title_name }}</div>
       <div class="tipMiddle">
         <slot name="tipMiddleSolt"></slot>
       </div>
@@ -317,6 +319,11 @@ export default {
       font-size: 18px;
       text-align: center;
       letter-spacing: 8px;
+       .tt{
+      width: 0.5rem;
+      height: 1.2rem;
+     
+      }
     }
     .tipMiddle {
       flex: 1;

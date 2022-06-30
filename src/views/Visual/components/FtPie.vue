@@ -3,7 +3,9 @@
   <div class="ftLineBox" :style="{ width: this.pWidth, height: this.pHeight }">
     <div class="title-box">
       <div class="title-left">
-        <div class="tipText">{{ title_name }}</div>
+        <div class="tipText">
+           <img class="tt" src="~@/assets/img/logo/yiji.png" alt="">
+          {{ title_name }}</div>
       </div>
       <div class="title-right">
         <div
@@ -355,14 +357,7 @@ export default {
   font-size: 18px;
   z-index: 1;
   // background-color: red;
-  .tipText {
-    flex: 1;
-    // background-color: rgb(46, 216, 131);
-    position: relative;
-    // top: rem;
-    left: 2rem;
-    color: #fff;
-  }
+  
 
   .title-left {
     flex: 1;
@@ -371,6 +366,20 @@ export default {
     // background-color: rgb(64, 10, 126);
     // margin-top:10%;
     // margin-left: 10%;
+    .tipText {
+    flex: 1;
+    // background-color: rgb(46, 216, 131);
+    position: relative;
+    // top: rem;
+    left: 2rem;
+    color: #fff;
+        .tt{
+      width: 0.5rem;
+      height: 1.5rem;
+      
+    }
+  }
+
   }
 
   .title-right {
