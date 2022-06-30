@@ -4,7 +4,7 @@ const Visual2 = () => import("views/Visual/Visual2.vue")
 const Visual3 = () => import("views/Visual/Visual3.vue")
 const visual = {
   path: "/Visual", //权限管理
-  name: "Visual",
+  // name: "Visual",
   meta: { title: "可视化" },
   component: Visual,
   children:[

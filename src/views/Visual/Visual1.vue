@@ -1,53 +1,66 @@
 <template>
   <div class="znsjBox">
-    <div class="lineBox">
-      <data-block tipName="流量棒图" :shape="{ height: '100%', width: '100%' }">
-        <template #dataBoxSlot>
-          <ft-bar :getData="staPlcData" />
-        </template>
-      </data-block>
+    <div class="lineBox">   
+         <FtLineBox
+            title_name="二网压力"
+            :getData="staEchartData"
+            :boxHeight="'100%'"
+            :yUnit="'℃'"
+          />
+         
+        
     </div>
     <div class="pieBox">
-        <data-block tipName="站内数据" :shape="{ height: '60%', width: '100%' }">
-        <!-- 展示数据的插槽 -->
+      <!--   <data-block tipName="站内数据" :shape="{ height: '60%', width: '100%' }"> 
         <template #dataBoxSlot>
           <dynamic-table :table-data="staPlcData" :table-header="tableConfigZnsj" height="630" :pageSizeSet="staPlcNum"
             @clickRow="clickRow"></dynamic-table>
         </template>
       </data-block>
       <data-block :tipName="clickRowSta" :shape="{ height: '37.5%', width: '100%' }">
-        <!-- 展示数据的插槽 -->
+       
         <template #dataBoxSlot>
           <table-show :stationData="stationData" />
         </template>
-      </data-block>
-    </div>
-     <div class="barBox">
-      <data-block tipName="热力站" :shape="{ height: '100%', width: '100%' }">
-        <template #dataBoxSlot>
-          <ft-line
+      </data-block> -->
+        <FtLineBox
             title_name="一网压力"
             :getData="staEchartData"
-            :boxHeight="'30%'"
+            :boxHeight="'80%'"
             :yUnit="'℃'"
-          >
-          </ft-line>
-            <ft-line
+          />
+            <FtLineBox
+            title_name="一网压力"
+            :getData="staEchartData"
+            :boxHeight="'18%'"
+            :yUnit="'℃'"
+          />
+          
+
+    </div>
+     <div class="barBox">   
+          <FtLineBox
+            title_name="一网压力"
+            :getData="staEchartData"
+            :boxHeight="'20%'"
+            :yUnit="'℃'"
+          />
+     
+          <FtLineBox
+            title_name="一网温度"
+            :getData="staEchartData"
+            :boxHeight="'40%'"
+            :yUnit="'℃'"
+          />
+        <FtLineBox
             title_name="一网温度"
             :getData="staEchartData"
             :boxHeight="'30%'"
             :yUnit="'℃'"
-          >
-          </ft-line>
-           <ft-line
-            title_name="一网流量"
-            :getData="staEchartData"
-            :boxHeight="'30%'"
-            :yUnit="'℃'"
-          >
-          </ft-line>
-        </template>
-      </data-block>
+          />
+      
+         
+       
     </div>
     
   </div>
@@ -61,6 +74,7 @@ import TableShow from "components/accessory/TableShow.vue";
 import FtBar from "./components/FtBar.vue";
 import FtLine from "./components/FtLine.vue";
 import FtPie from "./components/FtPie.vue";
+import FtLineBox from "./components/FtLineBoxy.vue";
 import { createNamespacedHelpers } from "vuex";
 
 const { mapState } = createNamespacedHelpers("plcS7");
@@ -106,6 +120,7 @@ export default {
     FtBar,
     FtLine,
     FtPie,
+    FtLineBox
   },
 };
 </script>
@@ -119,15 +134,15 @@ export default {
   justify-content: space-around;
   align-items: center;
   .lineBox {
-    height: 97.5%;
+    height: 100%;
     width: 30%;
   }
   .barBox {
-    height:97.5%;
+    height:100%;
     width: 38%;
   }
   .pieBox{
-    height:97.5%;
+    height:100%;
     width: 25%;
     // background-color: red;
     // display: flex;

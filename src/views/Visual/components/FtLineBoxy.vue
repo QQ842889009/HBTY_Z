@@ -1,18 +1,27 @@
-<!-- 排序散点图 -->
+<!-- 排序散点图带边框 -->
+
 <template>
-  <div class="ftLineBox" :style="{ width: '100%', height: this.boxHeight }">
-    <div class="title-box">
-      <div class="title-left">
-        <div class="tipText">{{ title_name }}</div>
+  <div class="dataBlockBox" :style="{ width: '100%', height: this.boxHeight }">
+    <div class="tipBox">
+      <div class="tipText">{{ title_name }}</div>
+      <div class="tipMiddle">
+        <slot name="tipMiddleSolt"></slot>
       </div>
-      <div class="title-right">
-        <div class="btnList" @click="clickBtn(btn, index)" :style="index == choiceIndex ? clickColor : normalColor"
-          v-for="(btn, index) of btnsList" :key='index'>
+      <div class="tipLast">
+        <div
+          class="btnList"
+          @click="clickBtn(index)"
+          :style="index == choiceIndex ? clickColor : normalColor"
+          v-for="(btn, index) of btnsList"
+          :key="index"
+        >
           {{ btn.name }}
         </div>
       </div>
     </div>
-    <div ref="myEchart" class="myEchart"></div>
+    <div class="dataBox">
+      <div ref="myEchart" class="myEchart"></div>
+    </div>
   </div>
 </template>
 
@@ -26,22 +35,29 @@ export default {
       option: {},
       choiceIndex: 0,
       normalColor: {
-        color: 'white',
+        color: "white",
       },
       clickColor: {
         // color:'green',
-        textShadow: '0 0 10px red,0 0 20px red,0 0 30px red,0 0 40px red'
+        textShadow: "0 0 10px red,0 0 20px red,0 0 30px red,0 0 40px red",
       },
-     
     };
   },
   created() {
-    console.log('ftlinelist------------',ftLineList);
+    console.log("ftlinelist------------", ftLineList);
     //  console.log('ftline------------',ftLineList[this.title_name]);
     console.log(this.btnsList);
-
   },
   props: {
+    shape: {
+      type: Object,
+      default: function () {
+        return {
+          height: "88.3%",
+          width: "90%",
+        };
+      },
+    },
     getData: Array,
     //标题
     title_name: {
@@ -73,10 +89,10 @@ export default {
       return Object.keys(this.getData[0]);
     },
 
-    btnsList(){
+    btnsList() {
       return ftLineList[this.title_name];
     },
-      //gird中bottom的值
+     //gird中bottom的值
     girdNum(){
       //根据boxHeight计算girdNum的大小，使图表正确显示大小
       var hv=parseFloat(this.boxHeight);
@@ -87,13 +103,13 @@ export default {
     // console.log(Object.keys(this.getData[0]));
     this.$nextTick(function () {
       this.init();
-    });     
+    });
   },
 
   watch: {
     getData: {
       handler() {
-        this.myChart.setOption(this.option); 
+        this.myChart.setOption(this.option);
       },
       deep: true,
     },
@@ -108,12 +124,12 @@ export default {
   methods: {
     init() {
       if (this.myChart == null) {
-       // this.myChart = setTimeout(echarts.init(this.$refs.dw),500);
-        this.myChart=echarts.init(this.$refs.myEchart)
+        // this.myChart = setTimeout(echarts.init(this.$refs.dw),500);
+        this.myChart = echarts.init(this.$refs.myEchart);
       }
 
-        // console.log('init被调用')
-      
+      // console.log("init被调用");
+       console.log("num--------",[this.boxHeight,this.girdNum]);
       this.option = {
         // backgroundColor: "rgb(6, 17, 39)", //背景颜色
         title: {},
@@ -183,7 +199,7 @@ export default {
         },
         grid: {
           //绘图版的大小
-          top: "5%",
+          top: "10%",
           left: "7%",
           right: "5%",
           bottom: this.girdNum,
@@ -192,8 +208,8 @@ export default {
         },
         yAxis: {
           name: this.yUnit,
-          nameTextStyle: { align: "right" }, //坐标轴文字的对齐
-          nameGap: "1", //名字距离轴线的距离
+          // nameTextStyle: { align: "right" }, //坐标轴文字的对齐
+          nameGap: "5", //名字距离轴线的距离
           axisLine: {
             //坐标轴线
             show: true,
@@ -205,7 +221,7 @@ export default {
             axisLabel: {
               textStyle: {
                 color: "#0D82FF", //轴文字颜色
-                fontSize: "9", //y轴文字大小
+                fontSize: 9, //y轴文字大小
               },
             },
           },
@@ -219,7 +235,10 @@ export default {
           {
             transform: {
               type: "sort",
-              config: { dimension:this.btnsList[this.choiceIndex].value , order: "asc" },
+              config: {
+                dimension: this.btnsList[this.choiceIndex].value,
+                order: "asc",
+              },
             },
           },
         ],
@@ -232,10 +251,10 @@ export default {
               name: this.btnsList[index].name,
               type: this.seriesType,
               datasetIndex: 1,
-              encode: { x: "站点", y: (this.btnsList[index].value) },
-              symbol:'rect',
-              color:(index==0?'rgb(26, 218, 218)':'yellow')
-            }
+              encode: { x: "站点", y: this.btnsList[index].value },
+              symbol: "rect",
+              color: index == 0 ? "rgb(26, 218, 218)" : "yellow",
+            };
             index++;
             series.push(item);
           } while (index < this.btnsList.length - 1);
@@ -247,119 +266,101 @@ export default {
         this.myChart.resize(); //图形随着窗口缩放
       });
     },
-
-    /* dataProce() {
-      const newData = {};
-      newData = this.getData.map((item) => item);
-      console.log(dataProce);
-    }, */
-    clickBtn(item, index) {
-      this.choiceIndex = index;
+    clickBtn(index) {
+      this.choiceIndex = index;  
       this.init();
-    },
-
-    //#region
-    /*  //根据传入的title_name判断series的name
-    getSeriesName(name) {
-      var newName = [];
-      if (name.indexOf("压")) {
-        return newName.push(["供水压力", "回水压力"]);
-      } else if (name.indexOf("温")) {
-        return newName.push(["供水温度", "回水温度"]);
-      }else if (name.indexOf("流")) {
-        return newName.push('流量');
-      }else{
-        return newName
-      }
-
-    }, */
-    /*  //根据name拿到想要的数据
-    proceData(data,name){
-        var newData={};
-        var str=''
-      if (name.indexOf("压")) {
-        return str='PT';
-      } else if (name.indexOf("温")) {
-        return str='te';
-      }else if (name.indexOf("流")) {
-        return str='FT';
-      }else{
-        return str;
-      }
-
-    } */
-    //#endregion
+    }, 
+  
   },
 };
 </script>
 
 <style lang="scss" scoped>
-.ftLineBox{
-  margin-top: 1rem;
-  //  background-color: rgb(26, 218, 218);
-}
-.title-box {
-  height: 4%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-top: 15px;
-  font-size:18px;
-  z-index: 1;
-  // background-color: red;
-  
-  .tipText {
-    flex: 1;
-    // background-color: rgb(46, 216, 131);
+.dataBlockBox {
+  position: relative;
+  overflow: hidden;
+  // padding-top: 0.0625rem;
+  // background: url("~@/assets/img/logo/gh.png") left top no-repeat;
+  // background-size: 7rem;
+  // height: 88.3%;
+  // width: 90%;
+  // aspect-ratio: 1;
+  margin-bottom:1rem;
+  // border: 1px solid #000;
+  // box-shadow: 0 0 3px 4px hsl(0, 0%, 0%, 0.7);
+  box-shadow: 0px 0px 5px 4px #3498db inset, 0px 0px 5px -4px #3498db;
+  text-shadow: 1px 1px 1px #3498db, 1px 1px 3px #3498db, 1px 1px 5px #3498db,
+    1px 1px 7px #3498db;
+  // border-radius: 10px;
+  // border-top:none;
+  // filter: opacity(0.8);
+  .tipBox {
+    // border: 1px solid red;
+    background: url("~@/assets/img/logo/gh.png") left top no-repeat;
+    background-size: 98%;
+    // background-color: red;
+    height: 40px;
     position: relative;
-    // top: rem;
-    left: 2rem;
-    color: #fff;
-    
-  }
-
-  .title-left {
-    flex: 1;
-    // justify-content: center;
-    // background-color: rgb(32, 223, 191);
-    // background-color: rgb(64, 10, 126);
-    // position: absolute;
-    // left: 10px;
-    // padding: 20px;
-    //padding-left: 30px;
-  }
-
-  .title-right {
-    flex: 1;
-    //height: 100%;
-    //width: 10px;
-    //text-align: right;
+    top: 0.8rem;
+    left: 0.5rem;
     display: flex;
-    justify-content: flex-end;
-    align-items: flex-end;
-    //justify-content:flex-end;
-    margin-right: 10px;
+    justify-content: space-between;
+    justify-items: center;
+    align-items: center;
+    .tipText {
+      flex: 1;
+      // background-color: rgb(46, 216, 131);
+      position: relative;
+      // top: 0.3rem;
+      // left: 1rem;
+      color: #fff;
+      font-size: 18px;
+      text-align: center;
+      letter-spacing: 8px;
+    }
+    .tipMiddle {
+      flex: 1;
+      //  background-color: rgb(29, 193, 235);
+      color: #fff;
+      text-align: right;
+    }
+    .tipLast {
+      flex: 1;
+      display: flex;
+      justify-content: flex-end;
+      // align-items: flex-start;
+      //justify-content:flex-end;
+      position: relative;
+      font-size: 16px;
+      // background-color: rgb(215, 236, 22);
+      top:-0.8rem;
+      right:2rem;
+    }
+    .btnList {
+      //position: relative;
+      //width: 20%;
+      // height: 40px;
+      // font-size: 18px;
+      // align-items: center;
+      padding-left: 5%;
+      color: rgb(255, 255, 255);
+      white-space: nowrap;
+      text-decoration: none;
+
+      // z-index: 1;
+    }
+  }
+
+  .dataBox {
     position: relative;
-    // background-color: rgb(96, 235, 53);
+    // top: 0.375rem;
+    height: 100%;
+    .myEchart {
+      height: 100%;
+      width: 100%;
+      // z-index: 1;
+      // background-color: red;
+    }
   }
-
-  .btnList {
-    //position: relative;
-    //width: 20%;
-    // height: 40px;
-    // font-size: 18px;
-    // align-items: center;
-    padding-left: 5%;
-    color: rgb(255, 255, 255);
-    white-space: nowrap;
-    text-decoration: none;
-
-    z-index: 1;
-  }
-}
-.myEchart{
-  height: 100%;
-  width: 100%;
-  
 }
 </style>

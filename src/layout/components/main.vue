@@ -21,11 +21,11 @@ export default {
 <style lang="scss" scoped>
 .app-main {
   width: 100%;
-  height: 97.5%;
+  height: 100%;
   // background-color: rgb(172, 136, 136);
   // opacity: 0.6;
   // margin: 5rem;
-  // padding: 20px 50px 20px 50px;
+  padding: 30px 0px 20px 0px;
   // background-color: red;
   display: flex;
   // justify-content: center;

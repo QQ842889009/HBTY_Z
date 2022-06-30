@@ -1,26 +1,25 @@
 <template>
   <div class="znsjBox">
     <div class="lineBox">
-      <data-block tipName="流量棒图" :shape="{ height: '100%', width: '100%' }">
+      <data-block tipName="流量棒图" :shape="{ height: '50%', width: '100%' }">
         <template #dataBoxSlot>
-         <FtPie :getData="staEchartData" />
+         <FtPie :getData="staEchartData" :pHeight="'80%'"/>
+        </template>
+      </data-block>
+      <data-block tipName="流量棒图" :shape="{ height: '47.5%', width: '100%' }">
+        <template #dataBoxSlot>
+          <ft-line
+            title_name="一网压力"
+            :getData="staEchartData"
+            :boxHeight="'80%'"
+            :yUnit="'℃'"
+          >
+          </ft-line>
         </template>
       </data-block>
     </div>
     <div class="pieBox">
-        <data-block tipName="站内数据" :shape="{ height: '100%', width: '100%' }">
-        <template #dataBoxSlot>
-         222222222
-        </template>
-      </data-block>
      
-    </div>
-     <div class="barBox">
-      <data-block tipName="热力站" :shape="{ height: '100%', width: '100%' }">
-        <template #dataBoxSlot>
-         33333333333
-        </template>
-      </data-block>
     </div>
     
   </div>
@@ -31,7 +30,9 @@ import DataBlock from "components/slotBlock/DataBlock.vue"; //导入箱体
 import FtBar from "./components/FtBar.vue";
 import FtLine from "./components/FtLine.vue";
 import FtPie from "./components/FtPie.vue";
+import EchartLine from './components/EchartLine.vue'
 import { createNamespacedHelpers } from "vuex";
+
 
 const { mapState } = createNamespacedHelpers("plcS7");
 export default {
@@ -46,6 +47,9 @@ export default {
   },
   computed: {
     ...mapState(["staPlcData", "staPlcNum", "staEchartData"]),
+    indoorData(){
+      return this.$store.getters.get_inDoorDataAndInfo;     
+    }
   },
   methods: {
    
@@ -55,6 +59,7 @@ export default {
     FtBar,
     FtLine,
     FtPie,
+    EchartLine
   },
 };
 </script>
@@ -77,7 +82,7 @@ export default {
   }
   .pieBox{
     height:97.5%;
-    width: 25%;
+    width: 50%;
     // background-color: red;
     // display: flex;
     // flex-direction: column;

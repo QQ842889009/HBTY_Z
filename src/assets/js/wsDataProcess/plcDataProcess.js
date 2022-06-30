@@ -164,7 +164,7 @@ let wsEchartDataProcess = (msg) => {
     echartdataType.一供压力 = msg.PT11;
     echartdataType.一回压力 = msg.PT12;
     echartdataType.二供压力 = msg.PT21;
-    echartdataType.二回压力 = msg.PT21;
+    echartdataType.二回压力 = msg.PT22;
     echartdataType.液位 = msg.LT;
 
     echartdataType.一网温差 = (
