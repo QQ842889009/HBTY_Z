@@ -26,7 +26,7 @@ export default {
   // opacity: 0.6;
   // margin: 5rem;
 
-  padding: 30px 0px 20px 0px;
+  padding: 10px 30px 20px 30px;
 
   // background-color: red;
   display: flex;

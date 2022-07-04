@@ -1,584 +1,404 @@
 <template>
-  <div class="indoor-consumer">
-    <div class="heat-consumer-report">
-      <el-tabs type="border-card" v-model="activeName" @tab-click="handleClick">
-        <el-tab-pane label="室内温度" name="first">
-          <!-- 数据筛选标题 -->
-          <div class="el-card-title"><span>数据筛选</span></div>
-          <!-- <Form></Form> -->
-          <!-- 4哥筛选框 -->
-          <div class="filter-row">
-            <div class="filter-item">
-              <div class="el-select">
-                <SelectSearch
-                  :stationInfo="stationInfo"
-                  @EmitSelectValue="receiveSelectValue"
-                ></SelectSearch>
-              </div>
-            </div>
+  <div class="deliverySetting">
+    <div class="deliverySetting-table">
+      <div class="table-head">
+        <div class="selection">
+          <el-checkbox
+            v-model="ischeckAll"
+            :indeterminate="indeterminate"
+            @change="handleCheckAllChange"
+          ></el-checkbox>
+        </div>
+        <div class="width185">分区名称</div>
+        <div class="width265"></div>
+      </div>
+      <div
+        v-for="(partition, partitionIndex) in distributorsInfo"
+        :key="partitionIndex"
+        class="table-body"
+        @click="changeTab(partitionIndex)"
+      >
+        <!-- :class="{'active':!partitionIndex}" -->
+        <div
+          class="secondFloor"
+          :class="partitionIndex === activeIndex ? 'active' : ''"
+        >
+          <div class="selection">
+            <p>
+              <el-checkbox
+                :key="partitionIndex"
+                v-model="partition.selected"
+                :indeterminate="partition.indeterminate"
+                @change="
+                  handleCheckedCountryAllChange(
+                    partitionIndex,
+                    partition.partitionId,
+                    $event
+                  )
+                "
+              ></el-checkbox>
+            </p>
           </div>
-
-          <!-- 配置数据开始 -->
-          <div class="el-card-title"><span>数据配置</span></div>
-          <div class="filter-row">
-            <Collocate @EmitTableConfig="receiveTableConfig"></Collocate>
+          <div class="width185">
+            <p>{{ partition.partitionName }}</p>
           </div>
-          <!-- 配置数据结束 -->
-          <!-- 数据展示标题和搜索框的展示 -->
-          <div class="el-card-title-f">
-            <div class="el-card-title-f-title"><span>数据展示</span></div>
-
-            <div class="el-card-title-f-btn">
-              <el-button
-                type="primary"
-                icon="el-icon-edit"
-                circle
-                size="mini"
-                @click="gg"
-              ></el-button>
-              <el-button
-                size="mini"
-                type="success"
-                icon="el-icon-check"
-                circle
-              ></el-button>
-              <el-button
-                size="mini"
-                type="info"
-                icon="el-icon-message"
-                circle
-              ></el-button>
-              <el-button
-                type="warning"
-                size="mini"
-                icon="el-icon-star-off"
-                circle
-              ></el-button>
-              <el-button
-                size="mini"
-                type="danger"
-                icon="el-icon-delete"
-                circle
-              ></el-button>
-            </div>
-
-            <div class="el-card-title-f-select">
-              <InputSearch
-                :wide="wide"
-                :data="transuFindData"
-                @change="change"
-                :findName="findName"
-                :placeholder="placeholder"
-                :prefixIcon="prefixIcon"
-                :size="size"
-                :clearable="clearable"
-              ></InputSearch>
-            </div>
-          </div>
-          <Tab
-            :config="table_config"
-            :tableData="tableData"
-            :pagination="pagination"
-            @handleSizeChange="handleSizeChange"
-            @handleCurrentChange="handleCurrentChange"
+        </div>
+        <div v-show="partitionIndex === activeIndex" class="width265">
+          <el-checkbox
+            v-for="country in partition.country"
+            :key="country.id"
+            v-model="country.selected"
+            :label="country"
+            :class="{ activeTwo: !partitionIndex }"
+            @change="
+              handleCheckedCountryChange(
+                partitionIndex,
+                country.id,
+                partition.partitionId,
+                $event
+              )
+            "
           >
-            <template v-slot:TE="slotData">
-              <span :style="myStyle(slotData.data.TE)">{{
-                slotData.data.TE
-              }}</span>
-            </template>
-
-            <template v-slot:operation="slotData">
-              <el-button
-                type="primary"
-                size="small"
-                @click="historyInquire(slotData.data)"
-                plain
-                >查询</el-button
-              >
-
-              <el-button
-                type="success"
-                size="small"
-                @click="createData(slotData.data)"
-                plain
-                >增加</el-button
-              >
-              <el-button
-                type="danger"
-                size="small"
-                @click="deleteData(slotData.data)"
-                plain
-                >删除</el-button
-              >
-              <el-button
-                type="warning"
-                size="small"
-                @click="updateData(slotData.data)"
-                plain
-                >修改</el-button
-              >
-              <el-button
-                type="info"
-                size="small"
-                @click="readData(slotData.data)"
-                plain
-                >查看</el-button
-              >
-              <el-button type="nm" size="small" @click="requestData()" plain
-                >请求</el-button
-              >
-            </template>
-          </Tab>
-          <div>
-            <!-- <SysDlialog22 ref="dialog">
-              <template #dialog-content
-                ><FromDialog ref="fromdialog"></FromDialog>
-              </template>
-              <template #footer>
-                <el-button @click="dialogVisible = false">取 消</el-button>
-                <el-button type="primary" @click="dialogVisible = false"
-                  >确 定</el-button
-                >
-              </template>
-            </SysDlialog22> -->
-            <!-- <Form></Form> -->
-            <!-- <SysDlialog22 ref="dialog">
-              <template #dialog-content> <Form></Form></template>
-            </SysDlialog22> -->
-            <SysDlialog ref="dialog" :title="title" :rowData="rowData">
-              <!-- <template #dialog-content> <Form></Form></template> -->
-            </SysDlialog>
-            <SysDlialog44 ref="dialog" :title="title" :rowData="rowData">
-              <!-- <template #dialog-content> <Form></Form></template> -->
-            </SysDlialog44>
-          </div>
-          <el-card shadow="always" class="box-card">
-            <div class="el-card-title-history">
-              <div class="el-card-title-history item">{{ name }}</div>
-              <div class="el-card-title-history item">
-                <DateTimePicker
-                  class="picker"
-                  @EmitDateTimePicker="receiveDateTimePicker"
-                ></DateTimePicker>
-              </div>
-            </div>
-            <div class="ff">
-              <EchartLine :getData="indoorque" :title_name="echartTieleName" />
-            </div>
-          </el-card>
-        </el-tab-pane>
-        <el-tab-pane label="占位1" name="second">配置管理</el-tab-pane>
-        <el-tab-pane label="占位2" name="third">角色管理</el-tab-pane>
-        <el-tab-pane label="占位3" name="fourth">定时任务补偿</el-tab-pane>
-      </el-tabs>
+            {{ country.fieldName }}
+          </el-checkbox>
+        </div>
+      </div>
     </div>
-
-    <!-- <p>ffff{{ table_config.thead }}</p> ]]-->
   </div>
 </template>
 <script>
-import Form from "views/AiDoor/index.vue";
-// import FromDialog from "./FromDialog"; //配置显示和隐藏的
-import Collocate from "./Collocate"; //配置显示和隐藏的
-import SelectSearch from "./SelectSearch"; //配置显示和隐藏的
-import Tab from "components/common/Tab"; //table表格公共模板
-import InputSearch from "components/common/InputSearch"; //输入关键词查找模板
-import DateTimePicker from "components/common/DateTimePicker"; //选择日期时间的模板
-import SysDlialog22 from "./SysDlialog22"; ////
-import SysDlialog from "./SysDlialog"; ////
-import SysDlialog44 from "./SysDlialog44"; ////
-import EchartLine from "../Visual/components/EchartLine.vue";
-
-import {
-  DoorRequestSingle,
-  inDoorRequestAll_node,
-  teHistory,
-} from "@/utils/common";
-import { ruleForm } from "@/utils/indoor";
-const { tableHeader, sendThis } = require("./TableConfig");
-
-import { Input } from "element-ui";
-
 export default {
+  //name: 'deliverySetting',
+  components: {},
+  props: {},
   data() {
     return {
-      //修改开始
-      // ruleForm: ruleForm,
-      // BV: true,
-      //结束时间
-      zzz: {
-        sta: null,
-        db: null,
-      },
-
-      name: null,
-      Height: "100px",
-      Width: "18500px",
-      inDooHistory: [], //接收室内温度的历史数据
-      startAndEndDateAndTime: [], //其实日期时间和结束日期时间
-      starttime: null, //开始日期时间
-      endtime: null, //结束日期时间
-      kong: [],
-      activeName: "first",
-      disabled: {
-        is: "qwer", //设置点击后的禁用
-      },
-
-      wide: "220px", //宽度
-      findName: {
-        findName1: "Station", //要搜索的关键词
-        findName2: "Community", //要搜索的关键词
-      },
-
-      placeholder: "站点/小区", //提示
-      prefixIcon: "el-icon-search", //前面的图标
-      size: "small", //大小
-      clearable: true, //是否带清除
-      //表格配置
-      table_config: {
-        thead: tableHeader,
-
-        checkbox: false, //复选框默认有
-        Load: true, //加载现在没用
-        //传递斑马线和文字的颜色
-        zebarCrossing: {
-          crossingOne: "#ffffff",
-          crossingTwo: "#f5f7fd",
-          colorOne: "#000",
-          colorTwo: "#000",
-        },
-      },
-      //斑马线的参数
-
-      //表格数据
-      tableData: [],
-      transuFindData: [],
-      //分页的设置
-      pagination: {
-        current: 1,
-        size: 10,
-        total: 0,
-      },
-      //弹框的开始
-      dialogVisible: false,
-      title: "添加商品",
-      rowData: {},
-      //弹框的结束
-
-      indoorque: [
+      distributorsInfo: [
         {
-          event_time: "2022-06-23",
-          temp: "24",
+          partitionName: "1区",
+          selected: false,
+          partitionId: 1,
+          isIndeterminate: false,
+          country: [
+            {
+              id: "1",
+              fieldName: "奥地利",
+              fieldTableName: "奥地利",
+              selected: false
+            },
+            {
+              id: "2",
+              fieldName: "芬兰",
+              fieldTableName: "芬兰",
+              selected: false
+            },
+            {
+              id: "3",
+              fieldName: "意大利",
+              fieldTableName: "意大利",
+              selected: false
+            },
+            {
+              id: "4",
+              fieldName: "葡萄牙",
+              fieldTableName: "葡萄牙",
+              selected: false
+            },
+            {
+              id: "9",
+              fieldName: "西班牙",
+              fieldTableName: "西班牙",
+              selected: false
+            },
+            {
+              id: "10",
+              fieldName: "瑞典",
+              fieldTableName: "瑞典",
+              selected: false
+            }
+          ]
         },
         {
-          event_time: "2022-06-24",
-          temp: "10",
+          partitionName: "2区",
+          selected: false,
+          partitionId: 2,
+          isIndeterminate: false,
+          country: [
+            {
+              id: "5",
+              fieldName: "丹麦",
+              fieldTableName: "单买",
+              selected: false
+            },
+            {
+              id: "6",
+              fieldName: "法国",
+              fieldTableName: "法国",
+              selected: false
+            }
+          ]
         },
+        {
+          partitionName: "3区",
+          selected: false,
+          partitionId: 3,
+          isIndeterminate: false,
+          country: [
+            {
+              id: "7",
+              fieldName: "德国",
+              fieldTableName: "德国",
+              selected: false
+            },
+            {
+              id: "8",
+              fieldName: "瑞士",
+              fieldTableName: "瑞士",
+              selected: false
+            }
+          ]
+        }
       ],
-      echartTieleName: "",
-    };
+      ischeckAll: false,
+      indeterminate: false,
+      active: "active",
+      activeIndex: 0
+    }
   },
-  created() {
-    // inDoorRequestAll();
-    this.tableData = this.$store.getters.get_inDoorDataAndInfo; //表格数据
-    // console.log("eeeeee", this.tableData)
-    this.pagination.total = this.tableData.length; //数据的长度给分页总数用
-
-    this.transuFindData = this.$store.getters.get_inDoorDataAndInfo;
-    // console.log("sssss", this.transuFindData)
-    console.log("-------indoorque", this.indoorque);
-  },
-  watch: {},
-  computed: {
-    //接收室内温度的数据
-    // indoorque() {
-    //   return this.$store.getters.get_inDoorDataQue;
-    // },
-    stationInfo() {
-      return this.$store.getters.xx;
-    },
-  },
-  mounted() {
-    sendThis(this); // 设置this指
-  },
+  computed: {},
   methods: {
-    //历史查询
-    historyInquire(v) {
-      console.log("室内温度历史查询", v);
-      teHistory(v.Sn, this.starttime, this.endtime);
-      this.indoorque.splice(0, this.indoorque.length);
-      this.indoorque = this.$store.getters.get_inDoorDataQue;
-      console.log("+++++++++++++++indoorque", this.indoorque);
-      this.echartTieleName = v.HouseholderName;
-    },
-    requestData(v) {
-      console.log("请求数据");
-      inDoorRequestAll_node();
-    },
-    createData(v) {
-      console.log("增加", v);
-      this.title = "增加设备";
-
-      this.$refs.dialog.dialogVisible = true;
-      this.$refs.dialog.isbtn = 5;
-    },
-    deleteData(v) {
-      console.log("删除", v);
-      this.title = "删除设备";
-      this.rowData = { ...v };
-      this.$refs.dialog.isbtn = 5;
-
-      this.$refs.dialog.dialogVisible = true;
-    },
-    updateData(v) {
-      console.log("修改", v); //
-      this.title = "修改设备参数";
-      this.rowData = { ...v };
-
-      this.$refs.dialog.dialogVisible = true;
-      this.$refs.dialog.isbtn = 5;
-    },
-    readData(v) {
-      console.log("查看", v);
-      this.title = "查看设备参数";
-      this.$refs.dialog.dialogVisible = true;
-      this.$refs.dialog.isbtn = 0;
-      this.rowData = { ...v };
-    },
-    myStyle(value) {
-      if (value > 18 && value <= 22) {
-        return { color: "#14e90d", fontWeight: "900" };
-      } else if (value > 23 && value < 30) {
-        return { color: "red", fontWeight: "900" };
-      } else if (value < 18) {
-        return { color: "#8d8787" };
+    handleCheckAllChange(e) {
+      //一级change事件
+      this.ischeckAll = e
+      this.indeterminate = false
+      for (var i = 0, len = this.distributorsInfo.length; i < len; i++) {
+        //二级全选反选
+        this.distributorsInfo[i].selected = e
+        this.distributorsInfo[i].indeterminate = false //去掉二级不确定状态
+        for (
+          var j = 0, len1 = this.distributorsInfo[i].country.length;
+          j < len1;
+          j++
+        ) {
+          //三级全选反选
+          this.distributorsInfo[i].country[j].selected = e
+        }
       }
     },
+    handleCheckedCountryAllChange(index, topId, e) {
+      //二级change事件
+      this.distributorsInfo[index].selected = e //二级勾选后，子级全部勾选或者取消
+      this.distributorsInfo[index].indeterminate = false //去掉二级不确定状态
+      var childrenArray = this.distributorsInfo[index].country
+      if (childrenArray)
+        for (var i = 0, len = childrenArray.length; i < len; i++)
+          childrenArray[i].selected = e
 
-    //通讯localStorage//sessionStorage
-    changeValueT(v) {
-      console.log("通讯");
-      console.log(v);
+      this.getIsCheckAll()
     },
-
-    //接收table列显示隐藏的配置项
-    receiveTableConfig(v) {
-      console.log("接收table列显示隐藏的配置项", v);
-      this.table_config.thead = v;
-      // console.log("接收table列显示隐藏的配置项", v);
+    handleCheckedCountryChange(topIndex, sonId, topId, e) {
+      //三级change事件
+      var childrenArray = this.distributorsInfo[topIndex].country
+      var tickCount = 0,
+        unTickCount = 0,
+        len = childrenArray.length
+      for (var i = 0; i < len; i++) {
+        if (sonId == childrenArray[i].id) childrenArray[i].selected = e
+        if (childrenArray[i].selected == true) tickCount++
+        if (childrenArray[i].selected == false) unTickCount++
+      }
+      if (tickCount == len) {
+        //三级级全勾选
+        this.distributorsInfo[topIndex].selected = true
+        this.distributorsInfo[topIndex].indeterminate = false
+      } else if (unTickCount == len) {
+        //三级级全不勾选
+        this.distributorsInfo[topIndex].selected = false
+        this.distributorsInfo[topIndex].indeterminate = false
+      } else {
+        this.distributorsInfo[topIndex].selected = false
+        this.distributorsInfo[topIndex].indeterminate = true //添加二级不确定状态
+      }
+      this.getIsCheckAll()
     },
-    //DateTimePicker传过来的选择的日期时间
-    receiveDateTimePicker(v) {
-      this.startAndEndDateAndTime = v;
-
-      this.starttime = v[0];
-      this.endtime = v[1];
+    getIsCheckAll() {
+      var tickCount = 0,
+        unTickCount = 0,
+        indeterminateCount = 0,
+        ArrLength = this.distributorsInfo.length
+      for (var j = 0; j < ArrLength; j++) {
+        //全选checkbox状态
+        if (this.distributorsInfo[j].selected == true) tickCount++
+        if (this.distributorsInfo[j].selected == false) unTickCount++
+        if (this.distributorsInfo[j].indeterminate == true) indeterminateCount++
+      }
+      if (tickCount == ArrLength) {
+        //二级全勾选
+        this.ischeckAll = true
+        this.indeterminate = false
+      } else if (unTickCount == ArrLength) {
+        //二级全不勾选
+        this.ischeckAll = false
+        if (indeterminateCount > 0) {
+          this.indeterminate = true
+        } else {
+          this.indeterminate = false
+        }
+      } else {
+        this.ischeckAll = false
+        this.indeterminate = true //添加一级不确定状态
+      }
     },
-
-    receiveSelectValue(v) {
-      console.log("选择器传递过来的数据", v);
-      this.tableData = v;
-      this.pagination.total = v.length;
-      // this.findName.findName1 = v;
-    },
-
-    receiveChangeDialog() {
-      this.dialogVisible = false;
-    },
-
-    gg() {
-      inDoorRequestAll_node();
-    },
-    handleClick(tab, event) {
-      console.log(tab, event);
-    },
-    changeInput(v) {
-      this.disabled.is = v.data.Sid;
-      inDoorFvsp2(v, this.disabled);
-    },
-
-    handleEdit(index, row) {
-      console.log(row, "1");
-    },
-    //单个室内温度历史查询
-    //本体
-    // inDoorRequestSingleHistory(index, row, a) {
-    //   // teHistory(this.starttime);
-    // },
-
-    change(val) {
-      console.log("TTTT", val);
-      this.tableData = val;
-      this.pagination.total = val.length;
-    },
-    handleSizeChange(val) {
-      //接收子组件传递过来的值，改变父组件的值又传递给子组件
-      this.pagination.size = val;
-    },
-    handleCurrentChange(val) {
-      //接收子组件传递过来的值，改变父组件的值又传递给子组件
-      this.pagination.current = val;
-    },
-  },
-  components: {
-    Collocate,
-    Tab,
-    InputSearch,
-    SelectSearch,
-    DateTimePicker,
-    SysDlialog22,
-    SysDlialog,
-    EchartLine,
-    SysDlialog44,
-    // FromDialog,
-    Form,
-  },
-};
+    // tab切换
+    changeTab(idx) {
+      // 事件处理函数中的this指向Vue的实例
+      this.activeIndex = idx
+    }
+  }
+}
 </script>
 <style lang="scss" scoped>
-.indoor-consumer {
-  // background-color: rgb(223, 202, 12);
+.deliverySetting {
+  padding: 20px 0;
+  height: 200px;
+  position: relative;
+  display: block;
   width: 100%;
-}
-.el-button--nm {
-  color: #42b6ac;
-  background: #f0f9eb;
-  border-color: #b0e7e0;
-  border-radius: 3px;
-}
-
-.el-button--nm.el-button.is-plain:focus,
-.el-button--nm.el-button.is-plain:hover {
-  color: #fff;
-  background: #62c4bb;
-}
-
-::v-deep {
-  .el-tabs--border-card {
-    border-radius: 12px; //整个的圆角
-    // background-color: transparent !important;
-  }
-
-  .el-tabs__nav-scroll {
-    padding-left: 12px;
-    //background-color: palegreen;
-    border-top-left-radius: 102px;
-    border-radius: 920px;
-  }
-  .el-tabs__nav-wrap {
-    //background-color: rgb(132, 0, 255);
-    border-top-left-radius: 102px;
-  }
-  .is-top {
-    border-top-left-radius: 12px; //子菜单的圆角
-    border-top-right-radius: 12px;
-  }
-
-  .el-card {
-    .el-card__body {
-      padding: 1px;
-    }
-    padding: 1px;
-    margin: 10px;
-    // background-color: rgb(23, 66, 185);
-    //position: relative;
-    .el-card-title-history {
-      display: flex;
-      justify-content: space-between;
-      // position: absolute;
-      .item {
-        //background-color: rgb(134, 224, 49);
-        padding: 0;
-        height: 32px;
-        font-size: 10px;
+  overflow: hidden;
+  v-deep .el-table {
+    thead {
+      tr {
+        th {
+          font-size: 14px;
+        }
       }
     }
-    .ff {
-      height: 155px;
-      width: 100%;
-      // background-color: rgb(106, 223, 71);
+    tbody {
+      tr {
+        td {
+          vertical-align: baseline;
+          p {
+            line-height: 30px;
+          }
+          .el-checkbox-group {
+            display: flex;
+            flex-direction: column;
+            label {
+              line-height: 30px;
+              margin-left: 0;
+            }
+          }
+        }
+      }
     }
-
-    //  background-color: powderblue;
-    // box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15) !important;
+  }
+  .deliverySetting-table {
+    font-size: 14px;
+    color: #333;
+    .table-head,
+    .table-body {
+      display: flex;
+      padding: 10px 0;
+      .selection {
+        text-align: center;
+        line-height: 36px;
+        display: inline;
+        float: left;
+      }
+      .width185 {
+        padding: 0px 26px;
+      }
+      .width265 {
+        width: 100%;
+        display: inline;
+        position: absolute;
+        left: 0;
+        top: 130px;
+        padding-left: 21px;
+        label {
+          display: inline-block;
+          float: left;
+          line-height: 30px;
+          margin-block-start: 1em;
+          margin-block-end: 1em;
+          margin-inline-start: 0px;
+          margin-inline-end: 0px;
+          margin-right: 1em;
+        }
+      }
+    }
+    ::v-deep .table-head {
+      height: 36px;
+      align-items: center;
+      background-color: #e7f2ff;
+      padding-left: 21px;
+    }
+    .table-body {
+      color: #666;
+      display: inline-block;
+      float: left;
+      &:hover {
+        // background-color: #f5f7fa;
+      }
+      p {
+        line-height: 30px;
+        display: inline;
+        float: left;
+        margin: 0px;
+      }
+    }
+  }
+  .deliverySetting-btn {
+    /*width: 100%;*/
+    height: 59px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    position: absolute;
+    top: -55px;
+    right: -16px;
+    z-index: 100;
+    .tabs-btn {
+      min-width: 90px;
+      height: 34px;
+      line-height: 32px;
+      padding: 0 10px;
+      color: #2387f7;
+      border: solid 1px #4fa2ff;
+      background-color: #e7f2ff;
+      cursor: pointer;
+      &:nth-of-type(2) {
+        margin: 0 15px;
+      }
+      input {
+        border: none;
+        background: transparent;
+        color: inherit;
+        cursor: inherit;
+        outline: none;
+        margin: 0;
+        padding: 0;
+      }
+      &:hover {
+        color: #fff;
+        background-color: #2387f7;
+      }
+    }
   }
 }
-.el-card-title {
-  justify-content: space-between; //均匀排列每个元素，首个元素放置于起点，末尾元素放置于终点。
-  padding: 12px 16px;
-  font-size: 2rem;
-  display: flex;
-  // .x5 {
-  //   float: right;
-  //   //background-color: rgb(209, 51, 51);
-  //   .item {
-  //     padding: 0 8px 0 8px;
-  //   }
-  //   .el-button {
-  //     // width: 20px;
-  //     // height: 20px;
-  //     .icon {
-  //       // align-items: center; //上下居中
-  //       //justify-content: center; /* 相对父元素水平居中 */
-  //       text-align: center;
-  //       margin: 0 auto;
-  //     }
-  //   }
-  // }
-  // background-color: palegreen;
-}
-.el-card-title span:first-child {
-  font-weight: 700;
-  color: #5473e8;
-}
-.filter-row {
-  padding: 0 0.2rem 0.2rem 0.6rem;
-  display: flex;
-  // background-color: red;
-  // align-items: center; //上下居中
-  //justify-content: center; /* 相对父元素水平居中 */
-}
-.filter-row .filter-item {
-  padding-right: 0.4rem;
-  // border: solid 1px red;
-  font-size: 0.4rem;
-
-  // color: rgb(20, 233, 13);
-}
-.el-select {
+.secondFloor {
   display: inline-block;
-  position: relative;
+  float: left;
+  border-bottom: solid 1px #ccc;
+  padding: 2px 20px;
+  cursor: pointer;
 }
-//数据展示和搜搜框的展示
-// .el-card-title {
-//   justify-content: space-between;
-//   padding: 12px 16px;
-//   font-size: 1.8rem;
-//   display: flex;
-//   background-color: gold;
-// }
-.el-card-title-f {
-  display: flex;
-  padding: 12px 16px;
-  font-size: 0.45rem;
-  font-size: 2rem;
-  font-weight: 700;
-  color: #5473e8;
-  justify-content: space-between; //均匀排列每个元素，首个元素放置于起点，末尾元素放置于终点。
-  .el-card-title-f-title {
-    flex: 1;
-    // background-color: rgb(223, 202, 12);
-  }
-  .el-card-title-f-btn {
-    flex: 1;
-    // background-color: palegreen;
-    text-align: right;
-  }
-  .el-card-title-f-select {
-    flex: 0.4;
-    //  background-color: rgb(12, 65, 212);
-    text-align: right;
-  }
+.active {
+  border: solid 1px #ccc;
+  border-bottom: 0px;
+}
+.addclass {
+  border: solid 1px #ccc;
+  border-bottom: 0;
 }
 </style>

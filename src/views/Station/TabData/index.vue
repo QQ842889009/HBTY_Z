@@ -33,14 +33,14 @@
   </div>
 </template>
 <script>
-import Sortable from "sortablejs";
-import MyTable from "./MyTable"; //
-import BjBox from "views/Module/BgcBox"; //背景图
-import InputSearch from "components/common/InputSearch"; //输入关键词查找模板//
+import Sortable from "sortablejs"
+import MyTable from "./MyTable" //
+import BjBox from "views/Module/BgcBox" //背景图
+import InputSearch from "components/common/InputSearch" //输入关键词查找模板//
 
-import { Input } from "element-ui";
-import { createNamespacedHelpers } from "vuex";
-const { mapState } = createNamespacedHelpers("plcS7");
+import { Input } from "element-ui"
+import { createNamespacedHelpers } from "vuex"
+const { mapState } = createNamespacedHelpers("plcS7")
 export default {
   data() {
     return {
@@ -50,159 +50,12 @@ export default {
           label: "换热站",
 
           width: "130PX",
-          fixed: "left",
+          fixed: "left"
         },
         {
           prop: "Space",
           label: "面积",
-          fixed: "left",
-        },
-
-        {
-          label: "一次网22",
-          // isHidden: false,
-          children: [
-            {
-              prop: "TE11",
-              label: "供温(℃)",
-            },
-            {
-              prop: "TE12",
-              label: "回温(℃)",
-            },
-            {
-              prop: "PT11",
-              label: "供压(MPa)",
-              width: "90PX",
-            },
-            {
-              prop: "PT12",
-              label: "回压(MPa)",
-              width: "90PX",
-            },
-            {
-              prop: "PT11_FV",
-              label: "阀后压(MPa)",
-              width: "110PX",
-            },
-            {
-              prop: "FT11",
-              label: "流量(t/h)",
-            },
-            {
-              prop: "FV1FB",
-              label: "电动阀(%)",
-              width: "90PX",
-            },
-          ],
-        },
-
-        {
-          label: "二次网",
-          // isHidden: false,
-          children: [
-            {
-              prop: "TE21",
-              label: "供温(℃)",
-            },
-            {
-              prop: "TE22",
-              label: "回温(℃)",
-            },
-            {
-              prop: "PT21",
-              label: "供压(MPa)",
-              width: "90PX",
-            },
-            {
-              prop: "PT22",
-              label: "回压(MPa)",
-              width: "90PX",
-            },
-            {
-              prop: "PT22_BF",
-              label: "泵前压(MPa)",
-              width: "110PX",
-            },
-            {
-              prop: "PT22_BL",
-              label: "泵后压(MPa)",
-              width: "110PX",
-            },
-            {
-              prop: "FT21",
-              label: "流量(t/h)",
-            },
-            {
-              prop: "BP21FB",
-              label: "循环泵(Hz)",
-              width: "90PX",
-            },
-            {
-              prop: "FV2FB",
-              label: "二网阀(%)",
-              width: "90PX",
-            },
-            {
-              prop: "TE22_MP",
-              label: "补水后温(℃)",
-              width: "110PX",
-            },
-            {
-              prop: "BP21FB",
-              label: "循环泵(Hz)",
-              width: "110PX",
-            },
-          ],
-        },
-        {
-          label: "状态",
-          // isHidden: false,
-          children: [
-            {
-              prop: "MP1C",
-              label: "补水泵",
-            },
-            {
-              prop: "MP2S",
-              label: "潜水泵",
-            },
-            {
-              prop: "XYVC",
-              label: "泄压阀",
-            },
-          ],
-        },
-        {
-          prop: "LT",
-          label: "液位(m)",
-          width: "100PX",
-        },
-        {
-          prop: "ZFT31",
-          label: "补水量(m³)",
-          fixed: "right",
-          width: "100PX",
-        },
-        {
-          prop: "DL",
-          label: "电能(kWh)",
-          fixed: "right",
-          width: "100PX",
-        },
-      ],
-      dropCol: [
-        {
-          prop: "Station",
-          label: "换热站",
-
-          width: "130PX",
-          fixed: "left",
-        },
-        {
-          prop: "Space",
-          label: "面积",
-          fixed: "left",
+          fixed: "left"
         },
 
         {
@@ -211,37 +64,184 @@ export default {
           children: [
             {
               prop: "TE11",
-              label: "供温(℃)",
+              label: "供温(℃)"
             },
             {
               prop: "TE12",
-              label: "回温(℃)",
+              label: "回温(℃)"
             },
             {
               prop: "PT11",
               label: "供压(MPa)",
-              width: "90PX",
+              width: "90PX"
             },
             {
               prop: "PT12",
               label: "回压(MPa)",
-              width: "90PX",
+              width: "90PX"
             },
             {
               prop: "PT11_FV",
               label: "阀后压(MPa)",
-              width: "110PX",
+              width: "110PX"
             },
             {
               prop: "FT11",
-              label: "流量(t/h)",
+              label: "流量(t/h)"
             },
             {
               prop: "FV1FB",
               label: "电动阀(%)",
-              width: "90PX",
+              width: "90PX"
+            }
+          ]
+        },
+
+        {
+          label: "二次网",
+          // isHidden: false,
+          children: [
+            {
+              prop: "TE21",
+              label: "供温(℃)"
             },
-          ],
+            {
+              prop: "TE22",
+              label: "回温(℃)"
+            },
+            {
+              prop: "PT21",
+              label: "供压(MPa)",
+              width: "90PX"
+            },
+            {
+              prop: "PT22",
+              label: "回压(MPa)",
+              width: "90PX"
+            },
+            {
+              prop: "PT22_BF",
+              label: "泵前压(MPa)",
+              width: "110PX"
+            },
+            {
+              prop: "PT22_BL",
+              label: "泵后压(MPa)",
+              width: "110PX"
+            },
+            {
+              prop: "FT21",
+              label: "流量(t/h)"
+            },
+            {
+              prop: "BP21FB",
+              label: "循环泵(Hz)",
+              width: "90PX"
+            },
+            {
+              prop: "FV2FB",
+              label: "二网阀(%)",
+              width: "90PX"
+            },
+            {
+              prop: "TE22_MP",
+              label: "补水后温(℃)",
+              width: "110PX"
+            },
+            {
+              prop: "BP21FB",
+              label: "循环泵(Hz)",
+              width: "110PX"
+            }
+          ]
+        },
+        {
+          label: "状态",
+          // isHidden: false,
+          children: [
+            {
+              prop: "MP1C",
+              label: "补水泵"
+            },
+            {
+              prop: "MP2S",
+              label: "潜水泵"
+            },
+            {
+              prop: "XYVC",
+              label: "泄压阀"
+            }
+          ]
+        },
+        {
+          prop: "LT",
+          label: "液位(m)",
+          width: "100PX"
+        },
+        {
+          prop: "ZFT31",
+          label: "补水量(m³)",
+          fixed: "right",
+          width: "100PX"
+        },
+        {
+          prop: "DL",
+          label: "电能(kWh)",
+          fixed: "right",
+          width: "100PX"
+        }
+      ],
+      dropCol: [
+        {
+          prop: "Station",
+          label: "换热站",
+
+          width: "130PX",
+          fixed: "left"
+        },
+        {
+          prop: "Space",
+          label: "面积",
+          fixed: "left"
+        },
+
+        {
+          label: "一次网",
+          // isHidden: false,
+          children: [
+            {
+              prop: "TE11",
+              label: "供温(℃)"
+            },
+            {
+              prop: "TE12",
+              label: "回温(℃)"
+            },
+            {
+              prop: "PT11",
+              label: "供压(MPa)",
+              width: "90PX"
+            },
+            {
+              prop: "PT12",
+              label: "回压(MPa)",
+              width: "90PX"
+            },
+            {
+              prop: "PT11_FV",
+              label: "阀后压(MPa)",
+              width: "110PX"
+            },
+            {
+              prop: "FT11",
+              label: "流量(t/h)"
+            },
+            {
+              prop: "FV1FB",
+              label: "电动阀(%)",
+              width: "90PX"
+            }
+          ]
         },
 
         // {
@@ -323,32 +323,32 @@ export default {
         {
           prop: "LT",
           label: "液位(m)",
-          width: "100PX",
+          width: "100PX"
         },
         {
           prop: "ZFT31",
           label: "补水量(m³)",
           fixed: "right",
-          width: "100PX",
+          width: "100PX"
         },
         {
           prop: "DL",
           label: "电能(kWh)",
           fixed: "right",
-          width: "100PX",
-        },
+          width: "100PX"
+        }
       ],
       zebarCrossing: {
         crossingOne: "#0D1051",
         crossingTwo: "#224394",
         //crossingTwo: "#224394",
         colorOne: "#fff",
-        colorTwo: "#40B3FB",
+        colorTwo: "#40B3FB"
       },
       // InputSearch开始
       findName: {
         findName1: "Station", //要搜索的关键词
-        findName2: "Station", //要搜索的关键词
+        findName2: "Station" //要搜索的关键词
       },
       wide: "220px", //宽度
       placeholder: "站点", //提示
@@ -379,15 +379,15 @@ export default {
       pagination: {
         current: 1,
         size: 30,
-        total: 0,
-      },
-    };
+        total: 0
+      }
+    }
   },
   created() {
     // inDoorRequestAll();
     // this.tableData = this.$store.getters.get_staPlcData; //表格数据
     // console.log("换热站数据AAA", this.tableData);
-    this.pagination.total = this.staPlcNum; //数据的长度给分页总数用
+    this.pagination.total = this.staPlcNum //数据的长度给分页总数用
     // this.transuFindData = this.$store.getters.get_inDoorDataAndInfo;
     // console.log("sssss", this.transuFindData)
   },
@@ -396,16 +396,16 @@ export default {
     ...mapState(["staPlcData", "staPlcNum"]),
 
     paginationNum() {
-      return parseInt(this.staPlcNum / this.pagination.size + 0.9);
-    },
+      return parseInt(this.staPlcNum / this.pagination.size + 0.9)
+    }
   },
   mounted() {
     document.body.ondrop = function (event) {
-      event.preventDefault();
-      event.stopPropagation();
-    };
-    this.rowDrop();
-    this.columnDrop();
+      event.preventDefault()
+      event.stopPropagation()
+    }
+    this.rowDrop()
+    this.columnDrop()
   },
   methods: {
     //历史查询
@@ -419,56 +419,56 @@ export default {
     // },
     //InputSearch传递回来的数据
     change(val) {
-      console.log("TTTT", val);
+      console.log("TTTT", val)
       // this.staPlcData = val;
       // this.pagination.total = val.length;
     },
     myStyle(value) {
       if (value > 18 && value <= 22) {
-        return { color: "#14e90d", fontWeight: "900" };
+        return { color: "#14e90d", fontWeight: "900" }
       } else if (value > 23 && value < 30) {
-        return { color: "red", fontWeight: "900" };
+        return { color: "red", fontWeight: "900" }
       } else if (value < 18) {
-        return { color: "#8d8787" };
+        return { color: "#8d8787" }
       }
     },
 
     handleSizeChange(val) {
       //接收子组件传递过来的值，改变父组件的值又传递给子组件
-      this.pagination.size = val;
+      this.pagination.size = val
     },
     handleCurrentChange(val) {
       //接收子组件传递过来的值，改变父组件的值又传递给子组件
-      this.pagination.current = val;
+      this.pagination.current = val
     },
 
     rowDrop() {
-      console.log("行拖拽");
-      const tbody = document.querySelector(".el-table__body-wrapper tbody");
-      console.log("---AAAtbody", tbody);
-      const _this = this;
+      console.log("行拖拽")
+      const tbody = document.querySelector(".el-table__body-wrapper tbody")
+      console.log("---AAAtbody", tbody)
+      const _this = this
       Sortable.create(tbody, {
         onEnd({ newIndex, oldIndex }) {
-          console.log("newIndex", newIndex);
-          console.log("oldIndex", oldIndex);
-          const currRow = _this.posts.splice(oldIndex, 1)[0];
-          _this.posts.splice(newIndex, 0, currRow);
-        },
-      });
+          console.log("newIndex", newIndex)
+          console.log("oldIndex", oldIndex)
+          const currRow = _this.posts.splice(oldIndex, 1)[0]
+          _this.posts.splice(newIndex, 0, currRow)
+        }
+      })
     },
     //列拖拽
     columnDrop() {
-      const wrapperTr = document.querySelector(".el-table__header-wrapper tr");
+      const wrapperTr = document.querySelector(".el-table__header-wrapper tr")
       this.sortable = Sortable.create(wrapperTr, {
         animation: 180,
         delay: 0,
         onEnd: (evt) => {
-          const oldItem = this.dropCol[evt.oldIndex];
-          this.dropCol.splice(evt.oldIndex, 1);
-          this.dropCol.splice(evt.newIndex, 0, oldItem);
-        },
-      });
-    },
+          const oldItem = this.dropCol[evt.oldIndex]
+          this.dropCol.splice(evt.oldIndex, 1)
+          this.dropCol.splice(evt.newIndex, 0, oldItem)
+        }
+      })
+    }
   },
   components: {
     // Collocate,
@@ -479,9 +479,9 @@ export default {
     // SysDlialog22,
     // tt,
     MyTable,
-    BjBox,
-  },
-};
+    BjBox
+  }
+}
 </script>
 <style lang="scss" scoped>
 .station {
