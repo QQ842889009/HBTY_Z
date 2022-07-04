@@ -1,3 +1,7 @@
+
+
+
+
 <template>
   <div class="dialog-consumer">
     <el-dialog
@@ -8,13 +12,9 @@
       :height="height + 'px'"
       :before-close="handleClose"
     >
-      <span>这是一段信息</span>
-      <span slot="footer" class="dialog-footer">
-        <el-button @click="dialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="dialogVisible = false"
-          >确 定</el-button
-        >
-      </span>
+      <div ref="g">
+        <slot name="dialog-content"></slot>
+      </div>
     </el-dialog>
   </div>
 </template>
@@ -26,7 +26,7 @@ export default {
   props: {
     title: {
       type: String,
-      default: "标ee题",
+      default: "标题",
     },
 
     width: {
@@ -41,13 +41,23 @@ export default {
   data() {
     return {
       dialogVisible: false,
+      //ff: { a: "1", b: "12", c: "4441" },
     };
   },
   created() {},
   mounted() {},
   methods: {
+    // resetForm(form) {
+    //   console.log("form", form);
+    //   this.$refs[form].form.resetFields();
+    // },
+
     handleClose(done) {
+      console.log("1", this.$refs.g);
+      console.log("22", this.$refs.g.ff);
+
       this.dialogVisible = false;
+      // this.
     },
   },
 };
@@ -94,17 +104,18 @@ export default {
         // top: -7px;
         // left: 10px;
       }
+      .el-dialog__body {
+        padding: 7px 7px !important;
+        color: #606266;
+        font-size: 14px;
+        word-break: break-all;
+      }
     }
-
-    // .el-dialog__title {
-    //   color: #3c4354;
-    //   // font-family: PingFangSC-Regular;
-    //   font-size: 16px;
-    //   //line-height: 6px;
-    // }
-    // .el-dialog__body {
-    //   background-color: #e4ebf1;
-    // }
   }
 }
+// .btn {
+//   position: absolute;
+//   bottom: 2px;
+//   right: 5px;
+// }
 </style>

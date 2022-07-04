@@ -24,14 +24,14 @@ export default {
   mutations: {
     // 数据初始化main引用它  main 是入口函数在main.js引用的话就是首先执行
     MUINDOORDATAINIT(state, data) {
-      console.log("ttt")
+      // console.log("ttt")
       inDoor.inDoor(state.inDoorDataAndInfo, state.inDoorInfosLenght, data)
     },
 
     //汉腾室内温度信息INDOORINFOS
     INDOORINFO(state, data) {
       state.inDoorInfos = data
-      console.log("仓库中来的信息是什么？", data)
+      // console.log("仓库中来的信息是什么？", data)
       for (let i = 0; i < state.inDoorDataAndInfo.length; i++) {
         for (let j = 0; j < state.inDoorInfos.length; j++) {
           if (

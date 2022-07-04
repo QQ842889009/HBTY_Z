@@ -5,6 +5,7 @@ const TeControl = () => import("views/Station/TeControl.vue")
 const TableIntegralPoint = () => import("views/Station/TableIntegralPoint.vue")
 const TableSection = () => import("views/Station/TableSection.vue")
 const HistoryQuery = () => import("views/Station/HistoryQuery.vue")
+const TabData = () => import("views/Station/TabData/index.vue")
 
 const station = {
   path: "/station",
@@ -12,11 +13,18 @@ const station = {
   meta: { title: "热力站", roles: ["approve"] },
   component: Station,
   children: [
+    // {
+    //   path: "/DataScreening",
+    //   name: "DataScreening",
+    //   meta: { title: "数据总览" },
+    //   component: DataScreening
+    // },
+
     {
-      path: "/DataScreening",
-      name: "DataScreening",
+      path: "/TabData",
+      name: "TabData",
       meta: { title: "数据总览" },
-      component: DataScreening
+      component: TabData
     },
     {
       path: "/ProcessControl",

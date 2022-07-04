@@ -85,7 +85,8 @@ export default {
       this.temptableData = [];
       let a = this.findName.findName1; //a是根据换热站名搜
       let b = this.findName.findName2; //b是根据小区名搜
-
+      console.log("要搜索的换热站名称AA", a);
+      console.log("要搜索的换热站名称BB", b);
       this.data.filter((item) => {
         if (a in item || b in item) {
           if (
@@ -112,7 +113,7 @@ export default {
   border-radius: 23px; //输入框的圆角
   background-color: transparent; //背景色是透明色
   border: 1px solid blue; //input的边框
-  color: blue; //输入文字的颜色
+  color: #000; //输入文字的颜色
   font-size: 10px;
   height: 29px;
 }

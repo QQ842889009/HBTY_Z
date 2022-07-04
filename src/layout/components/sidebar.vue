@@ -29,12 +29,16 @@
     <!-- :collapse-transition="false" -> 关闭动画 -->
     <!-- router -> 导航开启路由模式 -->
     <!-- 一级菜单  -->
-    <el-submenu :index="item.id + ''" :popper-append-to-body='false' v-for="item in menuList" :key="item.id
-    "  >
+    <el-submenu
+      :index="item.id + ''"
+      :popper-append-to-body="false"
+      v-for="item in menuList"
+      :key="item.id"
+    >
       <!-- 一级菜单的模板区域 -->
       <!--  @click="saveNavState('/' + subItem.path)" -->
       <template slot="title">
-        <i :class="iconObj[item.id]" style="color:#fff"></i>
+        <i :class="iconObj[item.id]" style="color: #fff"></i>
         <span class="yy">{{ item.name }}</span>
       </template>
       <!-- 二级菜单 -->
@@ -57,7 +61,7 @@
 
 <script>
 // import { mapGetters } from "vuex";
-import sideItem from "./sideItem";
+import sideItem from "./sideItem"
 export default {
   name: "login",
   data() {
@@ -74,7 +78,7 @@ export default {
         17: "iconfont icon-kongzhi",
         18: "iconfont icon-zhexian  ",
         19: "iconfont icon-houtaiguanli ",
-        1511: "iconfont icon-keshihua-blue ",
+        1511: "iconfont icon-keshihua-blue "
       },
       menuList: [
         {
@@ -85,19 +89,19 @@ export default {
             {
               name: "热源",
               id: "1121",
-              path: "Visual1",
+              path: "Visual1"
             },
-             {
+            {
               name: "热换站",
               id: "1122",
-              path: "Visual2",
+              path: "Visual2"
             },
-             {
+            {
               name: "楼宇",
               id: "1123",
-              path: "Visual3",
-            },
-          ],
+              path: "Visual3"
+            }
+          ]
         },
         {
           name: "热源",
@@ -107,9 +111,9 @@ export default {
             {
               name: "AI单元",
               id: "121",
-              path: "Hot",
-            },
-          ],
+              path: "Hot"
+            }
+          ]
         },
         {
           name: "换热站",
@@ -119,39 +123,39 @@ export default {
               name: "数据总览",
               id: "221",
               // path: "pfd",
-              path: "DataScreening",
+              path: "TabData"
             },
             {
               name: "工艺控制",
               id: "222",
               // path: "pfd",
-              path: "ProcessControl",
+              path: "ProcessControl"
             },
             {
               name: "温度控制",
               id: "223",
               // path: "pfd",
-              path: "TeControl",
+              path: "TeControl"
             },
             {
               name: "整点报表",
               id: "224",
               // path: "pfd",
-              path: "TableIntegralPoint",
+              path: "TableIntegralPoint"
             },
             {
               name: "区间报表",
               id: "225",
               // path: "pfd",
-              path: "TableSection",
+              path: "TableSection"
             },
             {
               name: "历史查询",
               id: "226",
               // path: "pfd",
-              path: "HistoryQuery",
-            },
-          ],
+              path: "HistoryQuery"
+            }
+          ]
         },
 
         {
@@ -161,9 +165,9 @@ export default {
             {
               name: "数据展示",
               id: "322",
-              path: "AiUnit",
-            },
-          ],
+              path: "AiUnit"
+            }
+          ]
         },
 
         {
@@ -173,9 +177,9 @@ export default {
             {
               name: "户阀管控",
               id: "421",
-              path: "AiDoor",
-            },
-          ],
+              path: "AiDoor"
+            }
+          ]
         },
 
         {
@@ -185,9 +189,9 @@ export default {
             {
               name: "数据展示",
               id: "521",
-              path: "AiUnitSx",
-            },
-          ],
+              path: "AiUnitSx"
+            }
+          ]
         },
         {
           name: "室内温度",
@@ -196,34 +200,37 @@ export default {
             {
               name: "数据展示",
               id: "621",
-              path: "AiInDoor",
-            },
-          ],
-        },
-      ],
-    };
+              path: "AiInDoor"
+            }
+          ]
+        }
+      ]
+    }
   },
   mounted() {},
   computed: {},
   components: {
-    sideItem,
-  },
-};
+    sideItem
+  }
+}
 </script>
 
 <style lang="scss" scoped>
-.yy{
+.yy {
   padding: 5px;
 }
 .el-menu {
   border-right: none;
-   background-color: transparent ;
+  background-color: transparent;
   // background-color: "red";
 
   color: #fff;
+
   width: 80%;
+
   position: relative;
-  left: 600px;
+  left: 500px;
+
   top: 20px;
 }
 
@@ -235,8 +242,7 @@ export default {
   //   margin-top: 5px;
   //   background-color: red !important;
   // }
-// }
-
+  // }
 }
 ::v-deep {
   // .el-menu--horizontal .el-menu .el-menu-item{
@@ -274,42 +280,38 @@ export default {
   // }
 
   //一级菜单
- .el-submenu__title{
-  font-size:20px;
-  //background: rgb(107, 77, 77);
-  color:rgb(250, 244, 244) !important;
- }
-//一级菜单效果
-  .el-submenu__title:hover,.el-submenu__title:focus{
-    
-    background-color: transparent !important; //背景颜色
-    color: rgb(149, 228, 23) !important;  //颜色
+  .el-submenu__title {
+    font-size: 15px;
+    //background: rgb(107, 77, 77);
+    color: rgb(250, 244, 244) !important;
   }
-  .el-submenu.is-opened .el-submenu__title{
-  // background-color: transparent !important; //背景颜色
-    color: rgb(149, 228, 23) !important;  //颜色
-}
-  .el-submenu.is-active .el-submenu__title{
-  // background-color: transparent !important; //背景颜色
-    color: rgb(149, 228, 23) !important;  //颜色
-}
+  //一级菜单效果
+  .el-submenu__title:hover,
+  .el-submenu__title:focus {
+    background-color: transparent !important; //背景颜色
+    color: rgb(149, 228, 23) !important; //颜色
+  }
+  .el-submenu.is-opened .el-submenu__title {
+    // background-color: transparent !important; //背景颜色
+    color: rgb(149, 228, 23) !important; //颜色
+  }
+  .el-submenu.is-active .el-submenu__title {
+    // background-color: transparent !important; //背景颜色
+    color: rgb(149, 228, 23) !important; //颜色
+  }
 
   //二级菜单
- li.el-menu-item {
-   color: rgb(252, 250, 250) !important;
-  background-color: #57a4e7 !important;
-   font-size:18px;
-}
+  li.el-menu-item {
+    color: rgb(252, 250, 250) !important;
+    background-color: #57a4e7 !important;
+    font-size: 18px;
+  }
 
-
-//二级菜单弹出框
-.el-menu--popup-bottom-start {
-   
+  //二级菜单弹出框
+  .el-menu--popup-bottom-start {
     padding: 1px;
     // background-color: red;
-}
+  }
 }
 </style>
-<style lang="scss">
-
-</style>
+<style lang="scss"></style>

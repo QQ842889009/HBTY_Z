@@ -5,7 +5,7 @@
  * 注意：所有key的首字母均是大写
  */
 const plcdataType = {
-  Sid: "000",
+  Sid: 0,
   Station: 0,
   Space: 0,
   SdateTime: "2030-09-11",
@@ -151,13 +151,13 @@ const plcdataType = {
   MP2S: 0,
   MP2A: 0,
   MP2RM: 0,
-  TE2X: 0,
-};
+  TE2X: 0
+}
 const plcdataInfoType = {
   Sid: "000",
   Station: 0,
-  Space: 0,
-};
+  Space: 0
+}
 const echartdataType = {
   Sid: "000",
   一供压力: 0,
@@ -179,6 +179,6 @@ const echartdataType = {
   液位: 0,
   站点: 0,
   补水流量: 0,
-  面积: 0,
-};
-export { plcdataType, plcdataInfoType, echartdataType };
+  面积: 0
+}
+export { plcdataType, plcdataInfoType, echartdataType }

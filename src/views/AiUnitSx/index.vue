@@ -1,162 +1,201 @@
 <template>
   <div class="indoor-consumer">
     <div class="heat-consumer-report">
-      <!-- 数据筛选标题 -->
-      <div class="el-card-title"><span>数据筛选</span></div>
-
-      <!-- 4哥筛选框 -->
-      <div class="filter-row">
-        <div class="filter-item">
-          <div class="el-select">
-            <SelectSearch
-              :stationInfo="stationInfo"
-              @EmitSelectValue="receiveSelectValue"
-            ></SelectSearch>
+      <el-tabs type="border-card" v-model="activeName" @tab-click="handleClick">
+        <el-tab-pane label="室内温度" name="first">
+          <!-- 数据筛选标题 -->
+          <div class="el-card-title"><span>数据筛选</span></div>
+          <!-- <Form></Form> -->
+          <!-- 4哥筛选框 -->
+          <div class="filter-row">
+            <div class="filter-item">
+              <div class="el-select">
+                <SelectSearch
+                  :stationInfo="stationInfo"
+                  @EmitSelectValue="receiveSelectValue"
+                ></SelectSearch>
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
 
-      <!-- 配置数据开始 -->
-      <div class="el-card-title"><span>数据配置</span></div>
-      <div class="filter-row">
-        <Collocate @EmitTableConfig="receiveTableConfig"></Collocate>
-      </div>
-      <!-- 配置数据结束 -->
-      <!-- 数据展示标题和搜索框的展示 -->
-      <div class="el-card-title-f">
-        <div class="el-card-title-f-title"><span>数据展示</span></div>
-
-        <div class="el-card-title-f-btn">
-          <el-button
-            type="primary"
-            icon="el-icon-edit"
-            circle
-            size="mini"
-            @click="gg"
-          ></el-button>
-          <el-button
-            size="mini"
-            type="success"
-            icon="el-icon-check"
-            circle
-          ></el-button>
-          <el-button
-            size="mini"
-            type="info"
-            icon="el-icon-message"
-            circle
-          ></el-button>
-          <el-button
-            type="warning"
-            size="mini"
-            icon="el-icon-star-off"
-            circle
-          ></el-button>
-          <el-button
-            size="mini"
-            type="danger"
-            icon="el-icon-delete"
-            circle
-          ></el-button>
-        </div>
-
-        <div class="el-card-title-f-select">
-          <InputSearch
-            :wide="wide"
-            :data="transuFindData"
-            @change="change"
-            :findName="findName"
-            :placeholder="placeholder"
-            :prefixIcon="prefixIcon"
-            :size="size"
-            :clearable="clearable"
-          ></InputSearch>
-        </div>
-      </div>
-      <Tab
-        :config="table_config"
-        :tableData="tableData"
-        :pagination="pagination"
-        @handleSizeChange="handleSizeChange"
-        @handleCurrentChange="handleCurrentChange"
-      >
-        <template v-slot:TE="slotData">
-          <span :style="myStyle(slotData.data.TE)">{{ slotData.data.TE }}</span>
-        </template>
-
-        <template v-slot:operation="slotData">
-          <el-button
-            type="primary"
-            size="small"
-            @click="historyInquire(slotData.data)"
-            plain
-            >查询</el-button
-          >
-
-          <el-button
-            type="success"
-            size="small"
-            @click="createData(slotData.data)"
-            plain
-            >增加</el-button
-          >
-          <el-button
-            type="danger"
-            size="small"
-            @click="deleteData(slotData.data)"
-            plain
-            >删除</el-button
-          >
-          <el-button
-            type="warning"
-            size="small"
-            @click="updateData(slotData.data)"
-            plain
-            >修改</el-button
-          >
-          <el-button
-            type="info"
-            size="small"
-            @click="readData(slotData.data)"
-            plain
-            >查看</el-button
-          >
-          <el-button type="nm" size="small" @click="requestData()" plain
-            >请求</el-button
-          >
-        </template>
-      </Tab>
-      <div>
-        <SysDlialog22 ref="dialog"></SysDlialog22>
-      </div>
-      <!-- <el-card shadow="always" class="box-card">
-        <div class="el-card-title-history">
-          <div class="el-card-title-history item">{{ name }}</div>
-          <div class="el-card-title-history item">
-            <DateTimePicker
-              class="picker"
-              @EmitDateTimePicker="receiveDateTimePicker"
-            ></DateTimePicker>
+          <!-- 配置数据开始 -->
+          <div class="el-card-title"><span>数据配置</span></div>
+          <div class="filter-row">
+            <Collocate @EmitTableConfig="receiveTableConfig"></Collocate>
           </div>
-        </div>
-        <div class="ff"></div>
-      </el-card> -->
+          <!-- 配置数据结束 -->
+          <!-- 数据展示标题和搜索框的展示 -->
+          <div class="el-card-title-f">
+            <div class="el-card-title-f-title"><span>数据展示</span></div>
+
+            <div class="el-card-title-f-btn">
+              <el-button
+                type="primary"
+                icon="el-icon-edit"
+                circle
+                size="mini"
+                @click="gg"
+              ></el-button>
+              <el-button
+                size="mini"
+                type="success"
+                icon="el-icon-check"
+                circle
+              ></el-button>
+              <el-button
+                size="mini"
+                type="info"
+                icon="el-icon-message"
+                circle
+              ></el-button>
+              <el-button
+                type="warning"
+                size="mini"
+                icon="el-icon-star-off"
+                circle
+              ></el-button>
+              <el-button
+                size="mini"
+                type="danger"
+                icon="el-icon-delete"
+                circle
+              ></el-button>
+            </div>
+
+            <div class="el-card-title-f-select">
+              <InputSearch
+                :wide="wide"
+                :data="transuFindData"
+                @change="change"
+                :findName="findName"
+                :placeholder="placeholder"
+                :prefixIcon="prefixIcon"
+                :size="size"
+                :clearable="clearable"
+              ></InputSearch>
+            </div>
+          </div>
+          <Tab
+            :config="table_config"
+            :tableData="tableData"
+            :pagination="pagination"
+            @handleSizeChange="handleSizeChange"
+            @handleCurrentChange="handleCurrentChange"
+          >
+            <template v-slot:TE="slotData">
+              <span :style="myStyle(slotData.data.TE)">{{
+                slotData.data.TE
+              }}</span>
+            </template>
+
+            <template v-slot:operation="slotData">
+              <el-button
+                type="primary"
+                size="small"
+                @click="historyInquire(slotData.data)"
+                plain
+                >查询</el-button
+              >
+
+              <el-button
+                type="success"
+                size="small"
+                @click="createData(slotData.data)"
+                plain
+                >增加</el-button
+              >
+              <el-button
+                type="danger"
+                size="small"
+                @click="deleteData(slotData.data)"
+                plain
+                >删除</el-button
+              >
+              <el-button
+                type="warning"
+                size="small"
+                @click="updateData(slotData.data)"
+                plain
+                >修改</el-button
+              >
+              <el-button
+                type="info"
+                size="small"
+                @click="readData(slotData.data)"
+                plain
+                >查看</el-button
+              >
+              <el-button type="nm" size="small" @click="requestData()" plain
+                >请求</el-button
+              >
+            </template>
+          </Tab>
+          <div>
+            <!-- <SysDlialog22 ref="dialog">
+              <template #dialog-content
+                ><FromDialog ref="fromdialog"></FromDialog>
+              </template>
+              <template #footer>
+                <el-button @click="dialogVisible = false">取 消</el-button>
+                <el-button type="primary" @click="dialogVisible = false"
+                  >确 定</el-button
+                >
+              </template>
+            </SysDlialog22> -->
+            <!-- <Form></Form> -->
+            <!-- <SysDlialog22 ref="dialog">
+              <template #dialog-content> <Form></Form></template>
+            </SysDlialog22> -->
+            <SysDlialog ref="dialog" :title="title" :rowData="rowData">
+              <!-- <template #dialog-content> <Form></Form></template> -->
+            </SysDlialog>
+            <SysDlialog44 ref="dialog" :title="title" :rowData="rowData">
+              <!-- <template #dialog-content> <Form></Form></template> -->
+            </SysDlialog44>
+          </div>
+          <el-card shadow="always" class="box-card">
+            <div class="el-card-title-history">
+              <div class="el-card-title-history item">{{ name }}</div>
+              <div class="el-card-title-history item">
+                <DateTimePicker
+                  class="picker"
+                  @EmitDateTimePicker="receiveDateTimePicker"
+                ></DateTimePicker>
+              </div>
+            </div>
+            <div class="ff">
+              <EchartLine :getData="indoorque" :title_name="echartTieleName" />
+            </div>
+          </el-card>
+        </el-tab-pane>
+        <el-tab-pane label="占位1" name="second">配置管理</el-tab-pane>
+        <el-tab-pane label="占位2" name="third">角色管理</el-tab-pane>
+        <el-tab-pane label="占位3" name="fourth">定时任务补偿</el-tab-pane>
+      </el-tabs>
     </div>
+
+    <!-- <p>ffff{{ table_config.thead }}</p> ]]-->
   </div>
 </template>
 <script>
+import Form from "views/AiDoor/index.vue";
+// import FromDialog from "./FromDialog"; //配置显示和隐藏的
 import Collocate from "./Collocate"; //配置显示和隐藏的
 import SelectSearch from "./SelectSearch"; //配置显示和隐藏的
 import Tab from "components/common/Tab"; //table表格公共模板
 import InputSearch from "components/common/InputSearch"; //输入关键词查找模板
 import DateTimePicker from "components/common/DateTimePicker"; //选择日期时间的模板
 import SysDlialog22 from "./SysDlialog22"; ////
+import SysDlialog from "./SysDlialog"; ////
+import SysDlialog44 from "./SysDlialog44"; ////
+import EchartLine from "../Visual/components/EchartLine.vue";
 
 import {
   DoorRequestSingle,
   inDoorRequestAll_node,
   teHistory,
 } from "@/utils/common";
+import { ruleForm } from "@/utils/indoor";
 const { tableHeader, sendThis } = require("./TableConfig");
 
 import { Input } from "element-ui";
@@ -164,8 +203,9 @@ import { Input } from "element-ui";
 export default {
   data() {
     return {
-      // columnArr: [],
-      // tableHeaderTitle: [],
+      //修改开始
+      // ruleForm: ruleForm,
+      // BV: true,
       //结束时间
       zzz: {
         sta: null,
@@ -203,8 +243,8 @@ export default {
         Load: true, //加载现在没用
         //传递斑马线和文字的颜色
         zebarCrossing: {
-          crossingOne: "#254A93",
-          crossingTwo: "#006683",
+          crossingOne: "#ffffff",
+          crossingTwo: "#f5f7fd",
           colorOne: "#000",
           colorTwo: "#000",
         },
@@ -222,7 +262,21 @@ export default {
       },
       //弹框的开始
       dialogVisible: false,
+      title: "添加商品",
+      rowData: {},
       //弹框的结束
+
+      indoorque: [
+        {
+          event_time: "2022-06-23",
+          temp: "24",
+        },
+        {
+          event_time: "2022-06-24",
+          temp: "10",
+        },
+      ],
+      echartTieleName: "",
     };
   },
   created() {
@@ -233,68 +287,64 @@ export default {
 
     this.transuFindData = this.$store.getters.get_inDoorDataAndInfo;
     // console.log("sssss", this.transuFindData)
+    console.log("-------indoorque", this.indoorque);
   },
   watch: {},
   computed: {
     //接收室内温度的数据
-    indoorque() {
-      return this.$store.getters.inDoorDataQue;
-    },
+    // indoorque() {
+    //   return this.$store.getters.get_inDoorDataQue;
+    // },
     stationInfo() {
       return this.$store.getters.xx;
-    },
-    TE() {
-      return [
-        {
-          name: "供水温度",
-          type: "line", //类型散点
-          //   symbol: "arrow",
-          // showEffectOn: "emphasis",
-          symbolSize: "6", //图标大小
-          data: this.indoorque.map((item) => item.temp),
-          color: "red",
-        },
-      ];
-    },
-    xData() {
-      return this.indoorque.map((item) => item.event_time);
     },
   },
   mounted() {
     sendThis(this); // 设置this指
-    // if (sessionStorage.getItem("headArr_indoor")) {
-    //   this.columnArr = JSON.parse(sessionStorage.getItem("columnArr_indoor"))
-    //   this.tableConfig = JSON.parse(sessionStorage.getItem("headArr_indoor"))
-    // } else {
-    //   this.columnArr = inDoorColumnCheckbox
-    //   this.tableConfig = tableHeader
-    // }
   },
   methods: {
     //历史查询
     historyInquire(v) {
       console.log("室内温度历史查询", v);
       teHistory(v.Sn, this.starttime, this.endtime);
+      this.indoorque.splice(0, this.indoorque.length);
+      this.indoorque = this.$store.getters.get_inDoorDataQue;
+      console.log("+++++++++++++++indoorque", this.indoorque);
+      this.echartTieleName = v.HouseholderName;
     },
-    requestData() {
+    requestData(v) {
       console.log("请求数据");
       inDoorRequestAll_node();
     },
     createData(v) {
       console.log("增加", v);
+      this.title = "增加设备";
+
       this.$refs.dialog.dialogVisible = true;
+      this.$refs.dialog.isbtn = 5;
     },
     deleteData(v) {
       console.log("删除", v);
+      this.title = "删除设备";
+      this.rowData = { ...v };
+      this.$refs.dialog.isbtn = 5;
+
       this.$refs.dialog.dialogVisible = true;
     },
     updateData(v) {
-      console.log("修改", v);
+      console.log("修改", v); //
+      this.title = "修改设备参数";
+      this.rowData = { ...v };
+
       this.$refs.dialog.dialogVisible = true;
+      this.$refs.dialog.isbtn = 5;
     },
     readData(v) {
       console.log("查看", v);
+      this.title = "查看设备参数";
       this.$refs.dialog.dialogVisible = true;
+      this.$refs.dialog.isbtn = 0;
+      this.rowData = { ...v };
     },
     myStyle(value) {
       if (value > 18 && value <= 22) {
@@ -372,17 +422,17 @@ export default {
     },
   },
   components: {
-    // ss,
-    // A6803,
-    // A333,
-    // DateTimePicker,
-    // selectll,
     Collocate,
     Tab,
     InputSearch,
     SelectSearch,
     DateTimePicker,
     SysDlialog22,
+    SysDlialog,
+    EchartLine,
+    SysDlialog44,
+    // FromDialog,
+    Form,
   },
 };
 </script>
@@ -446,7 +496,7 @@ export default {
     }
     .ff {
       height: 155px;
-      width: 1920px;
+      width: 100%;
       // background-color: rgb(106, 223, 71);
     }
 

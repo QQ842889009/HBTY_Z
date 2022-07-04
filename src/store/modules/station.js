@@ -6,7 +6,7 @@ import isNumber from "assets/js/isNumber"
 Vue.use(Vuex)
 
 const state = {
-  station: [], //换热站数据
+  station: [], //换热站数据//
   stationLenght: 33, //换热站的个数
   stationInfos: [], //换热站的信息
   stationAlarmSet: []
@@ -24,7 +24,7 @@ const getters = {
 const actions = {}
 
 const mutations = {
-  STATION(state) {  
+  STATION(state) {
     station.station(state.station, state.stationLenght)
     //console.log("换热站的初始化占位", state.station)
   },
@@ -54,7 +54,7 @@ const mutations = {
           Vue.set(state.station[j], key, obj[key])
         }
       }
-       console.log("换热站数据----------", state.station)
+      console.log("换热站数据----------", state.station)
     }
   },
   SETROLES: (state, d) => {

@@ -58,7 +58,7 @@ function onMsg(e) {
       // //console.log("触发了连接事件", msg.data);
       break
     case "login":
-      console.log("触发了登录事件AAA", msg.data.name)
+      console.log("触发了登录事件AAATE", msg.data.name)
       heartCheck(msg.data)
       // 将名字绑定到vue上将来全局应用，客户端发送的时候可以携带这个名字
       //服务器就能分辨出那个客户机。

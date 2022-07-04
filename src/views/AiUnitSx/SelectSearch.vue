@@ -22,6 +22,7 @@
       filterable
       placeholder="请选择"
       @change="changeValue2($event)"
+      :disabled="xxx == 0"
     >
       <el-option
         v-for="item in options"
@@ -38,6 +39,7 @@
       filterable
       placeholder="请选择"
       @change="changeValue3($event)"
+      :disabled="xxx == 0"
     >
       <el-option
         v-for="item in options3"
@@ -207,14 +209,5 @@ export default {
     color: #000;
     font-size: 1rem;
   }
-}
-
-/deep/.el-input__inner {
-  //border-radius: 23px; //输入框的圆角
-  background-color: transparent; //背景色是透明色
-  border: 1px solid blue; //input的边框
-  color: blue; //输入文字的颜色
-  font-size: 10px;
-  //height: 29px;
 }
 </style>

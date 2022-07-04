@@ -6,10 +6,12 @@
  */
 function plcS7dataInit(data, len, dataType) {
   for (let i = 0; i < len; i++) {
-    let obj = JSON.parse(JSON.stringify(dataType));
-    data.push(obj);
+    dataType.Sid = i
+    let obj = JSON.parse(JSON.stringify(dataType))
+    data.push(obj)
   }
-  console.log("plc数据初始化完毕");
+  console.log("plc数据初始化完毕", data)
+  // console.log("-----AAA")
 }
 /**
  *
@@ -20,14 +22,14 @@ function plcS7dataInit(data, len, dataType) {
  *下面遍历以sid对应，没有以数组序号对应
  */
 function wsPlcInfoProcess(data, dataInfo) {
-  let lenA = data.length;
-  let lenB = dataInfo.length;
+  let lenA = data.length
+  let lenB = dataInfo.length
   for (let i = 0; i < lenB; i++) {
     for (let j = 0; j < lenA; j++) {
       if (dataInfo[i].Sid === data[j].Sid) {
-        data[j].Station = dataInfo[i].Station;
-        data[j].Space = dataInfo[i].Space;
-        continue;
+        data[j].Station = dataInfo[i].Station
+        data[j].Space = dataInfo[i].Space
+        continue
       }
     }
   }
@@ -40,23 +42,23 @@ function wsPlcInfoProcess(data, dataInfo) {
  */
 function echartDataInit(data, len, dataType) {
   for (let i = 0; i < len; i++) {
-    let obj = JSON.parse(JSON.stringify(dataType));
-    data.push(obj);
+    let obj = JSON.parse(JSON.stringify(dataType))
+    data.push(obj)
   }
-  console.log("echart数据初始化完毕");
+  console.log("echart数据初始化完毕")
 }
 function wsEchartInfoProcess(data, dataInfo) {
-  let lenA = data.length;
-  let lenB = dataInfo.length;
+  let lenA = data.length
+  let lenB = dataInfo.length
   for (let i = 0; i < lenB; i++) {
     for (let j = 0; j < lenA; j++) {
       if (dataInfo[i].Sid === data[j].Sid) {
-        data[j].站点 = dataInfo[i].Station;
-        data[j].面积 = dataInfo[i].Space;
-        continue;
+        data[j].站点 = dataInfo[i].Station
+        data[j].面积 = dataInfo[i].Space
+        continue
       }
     }
   }
 }
-export { plcS7dataInit, wsPlcInfoProcess, echartDataInit, wsEchartInfoProcess };
+export { plcS7dataInit, wsPlcInfoProcess, echartDataInit, wsEchartInfoProcess }
 // export导出 可以用对象解构的方式导入，不用改变内部函数的名字

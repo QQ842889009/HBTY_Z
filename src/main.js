@@ -22,7 +22,10 @@ import animated from "animate.css" //引入移动动画库
 Vue.use(animated) //注册移动动画库
 
 import { plcdataType, echartdataType } from "assets/js/storeBox/dataType.js"
-import { inDoorDataInitTemplate } from "assets/js/storeDataInitTemplate" //初始化模板
+import {
+  inDoorDataInitTemplate,
+  stationDataInitTemplate
+} from "assets/js/storeDataInitTemplate" //初始化模板
 import socketAiUnit from "assets/js/socketJsControl/socketAiUnit" //改版后的楼宇单元和户阀的连接
 import socketAiInDoor from "assets/js/socketJsControl/socketAiInDoor" //改版后的楼宇单元和户阀的连接
 import socketStation from "assets/js/socketJsControl/socketStation" //改版后的楼宇单元和户阀的连接
@@ -33,6 +36,7 @@ new Promise((resolve, reject) => {
   store.commit("AIUNIT", "单元AI的初始化") //*****改造新加
 
   store.commit("MUINDOORDATAINIT", inDoorDataInitTemplate) //室内温度信息初始化
+  store.commit("AIUNIT", socketStation) //*****改造新加
 
   resolve()
 }).then(() => {
@@ -44,7 +48,7 @@ new Promise((resolve, reject) => {
     "http://221.206.242.116:2060/hbty/endpoint-websocket-te" //室内温度的2022生产//生产环境室内温度
   )
 
-  socketStation.connected("http://221.206.242.116:1666/endpoint-websocket") //生产和开发环境的PLC换热站连接不包括热源
+  // socketStation.connected("http://221.206.242.116:1666/endpoint-websocket") //生产和开发环境的PLC换热站连接不包括热源
 })
 
 import moment from "moment" //导入时间插件npm install moment –save

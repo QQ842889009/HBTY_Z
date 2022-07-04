@@ -1,4 +1,10 @@
 <template>
+  <!--   v-bind:style="{
+      backgroundImage: 'url(' + bg1 + ')',
+      backgroundRepeat: 'no-repeat',
+      backgroundSize: '100% 100%',
+      zIndex: '98',
+    }" -->
   <div
     class="app-wrapper"
     v-bind:style="{

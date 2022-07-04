@@ -49,6 +49,7 @@ export default {
   },
   created() {},
   props: {
+    //数据
     getData: {
       type: Array,
     },
@@ -61,8 +62,7 @@ export default {
       type: String,
       default: "line",
     },
-    // xData: Array,
-    // yData: Array,
+
     //y轴单位
     yUnit: {
       type: String,
@@ -72,10 +72,6 @@ export default {
       type: String,
       default: "100%",
     },
-    /*  width: {
-      type: String,
-      default: "100%",
-    }, */
   },
   computed: {
     echartKyes() {
@@ -130,11 +126,9 @@ export default {
         },
         toolbox: {},
 
-       
-
         xAxis: {
           type: "category", //整体X坐标轴的类型，离散值
-          //#region   x轴名称设置
+          //#region   x轴名称设置//
           /*   name: "站点", //整体X坐标轴的名称
           nameLocation: "center", //整体X坐标轴的名称的位置
           boundaryGap: false,
@@ -173,7 +167,7 @@ export default {
         yAxis: {
           name: this.yUnit,
           // nameTextStyle: { align: "left" }, //坐标轴文字的对齐
-           nameGap: "1", //名字距离轴线的距离
+          nameGap: "1", //名字距离轴线的距离
           axisLine: {
             //坐标轴线
             show: true,
@@ -189,7 +183,7 @@ export default {
               },
             },
           },
-         splitLine: { show: false }, //y轴的分割线
+          splitLine: { show: false }, //y轴的分割线
         },
         dataset: [
           //datasetIndex: 0,
@@ -206,13 +200,13 @@ export default {
           name: "温度",
           type: this.seriesType,
           datasetIndex: this.choiceIndex,
-            markLine: {
-            lineStyle: { color: "red" ,opaciy:1},
-            silent:true,
+          markLine: {
+            lineStyle: { color: "red", opaciy: 1 },
+            silent: true,
             data: [
               {
                 yAxis: 16,
-                name: "Avg",  
+                name: "Avg",
                 label: {
                   formatter: "达标室温（16℃）",
                 },
@@ -220,7 +214,6 @@ export default {
             ],
           },
           encode: { x: "event_time", y: "temp" },
-        
         },
       };
       if (this.option && typeof this.option === "object") {
