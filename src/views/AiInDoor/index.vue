@@ -259,7 +259,7 @@ export default {
 
     this.transuFindData = this.$store.getters.get_inDoorDataAndInfo;
     // console.log("sssss", this.transuFindData)
-    console.log('-------indoorque',this.indoorque);
+    // console.log('-------store',this.$store.getters.get_inDoorDataAndInfo.slice(0,100));
   },
   watch: {},
   computed: {

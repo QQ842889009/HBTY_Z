@@ -1,4 +1,4 @@
-<!-- 排序南丁格尔饼图 -->
+<!-- 圆环 -->
 <template>
   <div class="ftLineBox" :style="{ width: this.pWidth, height: this.pHeight }">
     <div class="title-box">
@@ -8,15 +8,6 @@
           {{ title_name }}</div>
       </div>
       <div class="title-right">
-        <div
-          class="btnList"
-          @click="clickBtn(btn, index)"
-          :style="index == choiceIndex ? clickColor : normalColor"
-          v-for="(btn, index) of btnsList"
-          :key="index"
-        >
-          {{ btn.name }}
-        </div>
       </div>
     </div>
     <div ref="myEchart" class="myEchart"></div>
@@ -69,7 +60,7 @@ export default {
     },
     title_name: {
       type: String,
-      default: "换热站面积",
+      default: "室温分布",
     },
   },
   computed: {
@@ -123,8 +114,7 @@ export default {
           textStyle: {
             color: "#fff", //提示框的字体颜色
             fontSize: 18, //提示框的文字大小
-          },
-          position: ["50%", "40%"],
+          },       
         },
         textStyle: {
           color: "#fff",
@@ -134,9 +124,9 @@ export default {
           //图列
           type: "scroll",
           orient: "vertical",
-          left: "80%",
-          top: "15%",
-          height: "70%",
+          left: "70%",
+          top: "5%",
+          height: "30%",
           padding: 5,
           // icon:'rect',
           itemGap: 15, //图例每项之间的间隔
@@ -165,25 +155,24 @@ export default {
           // dimensions: ["Station", "TE11", "TE12"],//优先级最高，如果你不写，系统会默认寻找
           //datasetIndex: 0,
           { source: this.getData }, //数据源
-          {
-            transform: {
-              type: "sort",
-              config: { dimension: "面积", order: "desc" },
-            },
-          },
+          // {
+          //   transform: {
+          //     type: "sort",
+          //     config: { dimension: "面积", order: "desc" },
+          //   },
+          // },
         ],
         series: [
           {
             name: "面积",
             type: this.seriesType,
-            datasetIndex: this.choiceIndex,
+            datasetIndex: 0,
             //         是否展示成南丁格尔图
             // 'radius' 扇区圆心角展现数据的百分比，半径展现数据的大小。
             // 'area' 所有扇区圆心角相同，仅通过半径展现数据大小。
-            roseType: "radius",
-            center: ["30%", "50%"],
-            radius: "90%",
-            //  radius: ["90%","50%"],
+            // roseType: "radius",
+            center: ["40%", "20%"],
+            radius: ["40%","20%"],
             encode: { itemName: "站点", value: "面积" },
             itemStyle: {
               borderRadius: 10,
@@ -202,54 +191,10 @@ export default {
             },
             //饼图图形上的文本标签
             label: {
-              show: false,
+              show: true,
               color: "#fff",
               shadowColor: "transparent",
-            },
-            //标签的视觉引导线配置
-            labelLine: {
-              show: false,
-              // length: 5,
-              // length2: 5,
-              lineStyle: {
-                color: "#fff",
-                width: 2,
-                // cap:'round'
-              },
-            },
-          },
-           {
-            name: "2",
-            type: this.seriesType,
-            datasetIndex: this.choiceIndex,
-            //         是否展示成南丁格尔图
-            // 'radius' 扇区圆心角展现数据的百分比，半径展现数据的大小。
-            // 'area' 所有扇区圆心角相同，仅通过半径展现数据大小。
-            roseType: "radius",
-            center: ["30%", "50%"],
-            radius: "90%",
-            //  radius: ["90%","50%"],
-            encode: { itemName: "站点", value: "面积" },
-            itemStyle: {
-              borderRadius: 10,
-            },
-            //高亮状态的扇区和标签样式
-            emphasis: {
-              scale: true,
-              scaleSize: 10,
-              focus: "self",
-            },
-            //淡出状态的扇区和标签样式
-            blur: {
-              itemStyle: {
-                opacity: 0.5,
-              },
-            },
-            //饼图图形上的文本标签
-            label: {
-              show: false,
-              color: "#fff",
-              shadowColor: "transparent",
+              position:'center'
             },
             //标签的视觉引导线配置
             labelLine: {
@@ -271,72 +216,6 @@ export default {
         this.myChart.resize(); //图形随着窗口缩放
       });
 
-      // let currentIndex = 0;
-
-      // var timer = setInterval(() => {
-      //   var dataLen = this.option.dataset[0].source.length;
-      //   console.log("定时器开启");
-      //   // 取消之前高亮的图形
-      //   this.myChart.dispatchAction({
-      //     type: "downplay",
-      //     seriesIndex: 0,
-      //     dataIndex: currentIndex,
-      //   });
-      //   currentIndex = (currentIndex + 1) % dataLen;
-      //   console.log("currentIndex--", currentIndex);
-      //   // 高亮当前图形
-      //   this.myChart.dispatchAction({
-      //     type: "highlight",
-      //     seriesIndex: 0,
-      //     dataIndex: currentIndex,
-      //   });
-      //   // 显示 tooltip
-      //   this.myChart.dispatchAction({
-      //     type: "showTip",
-      //     seriesIndex: 0,
-      //     dataIndex: currentIndex,
-      //     position: ["50%", "40%"],
-      //   });
-      // }, 2000);
-      // this.myChart.on("mouseover", function () {
-      //   clearInterval(timer);
-      //   console.log("鼠标进入图表");
-      // });
-
-      //鼠标移出时开启定时器
-      /*       this.myChart.on('mouseout',()=>{ timer = setInterval(() => {
-        var dataLen = this.option.dataset[0].source.length;
-
-        // 取消之前高亮的图形
-        this.myChart.dispatchAction({
-          type: "downplay",
-          seriesIndex: 0,
-          dataIndex: currentIndex,
-        });
-        currentIndex = (currentIndex + 1) % dataLen;
-        console.log("currentIndex--", currentIndex);
-        // 高亮当前图形
-        this.myChart.dispatchAction({
-          type: "highlight",
-          seriesIndex: 0,
-          dataIndex: currentIndex,
-        });
-        // 显示 tooltip
-        this.myChart.dispatchAction({
-          type: "showTip",
-          seriesIndex: 0,
-          dataIndex: currentIndex,
-          position:['50%','40%'],
-        });
-      }, 2000);}); */
-    },
-    clickBtn(item, index) {
-      this.choiceIndex = index;
-      console.log(this.choiceIndex);
-      // setTimeout(this.init(),500) ;
-      if (this.getData.length != 0) {
-        this.init();
-      }
     },
   },
 };

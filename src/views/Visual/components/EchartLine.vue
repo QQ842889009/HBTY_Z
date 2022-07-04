@@ -1,3 +1,4 @@
+<!-- 室内温度页面用达标线折线图 -->
 <template>
   <div class="ftLineBox" :style="{ width: '100%', height: this.boxHeight }">
     <div class="title-box">

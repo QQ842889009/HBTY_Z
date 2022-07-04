@@ -1,8 +1,11 @@
+<!-- 带达标线的折线图 -->
 <template>
   <div class="ftLineBox" :style="{ width: '100%', height: this.boxHeight }">
     <div class="title-box">
       <div class="title-left">
-       <div class="tipText">{{ title_name }}</div>
+        <div class="tipText">
+          <img class="tt" src="~@/assets/img/logo/yiji.png" alt="">
+          {{ title_name }}</div>
       </div>
     </div>
     <div ref="myEchart" class="myEchart"></div>
@@ -17,33 +20,31 @@ export default {
     return {
       myChart: null,
       option: {},
-      choiceIndex: 0,
-      btnsList: [
-        {
-          name: "默认",
-        },
-        {
-          name: "温度",
-        },
-      ],
-      normalColor: {
-        color: "rgb(22, 141, 238)",
-      },
-      clickColor: {
-        // color:'green',
-        textShadow: "0 0 10px red,0 0 20px red,0 0 30px red,0 0 40px red",
-      },
     };
   },
   created() {},
   props: {
     getData: {
       type: Array,
+      default: ()=>[
+        {
+          SdateTE: "2022-6-31-10:00",
+          TE: "20",
+        },
+        {
+          SdateTE: "2022-6-31-10:20",
+          TE: "32",
+        },
+        {
+          SdateTE: "2022-6-31-10:30",
+          TE: "18",
+        },
+      ],
     },
     //标题
     title_name: {
       type: String,
-      default: "姓名",
+      default: "24小时室温",
     },
     seriesType: {
       type: String,
@@ -60,14 +61,21 @@ export default {
       type: String,
       default: "100%",
     },
+    //达标温度
+    dbTem:{
+      type:String,
+      default:"20",
+    },
     /*  width: {
       type: String,
       default: "100%",
     }, */
   },
   computed: {
-    echartKyes() {
-      return Object.keys(this.getData[0]);
+    girdNum() {
+      //根据boxHeight计算girdNum的大小，使图表正确显示大小
+      var hv = parseFloat(this.boxHeight);
+      return ((100 - hv) / 4 + 15).toString() + "%";
     },
   },
   mounted() {
@@ -118,28 +126,21 @@ export default {
         },
         toolbox: {},
 
-       
-
         xAxis: {
           type: "category", //整体X坐标轴的类型，离散值
-          //#region   x轴名称设置
-          /*   name: "站点", //整体X坐标轴的名称
-          nameLocation: "center", //整体X坐标轴的名称的位置
-          boundaryGap: false,
-          nameTextStyle: {
-            //坐标轴刻度
-            fontWeight: "bolder",
-            fontSize: "0.32rem",
-          }, */
-          //#endregion
+
           boundaryGap: false,
           axisLabel: {
-            //不显示X轴的每一项的标签
-            show: false,
+            //不显示X轴的每一项的标签s
+            show: true,
+            formatter:function(p){
+              console.log('axias-------',p)
+              return p.substr(5)
+            },
           },
           axisTick: {
             //不显示X轴的每一项的刻度
-            show: true,
+            show: false,
           },
           axisLine: {
             lineStyle: {
@@ -152,16 +153,16 @@ export default {
         grid: {
           //绘图版的大小
           top: "8%",
-          left: "5%",
-          right: "5%",
-          bottom: "7%",
+          left: "7%",
+          right: "7%",
+          bottom: this.girdNum,
           //height:this.boxHeight,
           // containLabel: true, // 距离是包含坐标轴上的文字
         },
         yAxis: {
           name: this.yUnit,
           // nameTextStyle: { align: "left" }, //坐标轴文字的对齐
-           nameGap: "1", //名字距离轴线的距离
+          nameGap: "1", //名字距离轴线的距离
           axisLine: {
             //坐标轴线
             show: true,
@@ -177,38 +178,34 @@ export default {
               },
             },
           },
-         splitLine: { show: false }, //y轴的分割线
+          splitLine: { show: false }, //y轴的分割线
         },
         dataset: [
           //datasetIndex: 0,
           { source: this.getData }, //数据源
           //datasetIndex: 1,
-          {
-            transform: {
-              type: "sort",
-              config: { dimension: "temp", order: "asc" },
-            },
-          },
         ],
         series: {
           name: "温度",
           type: this.seriesType,
-          datasetIndex: this.choiceIndex,
-            markLine: {
-            lineStyle: { color: "red" ,opaciy:1},
-            silent:true,
+          smooth: true,
+          color:'rgb(34, 182, 241)',
+          markLine: {
+            lineStyle: { color: "yellow", opaciy: 1 },
+
             data: [
               {
                 yAxis: 16,
-                name: "Avg",  
+                name: "Avg",
                 label: {
-                  formatter: "达标室温（16℃）",
+                  formatter: "达标室温（"+this.dbTem+"℃）",
+                  color:'yellow',
+                  position:'insideEndTop'
                 },
               },
             ],
           },
-          encode: { x: "event_time", y: "temp" },
-        
+          encode: { x: "SdateTE", y: "TE" },
         },
       };
       if (this.option && typeof this.option === "object") {
@@ -242,8 +239,8 @@ export default {
   justify-content: center;
   align-items: center;
   // margin-top: 10px;
-  font-size: 18px;
-  z-index: 1;
+  font-size: 14px;
+
   // background-color: red;
 
   .tipText {
@@ -251,8 +248,12 @@ export default {
     // background-color: rgb(46, 216, 131);
     position: relative;
     // top: rem;
-    left: 0.5rem;
-    color: rgb(22, 141, 238);
+    left: 1rem;
+    bottom: 0.5rem;
+    color: #fff(22, 141, 238);
+       .tt{
+      width: 0.5rem;
+      height: 1.5rem;}
   }
 
   .title-left {
@@ -278,20 +279,6 @@ export default {
     position: relative;
     right: 265px;
     // background-color: rgb(96, 235, 53);
-  }
-
-  .btnList {
-    //position: relative;
-    //width: 20%;
-    // height: 40px;
-    // font-size: 18px;
-    // align-items: center;
-    padding-left: 5%;
-    color: rgb(22, 141, 238);
-    white-space: nowrap;
-    text-decoration: none;
-
-    z-index: 1;
   }
 }
 .myEchart {

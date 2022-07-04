@@ -1,4 +1,4 @@
-<!-- 排序散点图 -->
+<!-- 排序散点图无边框 -->
 <template>
   <div class="ftLineBox" :style="{ width: '100%', height: this.boxHeight }">
     <div class="title-box">
