@@ -4,8 +4,9 @@
     <div class="title-box">
       <div class="title-left">
         <div class="tipText">
-           <img class="tt" src="~@/assets/img/logo/yiji.png" alt="">
-          {{ title_name }}</div>
+          <img class="tt" src="~@/assets/img/logo/yiji.png" alt="" />
+          {{ title_name }}
+        </div>
       </div>
       <div class="title-right">
         <div
@@ -24,7 +25,7 @@
 </template>
 
 <script>
-import echarts from "components/echart/echartsVue.js";
+import echarts from "components/echart/echartsVue.js"
 
 export default {
   data() {
@@ -34,20 +35,20 @@ export default {
       choiceIndex: 0,
       btnsList: [
         {
-          name: "换热站",
+          name: "换热站"
         },
         {
-          name: "面积",
-        },
+          name: "面积"
+        }
       ],
       normalColor: {
-        color: "#fff",
+        color: "#fff"
       },
       clickColor: {
         // color:'green',
-        textShadow: "0 0 10px red,0 0 20px red,0 0 30px red,0 0 40px red",
-      },
-    };
+        textShadow: "0 0 10px red,0 0 20px red,0 0 30px red,0 0 40px red"
+      }
+    }
   },
   created() {
     // console.log('store',this.$store);
@@ -57,39 +58,39 @@ export default {
     //标题
     seriesType: {
       type: String,
-      default: "pie",
+      default: "pie"
     },
     pHeight: {
       type: String,
-      default: "100%",
+      default: "100%"
     },
     pWidth: {
       type: String,
-      default: "100%",
+      default: "100%"
     },
     title_name: {
       type: String,
-      default: "换热站面积",
-    },
+      default: "换热站面积"
+    }
   },
   computed: {
     echartKyes() {
-      return Object.keys(this.getData[0]);
-    },
+      return Object.keys(this.getData[0])
+    }
   },
   mounted() {
     this.$nextTick(function () {
-      this.init();
-    });
+      this.init()
+    })
   },
 
   watch: {
     getData: {
       handler() {
-        this.myChart.setOption(this.option);
+        this.myChart.setOption(this.option)
       },
-      deep: true,
-    },
+      deep: true
+    }
     /*  choiceIndex: {
        handler() {
         // this.myChart.setOption(this.option);
@@ -102,10 +103,10 @@ export default {
     init() {
       if (this.myChart == null) {
         // this.myChart = setTimeout(echarts.init(this.$refs.dw),500);
-        this.myChart = echarts.init(this.$refs.myEchart);
+        this.myChart = echarts.init(this.$refs.myEchart)
       }
-      console.log('store',this.$store);
-      var lengedSize = parseFloat(this.pHeight) > 50 ? 40 : 30;
+      console.log("store", this.$store)
+      var lengedSize = parseFloat(this.pHeight) > 50 ? 40 : 30
       // console.log('height++++',parseFloat( this.pHeight)*0.4);
       this.option = {
         // backgroundColor: "rgb(6, 17, 39)", //背景颜色
@@ -116,19 +117,17 @@ export default {
           // formatter: '{a} <br/>{b} : {c} ({d}%)',
           formatter: function (p) {
             // console.log('--------pppppp-------',p);
-            return (
-              p.name + "：<br/>" + p.value.面积 + " ( " + p.percent + "% )"
-            );
+            return p.name + "：<br/>" + p.value.面积 + " ( " + p.percent + "% )"
           },
           textStyle: {
             color: "#fff", //提示框的字体颜色
-            fontSize: 18, //提示框的文字大小
+            fontSize: 18 //提示框的文字大小
           },
-          position: ["50%", "40%"],
+          position: ["50%", "40%"]
         },
         textStyle: {
           color: "#fff",
-          fontSize: "15px",
+          fontSize: "15px"
         },
         legend: {
           //图列
@@ -144,12 +143,12 @@ export default {
           itemHeight: 15,
           textStyle: {
             color: "#fff",
-            fontSize: "15px",
+            fontSize: "15px"
           },
           //翻页按钮
           pageIconColor: "#fff",
           // pageIconInactiveColor: "black",
-          pageIconSize: 15,
+          pageIconSize: 15
         },
 
         // grid: {
@@ -168,9 +167,9 @@ export default {
           {
             transform: {
               type: "sort",
-              config: { dimension: "面积", order: "desc" },
-            },
-          },
+              config: { dimension: "面积", order: "desc" }
+            }
+          }
         ],
         series: [
           {
@@ -186,25 +185,25 @@ export default {
             //  radius: ["90%","50%"],
             encode: { itemName: "站点", value: "面积" },
             itemStyle: {
-              borderRadius: 10,
+              borderRadius: 10
             },
             //高亮状态的扇区和标签样式
             emphasis: {
               scale: true,
               scaleSize: 10,
-              focus: "self",
+              focus: "self"
             },
             //淡出状态的扇区和标签样式
             blur: {
               itemStyle: {
-                opacity: 0.5,
-              },
+                opacity: 0.5
+              }
             },
             //饼图图形上的文本标签
             label: {
               show: false,
               color: "#fff",
-              shadowColor: "transparent",
+              shadowColor: "transparent"
             },
             //标签的视觉引导线配置
             labelLine: {
@@ -213,12 +212,12 @@ export default {
               // length2: 5,
               lineStyle: {
                 color: "#fff",
-                width: 2,
+                width: 2
                 // cap:'round'
-              },
-            },
+              }
+            }
           },
-           {
+          {
             name: "2",
             type: this.seriesType,
             datasetIndex: this.choiceIndex,
@@ -231,25 +230,25 @@ export default {
             //  radius: ["90%","50%"],
             encode: { itemName: "站点", value: "面积" },
             itemStyle: {
-              borderRadius: 10,
+              borderRadius: 10
             },
             //高亮状态的扇区和标签样式
             emphasis: {
               scale: true,
               scaleSize: 10,
-              focus: "self",
+              focus: "self"
             },
             //淡出状态的扇区和标签样式
             blur: {
               itemStyle: {
-                opacity: 0.5,
-              },
+                opacity: 0.5
+              }
             },
             //饼图图形上的文本标签
             label: {
               show: false,
               color: "#fff",
-              shadowColor: "transparent",
+              shadowColor: "transparent"
             },
             //标签的视觉引导线配置
             labelLine: {
@@ -258,88 +257,89 @@ export default {
               // length2: 5,
               lineStyle: {
                 color: "#fff",
-                width: 2,
+                width: 2
                 // cap:'round'
-              },
-            },
-          },
-        ],
-        
-      };
-      this.myChart.setOption(this.option, true);
+              }
+            }
+          }
+        ]
+      }
+      this.myChart.setOption(this.option, true)
       window.addEventListener("resize", () => {
-        this.myChart.resize(); //图形随着窗口缩放
-      });
+        this.myChart.resize() //图形随着窗口缩放
+      })
 
-      // let currentIndex = 0;
+      let currentIndex = 0
 
-      // var timer = setInterval(() => {
-      //   var dataLen = this.option.dataset[0].source.length;
-      //   console.log("定时器开启");
-      //   // 取消之前高亮的图形
-      //   this.myChart.dispatchAction({
-      //     type: "downplay",
-      //     seriesIndex: 0,
-      //     dataIndex: currentIndex,
-      //   });
-      //   currentIndex = (currentIndex + 1) % dataLen;
-      //   console.log("currentIndex--", currentIndex);
-      //   // 高亮当前图形
-      //   this.myChart.dispatchAction({
-      //     type: "highlight",
-      //     seriesIndex: 0,
-      //     dataIndex: currentIndex,
-      //   });
-      //   // 显示 tooltip
-      //   this.myChart.dispatchAction({
-      //     type: "showTip",
-      //     seriesIndex: 0,
-      //     dataIndex: currentIndex,
-      //     position: ["50%", "40%"],
-      //   });
-      // }, 2000);
-      // this.myChart.on("mouseover", function () {
-      //   clearInterval(timer);
-      //   console.log("鼠标进入图表");
-      // });
-
-      //鼠标移出时开启定时器
-      /*       this.myChart.on('mouseout',()=>{ timer = setInterval(() => {
-        var dataLen = this.option.dataset[0].source.length;
-
+      var timer = setInterval(() => {
+        var dataLen = this.option.dataset[0].source.length
+        // console.log("定时器开启")
         // 取消之前高亮的图形
         this.myChart.dispatchAction({
           type: "downplay",
           seriesIndex: 0,
-          dataIndex: currentIndex,
-        });
-        currentIndex = (currentIndex + 1) % dataLen;
-        console.log("currentIndex--", currentIndex);
+          dataIndex: currentIndex
+        })
+        currentIndex = (currentIndex + 1) % dataLen
+        //console.log("currentIndex--", currentIndex)
         // 高亮当前图形
         this.myChart.dispatchAction({
           type: "highlight",
           seriesIndex: 0,
-          dataIndex: currentIndex,
-        });
+          dataIndex: currentIndex
+        })
         // 显示 tooltip
         this.myChart.dispatchAction({
           type: "showTip",
           seriesIndex: 0,
           dataIndex: currentIndex,
-          position:['50%','40%'],
-        });
-      }, 2000);}); */
+          position: ["50%", "40%"]
+        })
+      }, 2000)
+      this.myChart.on("mouseover", function () {
+        clearInterval(timer)
+        // console.log("鼠标进入图表")
+      })
+
+      //鼠标移出时开启定时器
+      this.myChart.on("mouseout", () => {
+        timer = setInterval(() => {
+          var dataLen = this.option.dataset[0].source.length
+
+          // 取消之前高亮的图形
+          this.myChart.dispatchAction({
+            type: "downplay",
+            seriesIndex: 0,
+            dataIndex: currentIndex
+          })
+          currentIndex = (currentIndex + 1) % dataLen
+          // console.log("currentIndex--", currentIndex)
+          // 高亮当前图形
+          this.myChart.dispatchAction({
+            type: "highlight",
+            seriesIndex: 0,
+            dataIndex: currentIndex
+          })
+          // 显示 tooltip
+          this.myChart.dispatchAction({
+            type: "showTip",
+            seriesIndex: 0,
+            dataIndex: currentIndex,
+            position: ["50%", "40%"]
+          })
+        }, 2000)
+      })
     },
     clickBtn(item, index) {
-      this.choiceIndex = index;
-      console.log(this.choiceIndex);
+      this.choiceIndex = index
+      console.log(this.choiceIndex)
       // setTimeout(this.init(),500) ;
       if (this.getData.length != 0) {
-        this.init();
+        this.init()
       }
-    },
-  },
-};
+    }
+  }
+}
 </script>
 
 <style lang="scss" scoped>
@@ -357,7 +357,6 @@ export default {
   font-size: 16px;
   z-index: 1;
   // background-color: red;
-  
 
   .title-left {
     flex: 1;
@@ -367,19 +366,17 @@ export default {
     // margin-top:10%;
     // margin-left: 10%;
     .tipText {
-    flex: 1;
-    // background-color: rgb(46, 216, 131);
-    position: relative;
-    // top: rem;
-    left: 2rem;
-    color: #fff;
-        .tt{
-      width: 0.5rem;
-      height: 1.5rem;
-      
+      flex: 1;
+      // background-color: rgb(46, 216, 131);
+      position: relative;
+      // top: rem;
+      left: 2rem;
+      color: #fff;
+      .tt {
+        width: 0.5rem;
+        height: 1.5rem;
+      }
     }
-  }
-
   }
 
   .title-right {

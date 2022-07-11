@@ -7,7 +7,7 @@ import Vue from "vue"
 import that from "@/main.js"
 
 // import manageDataAiUnit from 'assets/js/manageData/manageDataAiUnit'
-// import manageDataDoor from 'assets/js/manageData/manageDataDoor'
+import manageDataDoor from "assets/js/manageData/manageDataDoor"
 //$z安装
 //npm install sockjs-client
 //npm install stompjs
@@ -85,13 +85,13 @@ let socketOnDataAiUnit = (stompClient) => {
 
     //户阀的数据事件接收和户阀的信息接收
     // 户阀的数据  事件接收
-    // stompClient.subscribe('/data/wtOnValveData', msg => {
-    //   manageDataDoor.doorData(JSON.parse(msg.body))
-    // })
-    // //接收所有户阀所有信息;
-    // stompClient.subscribe('/data/wtOnHouseholdValveInfos', msg => {
-    //   manageDataDoor.doortInfos(JSON.parse(msg.body))
-    // })
+    stompClient.subscribe("/data/wtOnValveData", (msg) => {
+      manageDataDoor.doorData(JSON.parse(msg.body))
+    })
+    //接收所有户阀所有信息;
+    stompClient.subscribe("/data/wtOnHouseholdValveInfos", (msg) => {
+      manageDataDoor.doorInfos(JSON.parse(msg.body))
+    })
   } else {
     console.log("AI模块和户阀的stompClient没有连接上!")
   }

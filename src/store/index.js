@@ -10,6 +10,7 @@ import aiUnit from "./modules/aiUnit"
 
 import plcS7 from "./modules/plcS7"
 import inDoor from "./modules/inDoor"
+import door from "./modules/door"
 export default new Vuex.Store({
   modules: {
     user,
@@ -17,6 +18,7 @@ export default new Vuex.Store({
     station,
     aiUnit,
     plcS7,
-    inDoor
+    inDoor,
+    door
   }
 })
