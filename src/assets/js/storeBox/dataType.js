@@ -179,6 +179,8 @@ const echartdataType = {
   液位: 0,
   站点: 0,
   补水流量: 0,
-  面积: 0
+  面积: 0,
+  一网热量:0,
+  二网热量:0,
 }
 export { plcdataType, plcdataInfoType, echartdataType }

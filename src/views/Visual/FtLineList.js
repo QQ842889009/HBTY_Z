@@ -84,6 +84,15 @@ export default {
       name: "补水流量",
       value: "补水流量"
     }
+  ],
+  供热量: [
+    {
+      name: "一网热量",
+      value: "一网热量"
+    },
+    {
+      name: "二网热量",
+      value: "二网热量"
+    }
   ]
-
 }

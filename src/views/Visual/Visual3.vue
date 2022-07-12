@@ -42,10 +42,10 @@
       <span class="stitle">供热量</span>
       <div class="b3">
         <ft-line
-            title_name="一网压力"
+            title_name="供热量"
             :getData="staEchartData"
             :boxHeight="'80%'"
-            :yUnit="'℃'"
+             yUnit="T"
             seriesType="bar"
             :isTitleShow="false"
           />      

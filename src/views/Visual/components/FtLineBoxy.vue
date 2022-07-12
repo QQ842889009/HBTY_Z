@@ -46,9 +46,10 @@ export default {
     };
   },
   created() {
-    console.log("ftlinelist------------", ftLineList);
-    //  console.log('ftline------------',ftLineList[this.title_name]);
-    console.log(this.btnsList);
+    // console.log("ftlinelist------------", ftLineList);
+    // console.log('ftline------------',ftLineList[this.title_name]);
+    // console.log(this.btnsList);
+    
   },
   props: {
     shape: {
@@ -131,7 +132,7 @@ export default {
       }
 
       // console.log("init被调用");
-       console.log("num--------",[this.boxHeight,this.girdNum]);
+      //  console.log("num--------",[this.boxHeight,this.girdNum]);
       this.option = {
         // backgroundColor: "rgb(6, 17, 39)", //背景颜色
         title: {},
@@ -259,7 +260,7 @@ export default {
             };
             index++;
             series.push(item);
-          } while (index < this.btnsList.length - 1);
+          } while (index <= this.btnsList.length - 1);
           return series;
         })(),
       };
