@@ -260,7 +260,7 @@ export default {
             };
             index++;
             series.push(item);
-          } while (index <= this.btnsList.length - 1);
+          } while (index < this.btnsList.length - 1);
           return series;
         })(),
       };

@@ -137,7 +137,8 @@ export default {
                 0: {
                   backgroundColor: {
                     // image: require('@/assets/weather_icon/' + this.weatherIconDic[this.weatherdata.weather[0]] + '.png')
-                    image: "https://d.scggqx.com/forecast/img/小雨.png",
+                    image: require("assets/img/weather/Rain.png"),
+                   
                   },
                   height: 40,
                   width: 40,
@@ -145,7 +146,7 @@ export default {
                 1: {
                   backgroundColor: {
                     // image: require('@/assets/weather_icon/' + this.weatherIconDic[this.weatherdata.weather[1]] + '.png')
-                    image: "https://d.scggqx.com/forecast/img/小雨.png",
+                    image: require("assets/img/weather/Rain.png"),
                   },
                   height: 40,
                   width: 40,
@@ -153,7 +154,7 @@ export default {
                 2: {
                   backgroundColor: {
                     // image: require('@/assets/weather_icon/' + this.weatherIconDic[this.weatherdata.weather[2]] + '.png')
-                    image: "https://d.scggqx.com/forecast/img/阴.png",
+                    image: require("assets/img/weather/Cloudy.png"),
                   },
                   height: 40,
                   width: 40,
@@ -161,7 +162,7 @@ export default {
                 3: {
                   backgroundColor: {
                     // image: require('@/assets/weather_icon/' + this.weatherIconDic[this.weatherdata.weather[3]] + '.png')
-                    image: "https://d.scggqx.com/forecast/img/小雨.png",
+                    image:require("assets/img/weather/Rain.png"),
                   },
                   height: 40,
                   width: 40,
@@ -169,7 +170,7 @@ export default {
                 4: {
                   backgroundColor: {
                     // image: require('@/assets/weather_icon/' + this.weatherIconDic[this.weatherdata.weather[4]] + '.png')
-                    image: "https://d.scggqx.com/forecast/img/多云.png",
+                    image: require("assets/img/weather/Partly Cloudy.png"),
                   },
                   height: 40,
                   width: 40,
@@ -177,7 +178,7 @@ export default {
                 5: {
                   backgroundColor: {
                     // image: require('@/assets/weather_icon/' + this.weatherIconDic[this.weatherdata.weather[5]] + '.png')
-                    image: "https://d.scggqx.com/forecast/img/小雨.png",
+                    image: require("assets/img/weather/Rain.png"),
                   },
                   height: 40,
                   width: 40,
@@ -185,7 +186,7 @@ export default {
                 6: {
                   backgroundColor: {
                     // image: require('@/assets/weather_icon/' + this.weatherIconDic[this.weatherdata.weather[6]] + '.png')
-                    image: "https://d.scggqx.com/forecast/img/小雨.png",
+                    image: require("assets/img/weather/Rain.png"),
                   },
                   height: 40,
                   width: 40,
