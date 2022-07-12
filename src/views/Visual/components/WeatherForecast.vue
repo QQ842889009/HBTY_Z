@@ -14,7 +14,7 @@ export default {
   props: {
     height: {
       type: String,
-      default: "100%",
+      default: "90%",
     },
   },
   created(){
@@ -38,10 +38,10 @@ export default {
           backgroundColor: "transparent",
           opacity: 0.3,
           borderWidth: "0",
-          top: "180",
+          top: "60%",
           left: "7%",
           right: "1%",
-          // bottom: "1%",
+          bottom: "1%",
         },
         tooltip: {
           trigger: "axis",
@@ -254,7 +254,7 @@ export default {
             smooth: true,
             itemStyle: {
               normal: {
-                color: "#3b99cf",
+                color: "rgb(34, 182, 241)",
               },
             },
             label: {
@@ -265,7 +265,7 @@ export default {
             },
             lineStyle: {
               width: 1,
-              color: "#3498db ",
+              color: "rgb(34, 182, 241) ",
             },
             areaStyle: {
               opacity: 1,
@@ -285,9 +285,10 @@ export default {
 
 <style lang="scss" scoped>
 .weatherBox {
-  // background:yellow;
-  width: 80%;
-  left: 10%;
-  top: -180px;
+  // background: #3b99cf;
+  width: 90%;
+  // height: 10%;
+  left: 7%;
+  top: -160px;
 }
 </style>

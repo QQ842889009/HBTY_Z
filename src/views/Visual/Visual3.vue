@@ -134,13 +134,16 @@ export default {
     }
   }
   .box3 {
-    background: rgba(5, 31, 54,0.5);
+    background: rgba(5, 31, 54,0.8);
     height: 25%;
     width: 100%;
     margin-bottom: 1rem;
     box-shadow: 0px 0px 5px 4px #3498db inset, 0px 0px 5px -4px #3498db;
     
   }
+// .topBox{
+//    background: rgba(26, 53, 78, 0.8);
+// }
 .b3{
   width: 95%;
   height: 97%;
