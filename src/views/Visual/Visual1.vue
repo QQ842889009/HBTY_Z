@@ -128,6 +128,7 @@ export default {
   width: 100%;
   height: 100%;
   // background-color: red;
+  background-color: rgba(34, 40, 44, 0.4);
   display: flex;
   justify-content: space-around;
   align-items: center;

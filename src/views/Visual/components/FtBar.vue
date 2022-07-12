@@ -1,6 +1,6 @@
 <template>
   <div
-    ref="ftBarBox"
+    ref="ftBarBox" class="ftBarBox"
     style="width: 100%; height: 100%; filter: opacity(1)"
   ></div>
 </template>
@@ -186,9 +186,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-#ftBarBox {
+.ftBarBox {
   width: 100%;
   height: 100%;
-  background-color: rgb(255, 255, 255);
+   background-color: rgba(5, 31, 54,0.8);
 }
 </style>

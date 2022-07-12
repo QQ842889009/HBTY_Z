@@ -281,6 +281,7 @@ export default {
 .dataBlockBox {
   position: relative;
   overflow: hidden;
+  // background-color: rgba(17, 35, 43, 0.6);
   // padding-top: 0.0625rem;
   // background: url("~@/assets/img/logo/gh.png") left top no-repeat;
   // background-size: 7rem;

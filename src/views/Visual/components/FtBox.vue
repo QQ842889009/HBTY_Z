@@ -1,18 +1,27 @@
 <template>
   <div class="box" :style="{ width: this.bWidth, height: this.bHeight }">
-    <img class="img1" src="~@/assets/img/logo/lb.png" alt="" />
-    <img class="img2" src="~@/assets/img/logo/lb.png" alt="" />
+     
+      <div class="box_corner left_top"></div>
+      <div class="box_corner right_top"></div>
+      <div class="box_corner left_bottom"></div>
+      <div class="box_corner right_bottom"></div>
     <div class="num" :style="{ color: this.bColor }">{{ this.bNum }}</div>
     <div class="text">{{ this.bText }}</div>
-    <img class="img3" src="~@/assets/img/logo/lb.png" alt="" />
-    <img class="img4" src="~@/assets/img/logo/lb.png" alt="" />
+     <div  class="icon" :class="iconObj[this.iconIndex]" style="color: #fff " v-show="this.isShow" ></div>
   </div>
 </template>
 
 <script>
+
+
 export default {
   data() {
-    return {};
+    return {
+      iconObj:{
+        1:'iconfont icon-Dimensionmanagement.icon-icon-Dimensionmanagement',
+        2:"iconfont icon-shujuzonglan"
+      }
+    };
   },
   props: {
     bWidth: {
@@ -24,8 +33,8 @@ export default {
       default: "40%",
     },
     bNum: {
-      type: Number || String,
-      default: 1,
+      type:  String,
+      default: "1",
     },
     bText: {
       type: String,
@@ -35,49 +44,76 @@ export default {
       type: String,
       default: "#fff",
     },
+    iconIndex: {
+      type: Number,
+      default: 2,
+    },
+    isShow:false
   },
 };
 </script>
 
 <style  lang="scss" scoped>
+
 .box {
   margin-top: 1%;
   margin-right: 1%;
   margin-left: 1%;
-  background-color: #347baa;
+  background-color: #3b99cf;
   opacity: 1;
   box-shadow: 0px 0px 5px 4px #3498db inset, 0px 0px 5px -4px #3498db;
-   position: relative;
-  .img1 {
-    transform: rotate(180deg);
-    margin-left: 0.1rem;
-    margin-top: 0.1rem;
-     position: relative;
+  position: relative;
+  .box_corner{
+    position: absolute;
+    width: 14px;
+    height: 16px;
+    // background: rgba(0, 0, 0, 0);
+    border: 3px solid #9cd8f0;
+   
   }
-  .img2 {
-    transform: rotate(270deg);
-    margin-left: 10.5rem;
-    margin-top: 0.1rem;
-     position: relative;
+
+ .left_top {
+    top: 5px;
+    left: 5px;
+    border-right: none;
+    border-bottom: none;
+    // border-top-left-radius: 6px;
   }
-  .img3 {
-    transform: rotate(90deg);
-    margin-left: 0.1rem;
-    margin-top: -3rem;
-     position: relative;
+  .right_top {
+    top: 5px;
+    right: 5px;
+    border-left: none;
+    border-bottom: none;
+    // border-top-right-radius: 6px;
   }
-  .img4 {
-    transform: rotate(0deg);
-    margin-left: 10.5rem;
-    margin-top: -3rem;
-     position: relative;
+  
+ .left_bottom {
+    bottom: 5px;
+    left: 5px;
+    border-right: none;
+    border-top: none;
+    // border-bottom-left-radius: 6px;
   }
+  .right_bottom {
+    bottom: 5px;
+    right: 5px;
+    border-left: none;
+    border-top: none;
+    // border-bottom-right-radius: 6px;
+  }
+ .icon{
+    margin-left: 20%;
+   margin-top: -18%;
+   font-size: 30px;
+   
+ }
   .num {
-    margin-left: 50%;
-    margin-top: -1rem;
+    margin-left: 38%;
+    margin-top: 6%;
     width: 100%;
     height: 50%;
-     position: relative;
+    position: relative;
+    font-size: 16px;
     // background: #000;
   }
   .text {
@@ -85,7 +121,8 @@ export default {
     margin-top: -1rem;
     width: 100%;
     height: 50%;
-     position: relative;
+    position: relative;
+    font-size: 16px;
     //  background: #000;
   }
 }

@@ -1,23 +1,63 @@
 <template>
   <div class="minBox">
-    <div class="titleBox">       
-            <FtBoxImg  bNum="4977 GJ"  bText="今日预报总供热量"  :bHeight="'85%'" :bWidth="'23%'"/>
-            <FtBoxImg  bNum="292.9 T" bText="今日预报总供热量"  :bHeight="'85%'" :bWidth="'23%'"/>
-            <FtBoxImg  bNum="49775 GJ" bText="今日预报总供热量" :bHeight="'85%'" :bWidth="'23%'"/>
-            <FtBoxImg  bNum="1819.6 T" bText="今日预报总供热量"  :bHeight="'85%'" :bWidth="'23%'"/>    
-  </div>
-  <div class="title">
-     <img class="tt" src="~@/assets/img/logo/yiji.png" alt="">
-     供热系统每日负荷预报
-  </div>
-    <div class="topBox">
-      
-     
+    <div class="titleBox">
+      <FtBox
+        bNum="4977 GJ"
+        bText="今日预报总供热量"
+        :bHeight="'85%'"
+        :bWidth="'23%'"
+        isShow="true"
+      />
+      <FtBox
+        bNum="292.9 T"
+        bText="今日预报总供热量"
+        :bHeight="'85%'"
+        :bWidth="'23%'"
+        isShow="true"
+      />
+      <FtBox
+        bNum="49775 GJ"
+        bText="今日预报总供热量"
+        :bHeight="'85%'"
+        :bWidth="'23%'"
+        isShow="true"
+      />
+      <FtBox
+        bNum="1819.6 T"
+        bText="今日预报总供热量"
+        :bHeight="'85%'"
+        :bWidth="'23%'"
+        isShow="true"
+      />
     </div>
-    <div class="midBox">
-      
+    <div class="title">
+      <img class="tt" src="~@/assets/img/logo/yiji.png" alt="" />
+      供热系统每日负荷预报
     </div>
-    <div class="botBox">
+    <div class="box3 topBox">
+      <span class="stitle">天 气</span>
+      <WeatherForecast />
+    </div>
+    <div class="box3 midBox">
+      <span class="stitle">供热量</span>
+      <div class="b3">
+        <ft-line
+            title_name="一网压力"
+            :getData="staEchartData"
+            :boxHeight="'80%'"
+            :yUnit="'℃'"
+            seriesType="bar"
+            :isTitleShow="false"
+          />      
+      </div>
+       
+    </div>
+    <div class="box3 botBox">
+      <span class="stitle">室 温</span>
+      <div class="db">
+         <FtLineDB :boxHeight="'80%'" :isTitleShow="false"/>
+      </div>
+      
     </div>
   </div>
 </template>
@@ -31,14 +71,14 @@ import { createNamespacedHelpers } from "vuex";
 import FtLineDB from "./components/FtLineDB.vue";
 import FtPieRound from "./components/FtPieRound.vue";
 import FtGauge from "./components/FtGauge.vue";
+import FtBox from "./components/FtBox.vue";
 import FtBoxImg from "./components/FtBoxImg.vue";
 import FtLineBox from "./components/FtLineBoxy.vue";
+import WeatherForecast from "./components/WeatherForecast.vue";
 const { mapState } = createNamespacedHelpers("plcS7");
 export default {
   data() {
-    return {
-     
-    };
+    return {};
   },
   created() {},
   computed: {
@@ -59,7 +99,9 @@ export default {
     FtPieRound,
     FtGauge,
     FtBoxImg,
-    FtLineBox
+    FtLineBox,
+    FtBox,
+    WeatherForecast,
   },
 };
 </script>
@@ -79,30 +121,56 @@ export default {
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
-   
   }
-  .title{
+  .title {
     font-size: 20px;
-    margin-left: 0.5rem;
+    // margin-left: 0.5rem;
     margin-bottom: 0.5rem;
+    margin-top: 1rem;
+    color: #fff;
+    .tt {
+      width: 10px;
+      height: 30px;
+    }
   }
-  .topBox {
+  .box3 {
+    background: rgba(5, 31, 54,0.5);
     height: 25%;
     width: 100%;
-    margin-bottom:1rem ;
- box-shadow: 0px 0px 5px 4px #3498db inset, 0px 0px 5px -4px #3498db;
+    margin-bottom: 1rem;
+    box-shadow: 0px 0px 5px 4px #3498db inset, 0px 0px 5px -4px #3498db;
+    
   }
-  .midBox {
-    height: 25%;
-    width: 100%;
-    margin-bottom:1rem ;
- box-shadow: 0px 0px 5px 4px #3498db inset, 0px 0px 5px -4px #3498db;
-  }
-  .botBox {
-    height: 25%;
-    width: 100%;
-    margin-bottom:1rem ;
- box-shadow: 0px 0px 5px 4px #3498db inset, 0px 0px 5px -4px #3498db;
+.b3{
+  width: 95%;
+  height: 97%;
+  margin-left: 1%;
+  margin-top: -8%;
+ 
+}
+.db{
+  width: 100%;
+  height: 97%;
+  margin-left: 1%;
+  margin-top: -8%;
+   background: rgba(4, 21, 36, 0.5);
+}
+  .stitle {
+    // background: red;
+    font-size: 22px;
+    margin-left: 20px;
+    margin-top: 50px;
+    letter-spacing: 50px;
+    line-height: 40px;
+    // text-align: center;
+    vertical-align:bottom;
+    width: 50px;
+    height: 120px;
+    // border: 2px solid #3498db;
+    // display:-moz-inline-box;
+    display: inline-block;
+    border-right: 3px solid #3498db;
+    color: #deebec;
   }
 }
 </style>

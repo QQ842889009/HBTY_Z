@@ -3,7 +3,7 @@
   <div class="ftLineBox" :style="{ width: '100%', height: this.boxHeight }">
     <div class="title-box">
       <div class="title-left">
-        <div class="tipText">
+        <div class="tipText" v-show=this.isTitleShow>
           <img class="tt" src="~@/assets/img/logo/yiji.png" alt="">
           {{ title_name }}</div>
       </div>
@@ -70,6 +70,7 @@ export default {
       type: String,
       default: "100%",
     }, */
+    isTitleShow:true,
   },
   computed: {
     girdNum() {
@@ -90,7 +91,7 @@ export default {
         this.myChart.clear();
         // this.myChart.setOption(this.option);
         this.init();
-        console.log("EchartLine----data", this.getData);
+        // console.log("EchartLine----data", this.getData);
       },
       deep: true,
     },
@@ -134,7 +135,7 @@ export default {
             //不显示X轴的每一项的标签s
             show: true,
             formatter:function(p){
-              console.log('axias-------',p)
+              // console.log('axias-------',p)
               return p.substr(5)
             },
           },
@@ -232,6 +233,7 @@ export default {
 .ftLineBox {
   margin-top: 1rem;
   //  background-color: rgb(26, 218, 218);
+  // background-color: rgba(17, 35, 43, 0.6);
 }
 .title-box {
   height: 4%;

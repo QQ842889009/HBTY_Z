@@ -6,7 +6,8 @@
           <FtPie :getData="staEchartData" :pHeight="'80%'" />
         </template>
       </data-block>
-      <data-block
+      <div class="aa">
+         <data-block
         tipName="流量棒图"
         :shape="{ height: '47.5%', width: '100%' }"
       >
@@ -21,6 +22,8 @@
           </ft-line>
         </template>
       </data-block>
+      </div>
+     
     </div>
     <div class="temBox">
       <data-block tipName="室温" :shape="{ height: '48%', width: '100%' }">
@@ -120,13 +123,19 @@ export default {
 .znsjBox {
   width: 100%;
   height: 100%;
-  // background-color: red;
+  // background-color: red
+  // background-color: rgba(23, 30, 34, 0.4);
   display: flex;
   justify-content: space-around;
   align-items: center;
   .lineBox {
     height: 100%;
     width: 38%;
+  }
+  .aa{
+    height: 100%;
+    // width: 38%;
+      background-color: rgba(23, 30, 34, 0.6);
   }
   .temBox {
     height: 100%;

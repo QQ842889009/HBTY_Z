@@ -3,7 +3,7 @@
   <div class="ftLineBox" :style="{ width: '100%', height: this.boxHeight }">
     <div class="title-box">
       <div class="title-left">
-        <div class="tipText">
+        <div class="tipText" v-show=this.isTitleShow>
            <img class="tt" src="~@/assets/img/logo/yiji.png" alt="">
           {{ title_name }}</div>
       </div>
@@ -69,6 +69,7 @@ export default {
       type: String,
       default: "100%",
     }, */
+    isTitleShow:true,
   },
   computed: {
     echartKyes() {
@@ -185,7 +186,7 @@ export default {
         },
         grid: {
           //绘图版的大小
-          top: "5%",
+          top: "10%",
           left: "7%",
           right: "5%",
           bottom: this.girdNum,
@@ -299,6 +300,7 @@ export default {
 .ftLineBox{
   margin-top: 1rem;
   //  background-color: rgb(26, 218, 218);
+  // background-color: rgba(5, 31, 54,0.6);
 }
 .title-box {
   height: 4%;
