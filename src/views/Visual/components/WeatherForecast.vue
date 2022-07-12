@@ -4,7 +4,6 @@
 
 <script>
 import echarts from "components/echart/echartsVue.js";
-import {request} from "../../../assets/js/network/request.js"
 export default {
   data() {
     return {
@@ -19,15 +18,7 @@ export default {
     },
   },
   created(){
-    // request({
-    //   url:"/101220101/"
-    // }).then(res=>{
-    //   console.log(res)
-    // },
-    // err=>{
-    //   console.log(err);
-    // }
-    // )
+
   },
   mounted() {
     this.$nextTick(function () {
