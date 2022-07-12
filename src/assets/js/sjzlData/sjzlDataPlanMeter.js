@@ -120,12 +120,90 @@ function AAA(array, v) {
 
   //   }
 }
+//户阀的开始
+function doorStation(array, Station) {
+  console.log(array)
+
+  let data = []
+
+  let DataTemp = array //首先我想把总数据数组给传进来 ，完了给一个临时的数组
+  let NameTempstation = Station
+
+  DataTemp.forEach((i) => {
+    if (i.Station === NameTempstation) {
+      data.push(i)
+    }
+  })
+
+  return data
+}
+function doorStationHousing(array, Station, Housing) {
+  let data = []
+
+  let DataTemp = array
+  let NameTempStation = Station
+  let NameTempHousing = Housing
+  DataTemp.forEach((i) => {
+    if (i.Station === NameTempStation && i.Housing === NameTempHousing) {
+      data.push(i)
+    }
+  })
+
+  return data
+}
+function doorStationHousingTower(array, Station, Housing, Tower) {
+  let data = []
+
+  let DataTemp = array
+
+  let NameTempStation = Station
+  let NameTempHousing = Housing
+  let NameTempTower = Tower
+  DataTemp.forEach((i) => {
+    //提示这里不用 this.DataTemp.forEach((i) => {**不用this因为是新定义的  let DataTemp = array;
+    if (
+      i.Station === NameTempStation &&
+      i.Housing === NameTempHousing &&
+      i.Tower === NameTempTower
+    ) {
+      data.push(i)
+    }
+  })
+
+  return data
+}
+function doorStationHousingTowerUnit(array, Station, Housing, Tower, Unit) {
+  console.log("ABCD")
+  let data = []
+
+  let DataTemp = array
+
+  let NameTempStation = Station
+  let NameTempHousing = Housing
+  let NameTempTower = Tower
+  let NameTempUnit = Unit
+  DataTemp.forEach((i) => {
+    if (
+      i.Station === NameTempStation &&
+      i.Housing === NameTempHousing &&
+      i.Tower === NameTempTower &&
+      i.Unit === NameTempUnit
+    ) {
+      data.push(i)
+    }
+  })
+
+  return data
+}
+//户阀的结束
 
 export default {
   indoorstation,
-
   indoorstation_tongxun,
-
   zzz,
-  AAA
+  AAA,
+  doorStation,
+  doorStationHousing,
+  doorStationHousingTower,
+  doorStationHousingTowerUnit
 }

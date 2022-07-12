@@ -31,35 +31,19 @@
             <div class="el-card-title-f-btn">
               <el-button
                 type="primary"
-                icon="el-icon-edit"
-                circle
+                icon="el-icon-refresh"
                 size="mini"
-                @click="gg"
-              ></el-button>
+                @click="requestData"
+                >请求数据</el-button
+              >
+
               <el-button
                 size="mini"
                 type="success"
-                icon="el-icon-check"
-                circle
-              ></el-button>
-              <el-button
-                size="mini"
-                type="info"
-                icon="el-icon-message"
-                circle
-              ></el-button>
-              <el-button
-                type="warning"
-                size="mini"
-                icon="el-icon-star-off"
-                circle
-              ></el-button>
-              <el-button
-                size="mini"
-                type="danger"
-                icon="el-icon-delete"
-                circle
-              ></el-button>
+                icon="el-icon-circle-plus"
+                @click="createData"
+                >增加设备</el-button
+              >
             </div>
 
             <div class="el-card-title-f-select">
@@ -97,13 +81,7 @@
                 >查询</el-button
               >
 
-              <el-button
-                type="success"
-                size="small"
-                @click="createData(slotData.data)"
-                plain
-                >增加</el-button
-              >
+              <!-- <el-button type="success" size="small" plain>增加</el-button> -->
               <el-button
                 type="danger"
                 size="small"
@@ -125,29 +103,13 @@
                 plain
                 >查看</el-button
               >
-              <el-button type="nm" size="small" @click="requestData()" plain
+              <!-- <el-button type="nm" size="small" @click="requestData()" plain
                 >请求</el-button
-              >
+              > -->
             </template>
           </Tab>
           <div>
-            <!-- <SysDlialog22 ref="dialog">
-              <template #dialog-content
-                ><FromDialog ref="fromdialog"></FromDialog>
-              </template>
-              <template #footer>
-                <el-button @click="dialogVisible = false">取 消</el-button>
-                <el-button type="primary" @click="dialogVisible = false"
-                  >确 定</el-button
-                >
-              </template>
-            </SysDlialog22> -->
-            <!-- <Form></Form> -->
-            <!-- <SysDlialog22 ref="dialog">
-              <template #dialog-content> <Form></Form></template>
-            </SysDlialog22> -->
             <SysDlialog ref="dialog" :title="title" :rowData="rowData">
-              <!-- <template #dialog-content> <Form></Form></template> -->
             </SysDlialog>
           </div>
           <el-card shadow="always" class="box-card">
@@ -175,26 +137,27 @@
   </div>
 </template>
 <script>
-import Form from "views/AiDoor/index.vue"
+import { Message } from "element-ui";
+// import Form from "views/AiDoor/index.vue"
 // import FromDialog from "./FromDialog"; //配置显示和隐藏的
-import Collocate from "./Collocate" //配置显示和隐藏的
-import SelectSearch from "./SelectSearch" //配置显示和隐藏的
-import Tab from "components/common/Tab" //table表格公共模板
-import InputSearch from "components/common/InputSearch" //输入关键词查找模板
-import DateTimePicker from "components/common/DateTimePicker" //选择日期时间的模板
-import SysDlialog22 from "./SysDlialog22" ////
-import SysDlialog from "./SysDlialog" ////
-import EchartLine from "../Visual/components/EchartLine.vue"
+import Collocate from "./Collocate"; //配置显示和隐藏的
+import SelectSearch from "./SelectSearch"; //配置显示和隐藏的
+import Tab from "components/common/Tab"; //table表格公共模板
+import InputSearch from "components/common/InputSearch"; //输入关键词查找模板
+import DateTimePicker from "components/common/DateTimePicker"; //选择日期时间的模板
+// import SysDlialog22 from "./SysDlialog22" ////
+import SysDlialog from "./SysDlialog"; ////
+import EchartLine from "../Visual/components/EchartLine.vue";
 
 import {
   DoorRequestSingle,
   inDoorRequestAll_node,
-  teHistory
-} from "@/utils/common"
-import { ruleForm } from "@/utils/indoor"
-const { tableHeader, sendThis } = require("./TableConfig")
+  teHistory,
+} from "@/utils/common";
+import { ruleForm } from "@/utils/indoor";
+const { tableHeader } = require("./TableConfig");
 
-import { Input } from "element-ui"
+import { Input } from "element-ui";
 
 export default {
   data() {
@@ -205,7 +168,7 @@ export default {
       //结束时间
       zzz: {
         sta: null,
-        db: null
+        db: null,
       },
 
       name: null,
@@ -218,13 +181,13 @@ export default {
       kong: [],
       activeName: "first",
       disabled: {
-        is: "qwer" //设置点击后的禁用
+        is: "qwer", //设置点击后的禁用
       },
 
       wide: "220px", //宽度
       findName: {
         findName1: "Station", //要搜索的关键词
-        findName2: "Community" //要搜索的关键词
+        findName2: "Community", //要搜索的关键词
       },
 
       placeholder: "站点/小区", //提示
@@ -242,8 +205,8 @@ export default {
           crossingOne: "#ffffff",
           crossingTwo: "#f5f7fd",
           colorOne: "#000",
-          colorTwo: "#000"
-        }
+          colorTwo: "#000",
+        },
       },
       //斑马线的参数
 
@@ -254,7 +217,7 @@ export default {
       pagination: {
         current: 1,
         size: 10,
-        total: 0
+        total: 0,
       },
       //弹框的开始
       dialogVisible: false,
@@ -265,23 +228,23 @@ export default {
       indoorque: [
         {
           event_time: "2022-06-23",
-          temp: "24"
+          temp: "24",
         },
         {
           event_time: "2022-06-24",
-          temp: "10"
-        }
+          temp: "10",
+        },
       ],
-      echartTieleName: ""
-    }
+      echartTieleName: "",
+    };
   },
   created() {
     // inDoorRequestAll();
-    this.tableData = this.$store.getters.get_inDoorDataAndInfo //表格数据
+    this.tableData = this.$store.getters.get_inDoorDataAndInfo; //表格数据
     // console.log("eeeeee", this.tableData)
-    this.pagination.total = this.tableData.length //数据的长度给分页总数用
+    this.pagination.total = this.tableData.length; //数据的长度给分页总数用
 
-    this.transuFindData = this.$store.getters.get_inDoorDataAndInfo
+    this.transuFindData = this.$store.getters.get_inDoorDataAndInfo;
     // console.log("sssss", this.transuFindData)
 
     // console.log('-------store',this.$store.getters.get_inDoorDataAndInfo.slice(0,100));
@@ -293,110 +256,110 @@ export default {
     //   return this.$store.getters.get_inDoorDataQue;
     // },
     stationInfo() {
-      return this.$store.getters.xx
-    }
+      return this.$store.getters.xx;
+    },
   },
-  mounted() {
-    sendThis(this) // 设置this指
-  },
+  mounted() {},
   methods: {
     //历史查询
     historyInquire(v) {
-      console.log("室内温度历史查询", v)
-      teHistory(v.Sn, this.starttime, this.endtime)
-      this.indoorque.splice(0, this.indoorque.length)
-      this.indoorque = this.$store.getters.get_inDoorDataQue
-      console.log("+++++++++++++++indoorque", this.indoorque)
-      this.echartTieleName = v.HouseholderName
+      console.log("室内温度历史查询", v);
+      teHistory(v.Sn, this.starttime, this.endtime);
+      this.indoorque.splice(0, this.indoorque.length);
+      this.indoorque = this.$store.getters.get_inDoorDataQue;
+      console.log("+++++++++++++++indoorque", this.indoorque);
+      this.echartTieleName = v.HouseholderName;
     },
     requestData(v) {
-      console.log("请求数据")
-      inDoorRequestAll_node()
+      console.log("请求数据");
+      inDoorRequestAll_node();
+      Message({
+        message: "请求数据指令已发送",
+        type: "success",
+      });
     },
-    createData(v) {
-      console.log("增加", v)
-      this.title = "增加设备"
+    createData() {
+      //console.log("增加", v);
+      console.log("fff");
+      this.title = "增加设备";
 
-      this.$refs.dialog.dialogVisible = true
-      this.$refs.dialog.isbtn = 5
+      this.$refs.dialog.dialogVisible = true;
+      this.$refs.dialog.isbtn = 5;
     },
     deleteData(v) {
-      console.log("删除", v)
-      this.title = "删除设备"
-      this.rowData = { ...v }
-      this.$refs.dialog.isbtn = 5
+      console.log("删除", v);
+      this.title = "删除设备";
+      this.rowData = { ...v };
+      this.$refs.dialog.isbtn = 5;
 
-      this.$refs.dialog.dialogVisible = true
+      this.$refs.dialog.dialogVisible = true;
     },
     updateData(v) {
-      console.log("修改", v) //
-      this.title = "修改设备参数"
-      this.rowData = { ...v }
+      console.log("修改", v); //
+      this.title = "修改设备参数";
+      this.rowData = { ...v };
 
-      this.$refs.dialog.dialogVisible = true
-      this.$refs.dialog.isbtn = 5
+      this.$refs.dialog.dialogVisible = true;
+      this.$refs.dialog.isbtn = 5;
     },
     readData(v) {
-      console.log("查看", v)
-      this.title = "查看设备参数"
-      this.$refs.dialog.dialogVisible = true
-      this.$refs.dialog.isbtn = 0
-      this.rowData = { ...v }
+      console.log("查看", v);
+      this.title = "查看设备参数";
+      this.$refs.dialog.dialogVisible = true;
+      this.$refs.dialog.isbtn = 0;
+      this.rowData = { ...v };
     },
     myStyle(value) {
       if (value > 18 && value <= 22) {
-        return { color: "#14e90d", fontWeight: "900" }
+        return { color: "#14e90d", fontWeight: "900" };
       } else if (value > 23 && value < 30) {
-        return { color: "red", fontWeight: "900" }
+        return { color: "red", fontWeight: "900" };
       } else if (value < 18) {
-        return { color: "#8d8787" }
+        return { color: "#8d8787" };
       }
     },
 
     //通讯localStorage//sessionStorage
     changeValueT(v) {
-      console.log("通讯")
-      console.log(v)
+      console.log("通讯");
+      console.log(v);
     },
 
     //接收table列显示隐藏的配置项
     receiveTableConfig(v) {
-      console.log("接收table列显示隐藏的配置项", v)
-      this.table_config.thead = v
+      console.log("接收table列显示隐藏的配置项", v);
+      this.table_config.thead = v;
       // console.log("接收table列显示隐藏的配置项", v);
     },
     //DateTimePicker传过来的选择的日期时间
     receiveDateTimePicker(v) {
-      this.startAndEndDateAndTime = v
+      this.startAndEndDateAndTime = v;
 
-      this.starttime = v[0]
-      this.endtime = v[1]
+      this.starttime = v[0];
+      this.endtime = v[1];
     },
 
     receiveSelectValue(v) {
-      console.log("选择器传递过来的数据", v)
-      this.tableData = v
-      this.pagination.total = v.length
+      console.log("选择器传递过来的数据", v);
+      this.tableData = v;
+      this.pagination.total = v.length;
       // this.findName.findName1 = v;
     },
 
     receiveChangeDialog() {
-      this.dialogVisible = false
+      this.dialogVisible = false;
     },
 
-    gg() {
-      inDoorRequestAll_node()
-    },
     handleClick(tab, event) {
-      console.log(tab, event)
+      console.log(tab, event);
     },
     changeInput(v) {
-      this.disabled.is = v.data.Sid
-      inDoorFvsp2(v, this.disabled)
+      this.disabled.is = v.data.Sid;
+      inDoorFvsp2(v, this.disabled);
     },
 
     handleEdit(index, row) {
-      console.log(row, "1")
+      console.log(row, "1");
     },
     //单个室内温度历史查询
     //本体
@@ -405,18 +368,18 @@ export default {
     // },
 
     change(val) {
-      console.log("TTTT", val)
-      this.tableData = val
-      this.pagination.total = val.length
+      console.log("TTTT", val);
+      this.tableData = val;
+      this.pagination.total = val.length;
     },
     handleSizeChange(val) {
       //接收子组件传递过来的值，改变父组件的值又传递给子组件
-      this.pagination.size = val
+      this.pagination.size = val;
     },
     handleCurrentChange(val) {
       //接收子组件传递过来的值，改变父组件的值又传递给子组件
-      this.pagination.current = val
-    }
+      this.pagination.current = val;
+    },
   },
   components: {
     Collocate,
@@ -424,13 +387,13 @@ export default {
     InputSearch,
     SelectSearch,
     DateTimePicker,
-    SysDlialog22,
+    //SysDlialog22,
     SysDlialog,
     EchartLine,
     // FromDialog,
-    Form
-  }
-}
+    //Form,
+  },
+};
 </script>
 <style lang="scss" scoped>
 .indoor-consumer {

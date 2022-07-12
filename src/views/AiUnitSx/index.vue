@@ -1,404 +1,270 @@
 <template>
-  <div class="deliverySetting">
-    <div class="deliverySetting-table">
-      <div class="table-head">
-        <div class="selection">
-          <el-checkbox
-            v-model="ischeckAll"
-            :indeterminate="indeterminate"
-            @change="handleCheckAllChange"
-          ></el-checkbox>
-        </div>
-        <div class="width185">分区名称</div>
-        <div class="width265"></div>
-      </div>
-      <div
-        v-for="(partition, partitionIndex) in distributorsInfo"
-        :key="partitionIndex"
-        class="table-body"
-        @click="changeTab(partitionIndex)"
-      >
-        <!-- :class="{'active':!partitionIndex}" -->
+  <div class="checkbox" id="checkbox">
+    <div class="content">
+      <template v-if="allData != null && allData.length > 0">
         <div
-          class="secondFloor"
-          :class="partitionIndex === activeIndex ? 'active' : ''"
+          class="item"
+          v-for="(first, firIndex) in allData"
+          :key="first.oneId"
         >
-          <div class="selection">
-            <p>
+          <div class="oneCheck">
+            <el-checkbox
+              :indeterminate="first.isIndeterminate"
+              v-model="first.mychecked"
+              @change="firstCheck(firIndex, first.oneId)"
+              :label="first.oneName"
+            >
+              {{ first.oneName }}
+              {{ first.mychecked }}
+            </el-checkbox>
+          </div>
+          <div class="twoCheck">
+            <template v-for="(second, secIndex) in first.oneData">
               <el-checkbox
-                :key="partitionIndex"
-                v-model="partition.selected"
-                :indeterminate="partition.indeterminate"
-                @change="
-                  handleCheckedCountryAllChange(
-                    partitionIndex,
-                    partition.partitionId,
-                    $event
-                  )
-                "
-              ></el-checkbox>
-            </p>
-          </div>
-          <div class="width185">
-            <p>{{ partition.partitionName }}</p>
+                v-model="second.mychecked"
+                @change="secondCheck(firIndex, second.twoId)"
+                :label="second.twoName"
+              >
+                {{ second.twoName }}
+              </el-checkbox>
+            </template>
           </div>
         </div>
-        <div v-show="partitionIndex === activeIndex" class="width265">
-          <el-checkbox
-            v-for="country in partition.country"
-            :key="country.id"
-            v-model="country.selected"
-            :label="country"
-            :class="{ activeTwo: !partitionIndex }"
-            @change="
-              handleCheckedCountryChange(
-                partitionIndex,
-                country.id,
-                partition.partitionId,
-                $event
-              )
-            "
-          >
-            {{ country.fieldName }}
-          </el-checkbox>
-        </div>
-      </div>
+      </template>
+    </div>
+    <div class="footer">
+      <el-button type="primary" @click="handleSelectAllChecked">全选</el-button>
+      <el-button type="info" @click="handleEmptyAllChecked">清空</el-button>
+      <el-button type="success" @click="handleCheckedSure">确认</el-button>
     </div>
   </div>
 </template>
+
 <script>
 export default {
-  //name: 'deliverySetting',
-  components: {},
-  props: {},
   data() {
     return {
-      distributorsInfo: [
+      mychecked: true,
+      allDataTemp: [
         {
-          partitionName: "1区",
-          selected: false,
-          partitionId: 1,
-          isIndeterminate: false,
-          country: [
+          oneId: "1000",
+          oneName: "水果",
+          oneData: [
             {
-              id: "1",
-              fieldName: "奥地利",
-              fieldTableName: "奥地利",
-              selected: false
+              oneId: "1000",
+              twoId: "1001",
+              twoName: "西瓜",
             },
             {
-              id: "2",
-              fieldName: "芬兰",
-              fieldTableName: "芬兰",
-              selected: false
+              oneId: "1000",
+              twoId: "1002",
+              twoName: "香蕉",
             },
             {
-              id: "3",
-              fieldName: "意大利",
-              fieldTableName: "意大利",
-              selected: false
+              oneId: "1000",
+              twoId: "1003",
+              twoName: "苹果",
             },
-            {
-              id: "4",
-              fieldName: "葡萄牙",
-              fieldTableName: "葡萄牙",
-              selected: false
-            },
-            {
-              id: "9",
-              fieldName: "西班牙",
-              fieldTableName: "西班牙",
-              selected: false
-            },
-            {
-              id: "10",
-              fieldName: "瑞典",
-              fieldTableName: "瑞典",
-              selected: false
-            }
-          ]
+          ],
         },
         {
-          partitionName: "2区",
-          selected: false,
-          partitionId: 2,
-          isIndeterminate: false,
-          country: [
+          oneId: "2000",
+          oneName: "零食",
+          oneData: [
             {
-              id: "5",
-              fieldName: "丹麦",
-              fieldTableName: "单买",
-              selected: false
+              oneId: "2000",
+              twoId: "2001",
+              twoName: "瓜子",
             },
             {
-              id: "6",
-              fieldName: "法国",
-              fieldTableName: "法国",
-              selected: false
-            }
-          ]
+              oneId: "2000",
+              twoId: "2002",
+              twoName: "干果",
+            },
+            {
+              oneId: "2000",
+              twoId: "2003",
+              twoName: "果冻",
+            },
+          ],
         },
         {
-          partitionName: "3区",
-          selected: false,
-          partitionId: 3,
-          isIndeterminate: false,
-          country: [
+          oneId: "3000",
+          oneName: "奶糖",
+          oneData: [
             {
-              id: "7",
-              fieldName: "德国",
-              fieldTableName: "德国",
-              selected: false
+              oneId: "3000",
+              twoId: "3001",
+              twoName: "金丝猴",
             },
             {
-              id: "8",
-              fieldName: "瑞士",
-              fieldTableName: "瑞士",
-              selected: false
-            }
-          ]
-        }
+              oneId: "3000",
+              twoId: "3002",
+              twoName: "大白兔",
+            },
+            {
+              oneId: "3000",
+              twoId: "3003",
+              twoName: "旺仔",
+            },
+          ],
+        },
       ],
-      ischeckAll: false,
-      indeterminate: false,
-      active: "active",
-      activeIndex: 0
-    }
+      allData: [],
+      checkedId: [], //选中的id
+      checkedName: [], //选中的name
+    };
   },
-  computed: {},
   methods: {
-    handleCheckAllChange(e) {
-      //一级change事件
-      this.ischeckAll = e
-      this.indeterminate = false
-      for (var i = 0, len = this.distributorsInfo.length; i < len; i++) {
-        //二级全选反选
-        this.distributorsInfo[i].selected = e
-        this.distributorsInfo[i].indeterminate = false //去掉二级不确定状态
-        for (
-          var j = 0, len1 = this.distributorsInfo[i].country.length;
-          j < len1;
-          j++
-        ) {
-          //三级全选反选
-          this.distributorsInfo[i].country[j].selected = e
+    /* 获取数据 */
+    getCheckBoxData() {
+      // console.log(response.data);
+      if (1 === 1) {
+        var result = this.allDataTemp;
+        for (var i = 0; i < result.length; i++) {
+          result[i]["mychecked"] = false; //一级是否选中
+          result[i]["isIndeterminate"] = false; //未全选但已经有了选项的状态
+          for (var j = 0; j < result[i].oneData.length; j++) {
+            result[i].oneData[j]["mychecked"] = false; //二级是否选中
+          }
+        }
+        this.allData = result;
+        console.log(this.allData);
+      }
+    },
+
+    /* 一级选择事件 */
+    firstCheck(index) {
+      console.log("多选框中的-----一级选择事件", index);
+      console.log("*-*-", this.allData[index].mychecked);
+      if (this.allData[index].mychecked == false) {
+        console.log("ggggg");
+        this.allData[index].isIndeterminate = false;
+        let childrenArray = this.allData[index].oneData;
+        if (childrenArray) {
+          let len = childrenArray.length;
+          for (var i = 0; i < len; i++) {
+            childrenArray[i].mychecked = false;
+          }
+        }
+      } else if (this.allData[index].mychecked == true) {
+        this.allData[index].isIndeterminate = false;
+        let childrenArray = this.allData[index].oneData;
+        if (childrenArray) {
+          let len = childrenArray.length;
+          for (var i = 0; i < len; i++) {
+            childrenArray[i].mychecked = true;
+          }
         }
       }
     },
-    handleCheckedCountryAllChange(index, topId, e) {
-      //二级change事件
-      this.distributorsInfo[index].selected = e //二级勾选后，子级全部勾选或者取消
-      this.distributorsInfo[index].indeterminate = false //去掉二级不确定状态
-      var childrenArray = this.distributorsInfo[index].country
-      if (childrenArray)
-        for (var i = 0, len = childrenArray.length; i < len; i++)
-          childrenArray[i].selected = e
-
-      this.getIsCheckAll()
-    },
-    handleCheckedCountryChange(topIndex, sonId, topId, e) {
-      //三级change事件
-      var childrenArray = this.distributorsInfo[topIndex].country
-      var tickCount = 0,
-        unTickCount = 0,
-        len = childrenArray.length
+    /* 二级选择事件 */
+    secondCheck(index) {
+      console.log("多选框中的-----2级选择事件", index);
+      let childrenArray = this.allData[index].oneData;
+      let tickCount = 0,
+        untickCount = 0,
+        len = childrenArray.length;
       for (var i = 0; i < len; i++) {
-        if (sonId == childrenArray[i].id) childrenArray[i].selected = e
-        if (childrenArray[i].selected == true) tickCount++
-        if (childrenArray[i].selected == false) unTickCount++
+        if (childrenArray[i].mychecked === true) {
+          tickCount++;
+        } else {
+          untickCount++;
+        }
       }
       if (tickCount == len) {
-        //三级级全勾选
-        this.distributorsInfo[topIndex].selected = true
-        this.distributorsInfo[topIndex].indeterminate = false
-      } else if (unTickCount == len) {
-        //三级级全不勾选
-        this.distributorsInfo[topIndex].selected = false
-        this.distributorsInfo[topIndex].indeterminate = false
-      } else {
-        this.distributorsInfo[topIndex].selected = false
-        this.distributorsInfo[topIndex].indeterminate = true //添加二级不确定状态
-      }
-      this.getIsCheckAll()
-    },
-    getIsCheckAll() {
-      var tickCount = 0,
-        unTickCount = 0,
-        indeterminateCount = 0,
-        ArrLength = this.distributorsInfo.length
-      for (var j = 0; j < ArrLength; j++) {
-        //全选checkbox状态
-        if (this.distributorsInfo[j].selected == true) tickCount++
-        if (this.distributorsInfo[j].selected == false) unTickCount++
-        if (this.distributorsInfo[j].indeterminate == true) indeterminateCount++
-      }
-      if (tickCount == ArrLength) {
-        //二级全勾选
-        this.ischeckAll = true
-        this.indeterminate = false
-      } else if (unTickCount == ArrLength) {
+        //二级全勾选  一级勾选
+        this.allData[index].mychecked = true;
+        this.allData[index].isIndeterminate = false;
+      } else if (tickCount == 0) {
         //二级全不勾选
-        this.ischeckAll = false
-        if (indeterminateCount > 0) {
-          this.indeterminate = true
-        } else {
-          this.indeterminate = false
-        }
+        this.allData[index].isIndeterminate = false;
       } else {
-        this.ischeckAll = false
-        this.indeterminate = true //添加一级不确定状态
+        //二级未全选  一级不勾选
+        this.allData[index].mychecked = false;
+        this.allData[index].isIndeterminate = true;
       }
     },
-    // tab切换
-    changeTab(idx) {
-      // 事件处理函数中的this指向Vue的实例
-      this.activeIndex = idx
-    }
-  }
-}
+    /* 全选 */
+    handleSelectAllChecked() {
+      console.log("多选框中的-----全选择事件");
+      for (var i = 0; i < this.allData.length; i++) {
+        this.allData[i].mychecked = true;
+        this.firstCheck(i); //调用一级选择事件
+      }
+    },
+    /* 清空全选 */
+    handleEmptyAllChecked() {
+      for (var i = 0; i < this.allData.length; i++) {
+        this.allData[i].mychecked = false;
+        this.allData[i].isIndeterminate = false;
+        this.firstCheck(i); //调用一级选择事件
+      }
+    },
+    handleCheckedSure() {
+      this.checkedId = [];
+      this.checkedName = [];
+      for (var i = 0; i < this.allData.length; i++) {
+        let childrenArray = this.allData[i].oneData;
+        let len = childrenArray.length;
+        for (var j = 0; j < len; j++) {
+          if (childrenArray[j].mychecked == true) {
+            this.checkedId.push(childrenArray[j].twoId);
+            this.checkedName.push(childrenArray[j].twoName);
+          }
+        }
+      }
+      console.log(this.checkedId);
+      console.log(this.checkedName);
+    },
+  },
+  mounted() {
+    this.getCheckBoxData();
+  },
+};
 </script>
-<style lang="scss" scoped>
-.deliverySetting {
-  padding: 20px 0;
-  height: 200px;
-  position: relative;
-  display: block;
+
+<style>
+.checkbox {
   width: 100%;
-  overflow: hidden;
-  v-deep .el-table {
-    thead {
-      tr {
-        th {
-          font-size: 14px;
-        }
-      }
-    }
-    tbody {
-      tr {
-        td {
-          vertical-align: baseline;
-          p {
-            line-height: 30px;
-          }
-          .el-checkbox-group {
-            display: flex;
-            flex-direction: column;
-            label {
-              line-height: 30px;
-              margin-left: 0;
-            }
-          }
-        }
-      }
-    }
-  }
-  .deliverySetting-table {
-    font-size: 14px;
-    color: #333;
-    .table-head,
-    .table-body {
-      display: flex;
-      padding: 10px 0;
-      .selection {
-        text-align: center;
-        line-height: 36px;
-        display: inline;
-        float: left;
-      }
-      .width185 {
-        padding: 0px 26px;
-      }
-      .width265 {
-        width: 100%;
-        display: inline;
-        position: absolute;
-        left: 0;
-        top: 130px;
-        padding-left: 21px;
-        label {
-          display: inline-block;
-          float: left;
-          line-height: 30px;
-          margin-block-start: 1em;
-          margin-block-end: 1em;
-          margin-inline-start: 0px;
-          margin-inline-end: 0px;
-          margin-right: 1em;
-        }
-      }
-    }
-    ::v-deep .table-head {
-      height: 36px;
-      align-items: center;
-      background-color: #e7f2ff;
-      padding-left: 21px;
-    }
-    .table-body {
-      color: #666;
-      display: inline-block;
-      float: left;
-      &:hover {
-        // background-color: #f5f7fa;
-      }
-      p {
-        line-height: 30px;
-        display: inline;
-        float: left;
-        margin: 0px;
-      }
-    }
-  }
-  .deliverySetting-btn {
-    /*width: 100%;*/
-    height: 59px;
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    position: absolute;
-    top: -55px;
-    right: -16px;
-    z-index: 100;
-    .tabs-btn {
-      min-width: 90px;
-      height: 34px;
-      line-height: 32px;
-      padding: 0 10px;
-      color: #2387f7;
-      border: solid 1px #4fa2ff;
-      background-color: #e7f2ff;
-      cursor: pointer;
-      &:nth-of-type(2) {
-        margin: 0 15px;
-      }
-      input {
-        border: none;
-        background: transparent;
-        color: inherit;
-        cursor: inherit;
-        outline: none;
-        margin: 0;
-        padding: 0;
-      }
-      &:hover {
-        color: #fff;
-        background-color: #2387f7;
-      }
-    }
-  }
+  height: 100%;
+  padding: 0;
+  margin: 0;
 }
-.secondFloor {
-  display: inline-block;
-  float: left;
-  border-bottom: solid 1px #ccc;
-  padding: 2px 20px;
-  cursor: pointer;
+
+.content {
+  width: 50%;
+  height: 30%;
+  margin: 0 auto;
+  margin-top: 5%;
 }
-.active {
-  border: solid 1px #ccc;
-  border-bottom: 0px;
+
+.content .item {
+  margin-bottom: 30px;
 }
-.addclass {
-  border: solid 1px #ccc;
-  border-bottom: 0;
+
+.item .oneCheck {
+  background-color: #e1e1e1;
+}
+
+.item .oneCheck .el-checkbox {
+  margin-left: 5px;
+  padding: 5px;
+}
+
+.item .oneCheck .el-checkbox__label {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.item .twoCheck {
+  margin-left: 30px;
+}
+
+.footer {
+  width: 50%;
+  height: 30%;
+  padding-top: 20px;
+  margin: 0 auto;
 }
 </style>

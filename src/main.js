@@ -24,7 +24,8 @@ Vue.use(animated) //注册移动动画库
 import { plcdataType, echartdataType } from "assets/js/storeBox/dataType.js"
 import {
   inDoorDataInitTemplate,
-  stationDataInitTemplate
+  stationDataInitTemplate,
+  doorDataInitTemplate
 } from "assets/js/storeDataInitTemplate" //初始化模板
 import socketAiUnit from "assets/js/socketJsControl/socketAiUnit" //改版后的楼宇单元和户阀的连接
 import socketAiInDoor from "assets/js/socketJsControl/socketAiInDoor" //改版后的楼宇单元和户阀的连接
@@ -35,7 +36,8 @@ new Promise((resolve, reject) => {
 
   store.commit("AIUNIT", "单元AI的初始化") //*****改造新加
 
-  store.commit("MUINDOORDATAINIT", inDoorDataInitTemplate) //室内温度信息初始化
+  store.commit("MUINDOORDATAINIT", inDoorDataInitTemplate) //
+  store.commit("MUDOORDATAINIT", doorDataInitTemplate) //
   store.commit("AIUNIT", socketStation) //*****改造新加
 
   resolve()
