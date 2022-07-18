@@ -362,6 +362,7 @@ export default {
       }
       console.log('obj---------', obj)
       this.option.xAxis[1].axisLabel.rich = obj;
+      
       this.myChart.setOption(this.option, true);
       window.addEventListener("resize", () => {
         this.myChart.resize();

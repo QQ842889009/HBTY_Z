@@ -1,38 +1,20 @@
 <template>
   <div class="minBox">
     <div class="titleBox">
-      <FtBox
-        bNum="4977 GJ"
-        bText="今日预报总供热量"
-        :bHeight="'85%'"
-        :bWidth="'23%'"
-        isShow="true"
-      />
-      <FtBox
-        bNum="292.9 T"
-        bText="今日预报总供热量"
-        :bHeight="'85%'"
-        :bWidth="'23%'"
-        isShow="true"
-      />
-      <FtBox
-        bNum="49775 GJ"
-        bText="今日预报总供热量"
-        :bHeight="'85%'"
-        :bWidth="'23%'"
-        isShow="true"
-      />
-      <FtBox
-        bNum="1819.6 T"
-        bText="今日预报总供热量"
-        :bHeight="'85%'"
-        :bWidth="'23%'"
-        isShow="true"
-      />
+      <FtBox bNum="4977 GJ" bText="今日预报总供热量" :bHeight="'85%'" :bWidth="'23%'" isShow="true" />
+      <FtBox bNum="292.9 T" bText="今日预报总供热量" :bHeight="'85%'" :bWidth="'23%'" isShow="true" />
+      <FtBox bNum="49775 GJ" bText="今日预报总供热量" :bHeight="'85%'" :bWidth="'23%'" isShow="true" />
+      <FtBox bNum="1819.6 T" bText="今日预报总供热量" :bHeight="'85%'" :bWidth="'23%'" isShow="true" />
     </div>
     <div class="title">
-      <img class="tt" src="~@/assets/img/logo/yiji.png" alt="" />
-      供热系统每日负荷预报
+      <div class="titleText">
+        <img class="titleImg" src="~@/assets/img/logo/yiji.png" alt="" />
+        供热系统每日负荷预报
+      </div>
+
+      <div class="timePicker">
+        <DateTimePicker @EmitDateTimePicker="receiveDateTimePicker"></DateTimePicker>
+      </div>
     </div>
     <div class="box3 topBox">
       <span class="stitle">天 气</span>
@@ -41,23 +23,17 @@
     <div class="box3 midBox">
       <span class="stitle">供热量</span>
       <div class="b3">
-        <ft-line
-            title_name="供热量"
-            :getData="staEchartData"
-            :boxHeight="'80%'"
-             yUnit="T"
-            seriesType="bar"
-            :isTitleShow="false"
-          />      
+        <ft-line title_name="供热量" :getData="staEchartData" :boxHeight="'80%'" yUnit="T" seriesType="bar"
+          :isTitleShow="false" />
       </div>
-       
+
     </div>
     <div class="box3 botBox">
       <span class="stitle">室 温</span>
       <div class="db">
-         <FtLineDB :boxHeight="'80%'" :isTitleShow="false"/>
+        <FtLineDB :boxHeight="'80%'" :isTitleShow="false" />
       </div>
-      
+
     </div>
   </div>
 </template>
@@ -75,12 +51,17 @@ import FtBox from "./components/FtBox.vue";
 import FtBoxImg from "./components/FtBoxImg.vue";
 import FtLineBox from "./components/FtLineBoxy.vue";
 import WeatherForecast from "./components/WeatherForecast.vue";
+import DateTimePicker from "./components/DataTimePicker.vue"
 const { mapState } = createNamespacedHelpers("plcS7");
 export default {
   data() {
-    return {};
+    return {
+      startAndEndDateAndTime: [], //其实日期时间和结束日期时间
+      starttime: null, //开始日期时间
+      endtime: null, //结束日期时间
+    };
   },
-  created() {},
+  created() { },
   computed: {
     ...mapState(["staPlcData", "staPlcNum", "staEchartData"]),
     indoorData() {
@@ -88,7 +69,14 @@ export default {
       // :bHeight="'30%'" :bWidth="'50%'"
     },
   },
-  methods: {},
+  methods: {
+    receiveDateTimePicker(v) {
+      this.startAndEndDateAndTime = v;
+
+      this.starttime = v[0];
+      this.endtime = v[1];
+    },
+  },
   components: {
     DataBlock,
     FtBar,
@@ -102,6 +90,7 @@ export default {
     FtLineBox,
     FtBox,
     WeatherForecast,
+    DateTimePicker
   },
 };
 </script>
@@ -110,6 +99,7 @@ export default {
 .minBox {
   width: 100%;
   height: 100%;
+
   // background-color: red;
   // display: flex;
   // flex-wrap: wrap;
@@ -119,45 +109,60 @@ export default {
     height: 14%;
     width: 100%;
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     flex-wrap: wrap;
   }
+
   .title {
     font-size: 20px;
     // margin-left: 0.5rem;
     margin-bottom: 0.5rem;
     margin-top: 1rem;
     color: #fff;
-    .tt {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+.titleText{
+  margin-left: 16px;
+}
+    .titleImg {
       width: 10px;
       height: 30px;
     }
+ 
+    .timePicker {
+      // margin-right: 16px;
+    }
   }
+
   .box3 {
-    background: rgba(5, 31, 54,0.8);
+    background: rgba(5, 31, 54, 0.8);
     height: 25%;
     width: 100%;
     margin-bottom: 1rem;
     box-shadow: 0px 0px 5px 4px #3498db inset, 0px 0px 5px -4px #3498db;
-    
+
   }
-// .topBox{
-//    background: rgba(26, 53, 78, 0.8);
-// }
-.b3{
-  width: 97%;
-  height: 97%;
-  margin-left: 1%;
-  margin-top: -8%;
- 
-}
-.db{
-  width: 100%;
-  height: 97%;
-  margin-left: 1%;
-  margin-top: -8%;
-   background: rgba(4, 21, 36, 0.5);
-}
+
+  // .topBox{
+  //    background: rgba(26, 53, 78, 0.8);
+  // }
+  .b3 {
+    width: 97%;
+    height: 97%;
+    margin-left: 1%;
+    margin-top: -8%;
+
+  }
+
+  .db {
+    width: 100%;
+    height: 97%;
+    margin-left: 1%;
+    margin-top: -8%;
+    background: rgba(4, 21, 36, 0.5);
+  }
+
   .stitle {
     // background: red;
     font-size: 22px;
@@ -166,7 +171,7 @@ export default {
     letter-spacing: 50px;
     line-height: 40px;
     // text-align: center;
-    vertical-align:bottom;
+    vertical-align: bottom;
     width: 50px;
     height: 120px;
     // border: 2px solid #3498db;
