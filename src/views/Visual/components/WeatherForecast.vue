@@ -17,6 +17,7 @@ export default {
       weatherArr: [],
       tempmaxArr: [],
       tempminArr: [],
+      dataTimeArr:[],
       conditionsArr: [],
       isGet: false,
     };
@@ -81,6 +82,7 @@ export default {
         this.tempmaxArr.push(this.weatherArr[index].tempmax);
         this.tempminArr.push(this.weatherArr[index].tempmin);
         this.conditionsArr.push(this.weatherArr[index].icon);
+        this.dataTimeArr.push(this.weatherArr[index].datetime)
       }
     },
     init() {
@@ -114,33 +116,7 @@ export default {
           show: false,
         },
         xAxis: [
-          //#region 日期
-          /*   {
-            type: "category",
-            boundaryGap: false,
-            position: "top",
-            offset: 140,
-            zlevel: 100,
-            axisLine: {
-              show: false,
-            },
-            axisTick: {
-              show: false,
-            },
-            axisLabel: {
-              interval: 0,
-              formatter: ["{a|{value}}"].join("\n"),
-              rich: {
-                a: {
-                  color: 'white',
-                  fontSize: 18,
-                },
-              },
-            },
-            // nameTextStyle: {},
-            data: ["25日", "26日", "27日", "28日", "29日", "30日", "31日"],
-          }, */
-          //#endregion
+       
           //#region 星期
           /* {
             type: "category",
@@ -170,6 +146,33 @@ export default {
             },
             data: ["周一", "周二", "周三", "周四", "周五", "周六", "周日"],
           }, */
+          //#endregion
+                 //#region 日期
+        {
+            type: "category",
+            boundaryGap: false,
+            position: "top",
+            offset: 80,
+            zlevel: 100,
+            axisLine: {
+              show: false,
+            },
+            axisTick: {
+              show: false,
+            },
+            axisLabel: {
+              interval: 0,
+              formatter: ["{a|{value}}"].join("\n"),
+              rich: {
+                a: {
+                  color: 'white',
+                  fontSize: 18,
+                },
+              },
+            },
+            // nameTextStyle: {},
+            data: this.dataTimeArr,
+          }, 
           //#endregion
           // 天气图标
           {
@@ -269,6 +272,7 @@ export default {
             data: this.conditionsArr
             // data: ["小雨", "小雨", "阴", "小雨", "多云", "多云", "小雪"],
           },
+      
         ],
         yAxis: {
           type: "value",
@@ -338,13 +342,12 @@ export default {
         ],
       };
       var obj = {};
-      this.option.xAxis.filter(v => {
-        console.log('vvvvvvvvvv', v)
-        var data = v.data;
-        for (let index = 0; index < data.length; index++) {
+      var objV=this.option.xAxis[1].data
+       console.log('vvvvvvvvv---v', objV)
+        for (let index = 0; index < objV.length; index++) {
           obj[index] = {
             backgroundColor: {
-              image: require("assets/img/weather/" + data[index] + ".png"),
+              image: require("assets/img/weather/" + objV[index] + ".png"),
             },
             height: 40,
           }
@@ -355,10 +358,8 @@ export default {
           lineHeight: 30,
           height: 20,
         }
-      }
-      );
       console.log('obj---------', obj)
-      this.option.xAxis[0].axisLabel.rich = obj;
+      this.option.xAxis[1].axisLabel.rich = obj;
       this.myChart.setOption(this.option, true);
       window.addEventListener("resize", () => {
         this.myChart.resize();

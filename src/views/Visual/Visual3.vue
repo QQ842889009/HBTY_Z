@@ -145,7 +145,7 @@ export default {
 //    background: rgba(26, 53, 78, 0.8);
 // }
 .b3{
-  width: 95%;
+  width: 97%;
   height: 97%;
   margin-left: 1%;
   margin-top: -8%;
