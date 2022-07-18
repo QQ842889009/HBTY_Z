@@ -55,6 +55,8 @@ new Promise((resolve, reject) => {
 
 import moment from "moment" //导入时间插件npm install moment –save
 Vue.prototype.$moment = moment //全局注册时间插件
+import "./utils/axios"
+
 
 Vue.use(ElementUI)
 

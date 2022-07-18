@@ -4,11 +4,21 @@
 
 <script>
 import echarts from "components/echart/echartsVue.js";
+
 export default {
   data() {
     return {
       myChart: null,
       option: {},
+      location: "",
+      keyWeather: "BSSPJ3TEPQH7BV8W5J759DHC5",
+      keyGaode: "3c28c781f2aa4227580098e95db055e0",
+      weatherInfo: {},
+      weatherArr: [],
+      tempmaxArr: [],
+      tempminArr: [],
+      conditionsArr: [],
+      isGet: false,
     };
   },
   props: {
@@ -16,22 +26,68 @@ export default {
       type: String,
       default: "90%",
     },
+    city: {
+      type: String,
+      default: "唐山市",
+    },
   },
-  created(){
-
+  created() {
+    // console.log(this.location.length==0);
+    this.weatherGet();
+    // console.log(Object.keys(this.weatherInfo).length);
+    // console.log(this.weatherInfo)
   },
   mounted() {
-    this.$nextTick(function () {
-      this.init();
+    this.$nextTick(function () {  
+        this.init();     
+
     });
   },
   methods: {
+    //获取时间戳 var timestamp1 = Date.parse (new Date ());
+    async weatherGet() {
+      this.location = localStorage.getItem('location')
+      if (this.location == null) {
+        const { data: res } = await this.$http.get(
+          `position?key=${this.keyGaode}&address=${this.city}`
+        );
+        console.log("城市的经纬度请求", res);
+        // console.log(res.geocodes[0].location);
+        console.log(res.status);
+        if (res.status == 1) {
+          //status为0，表示请求失败，status为1，表示请求成功
+          var temp = res.geocodes[0].location;
+          var arr = temp.split(",");
+          var lo = arr.splice(-1) + "," + arr
+          localStorage.setItem('location', lo)
+        }
+      }
+      this.location = localStorage.getItem('location')
+      console.log("----location-----", this.location);
+      this.weatherInfo = JSON.parse(localStorage.getItem('weather'))
+      if (this.weatherInfo == null) {
+        const { data: res } = await this.$http.get(
+          `api/${this.location}/next7days?unitGroup=metric&key=${this.keyWeather}`
+          // `api/London,UK/2020-12-01/2020-12-31?key=${this.keyWeather}`
+        );
+        localStorage.setItem('weather', JSON.stringify(res))
+        console.log("天气的请求", res);
+      }
+      this.weatherInfo = JSON.parse(localStorage.getItem('weather'));
+      this.weatherArr = this.weatherInfo.days
+      console.log("----weatherInfo-----", this.weatherInfo);
+      console.log("----weatherArr-----", this.weatherArr);
+      for (let index = 0; index < this.weatherArr.length; index++) {
+        this.tempmaxArr.push(this.weatherArr[index].tempmax);
+        this.tempminArr.push(this.weatherArr[index].tempmin);
+        this.conditionsArr.push(this.weatherArr[index].icon);
+      }
+    },
     init() {
       if (this.myChart == null) {
         this.myChart = echarts.init(this.$refs.weather);
       }
-     
-     
+
       this.option = {
         grid: {
           show: true,
@@ -39,8 +95,8 @@ export default {
           opacity: 0.3,
           borderWidth: "0",
           top: "60%",
-          left: "7%",
-          right: "1%",
+          left: "5%",
+          right: "5%",
           bottom: "1%",
         },
         tooltip: {
@@ -119,6 +175,7 @@ export default {
           {
             type: "category",
             boundaryGap: false,
+            backgroundColor: 'red',
             position: "top",
             offset: 20,
             // zlevel: 100,
@@ -131,80 +188,86 @@ export default {
             axisLabel: {
               interval: 0,
               formatter: function (value, index) {
-                return "{" + index + "| }\n{b|" + value + "}";
+                console.log('format3333333', value, index)
+                //   console.log("{" + index + "| }\n{b|" + value + "}")
+                // return "{" + index + "| }\n{b|" + value + "}";
+                return "{" + index + "| }";
+                // return "{a|"+index+""
+                // console.log('value-------',value)
+                // return "{(" + value + ")|}\n{b|" + value + "}";
               },
-              rich: {
-                0: {
-                  backgroundColor: {
-                    // image: require('@/assets/weather_icon/' + this.weatherIconDic[this.weatherdata.weather[0]] + '.png')
-                    image: require("assets/img/weather/Rain.png"),
-                   
-                  },
-                  height: 40,
-                  width: 40,
-                },
-                1: {
-                  backgroundColor: {
-                    // image: require('@/assets/weather_icon/' + this.weatherIconDic[this.weatherdata.weather[1]] + '.png')
-                    image: require("assets/img/weather/Rain.png"),
-                  },
-                  height: 40,
-                  width: 40,
-                },
-                2: {
-                  backgroundColor: {
-                    // image: require('@/assets/weather_icon/' + this.weatherIconDic[this.weatherdata.weather[2]] + '.png')
-                    image: require("assets/img/weather/Cloudy.png"),
-                  },
-                  height: 40,
-                  width: 40,
-                },
-                3: {
-                  backgroundColor: {
-                    // image: require('@/assets/weather_icon/' + this.weatherIconDic[this.weatherdata.weather[3]] + '.png')
-                    image:require("assets/img/weather/Rain.png"),
-                  },
-                  height: 40,
-                  width: 40,
-                },
-                4: {
-                  backgroundColor: {
-                    // image: require('@/assets/weather_icon/' + this.weatherIconDic[this.weatherdata.weather[4]] + '.png')
-                    image: require("assets/img/weather/Partly Cloudy.png"),
-                  },
-                  height: 40,
-                  width: 40,
-                },
-                5: {
-                  backgroundColor: {
-                    // image: require('@/assets/weather_icon/' + this.weatherIconDic[this.weatherdata.weather[5]] + '.png')
-                    image: require("assets/img/weather/Rain.png"),
-                  },
-                  height: 40,
-                  width: 40,
-                },
-                6: {
-                  backgroundColor: {
-                    // image: require('@/assets/weather_icon/' + this.weatherIconDic[this.weatherdata.weather[6]] + '.png')
-                    image: require("assets/img/weather/Rain.png"),
-                  },
-                  height: 40,
-                  width: 40,
-                },
-                b: {
-                  color: "white",
-                  fontSize: 12,
-                  lineHeight: 30,
-                  height: 20,
-                },
-              },
+              rich: "",
+              //#region     rich: {
+              //       0: {
+              //         backgroundColor: {
+              //           // image: require('@/assets/weather_icon/' + this.weatherIconDic[this.weatherdata.weather[0]] + '.png')
+              //           image: require("assets/img/weather/rain.png"),
+              //         },
+              // height: 40,
+              //         // width: 64,
+              //       },
+              //       1: {
+              //         backgroundColor: {
+              //           // image: require('@/assets/weather_icon/' + this.weatherIconDic[this.weatherdata.weather[1]] + '.png')
+              //           image: require("assets/img/weather/rain.png"),
+              //         },
+              //         height: 40,
+              //         // width: 40,
+              //       },
+              //       2: {
+              //         backgroundColor: {
+              //           // image: require('@/assets/weather_icon/' + this.weatherIconDic[this.weatherdata.weather[2]] + '.png')
+              //           image: require("assets/img/weather/cloudy.png"),
+              //         },
+              //         height: 40,
+              //         // width: 40,
+              //       },
+              //       3: {
+              //         backgroundColor: {
+              //           // image: require('@/assets/weather_icon/' + this.weatherIconDic[this.weatherdata.weather[3]] + '.png')
+              //           image: require("assets/img/weather/rain.png"),
+              //         },
+              //         height: 40,
+              //         // width: 40,
+              //       },
+              //       4: {
+              //         backgroundColor: {
+              //           // image: require('@/assets/weather_icon/' + this.weatherIconDic[this.weatherdata.weather[4]] + '.png')
+              //           image: require("assets/img/weather/partly-cloudy-day.png"),
+              //         },
+              //         height: 40,
+              //         // width: 40,
+              //       },
+              //       5: {
+              //         backgroundColor: {
+              //           // image: require('@/assets/weather_icon/' + this.weatherIconDic[this.weatherdata.weather[5]] + '.png')
+              //           image: require("assets/img/weather/cloudy.png"),
+              //         },
+              //         height: 40,
+              //         // width: 40,
+              //       },
+              //       6: {
+              //         backgroundColor: {
+              //           // image: require('@/assets/weather_icon/' + this.weatherIconDic[this.weatherdata.weather[6]] + '.png')
+              //           image: require("assets/img/weather/snow.png"),
+              //         },
+              //         height: 40,
+              //         // width: 40,
+              //       },
+              //       b: {
+              //         color: "white",
+              //         fontSize: 12,
+              //         lineHeight: 30,
+              //         height: 20,
+              //     },
+              //#endregion },    
             },
             nameTextStyle: {
               fontWeight: "bold",
               fontSize: 19,
             },
-            // data: this.weatherdata.weather
-            data: ["小雨", "小雨", "阴", "小雨", "多云", "小雨", "小雨"],
+            data: this.conditionsArr
+            // data: ["小雨", "小雨", "阴", "小雨", "多云", "多云", "小雪"],
           },
         ],
         yAxis: {
@@ -219,7 +282,7 @@ export default {
           {
             name: "最高气温",
             type: "line",
-            data: ["20.3", "20.2", "20.6", "25.2", "20.6", "28.7", "14.3"],
+            data: this.tempmaxArr,
             symbol: "emptyCircle",
             symbolSize: 10,
             showSymbol: true,
@@ -247,7 +310,7 @@ export default {
           {
             name: "最低气温",
             type: "line",
-            data: ["13.4", "12.8", "13.5", "12.5", "12.4", "13.2", "13"],
+            data: this.tempminArr,
             symbol: "emptyCircle",
             symbolSize: 10,
             showSymbol: true,
@@ -274,6 +337,28 @@ export default {
           },
         ],
       };
+      var obj = {};
+      this.option.xAxis.filter(v => {
+        console.log('vvvvvvvvvv', v)
+        var data = v.data;
+        for (let index = 0; index < data.length; index++) {
+          obj[index] = {
+            backgroundColor: {
+              image: require("assets/img/weather/" + data[index] + ".png"),
+            },
+            height: 40,
+          }
+        }
+        obj["b"] = {
+          color: "white",
+          fontSize: 13,
+          lineHeight: 30,
+          height: 20,
+        }
+      }
+      );
+      console.log('obj---------', obj)
+      this.option.xAxis[0].axisLabel.rich = obj;
       this.myChart.setOption(this.option, true);
       window.addEventListener("resize", () => {
         this.myChart.resize();
