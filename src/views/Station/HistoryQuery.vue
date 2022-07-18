@@ -1,14 +1,12 @@
 /** 换热站 历史查询*/
 <template>
-  <div>
-    <el-tree
-      :props="props"
-      :load="loadNode"
-      lazy
-      show-checkbox
-      @check-change="handleCheckChange"
-    >
-    </el-tree>
+  <div class="block">
+    <span class="demonstration">默认 click 触发子菜单</span>
+    <el-cascader
+      v-model="value"
+      :options="options"
+      @change="handleChange"
+    ></el-cascader>
   </div>
 </template>
 
@@ -16,55 +14,12 @@
 export default {
   data() {
     return {
-      props: {
-        label: "name",
-        children: "zones",
-      },
-      count: 1,
+      value: [],
     };
   },
   methods: {
-    handleCheckChange(data, checked, indeterminate) {
-      console.log(data, checked, indeterminate);
-      console.log(data);
-      console.log(checked);
-      console.log(indeterminate);
-    },
-    handleNodeClick(data) {
-      console.log("handleNodeClick", data);
-    },
-    loadNode(node, resolve) {
-      if (node.level === 0) {
-        return resolve([{ name: "aaa" }, { name: "bbb" }]);
-      }
-      if (node.level > 3) return resolve([]);
-
-      var hasChild;
-      if (node.data.name === "region1") {
-        hasChild = true;
-      } else if (node.data.name === "region2") {
-        hasChild = false;
-      } else {
-        hasChild = Math.random() > 0.5;
-      }
-
-      setTimeout(() => {
-        var data;
-        if (hasChild) {
-          data = [
-            {
-              name: "zone" + this.count++,
-            },
-            {
-              name: "zone" + this.count++,
-            },
-          ];
-        } else {
-          data = [];
-        }
-
-        resolve(data);
-      }, 500);
+    handleChange(value) {
+      console.log(value);
     },
   },
 };

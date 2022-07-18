@@ -113,3 +113,42 @@ export function AiUnitRequestSingle(v) {
   }
 }
 //**************************************************************Ai单元的结束
+//户阀请求所有JAVA
+export function doorRequestAll_java() {
+  that.$stompClientAiUnit.send("/hbty/valveInfos", {}, JSON.stringify({}))
+  console.log("查询户阀所有的数据--java")
+}
+//计算一下平均值
+/* getAvg.js */
+/**
+ * 求平均值，可计算一维数组，一维数组对象.
+ * @param {array} arr 「必需」需求平均的数组.
+ * @param {string} attr 「一维数组对象时必需」当数组为对象型数组时,需要指定具体属性名.
+ * @param {number} deg 「存在小数时必需」十的倍数。当数组存在小数时，为避免 js 自身存在的精度问题，
+ *                      可先乘于倍数消去小数，之后再除回来。（默认值1，[1,10,100,1000, …]）.
+ * @returns {number} 返回平均值,如果数据本身死循环,会根据传入的精度对数据进行四舍五入.
+ */
+export function getAvg(arr, attr = "", deg = 1) {
+  let len, total, avg, dot
+  len = arr.length
+
+  // 数组无数据时:
+  if (len === 0) return 0
+  // 数据有仅只有一个数据时:
+  if (len === 1) return arr[len - 1][attr] || arr[len - 1]
+
+  // 数组存在多个数据时:
+  const IsObj = arr[0].constructor === Object
+  dot = `${deg}`.split("").length - `${deg}`.split("").indexOf("0") // 根据传入的精度,判断需要保留小数点后几位.
+  if (!IsObj) {
+    // 基本数组
+    total = arr.reduce((total, item) => total + item * deg, 0)
+  } else {
+    // 数组对象
+    total = arr.reduce((total, item) => total + item[attr] * deg, 0)
+  }
+
+  avg = total / len / deg
+
+  return avg.toFixed(dot) * 1
+}

@@ -1,63 +1,97 @@
 
-/** 换热站 工艺图*/
+/** 户阀卡片*/
 <template>
   <div class="card">
     <div class="card-box-container">
       <el-row :gutter="10">
         <el-col :span="3">
-          <span class="t"></span>
-          <span class="title">热力站列表</span>
-          <div class="grid-content bg-purple">
-            <div
-              class="listCss"
-              v-for="(item, index) in listArr"
-              :key="index"
-              :class="{ activeCss: activeVar == index }"
-              @click="activeFunyi(item, index)"
-            >
-              {{ item }}
-            </div>
-          </div></el-col
-        >
-        <el-col :span="5">
-          <span class="t"></span>
-          <span class="title">单元列表</span>
-          <div class="grid-content bg-purple">
-            <div
-              class="listCss"
-              v-for="(item2, index) in optionc"
-              :key="item2.label"
-            >
+          <el-card class="box-card">
+            <span class="t"></span>
+            <span class="title">热力站列表</span>
+            <InputSearchStation
+              :wide="wide"
+              :data="listArr"
+              @change="change"
+              :findName="findName"
+              :placeholder="placeholder"
+              :prefixIcon="prefixIcon"
+              :size="size"
+              :clearable="clearable"
+            ></InputSearchStation>
+            <div class="grid-content bg-purple one">
               <div
-                v-for="(item4, i) in item2.children"
-                :key="item4.label"
-                @click="activeFuner(item4, i)"
-                :class="{ activeCss: activeVarER == i }"
+                class="listCss"
+                v-for="(item, index) in listArrShow"
+                :key="index"
+                :class="{ activeCss: activeVar == index }"
+                @click="activeFunyi(item.Station, index)"
               >
-                {{ item4.value }}
+                {{ item.Station }}
+              </div>
+            </div></el-card
+          >
+        </el-col>
+        <el-col :span="5">
+          <el-card class="box-card">
+            <span class="t"></span>
+            <span class="title">单元列表</span>
+            <div class="grid-content bg-purple">
+              <div
+                class="listCss"
+                v-for="(item2, index) in optionc"
+                :key="item2.label"
+              >
+                <div
+                  v-for="(item4, i) in item2.children"
+                  :key="item4.label"
+                  @click="activeFuner(item4, i)"
+                  :class="{ activeCss: activeVarER == i }"
+                >
+                  {{ item4.value }}
+                </div>
               </div>
             </div>
-          </div></el-col
-        >
+          </el-card>
+        </el-col>
         <el-col :span="16">
-          <span class="t"></span>
-          <span class="title">用户列表</span>
-          <div class="grid-content bg-purple">
-            <DoorCard :tableData="ShowData"></DoorCard>
-          </div>
+          <el-card class="box-card">
+            <span class="t"></span>
+            <span class="title">用户列表</span>
+            <div class="grid-content bg-purple">
+              <div class="yhlb">暂无数据</div>
+              <DoorCardTwo :tableData="ShowData"></DoorCardTwo>
+            </div>
+          </el-card>
         </el-col>
       </el-row>
     </div>
-    <div class="card-line">{{ ShowData }}</div>
+    <div class="ab"></div>
+    <div class="card-line">
+      我是曲线
+      <!-- <el-card class="box-card"> 我是曲线查询占位</el-card> -->
+    </div>
   </div>
 </template>
 
 <script>
-import DoorCard from "./DoorCard";
+import InputSearchStation from "components/common/InputSearchStation"; //输入关键词查找模板
+import DoorCardTwo from "./DoorCardTwo";
 import dataStaPlan from "assets/js/sjzlData/sjzlDataPlanMeter";
 export default {
   data() {
     return {
+      //输入搜索用的开始
+      wide: "212px", //宽度
+      findName: {
+        findName1: "Station", //要搜索的关键词
+        findName2: "Community", //要搜索的关键词
+      },
+
+      placeholder: "请输入热力站名称", //提示
+      prefixIcon: "el-icon-search", //前面的图标
+      size: "small", //大小
+      clearable: true, //是否带清除
+      //输入搜索用的开始
       activeVar: 0,
       activeVarER: 0,
       dataStaPlan,
@@ -65,7 +99,13 @@ export default {
       StationData: [], //数据列表
 
       ShowData: [], //展示数据
-      listArr: ["二十五号站", "二十六号站"],
+      listArrShow: [],
+      // listArr: ["二十五号站", "二十六号站"],
+      listArr: [
+        { Sid: "0", Station: "二十五号站" },
+        { Sid: "1", Station: "二十六号站" },
+        { Sid: "2", Station: "交警大队" },
+      ],
       screeningCondition: "二十五号站",
       optionc: [],
       options: [
@@ -141,7 +181,7 @@ export default {
           ],
         },
         {
-          value: "二十六号站",
+          value: "小A",
           label: "147",
           children: [
             {
@@ -158,11 +198,30 @@ export default {
             },
           ],
         },
+        {
+          value: "交警大队",
+          label: "247",
+          children: [
+            {
+              value: "琥珀小区r期/一号楼/一单元",
+              label: "21",
+            },
+            {
+              value: "琥珀小区r期/一号楼/二单元",
+              label: "22",
+            },
+            {
+              value: "琥珀小区r期/一号楼/三单元",
+              label: "23",
+            },
+          ],
+        },
       ],
     };
   },
   created() {
     this.initDataFun();
+    this.listArrShow = this.listArr;
     // this.activeFuner();
   },
   mounted() {
@@ -170,6 +229,10 @@ export default {
     // this.activeFunyi(this.listArr[0], 0);
   },
   methods: {
+    change(val) {
+      console.log("输入搜索返回的数据", val);
+      this.listArrShow = val;
+    },
     activeFunyi(item, index) {
       console.log("选择站点", item);
       this.StationData = this.dataStaPlan.doorStation(
@@ -219,11 +282,21 @@ export default {
     },
   },
   components: {
-    DoorCard,
+    DoorCardTwo,
+    InputSearchStation,
   },
 };
 </script>
 <style lang="scss" scoped>
+.yhlb {
+  border: 0.2rem solid #5473e8;
+  height: 590px;
+  text-align: center;
+  line-height: 590px;
+  color: rgb(141, 130, 130);
+  font-size: 20px;
+  z-index: 99;
+}
 .el-row {
   margin-bottom: 20px;
   &:last-child {
@@ -263,6 +336,10 @@ export default {
   -ms-scrollbar-track-color: transparent;
   //background: #d3dce6;
 }
+.one {
+  //background-color: #efeff5;
+  height: 560px;
+}
 .bg-purple-light {
   // background: #e5e9f2;
 }
@@ -277,18 +354,26 @@ export default {
 .card {
   width: 100%;
   height: 100%;
-  background-color: palegreen;
+  // background-color: palegreen;
   border-radius: 24px;
 }
 .card-box-container {
   width: 100%;
   height: 70%;
-  background-color: rgb(201, 14, 14);
+  // background-color: rgb(209, 184, 184);
+  border-radius: 10px;
+}
+.ab {
+  height: 5px;
 }
 .card-line {
   width: 100%;
-  height: 30%;
-  background-color: rgb(30, 235, 153);
+  height: 29%;
+  height: 260px;
+  padding: 25px;
+}
+.card-line:hover {
+  background-color: #e2e6f3;
 }
 .listCss {
   cursor: pointer;
@@ -296,15 +381,15 @@ export default {
   height: 50px;
   text-align: center;
   line-height: 50px;
-  //background-color: palegreen;
-  //border: 1px solid #ccc;
+
   float: left;
-  // margin-right: 10px;
+
   border-color: #5473e8;
 }
 // 选中时的样式 (继承上方默认样式)
 .activeCss {
   background: #f5f7fd;
+  background: #dcdfe9;
   color: rgb(0, 0, 0);
   color: #5473e8;
   border-left: 0.4rem solid #5473e8;

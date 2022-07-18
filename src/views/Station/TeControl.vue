@@ -1,7 +1,39 @@
 /** 换热站 温度控制*/
 <template>
   <div>
-    <div class="block">
+    <iframe
+      scrolling="no"
+      src="https://tianqiapi.com/api.php?style=yd&skin=sogou"
+      frameborder="0"
+      width="100%"
+      height="30"
+      allowtransparency="true"
+    ></iframe>
+    <iframe
+      scrolling="no"
+      src="https://tianqiapi.com/api.php?style=yd&skin=baidu"
+      frameborder="0"
+      width="100%"
+      height="30"
+      allowtransparency="true"
+    ></iframe>
+    <iframe
+      scrolling="no"
+      src="https://tianqiapi.com/api.php?style=yd&skin=peach"
+      frameborder="0"
+      width="100%"
+      height="30"
+      allowtransparency="true"
+    ></iframe>
+    <iframe
+      scrolling="no"
+      src="https://tianqiapi.com/api.php?style=tz&skin=longan"
+      frameborder="0"
+      width="100%"
+      height="30"
+      allowtransparency="true"
+    ></iframe>
+    <!-- <div class="block">
       <span class="demonstration"></span>
       <el-cascader
         :options="options"
@@ -9,7 +41,24 @@
         clearable
         @change="handleChange"
       ></el-cascader>
+    </div> -->
+
+    <!--搜索框开始  -->
+    <div class="select">
+      <el-input
+        :prefix-icon="prefixIcon"
+        v-model="value"
+        :size="size"
+        :clearable="clearable"
+        :placeholder="placeholder"
+        @change="change"
+        @blur="change"
+        :style="{ width: wide }"
+        :data="data"
+      ></el-input>
     </div>
+    <!--搜索框结束  -->
+    {{ temptableData }}
   </div>
 </template>
 
@@ -17,68 +66,77 @@
 export default {
   data() {
     return {
-      options: [
-        {
-          value: "1#站",
-          label: "1#站",
-          children: [
-            {
-              value: "世纪1",
-              label: "世纪1",
-              children: [
-                {
-                  value: "1#楼",
-                  label: "1#楼",
-                  children: [
-                    {
-                      value: "1单元",
-                      label: "1单元",
-                    },
-                    {
-                      value: "2单元",
-                      label: "2单元",
-                    },
-                    {
-                      value: "3单元",
-                      label: "3单元",
-                    },
-                  ],
-                },
-              ],
-            },
-
-            {
-              value: "世界2",
-              label: "世界2",
-              children: [
-                {
-                  value: "16#楼",
-                  label: "16#楼",
-                  children: [
-                    {
-                      value: "1单元",
-                      label: "1单元",
-                    },
-                    {
-                      value: "2单元",
-                      label: "2单元",
-                    },
-                    {
-                      value: "3单元",
-                      label: "3单元",
-                    },
-                  ],
-                },
-              ],
-            },
-          ],
-        },
-      ],
+      value: "",
+      temptableData: [],
+      // listArr: [
+      //   { Sid: "0", Station: "二十五号站" },
+      //   { Sid: "1", Station: "百合站" },
+      //   { Sid: "2", Station: "交警大队" },
+      // ],
     };
+  },
+  props: {
+    //宽度
+    wide: {
+      type: String,
+      default: "200px",
+    },
+
+    //大小
+    size: {
+      type: String,
+      default: "",
+    },
+    //搜索提示
+    placeholder: {
+      type: String,
+      default: "换热站名称",
+    },
+
+    findName: {
+      type: Object,
+      default() {
+        return {};
+      },
+    },
+    //图标
+    prefixIcon: {
+      type: String,
+      default: "el-icon-search",
+    },
+    //是否清空
+    clearable: {
+      type: Boolean,
+      default: true,
+    },
+    //接收父组件的数组  总的数组，在这个数组中通过关键词进行查找
+    data: {
+      type: Array,
+      default: () => {
+        return [];
+      },
+    },
   },
   methods: {
     handleChange(value) {
       console.log("***", value);
+    },
+    change() {
+      this.temptableData = [];
+      let a = "Station";
+      // let b = this.findName.findName2; //b是根据小区名搜
+      // console.log("要搜索的换热站名称AA", a);
+      // console.log("要搜索的换热站名称BB", b);
+      this.data.filter((item) => {
+        if (a in item) {
+          if (item[a].toUpperCase().indexOf(this.value.toUpperCase()) > -1) {
+            this.temptableData.push(item);
+          } else {
+          }
+        }
+      });
+
+      this.$emit("change", this.temptableData);
     },
   },
 };
