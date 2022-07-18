@@ -5,7 +5,6 @@ let options = [
     children: [
       {
         value: "琥珀小区三期",
-        label: "琥珀小区三期",
         children: [
           {
             value: "一号楼",

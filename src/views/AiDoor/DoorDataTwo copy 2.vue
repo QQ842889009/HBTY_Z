@@ -10,7 +10,7 @@
             <span class="title">热力站列表</span>
             <InputSearchStation
               :wide="wide"
-              :data="options"
+              :data="listArr"
               @change="change"
               :findName="findName"
               :placeholder="placeholder"
