@@ -1,153 +1,229 @@
 <template>
-  <div class="a">
-    <el-form
-      :model="ruleForm"
-      :rules="rules"
-      ref="ruleForm"
-      label-width="100px"
-      class="demo-ruleForm"
-    >
-      <el-form-item label="活动名称" prop="name">
-        <el-input v-model="ruleForm.name"></el-input>
-      </el-form-item>
-      <el-form-item label="活动区域" prop="region">
-        <el-select v-model="ruleForm.region" placeholder="请选择活动区域">
-          <el-option label="区域一" value="shanghai"></el-option>
-          <el-option label="区域二" value="beijing"></el-option>
-        </el-select>
-      </el-form-item>
-      <el-form-item label="活动时间" required>
-        <el-col :span="11">
-          <el-form-item prop="date1">
-            <el-date-picker
-              type="date"
-              placeholder="选择日期"
-              v-model="ruleForm.date1"
-              style="width: 100%"
-            ></el-date-picker>
-          </el-form-item>
-        </el-col>
-        <el-col class="line" :span="2">-</el-col>
-        <el-col :span="11">
-          <el-form-item prop="date2">
-            <el-time-picker
-              placeholder="选择时间"
-              v-model="ruleForm.date2"
-              style="width: 100%"
-            ></el-time-picker>
-          </el-form-item>
-        </el-col>
-      </el-form-item>
-      <el-form-item label="即时配送" prop="delivery">
-        <el-switch v-model="ruleForm.delivery"></el-switch>
-      </el-form-item>
-      <el-form-item label="活动性质" prop="type">
-        <el-checkbox-group v-model="ruleForm.type">
-          <el-checkbox label="美食/餐厅线上活动" name="type"></el-checkbox>
-          <el-checkbox label="地推活动" name="type"></el-checkbox>
-          <el-checkbox label="线下主题活动" name="type"></el-checkbox>
-          <el-checkbox label="单纯品牌曝光" name="type"></el-checkbox>
-        </el-checkbox-group>
-      </el-form-item>
-      <el-form-item label="特殊资源" prop="resource">
-        <el-radio-group v-model="ruleForm.resource">
-          <el-radio label="线上品牌商赞助"></el-radio>
-          <el-radio label="线下场地免费"></el-radio>
-        </el-radio-group>
-      </el-form-item>
-      <el-form-item label="活动形式" prop="desc">
-        <el-input type="textarea" v-model="ruleForm.desc"></el-input>
-      </el-form-item>
-      <el-form-item>
-        <el-button type="primary" @click="submitForm('ruleForm')"
-          >立即创建</el-button
+  <div>
+    <div class="yiji">
+      <div
+        class="listCss"
+        v-for="(item, index) in listArr"
+        :key="index"
+        :class="{ activeCss: activeVar == index }"
+        @click="activeFunyi(item, index)"
+      >
+        {{ item }}
+      </div>
+    </div>
+    <div class="erji">
+      <div class="listCss" v-for="(item2, index) in optionc" :key="item2.label">
+        <div
+          v-for="(item4, i) in item2.children"
+          :key="item4.label"
+          @click="activeFuner(item4, i)"
+          :class="{ activeCss: activeVarER == i }"
         >
-        <el-button @click="resetForm('ruleForm')">重置</el-button>
-      </el-form-item>
-    </el-form>
+          {{ item4.value }}
+        </div>
+      </div>
+    </div>
+    <div class="card-box"></div>
   </div>
 </template>
 
 <script>
+import dataStaPlan from "assets/js/sjzlData/sjzlDataPlanMeter"; ////
 export default {
   data() {
     return {
-      ruleForm: {
-        name: "",
-        region: "",
-        date1: "",
-        date2: "",
-        delivery: false,
-        type: [],
-        resource: "",
-        desc: "",
-      },
-      rules: {
-        name: [
-          { required: true, message: "请输入活动名称", trigger: "blur" },
-          { min: 3, max: 5, message: "长度在 3 到 5 个字符", trigger: "blur" },
-        ],
-        region: [
-          { required: true, message: "请选择活动区域", trigger: "change" },
-        ],
-        date1: [
-          {
-            type: "date",
-            required: true,
-            message: "请选择日期",
-            trigger: "change",
-          },
-        ],
-        date2: [
-          {
-            type: "date",
-            required: true,
-            message: "请选择时间",
-            trigger: "change",
-          },
-        ],
-        type: [
-          {
-            type: "array",
-            required: true,
-            message: "请至少选择一个活动性质",
-            trigger: "change",
-          },
-        ],
-        resource: [
-          { required: true, message: "请选择活动资源", trigger: "change" },
-        ],
-        desc: [{ required: true, message: "请填写活动形式", trigger: "blur" }],
-      },
+      activeVar: 0,
+      activeVarER: 0,
+      dataStaPlan,
+      zfc: [], //二级菜单拆分的字符串
+      StationData: [], //数据列表
+
+      ShowData: [], //展示数据
+      listArr: ["二十五号站", "二十六号站"],
+      screeningCondition: "二十五号站",
+      optionc: [],
+      options: [
+        {
+          value: "二十五号站",
+          label: "47",
+          children: [
+            {
+              value: "琥珀小区三期/一号楼/一单元",
+              label: "1",
+            },
+            {
+              value: "琥珀小区三期/一号楼/二单元",
+              label: "2",
+            },
+            {
+              value: "琥珀小区三期/一号楼/三单元",
+              label: "3",
+            },
+            {
+              value: "琥珀小区三期/一号楼/三单元",
+              label: "4",
+            },
+            {
+              value: "琥珀小区三期/一号楼/三单元",
+              label: "5",
+            },
+            {
+              value: "琥珀小区三期/一号楼/三单元",
+              label: "6",
+            },
+            {
+              value: "琥珀小区三期/一号楼/三单元",
+              label: "7",
+            },
+            {
+              value: "琥珀小区三期/一号楼/三单元",
+              label: "8",
+            },
+            {
+              value: "琥珀小区三期/一号楼/三单元",
+              label: "9",
+            },
+            {
+              value: "琥珀小区三期/一号楼/三单元",
+              label: "10",
+            },
+            {
+              value: "琥珀小区三期/一号楼/三单元",
+              label: "11",
+            },
+            {
+              value: "琥珀小区三期/一号楼/三单元",
+              label: "12",
+            },
+            {
+              value: "琥珀小区三期/一号楼/三单元",
+              label: "13",
+            },
+            {
+              value: "琥珀小区三期/一号楼/三单元",
+
+              label: "14",
+            },
+            {
+              value: "琥珀小区三期/一号楼/三单元",
+              label: "15",
+            },
+            {
+              value: "琥珀小区三期/一号楼/三单元",
+              label: "16",
+            },
+          ],
+        },
+        {
+          value: "二十六号站",
+          label: "147",
+          children: [
+            {
+              value: "琥珀小区r期/一号楼/一单元",
+              label: "11",
+            },
+            {
+              value: "琥珀小区r期/一号楼/二单元",
+              label: "12",
+            },
+            {
+              value: "琥珀小区r期/一号楼/三单元",
+              label: "13",
+            },
+          ],
+        },
+      ],
     };
   },
+  mounted() {
+    this.forEachFun();
+  },
   methods: {
-    submitForm(formName) {
-      this.$refs[formName].validate((valid) => {
-        if (valid) {
-          alert("submit!");
-        } else {
-          console.log("error submit!!");
-          return false;
+    activeFunyi(item, index) {
+      console.log("选择站点", item);
+      this.StationData = this.dataStaPlan.doorStation(
+        this.$store.getters.get_doorDataAndInfo,
+        item
+      );
+
+      this.screeningCondition = item;
+      this.optionc = [];
+      this.forEachFun();
+
+      this.activeVar = index;
+    },
+    forEachFun() {
+      this.options.forEach((i) => {
+        if (i.value === this.screeningCondition) {
+          this.optionc.push(i);
         }
       });
     },
-    resetForm(formName) {
-      this.$refs[formName].resetFields();
+
+    activeFuner(v, i) {
+      // console.log("二级菜单");
+      // console.log("二级菜单vvv", v);
+      this.zfc = v.value.split("/");
+      console.log("this.zfc", this.zfc);
+      this.activeVarER = i;
+
+      this.ShowData = this.dataStaPlan.doorStationGG(
+        this.StationData,
+        this.zfc[0],
+        this.zfc[1],
+        this.zfc[2]
+      );
     },
   },
 };
 </script>
 <style lang="scss">
-form {
-  display: flex !important;
-  align-items: stretch !important;
-  justify-content: center !important;
-  flex-direction: column !important;
-  padding: 0rem 0rem !important;
-  transition: all 0.2s 0.7s !important;
-  overflow: hidden !important;
-  grid-column: 1 / 2 !important;
-  grid-row: 1 / 2 !important;
+.yiji {
+  width: 250px;
+  height: 600px;
+  // background-color: #fff;
+  background-color: palegreen;
+  color: #000;
+  display: inline-block;
+}
+.erji {
+  display: inline-block;
+  width: 250px;
+  height: 600px;
+  // background-color: #fff;
+  background-color: palegreen;
+  color: #000;
+  overflow-y: scroll; /*y轴滚动*/
+  scrollbar-color: transparent transparent;
+  scrollbar-track-color: transparent;
+  -ms-scrollbar-track-color: transparent;
+}
+.card-box {
+  width: 1300px;
+  height: 600px;
+  display: inline-block;
+  background-color: rgb(179, 18, 18);
+}
+.erji::-webkit-scrollbar {
+  width: 0 !important;
+}
+
+.listCss {
+  cursor: pointer;
+  width: 250px;
+  height: 50px;
+  text-align: center;
+  line-height: 50px;
+  //border: 1px solid #ccc;
+  float: left;
+  // margin-right: 10px;
+  border-color: #5473e8;
+}
+// 选中时的样式 (继承上方默认样式)
+.activeCss {
+  background: #f5f7fd;
+  color: rgb(0, 0, 0);
+  color: #5473e8;
+  border-left: 0.4rem solid #5473e8;
 }
 </style>

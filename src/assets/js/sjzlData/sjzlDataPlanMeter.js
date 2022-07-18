@@ -195,6 +195,32 @@ function doorStationHousingTowerUnit(array, Station, Housing, Tower, Unit) {
 
   return data
 }
+//换热站的数据传过来 根据下边的查找
+function doorStationGG(array, Housing, Tower, Unit) {
+  console.log("doorStationGG")
+  let data = []
+
+  let DataTemp = array
+  console.log("kk", DataTemp)
+
+  let NameTempHousing = Housing
+  let NameTempTower = Tower
+  let NameTempUnit = Unit
+  console.log(NameTempHousing)
+  console.log(NameTempTower)
+  console.log(NameTempUnit)
+  DataTemp.forEach((i) => {
+    if (
+      i.Housing === NameTempHousing &&
+      i.Tower === NameTempTower &&
+      i.Unit === NameTempUnit
+    ) {
+      data.push(i)
+    }
+  })
+  console.log(data)
+  return data
+}
 //户阀的结束
 
 export default {
@@ -205,5 +231,6 @@ export default {
   doorStation,
   doorStationHousing,
   doorStationHousingTower,
-  doorStationHousingTowerUnit
+  doorStationHousingTowerUnit,
+  doorStationGG
 }

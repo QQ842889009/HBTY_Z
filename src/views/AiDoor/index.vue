@@ -34,8 +34,7 @@
                 type="primary"
                 icon="el-icon-refresh"
                 size="mini"
-                @click="requestData"
-                disabled
+                @click="requestDataAll"
                 >请求数据</el-button
               >
 
@@ -146,8 +145,24 @@
             </div>
           </el-card>
         </el-tab-pane>
-        <el-tab-pane label="占位1" name="second">配置管理</el-tab-pane>
-        <el-tab-pane label="占位2" name="third">角色管理</el-tab-pane>
+        <el-tab-pane label="卡片视图" name="second">
+          <el-row :gutter="10">
+            <el-col :span="12"
+              ><div class="card-left"><DoorCard> </DoorCard></div
+            ></el-col>
+            <el-col :span="12"
+              ><div class="card-right"><DoorCardLine></DoorCardLine></div
+            ></el-col>
+          </el-row>
+          <!-- <div class="card-left">aa</div>
+          <div class="card-right">bb</div> -->
+          <!-- <DoorCard> </DoorCard> -->
+        </el-tab-pane>
+        <el-tab-pane label="卡片试图2" name="third">
+          <el-card class="box-card">
+            <DoorDataTwo></DoorDataTwo>
+          </el-card>
+        </el-tab-pane>
         <el-tab-pane label="占位3" name="fourth">定时任务补偿</el-tab-pane>
       </el-tabs>
     </div>
@@ -166,17 +181,24 @@ import Collocate from "./Collocate"; //配置显示和隐藏的
 import SelectSearch from "./SelectSearch"; //配置显示和隐藏的
 import Tab from "components/common/Tab"; //table表格公共模板
 import InputSearch from "components/common/InputSearch"; //输入关键词查找模板
-import DateTimePicker from "components/common/DateTimePicker";
-import Cascader from "components/common/Cascader"; //选择日期时间的模板
+import DateTimePicker from "components/common/DateTimePicker"; //选择日期时间的模板
+import Cascader from "components/common/Cascader";
 // import SysDlialog22 from "./SysDlialog22" ////
 import SysDlialog from "./SysDlialog"; ////
-import EchartLine from "../Visual/components/EchartLine.vue";
 
+import EchartLine from "../Visual/components/EchartLine.vue";
+import DoorCard from "./DoorCard"; ////
+import DoorCardLine from "./DoorCardLine"; ////
+//户阀卡片的第二种方式开始
+import DoorDataTwo from "./DoorDataTwo";
+
+//户阀卡片的第二种方式结束
 import {
   DoorRequestSingle,
   inDoorRequestAll_node,
   teHistory,
   inDoorFvsp,
+  doorRequestAll_java,
 } from "@/utils/common";
 import { ruleForm } from "@/utils/indoor";
 const { tableHeader } = require("./TableConfig");
@@ -353,6 +375,13 @@ export default {
       console.log("+++++++++++++++indoorque", this.indoorque);
       this.echartTieleName = v.HouseholderName;
     },
+    requestDataAll() {
+      doorRequestAll_java();
+      Message({
+        message: `户阀所有数据请求发送成功 `,
+        type: "success",
+      });
+    },
     requestData(v) {
       DoorRequestSingle(v.Sid);
       Message({
@@ -434,7 +463,7 @@ export default {
     },
     changeInput(v) {
       this.disabled.is = v.data.Sid;
-      console.log("阀门给定传值", v);
+      // console.log("阀门给定传值", v)
       inDoorFvsp(v.data.Sid, v.data.FVSP, this.disabled);
     },
 
@@ -469,17 +498,26 @@ export default {
     DateTimePicker,
     //SysDlialog22,
     SysDlialog,
+
     EchartLine,
     Cascader,
+    DoorCard,
+    DoorCardLine,
     // FromDialog,
     //Form,
+    DoorDataTwo,
   },
 };
 </script>
 <style lang="scss" scoped>
 .indoor-consumer {
-  // background-color: rgb(223, 202, 12);
+  //background-color: rgb(223, 202, 12);
   width: 100%;
+  color: #000;
+  // .card-left {
+  //   // background-color: rgb(165, 40, 40);
+
+  // }
 }
 .el-button--nm {
   color: #42b6ac;
@@ -497,6 +535,8 @@ export default {
 ::v-deep {
   .el-tabs--border-card {
     border-radius: 12px; //整个的圆角
+    height: 970px;
+
     // background-color: transparent !important;
   }
 
@@ -518,6 +558,7 @@ export default {
   .el-card {
     .el-card__body {
       padding: 1px;
+      // border-radius: 122px; //整个的圆角
     }
     padding: 1px;
     // margin: 10px;
@@ -537,7 +578,6 @@ export default {
     .ff {
       height: 155px;
       width: 100%;
-      // background-color: rgb(106, 223, 71);
     }
 
     //  background-color: powderblue;
@@ -549,24 +589,6 @@ export default {
   padding: 12px 16px;
   font-size: 2rem;
   display: flex;
-  // .x5 {
-  //   float: right;
-  //   //background-color: rgb(209, 51, 51);
-  //   .item {
-  //     padding: 0 8px 0 8px;
-  //   }
-  //   .el-button {
-  //     // width: 20px;
-  //     // height: 20px;
-  //     .icon {
-  //       // align-items: center; //上下居中
-  //       //justify-content: center; /* 相对父元素水平居中 */
-  //       text-align: center;
-  //       margin: 0 auto;
-  //     }
-  //   }
-  // }
-  // background-color: palegreen;
 }
 .el-card-title span:first-child {
   font-weight: 700;
@@ -590,14 +612,7 @@ export default {
   display: inline-block;
   position: relative;
 }
-//数据展示和搜搜框的展示
-// .el-card-title {
-//   justify-content: space-between;
-//   padding: 12px 16px;
-//   font-size: 1.8rem;
-//   display: flex;
-//   background-color: gold;
-// }
+
 .el-card-title-f {
   display: flex;
   padding: 12px 16px;

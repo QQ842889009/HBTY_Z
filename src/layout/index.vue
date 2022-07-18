@@ -11,7 +11,7 @@
       backgroundImage: 'url(' + bg1 + ')',
       backgroundRepeat: 'no-repeat',
       backgroundSize: '100% 100%',
-      zIndex: '98',
+      zIndex: '98'
     }"
   >
     <!-- bgc2就是第二张图片开始 -->
@@ -25,7 +25,7 @@
       v-bind:style="{
         backgroundImage: 'url(' + bg2 + ')',
         backgroundRepeat: 'no-repeat',
-        backgroundSize: '100% 100%',
+        backgroundSize: '100% 100%'
       }"
     >
       <Sidebar></Sidebar>
@@ -58,10 +58,8 @@
   </div>
 </template>
 
-
-
 <script>
-import { Sidebar, Header, Main } from "./components";
+import { Sidebar, Header, Main } from "./components"
 
 export default {
   name: "login",
@@ -69,8 +67,8 @@ export default {
     return {
       num: 30,
       bg1: require("assets/img/logo/bgz1.png"), //总背景图
-      bg2: require("assets/img/logo/header1.png"), //头部背景图
-    };
+      bg2: require("assets/img/logo/header1.png") //头部背景图
+    }
   },
   created() {},
   computed: {},
@@ -78,21 +76,21 @@ export default {
   updated() {},
   methods: {
     goBack() {
-      this.$router.push("/login");
+      this.$router.push("/login")
     },
 
     handleChange(value) {
-      console.log(value);
-      this.sliderStyle.marginLeft = value + "px";
-      this.sliderStyle.marginRight = value + "px";
-    },
+      console.log(value)
+      this.sliderStyle.marginLeft = value + "px"
+      this.sliderStyle.marginRight = value + "px"
+    }
   },
   components: {
     Sidebar,
     Header,
-    Main,
-  },
-};
+    Main
+  }
+}
 </script>
 
 <style lang="scss" scoped>

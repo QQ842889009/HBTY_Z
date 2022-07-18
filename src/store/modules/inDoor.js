@@ -7,7 +7,7 @@ export default {
   // namespaced: true,
   state: {
     inDoorDataAndInfo: [], //单元AI模块数据和信息
-    inDoorInfosLenght: 3000, //长度42   sid0-sid41
+    inDoorInfosLenght: 3430, //长度42   sid0-sid41
     inDoorInfos: [], //单元信息数组
     inDoorDataQue: [], //室内温度的历史查询
     isshow: false
@@ -64,7 +64,7 @@ export default {
     //室内温度读取node.js最后一次上数据时间
     INDOORDATANODE(state, data) {
       //INDOORDATANODE
-      console.log("node最后一次上数据时间")
+      console.log("node最后一次上数据时间", data)
       for (let i = 0; i < data.length; i++) {
         if (parseInt(data[i].sid) === parseInt(state.inDoorDataAndInfo[i].Sid));
         {

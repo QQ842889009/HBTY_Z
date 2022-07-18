@@ -33,7 +33,7 @@
         </div></el-col
       >
     </el-row>
-    pp{{ averageTeValue }}
+    <!-- pp{{ averageTeValue }} -->
   </div>
 </template>
 
@@ -49,7 +49,7 @@ export default {
       //选择换热站，小区，楼，单元，开始
       options: options,
       dataStaPlan,
-      filtCondition: ["二十五号站", "琥珀小区三期", "五号楼", "一单元"],
+      filtCondition: [],
       stationname: "",
       housingname: "",
       towername: "",
@@ -133,7 +133,7 @@ export default {
 </script>
 <style lang="scss">
 .card-centent {
-  background-color: rgb(54, 216, 39);
+  //background-color: rgb(54, 216, 39);
   width: 100%;
   height: 100%;
   overflow: auto;
