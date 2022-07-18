@@ -89,14 +89,12 @@ export default {
       console.log("要搜索的换热站名称AAA", a);
 
       this.data.filter((item) => {
-        console.log("item", item);
-        if (a in item.value) {
-          console.log("aaaaaaaa", a);
-          // if (item[a].toUpperCase().indexOf(this.value.toUpperCase()) > -1) {
-          //   this.temptableData.push(item);
-          // } else {
-          //   console.log("636363");
-          // }
+        if (a in item) {
+          if (item[a].toUpperCase().indexOf(this.value.toUpperCase()) > -1) {
+            this.temptableData.push(item);
+          } else {
+            console.log("636363");
+          }
         }
       });
       this.exportDtat = this.temptableData;
