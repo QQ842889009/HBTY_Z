@@ -17,7 +17,7 @@ export default {
       weatherArr: [],
       tempmaxArr: [],
       tempminArr: [],
-      dataTimeArr:[],
+      dataTimeArr: [],
       conditionsArr: [],
       isGet: false,
     };
@@ -39,8 +39,8 @@ export default {
     // console.log(this.weatherInfo)
   },
   mounted() {
-    this.$nextTick(function () {  
-        this.init();     
+    this.$nextTick(function () {
+      this.init();
 
     });
   },
@@ -116,7 +116,7 @@ export default {
           show: false,
         },
         xAxis: [
-       
+
           //#region 星期
           /* {
             type: "category",
@@ -147,8 +147,8 @@ export default {
             data: ["周一", "周二", "周三", "周四", "周五", "周六", "周日"],
           }, */
           //#endregion
-                 //#region 日期
-        {
+          //#region 日期
+          {
             type: "category",
             boundaryGap: false,
             position: "top",
@@ -172,7 +172,7 @@ export default {
             },
             // nameTextStyle: {},
             data: this.dataTimeArr,
-          }, 
+          },
           //#endregion
           // 天气图标
           {
@@ -272,7 +272,7 @@ export default {
             data: this.conditionsArr
             // data: ["小雨", "小雨", "阴", "小雨", "多云", "多云", "小雪"],
           },
-      
+
         ],
         yAxis: {
           type: "value",
@@ -300,6 +300,7 @@ export default {
               show: true,
               position: "top",
               color: "white",
+              fontSize: "16",
               formatter: "{c} °C",
             },
             lineStyle: {
@@ -328,6 +329,7 @@ export default {
               show: true,
               position: "bottom",
               color: "white",
+              fontSize: "16",
               formatter: "{c} °C",
             },
             lineStyle: {
@@ -342,22 +344,22 @@ export default {
         ],
       };
       var obj = {};
-      var objV=this.option.xAxis[1].data
-       console.log('vvvvvvvvv---v', objV)
-        for (let index = 0; index < objV.length; index++) {
-          obj[index] = {
-            backgroundColor: {
-              image: require("assets/img/weather/" + objV[index] + ".png"),
-            },
-            height: 40,
-          }
+      var objV = this.option.xAxis[1].data
+      console.log('vvvvvvvvv---v', objV)
+      for (let index = 0; index < objV.length; index++) {
+        obj[index] = {
+          backgroundColor: {
+            image: require("assets/img/weather/" + objV[index] + ".png"),
+          },
+          height: 40,
         }
-        obj["b"] = {
-          color: "white",
-          fontSize: 13,
-          lineHeight: 30,
-          height: 20,
-        }
+      }
+      obj["b"] = {
+        color: "white",
+        fontSize: 13,
+        lineHeight: 30,
+        height: 20,
+      }
       console.log('obj---------', obj)
       this.option.xAxis[1].axisLabel.rich = obj;
       this.myChart.setOption(this.option, true);
