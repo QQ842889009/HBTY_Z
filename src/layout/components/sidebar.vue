@@ -191,11 +191,11 @@ export default {
               id: "521",
               path: "AiUnitSx",
             },
-            {
-              name: "测试",
-              id: "522",
-              path: "aidoormain",
-            },
+            // {
+            //   name: "测试",
+            //   id: "522",
+            //   path: "aidoormain",
+            // },
           ],
         },
         {
