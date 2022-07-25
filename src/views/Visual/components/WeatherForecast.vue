@@ -89,7 +89,6 @@ export default {
       if (this.myChart == null) {
         this.myChart = echarts.init(this.$refs.weather);
       }
-
       this.option = {
         grid: {
           show: true,
@@ -191,13 +190,9 @@ export default {
             axisLabel: {
               interval: 0,
               formatter: function (value, index) {
-                console.log('format3333333', value, index)
-                //   console.log("{" + index + "| }\n{b|" + value + "}")
-                // return "{" + index + "| }\n{b|" + value + "}";
+                console.log('format3333333')
                 return "{" + index + "| }";
-                // return "{a|"+index+""
-                // console.log('value-------',value)
-                // return "{(" + value + ")|}\n{b|" + value + "}";
+
               },
               rich: "",
               //#region     rich: {
@@ -292,9 +287,7 @@ export default {
             showSymbol: true,
             smooth: true,
             itemStyle: {
-              normal: {
-                color: "#C95843",
-              },
+              color: "#C95843",
             },
             label: {
               show: true,
@@ -321,9 +314,7 @@ export default {
             showSymbol: true,
             smooth: true,
             itemStyle: {
-              normal: {
-                color: "rgb(34, 182, 241)",
-              },
+              color: "rgb(34, 182, 241)",
             },
             label: {
               show: true,
@@ -362,7 +353,9 @@ export default {
       }
       console.log('obj---------', obj)
       this.option.xAxis[1].axisLabel.rich = obj;
-      
+      this.$nextTick(() => {
+        this.myChart.resize();
+      })
       this.myChart.setOption(this.option, true);
       window.addEventListener("resize", () => {
         this.myChart.resize();

@@ -105,7 +105,7 @@ export default {
         // this.myChart = setTimeout(echarts.init(this.$refs.dw),500);
         this.myChart = echarts.init(this.$refs.myEchart)
       }
-      console.log("store", this.$store)
+      // console.log("store", this.$store)
       var lengedSize = parseFloat(this.pHeight) > 50 ? 40 : 30
       // console.log('height++++',parseFloat( this.pHeight)*0.4);
       this.option = {
@@ -117,13 +117,13 @@ export default {
           // formatter: '{a} <br/>{b} : {c} ({d}%)',
           formatter: function (p) {
             // console.log('--------pppppp-------',p);
-            return p.name + "：<br/>" + p.value.面积 + " ( " + p.percent + "% )"
+            return p.name + "：<br/>" + p.value.Space + " ( " + p.percent + "% )"
           },
           textStyle: {
             color: "#fff", //提示框的字体颜色
             fontSize: 18 //提示框的文字大小
           },
-          position: ["50%", "40%"]
+          // position: ["50%", "40%"]
         },
         textStyle: {
           color: "#fff",
@@ -167,7 +167,7 @@ export default {
           {
             transform: {
               type: "sort",
-              config: { dimension: "面积", order: "desc" }
+              config: { dimension: "Space", order: "desc" }
             }
           }
         ],
@@ -183,7 +183,7 @@ export default {
             center: ["30%", "50%"],
             radius: "90%",
             //  radius: ["90%","50%"],
-            encode: { itemName: "站点", value: "面积" },
+            encode: { itemName: "Station", value: "Space" },
             itemStyle: {
               borderRadius: 10
             },
@@ -196,7 +196,7 @@ export default {
             //淡出状态的扇区和标签样式
             blur: {
               itemStyle: {
-                opacity: 0.5
+                opacity: 0.8
               }
             },
             //饼图图形上的文本标签
@@ -217,51 +217,7 @@ export default {
               }
             }
           },
-          {
-            name: "2",
-            type: this.seriesType,
-            datasetIndex: this.choiceIndex,
-            //         是否展示成南丁格尔图
-            // 'radius' 扇区圆心角展现数据的百分比，半径展现数据的大小。
-            // 'area' 所有扇区圆心角相同，仅通过半径展现数据大小。
-            roseType: "radius",
-            center: ["30%", "50%"],
-            radius: "90%",
-            //  radius: ["90%","50%"],
-            encode: { itemName: "站点", value: "面积" },
-            itemStyle: {
-              borderRadius: 10
-            },
-            //高亮状态的扇区和标签样式
-            emphasis: {
-              scale: true,
-              scaleSize: 10,
-              focus: "self"
-            },
-            //淡出状态的扇区和标签样式
-            blur: {
-              itemStyle: {
-                opacity: 0.5
-              }
-            },
-            //饼图图形上的文本标签
-            label: {
-              show: false,
-              color: "#fff",
-              shadowColor: "transparent"
-            },
-            //标签的视觉引导线配置
-            labelLine: {
-              show: false,
-              // length: 5,
-              // length2: 5,
-              lineStyle: {
-                color: "#fff",
-                width: 2
-                // cap:'round'
-              }
-            }
-          }
+
         ]
       }
       this.myChart.setOption(this.option, true)

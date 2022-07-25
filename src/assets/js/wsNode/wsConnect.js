@@ -52,6 +52,7 @@ function wsClose(e) {
 function onMsg(e) {
   //服务器收到的是字符串，JSON化为基本的对象格式。
   let msg = JSON.parse(e.data)
+  // console.log('换热站请求的返回',msg)
   //{ eventName: "sj1", data: { te11: 32.3, te22: 45.6 } };
   switch (msg.eventName) {
     case "sj1":
@@ -86,13 +87,14 @@ function onMsg(e) {
     case "/hbty/plcData/info":
       that.$store.commit("plcS7/mutaPlcDataInfoUpdata", msg.data)
       that.$store.commit("plcS7/mutaEchartDataInfoUpdata", msg.data)
-      // console.log("换热站信息", msg.data)
+      that.$store.commit("realtime/MUSTATIONUPDATE", msg.data)
+      console.log("换热站信息", msg.data)
       // that.$store.commit("plcS7/mutaPlcDataInfoUpdata", msg.data)
       break
     case "/hbty/simulatePlcData":
       //  console.log("换热站数据", msg.data)
 
-      // that.$store.commit("stationData", msg.data)
+      // that.$store.commit("REALTIMEDATAUPDATE", msg.data)
       wsPlcDataProcess(msg.data)
       wsEchartDataProcess(msg.data)
       //  wsPlcDataProcess(msg.data)

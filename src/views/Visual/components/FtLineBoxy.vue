@@ -61,8 +61,9 @@ export default {
         };
       },
     },
+    //数据来源
     getData: Array,
-    //标题
+    //标题，根据此从ftLineList中获取对象
     title_name: {
       type: String,
       default: "一网温度",
@@ -71,8 +72,14 @@ export default {
       type: String,
       default: "scatter",
     },
-    // xData: Array,
-    // yData: Array,
+    // xSeries:{
+    //   type:String,
+    //   default:"站点"
+    // },
+    // ySeries: {
+    //   type:String,
+    //   default:"this.btnsList[index].value"
+    // },
     //y轴单位
     yUnit: {
       type: String,
@@ -86,6 +93,10 @@ export default {
       type: String,
       default: "100%",
     }, */
+    isSort:{
+      type:Boolean,
+      default:true
+    }
   },
   computed: {
     echartKyes() {
@@ -253,14 +264,14 @@ export default {
             var item = {
               name: this.btnsList[index].name,
               type: this.seriesType,
-              datasetIndex: 1,
-              encode: { x: "站点", y: this.btnsList[index].value },
+              datasetIndex: this.isSort?1:0,
+              encode: { x: this.btnsList.xSeries, y: this.btnsList[index].value },
               symbol: "rect",
               color: index == 0 ? "rgb(26, 218, 218)" : "yellow",
             };
             index++;
             series.push(item);
-          } while (index < this.btnsList.length - 1);
+          } while (index < this.btnsList.seriesLength);
           return series;
         })(),
       };
@@ -301,7 +312,7 @@ export default {
   .tipBox {
     // border: 1px solid red;
     background: url("~@/assets/img/logo/gh.png") left top no-repeat;
-    background-size: 98%;
+    background-size: 600px;
     // background-color: red;
     height: 40px;
     position: relative;
@@ -318,9 +329,9 @@ export default {
       // top: 0.3rem;
       // left: 1rem;
       color: #fff;
-      font-size: 18px;
-      text-align: center;
-      letter-spacing: 8px;
+      font-size: 16px;
+      text-align: left;
+      letter-spacing: 6px;
        .tt{
       width: 0.5rem;
       height: 1.2rem;

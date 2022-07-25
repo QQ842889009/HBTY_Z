@@ -38,9 +38,9 @@ export default {
     };
   },
   created() {
-    console.log('ftlinelist------------',ftLineList);
+    // console.log('ftlinelist------------',ftLineList);
     //  console.log('ftline------------',ftLineList[this.title_name]);
-    console.log(this.btnsList);
+    // console.log(this.btnsList);
 
   },
   props: {
@@ -157,19 +157,19 @@ export default {
         xAxis: {
           type: "category", //整体X坐标轴的类型，离散值
           //#region   x轴名称设置
-          /*   name: "站点", //整体X坐标轴的名称
-          nameLocation: "center", //整体X坐标轴的名称的位置
+        // name: "站点", //整体X坐标轴的名称
+        //   nameLocation: "center", //整体X坐标轴的名称的位置
           boundaryGap: false,
           nameTextStyle: {
             //坐标轴刻度
             fontWeight: "bolder",
             fontSize: "0.32rem",
-          }, */
+          }, 
           //#endregion
           boundaryGap: false,
           axisLabel: {
             //不显示X轴的每一项的标签
-            show: false,
+            show: true,
           },
           axisTick: {
             //不显示X轴的每一项的刻度
@@ -187,7 +187,7 @@ export default {
         grid: {
           //绘图版的大小
           top: "10%",
-          left: "7%",
+          left: "8%",
           right: "5%",
           bottom: this.girdNum,
           //height:this.boxHeight,
@@ -241,7 +241,7 @@ export default {
             }
             index++;
             series.push(item);
-          } while (index <= this.btnsList.length - 1);
+          } while (index < this.btnsList.seriesLength);
           return series;
         })(),
       };

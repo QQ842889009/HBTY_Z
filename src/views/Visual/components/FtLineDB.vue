@@ -102,7 +102,7 @@ export default {
         // this.myChart = setTimeout(echarts.init(this.$refs.dw),500);
         this.myChart = echarts.init(this.$refs.myEchart);
       }
-      console.log("init被调用了");
+      // console.log("init被调用了");
       this.option = {
         // backgroundColor: "rgb(6, 17, 39)", //背景颜色
         title: {},

@@ -11,6 +11,7 @@
       start-placeholder="开始日期"
       end-placeholder="结束日期"
       align="right"
+      :popper-append-to-body="false"
     >
     </el-date-picker>
   </div>
@@ -97,6 +98,10 @@ export default {
             },
           },
         ],
+        disabledDate:(time)=>{
+          const maxTime=(Date.now()+3600*1000*24*7)
+          return time.getTime()>maxTime
+        }
       },
 
       value2: [],
@@ -188,7 +193,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-深度赋值
+
 // /deep/.el-input__inner {
 //   border-radius: 23px; //输入框的圆角
 //   background-color: #3b99cf; //背景色是透明色
@@ -203,12 +208,12 @@ export default {
 // /deep/.picker {
 //   border-radius: 323px; //输入框的圆角
 // }
-::v-deep {
+::v-deep{
   //常态下
-  .el-range-editor {
+   .el-range-editor {
     border-color: #409eff;
     border-radius: 6px;
-    // background-color: #3b99cf;
+    background-color: #3b99cf;
   }
   //点击选择时
   .el-range-editor.is-active,
@@ -216,5 +221,20 @@ export default {
     border-color: #14eb5b;
     border-radius: 22px;
   }
+ .el-input__icon.el-range__icon.el-icon-time {
+  color: white !important;
 }
+.el-input__icon.el-range__close-icon {
+  color: white !important;
+}
+.el-range-input {
+  color: #fff !important;
+  background-color: #3b99cf !important;
+}
+.el-range-separator {
+  color: #fff !important;
+}
+}
+  
+ 
 </style>

@@ -3,7 +3,7 @@
     <div class="lineBox">
       <data-block tipName="换热站" :shape="{ height: '50%', width: '100%' }">
         <template #dataBoxSlot>
-          <FtPie :getData="staEchartData" :pHeight="'80%'" />
+          <FtPie :getData="stations" :pHeight="'80%'" />
         </template>
       </data-block>
       <div class="aa">
@@ -81,13 +81,12 @@ import FtBar from "./components/FtBar.vue";
 import FtLine from "./components/FtLine.vue";
 import FtPie from "./components/FtPie.vue";
 import EchartLine from "./components/EchartLine.vue";
-import { createNamespacedHelpers } from "vuex";
 import FtLineDB from "./components/FtLineDB.vue";
 import FtPieRound from "./components/FtPieRound.vue";
 import FtGauge from "./components/FtGauge.vue";
 import FtBox from "./components/FtBox.vue";
 import FtLineBox from "./components/FtLineBoxy.vue";
-const { mapState } = createNamespacedHelpers("plcS7");
+import { mapState } from 'vuex'
 export default {
   data() {
     return {
@@ -97,7 +96,9 @@ export default {
   },
   created() {},
   computed: {
-    ...mapState(["staPlcData", "staPlcNum", "staEchartData"]),
+     ...mapState('realtime',['stations']),
+       ...mapState('plcS7',["staPlcData", "staPlcNum", "staEchartData"]),
+    // ...mapState(["staPlcData", "staPlcNum", "staEchartData"]),
     indoorData() {
       return this.$store.getters.get_inDoorDataAndInfo.slice(0, 100);
       // :bHeight="'30%'" :bWidth="'50%'"

@@ -8,6 +8,7 @@ import { plcdataType, echartdataType } from "assets/js/storeBox/dataType.js";
  */
 let wsPlcDataProcess = (msg) => {
   new Promise((resolve, reject) => {
+    // console.log('plc数据复制替换')
     plcdataType.Sid = msg.Sid;
     // plcdataType.Sname = msg.Sname;
     // plcdataType.Space = msg.Space;

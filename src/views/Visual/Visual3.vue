@@ -130,9 +130,9 @@ export default {
       height: 30px;
     }
  
-    .timePicker {
-      // margin-right: 16px;
-    }
+    // .timePicker {
+    //   // margin-right: 16px;
+    // }
   }
 
   .box3 {

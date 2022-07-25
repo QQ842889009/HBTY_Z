@@ -64,7 +64,7 @@ export default {
     // 表格的高度
     height: {
       type: String,
-      default: "871",
+      default: "800",
     },
     pageSizeSet: {
       type: Number,
@@ -200,8 +200,8 @@ export default {
       }
       .el-table__body tr.hover-row > td {
         // color: #5aa6d4;
-        box-shadow: inset 0 0px 6px 2px #00bae4;
-        font-weight: 700;
+        // box-shadow: inset 0 0px 6px 2px #00bae4;
+        font-weight: 600;
         // font-size: 2rem;
         /* 强制修改背景颜色 */
         background-color: #052c55 !important;

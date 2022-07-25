@@ -95,7 +95,7 @@ export default {
         // this.myChart = setTimeout(echarts.init(this.$refs.dw),500);
         this.myChart = echarts.init(this.$refs.myEchart);
       }
-      console.log('store',this.$store);
+      // console.log('store',this.$store);
       var lengedSize = parseFloat(this.pHeight) > 50 ? 40 : 30;
       // console.log('height++++',parseFloat( this.pHeight)*0.4);
       this.option = {

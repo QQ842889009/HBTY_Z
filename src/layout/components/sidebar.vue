@@ -100,6 +100,11 @@ export default {
               name: "楼宇",
               id: "1123",
               path: "Visual3"
+            },
+            {
+              name: "实时展示",
+              id: "1124",
+              path: "Visual4"
             }
           ]
         },

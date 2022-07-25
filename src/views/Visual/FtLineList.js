@@ -5,94 +5,177 @@ export default {
 
 
 
-  一网温度: [
-    {
-      name: "供温",
-      value: "一供温度"
+  // 一网温度: [
+  //   {
+  //     name: "供温",
+  //     value: "一供温度"
+  //   },
+  //   {
+  //     name: "回温",
+  //     value: "一回温度"
+  //   },
+  //   {
+  //     name: "温差",
+  //     value: "一网温差"
+  //   }
+  // ],
+  一网温度: {
+    0: {
+      name: "供温",   //echart图表提示框的名字和右上角按钮的名字
+      value: "一供温度"   //echart的encode的y值，
     },
-    {
+    1: {
       name: "回温",
       value: "一回温度"
     },
-    {
+    2: {
       name: "温差",
       value: "一网温差"
-    }
-  ],
-  一网压力: [
-    {
+    },
+    xSeries: "站点", //echart的encode的x值，
+    seriesLength: 2,//series的数量，决定echart图表显示几条数据
+  },
+  一网压力: {
+    0: {
       name: "供压",
       value: "一供压力"
     },
-    {
+    1: {
       name: "回压",
       value: "一回压力"
     },
-    {
+    2: {
       name: "压差",
       value: "一网压差"
-    }
-  ],
-  一网流量: [
-    {
+    },
+    xSeries: "站点",
+    seriesLength: 2,//series的数量，决定echart图表显示几条数据
+  },
+  一网流量: {
+    0: {
       name: "流量",
       value: "一供流量"
-    }
-  ],
-  二网温度: [
-    {
+    },
+    xSeries: "站点",
+    seriesLength: 1,//series的数量，决定echart图表显示几条数据
+  },
+  二网温度: {
+    0: {
       name: "供温",
       value: "二供温度"
     },
-    {
+    1: {
       name: "回温",
       value: "二回温度"
     },
-    {
+    2: {
       name: "温差",
       value: "二网温差"
-    }
-  ],
-  二网压力: [
-    {
+    },
+    xSeries: "站点",
+    seriesLength: 2,//series的数量，决定echart图表显示几条数据
+  },
+  二网压力: {
+    0: {
       name: "供压",
       value: "二供压力"
     },
-    {
+    1: {
       name: "回压",
       value: "二回压力"
     },
-    {
+    2: {
       name: "压差",
       value: "二网压差"
-    }
-  ],
-  二网流量: [
-    {
+    },
+    xSeries: "站点",
+    seriesLength: 2,//series的数量，决定echart图表显示几条数据
+  },
+  二网流量: {
+    0: {
       name: "流量",
       value: "二供流量"
-    }
-  ],
-  面积: [
-    {
-      name: "面积",
-      value: "面积"
-    }
-  ],
-  补水流量: [
-    {
+    },
+    xSeries: "站点",
+    seriesLength: 1,//series的数量，决定echart图表显示几条数据
+  },
+
+  补水流量: {
+    0: {
       name: "补水流量",
       value: "补水流量"
-    }
-  ],
-  供热量: [
-    {
+    },
+    xSeries: "站点",
+    seriesLength: 1
+  } ,
+  供热量: {
+    0: {
       name: "一网热量",
       value: "一网热量"
     },
-    {
+    1: {
       name: "二网热量",
       value: "二网热量"
-    }
-  ]
+    },
+    xSeries: "站点",
+    seriesLength: 2
+  },
+  一网供压:{
+    0:{
+      name:"一网供压",
+      value:"PT11"
+    },
+    xSeries:"SdateTime" ,
+    seriesLength: 1
+  },
+  一网实时压力:{
+    0:{
+      name:"一网供压",
+      value:"PT11"
+    },
+    1:{
+      name:"一网回压",
+      value:"PT12"
+    },
+    xSeries:"SdateTime" ,
+    seriesLength: 2
+  },
+  一网实时温度:{
+    0:{
+      name:"一网供温",
+      value:"TE11"
+    },
+    1:{
+      name:"一网回温",
+      value:"TE12"
+    },
+    xSeries:"SdateTime" ,
+    seriesLength: 2
+  },
+  二网实时压力:{
+    0:{
+      name:"二网供压",
+      value:"PT21"
+    },
+    1:{
+      name:"二网回压",
+      value:"PT22"
+    },
+    xSeries:"SdateTime" ,
+    seriesLength: 2
+  },
+  二网实时温度:{
+    0:{
+      name:"二网供温",
+      value:"TE21"
+    },
+    1:{
+      name:"二网回温",
+      value:"TE22"
+    },
+    xSeries:"SdateTime" ,
+    seriesLength: 2
+  }
+
+
 }

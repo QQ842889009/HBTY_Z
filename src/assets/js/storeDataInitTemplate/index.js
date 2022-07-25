@@ -188,9 +188,28 @@ const stationDataInitTemplate = {
   MP2RM: 0,
   TE2X: 0
 }
+const realtimeTemplate={
+  SdateTime: "2030-09-11",
+  TE11: 0,
+  TE12: 0,
+  TE21: 0,
+  TE22: 0,
+  PT11: 0,
+  PT12: 0,
+  PT21: 0,
+  PT22: 0,
+
+}
+const stationTemplate={
+  Station:0,
+  Sid:0,
+  Space:0,
+}
 export {
   inDoorDataInitTemplate,
   doorDataInitTemplate,
   aiUnitDataInitTemplate,
-  stationDataInitTemplate
+  stationDataInitTemplate,
+  realtimeTemplate,
+  stationTemplate
 }

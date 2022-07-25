@@ -11,6 +11,7 @@ import aiUnit from "./modules/aiUnit"
 import plcS7 from "./modules/plcS7"
 import inDoor from "./modules/inDoor"
 import door from "./modules/door"
+import realtime from "./modules/realtime"
 export default new Vuex.Store({
   modules: {
     user,
@@ -19,6 +20,7 @@ export default new Vuex.Store({
     aiUnit,
     plcS7,
     inDoor,
-    door
+    door,
+    realtime
   }
 })

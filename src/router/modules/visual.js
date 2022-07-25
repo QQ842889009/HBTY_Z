@@ -2,6 +2,7 @@ const Visual = () => import("views/Visual/index.vue")
 const Visual1 = () => import("views/Visual/Visual1.vue")
 const Visual2 = () => import("views/Visual/Visual2.vue")
 const Visual3 = () => import("views/Visual/Visual3.vue")
+const Visual4 = () => import("views/Visual/Visual4.vue")
 const visual = {
   path: "/Visual", //权限管理
   // name: "Visual",
@@ -26,6 +27,12 @@ const visual = {
       name:"Visual3",
       meta:{title:"楼宇"},
       component:Visual3
+    },
+    {
+      path:"/Visual4",
+      name:"Visual4",
+      meta:{title:"实时温度"},
+      component:Visual4
     }
   ]
 }
