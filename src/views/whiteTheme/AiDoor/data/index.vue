@@ -2,7 +2,7 @@
   <div class="indoor-consumer">
     <div class="heat-consumer-report">
       <el-tabs type="border-card" v-model="activeName" @tab-click="handleClick">
-        <el-tab-pane label="户阀管控" name="first">
+        <el-tab-pane label="室内温度" name="first">
           <!-- 数据筛选标题 -->
           <div class="el-card-title"><span>数据筛选</span></div>
           <Cascader :options="options"></Cascader>
@@ -177,7 +177,7 @@
               ><div class="card-left"><DoorCard> </DoorCard></div
             ></el-col>
             <el-col :span="12"
-              ><div class="card-right"><DoorCard3> </DoorCard3></div
+              ><div class="card-right"><DoorCardLine></DoorCardLine></div
             ></el-col>
           </el-row>
           <!-- <div class="card-left">aa</div>
@@ -189,15 +189,7 @@
             <DoorDataTwo></DoorDataTwo>
           </el-card>
         </el-tab-pane>
-        <el-tab-pane label="占位3" name="fourth">
-          <el-row :gutter="10">
-            <el-col :span="12"
-              ><div class="card-left"><DoorCard> </DoorCard></div
-            ></el-col>
-            <el-col :span="12"
-              ><div class="card-right"><DoorCardLine> </DoorCardLine></div
-            ></el-col> </el-row
-        ></el-tab-pane>
+        <el-tab-pane label="占位3" name="fourth">定时任务补偿</el-tab-pane>
       </el-tabs>
     </div>
 
@@ -222,7 +214,6 @@ import SysDlialog from "./SysDlialog"; ////
 import SysDlialogSP from "./SysDlialogSP"; ////
 import EchartLine from "../Visual/components/EchartLine.vue";
 import DoorCard from "./DoorCard"; ////
-import DoorCard3 from "./DoorCard3"; ////
 import DoorCardLine from "./DoorCardLine"; ////
 //户阀卡片的第二种方式开始
 import DoorDataTwo from "./DoorDataTwo";
@@ -556,7 +547,6 @@ export default {
     EchartLine,
     Cascader,
     DoorCard,
-    DoorCard3,
     DoorCardLine,
     // FromDialog,
     //Form,

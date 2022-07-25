@@ -1,9 +1,6 @@
 <template>
   <div class="my_table">
     <!-- <p>my_table</p> -->
-    <!-- pp{{ selectID }}
-    {{ multipleSelection }} -->
-
     <el-table
       :data="posts"
       fixed
@@ -13,18 +10,13 @@
       class="customer-table"
       :style="zebarCrossingStyle"
       :cell-style="{ padding: '1.8px 0' }"
-      @selection-change="handleSelectionChange"
-      :row-key="getRowKeys"
-      @select="handleSelect"
-      @select-all="handleALL"
-      ref="multipleTable"
     >
       <!-- 勾选框 -->
       <el-table-column
         v-if="table_config.checkbox"
         type="selection"
         width="35"
-        :reserve-selection="true"
+        @selection-change="changeFun"
       >
         <!--带回调的展示  -->
       </el-table-column>
@@ -94,12 +86,7 @@
 export default {
   data() {
     return {
-      //选中变色的开始
-      selectID: [],
-      //选中变色的结束
-      // multipleSelection: [], //选择框的数组
-      multipleSelection: [], // 表格选中
-
+      multipleSelection: [], //选择框的数组
       //把父组件传过来得值放在data中  而没有直接使用
       table_config: {
         thead: [],
@@ -180,34 +167,9 @@ export default {
   mounted() {},
 
   methods: {
-    cancelSelectSidBtn() {
-      this.selectID = [];
-      this.$refs.multipleTable.clearSelection();
-      console.log("rttytt");
-      // this.multipleSelection = [];
-    },
-    handleALL(val) {
-      this.handleSelect(val);
-    },
-    /*  获取当前选中的数据 */
-    handleSelect(row) {
-      console.log("---------row", row);
-      this.selectID = [];
-      if (row.length > 0) {
-        row.forEach((value, index) => {
-          console.log("value", value);
-          this.selectID.push(value.Sid);
-        });
-      }
-
-      this.$emit("EmitSelectID", this.selectID);
-    },
-    getRowKeys(row) {
-      return parseInt(row.Sid);
-    },
-    handleSelectionChange(val) {
+    changeFun(val) {
+      console.log("----");
       this.multipleSelection = val;
-
       console.log("this.multipleSelection", this.multipleSelection);
     },
     ///////////
@@ -223,21 +185,10 @@ export default {
     },
     //斑马线
     tableRowClassName({ row, rowIndex }) {
-      if (this.selectID.length == 0) {
-        if ((rowIndex + 1) % 2 === 0) {
-          return "crossingOne"; //类名
-        } else {
-          return "crossingTwo"; //类名
-        }
-      }
-
-      if (this.selectID.length > 0) {
-        let color = "";
-        for (let item of this.selectID.values()) {
-          if (item === row.Sid) color = "table-SelectedRow-bgcolor";
-        }
-        console.log(color);
-        return color;
+      if ((rowIndex + 1) % 2 === 0) {
+        return "crossingOne"; //类名
+      } else {
+        return "crossingTwo"; //类名
       }
     },
     //表格头部多余内容...的第一步*第二部在css中的/deep/ .el-table th > .cell
@@ -291,11 +242,6 @@ export default {
 <style lang="scss" scoped>
 //这是分页的一些设置
 ::v-deep {
-  .table-SelectedRow-bgcolor {
-    td {
-      background-color: #ebb563 !important;
-    }
-  }
   .el-table__row > td {
     /* 去除表格线 */
     border: none;

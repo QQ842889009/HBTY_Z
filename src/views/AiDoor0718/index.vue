@@ -2,7 +2,7 @@
   <div class="indoor-consumer">
     <div class="heat-consumer-report">
       <el-tabs type="border-card" v-model="activeName" @tab-click="handleClick">
-        <el-tab-pane label="户阀管控" name="first">
+        <el-tab-pane label="室内温度" name="first">
           <!-- 数据筛选标题 -->
           <div class="el-card-title"><span>数据筛选</span></div>
           <Cascader :options="options"></Cascader>
@@ -45,23 +45,6 @@
                 @click="createData"
                 >增加设备</el-button
               >
-
-              <el-button
-                size="mini"
-                type="warning"
-                icon="el-icon-circle-check"
-                @click="selectSidBtn"
-                :disabled="selectSid.length == 0"
-                >多选给定</el-button
-              >
-              <el-button
-                size="mini"
-                type="info"
-                icon="el-icon-circle-close"
-                @click="cancelSelectSidBtn"
-                :disabled="selectSid.length == 0"
-                >取消多选</el-button
-              >
             </div>
 
             <div class="el-card-title-f-select">
@@ -78,13 +61,11 @@
             </div>
           </div>
           <Tab
-            ref="tab"
             :config="table_config"
             :tableData="tableData"
             :pagination="pagination"
             @handleSizeChange="handleSizeChange"
             @handleCurrentChange="handleCurrentChange"
-            @EmitSelectID="receiveSelectID"
           >
             <template v-slot:TE="slotData">
               <span :style="myStyle(slotData.data.TE)">{{
@@ -148,13 +129,6 @@
             <SysDlialog ref="dialog" :title="title" :rowData="rowData">
               <!-- <template #dialog-content> <Form></Form></template> -->
             </SysDlialog>
-            <SysDlialogSP
-              ref="dialogSP"
-              :title="titleSP"
-              :selectSid="selectSid"
-            >
-              <!-- <template #dialog-content> <Form></Form></template> -->
-            </SysDlialogSP>
           </div>
           <el-card shadow="always" class="box-card">
             <div class="el-card-title-history">
@@ -177,7 +151,7 @@
               ><div class="card-left"><DoorCard> </DoorCard></div
             ></el-col>
             <el-col :span="12"
-              ><div class="card-right"><DoorCard3> </DoorCard3></div
+              ><div class="card-right"><DoorCardLine></DoorCardLine></div
             ></el-col>
           </el-row>
           <!-- <div class="card-left">aa</div>
@@ -189,15 +163,7 @@
             <DoorDataTwo></DoorDataTwo>
           </el-card>
         </el-tab-pane>
-        <el-tab-pane label="占位3" name="fourth">
-          <el-row :gutter="10">
-            <el-col :span="12"
-              ><div class="card-left"><DoorCard> </DoorCard></div
-            ></el-col>
-            <el-col :span="12"
-              ><div class="card-right"><DoorCardLine> </DoorCardLine></div
-            ></el-col> </el-row
-        ></el-tab-pane>
+        <el-tab-pane label="占位3" name="fourth">定时任务补偿</el-tab-pane>
       </el-tabs>
     </div>
 
@@ -219,10 +185,9 @@ import DateTimePicker from "components/common/DateTimePicker"; //选择日期时
 import Cascader from "components/common/Cascader";
 // import SysDlialog22 from "./SysDlialog22" ////
 import SysDlialog from "./SysDlialog"; ////
-import SysDlialogSP from "./SysDlialogSP"; ////
+
 import EchartLine from "../Visual/components/EchartLine.vue";
 import DoorCard from "./DoorCard"; ////
-import DoorCard3 from "./DoorCard3"; ////
 import DoorCardLine from "./DoorCardLine"; ////
 //户阀卡片的第二种方式开始
 import DoorDataTwo from "./DoorDataTwo";
@@ -243,11 +208,6 @@ import { Input } from "element-ui";
 export default {
   data() {
     return {
-      //多选给定的开始
-      selectSid: [], //接收多选中的Sid
-      titleSP: "户阀多选给定",
-      subhead: "tt",
-      //对选给定的结束
       //选择换热站，小区，楼，单元，开始
       options: options,
       dataStaPlan,
@@ -406,24 +366,6 @@ export default {
     });
   },
   methods: {
-    //多选给定开始
-    receiveSelectID(v) {
-      console.log("VVVVVVV", v);
-      this.selectSid = v;
-    },
-    selectSidBtn() {
-      console.log("多选给定按钮");
-      this.$refs.dialogSP.dialogVisible = true;
-    },
-    cancelSelectSidBtn() {
-      console.log("取消多选");
-      this.selectSid = [];
-      // this.$refs.tab.selectID = [];
-      this.$refs.tab.cancelSelectSidBtn();
-      this.$refs.tab.multipleSelection = [];
-      //this.$refs.tab.multipleSelection.clearSelection();
-    },
-    //多选给定结束
     //历史查询
     historyInquire(v) {
       console.log("室内温度历史查询", v);
@@ -528,6 +470,11 @@ export default {
     handleEdit(index, row) {
       console.log(row, "1");
     },
+    //单个室内温度历史查询
+    //本体
+    // inDoorRequestSingleHistory(index, row, a) {
+    //   // teHistory(this.starttime);
+    // },
 
     change(val) {
       console.log("TTTT", val);
@@ -551,12 +498,10 @@ export default {
     DateTimePicker,
     //SysDlialog22,
     SysDlialog,
-    SysDlialogSP,
 
     EchartLine,
     Cascader,
     DoorCard,
-    DoorCard3,
     DoorCardLine,
     // FromDialog,
     //Form,
@@ -569,6 +514,10 @@ export default {
   //background-color: rgb(223, 202, 12);
   width: 100%;
   color: #000;
+  // .card-left {
+  //   // background-color: rgb(165, 40, 40);
+
+  // }
 }
 .el-button--nm {
   color: #42b6ac;

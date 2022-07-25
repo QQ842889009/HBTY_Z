@@ -61,7 +61,7 @@
 
 <script>
 // import { mapGetters } from "vuex";
-import sideItem from "./sideItem"
+import sideItem from "./sideItem";
 export default {
   name: "login",
   data() {
@@ -78,7 +78,7 @@ export default {
         17: "iconfont icon-kongzhi",
         18: "iconfont icon-zhexian  ",
         19: "iconfont icon-houtaiguanli ",
-        1511: "iconfont icon-keshihua-blue "
+        1511: "iconfont icon-keshihua-blue ",
       },
       menuList: [
         {
@@ -89,16 +89,17 @@ export default {
             {
               name: "热源",
               id: "1121",
-              path: "Visual1"
+              path: "Visual1",
             },
             {
               name: "热换站",
               id: "1122",
-              path: "Visual2"
+              path: "Visual2",
             },
             {
               name: "楼宇",
               id: "1123",
+
               path: "Visual3"
             },
             {
@@ -116,9 +117,9 @@ export default {
             {
               name: "AI单元",
               id: "121",
-              path: "Hot"
-            }
-          ]
+              path: "Hot",
+            },
+          ],
         },
         {
           name: "换热站",
@@ -128,39 +129,39 @@ export default {
               name: "数据总览",
               id: "221",
               // path: "pfd",
-              path: "TabData"
+              path: "TabData",
             },
             {
               name: "工艺控制",
               id: "222",
               // path: "pfd",
-              path: "ProcessControl"
+              path: "ProcessControl",
             },
             {
               name: "温度控制",
               id: "223",
               // path: "pfd",
-              path: "TeControl"
+              path: "TeControl",
             },
             {
               name: "整点报表",
               id: "224",
               // path: "pfd",
-              path: "TableIntegralPoint"
+              path: "TableIntegralPoint",
             },
             {
               name: "区间报表",
               id: "225",
               // path: "pfd",
-              path: "TableSection"
+              path: "TableSection",
             },
             {
               name: "历史查询",
               id: "226",
               // path: "pfd",
-              path: "HistoryQuery"
-            }
-          ]
+              path: "HistoryQuery",
+            },
+          ],
         },
 
         {
@@ -170,9 +171,9 @@ export default {
             {
               name: "数据展示",
               id: "322",
-              path: "AiUnit"
-            }
-          ]
+              path: "AiUnit",
+            },
+          ],
         },
 
         {
@@ -182,9 +183,9 @@ export default {
             {
               name: "户阀管控",
               id: "421",
-              path: "AiDoor"
-            }
-          ]
+              path: "AiDoor",
+            },
+          ],
         },
 
         {
@@ -194,9 +195,14 @@ export default {
             {
               name: "数据展示",
               id: "521",
-              path: "AiUnitSx"
-            }
-          ]
+              path: "AiUnitSx",
+            },
+            // {
+            //   name: "测试",
+            //   id: "522",
+            //   path: "aidoormain",
+            // },
+          ],
         },
         {
           name: "室内温度",
@@ -205,19 +211,19 @@ export default {
             {
               name: "数据展示",
               id: "621",
-              path: "AiInDoor"
-            }
-          ]
-        }
-      ]
-    }
+              path: "AiInDoor",
+            },
+          ],
+        },
+      ],
+    };
   },
   mounted() {},
   computed: {},
   components: {
-    sideItem
-  }
-}
+    sideItem,
+  },
+};
 </script>
 
 <style lang="scss" scoped>

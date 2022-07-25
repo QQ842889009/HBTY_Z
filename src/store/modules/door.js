@@ -9,7 +9,16 @@ export default {
     doorDataAndInfo: [], //单元AI模块数据和信息
     doorInfosLenght: 430, //长度42   sid0-sid41
     doorInfos: [], //单元信息数组
-    doorDataQue: [] //室内温度的历史查询
+    doorDataQue: [
+      {
+        event_time: "2022-06-23",
+        temp: "24"
+      },
+      {
+        event_time: "2022-06-24",
+        temp: "10"
+      }
+    ] //室内温度的历史查询
   },
   getters: {
     get_doorDataAndInfo(state) {
@@ -66,9 +75,9 @@ export default {
 
     //室内温度历史查询
 
-    INDOORDATAQUE(state, data) {
-      console.log("室内温度查询进入仓库")
-      state.inDoorDataQue = data
+    DOORDATAQUE(state, data) {
+      console.log("户阀历史查询进入仓库")
+      state.doorDataQue = data
     }
   },
   actions: {}

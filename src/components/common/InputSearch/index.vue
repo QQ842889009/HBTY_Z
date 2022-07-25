@@ -87,7 +87,10 @@ export default {
       let b = this.findName.findName2; //b是根据小区名搜
       console.log("要搜索的换热站名称AA", a);
       console.log("要搜索的换热站名称BB", b);
+      console.log("室内温度的查找", this.data);
+      console.log("室内温度的查找----", this.data);
       this.data.filter((item) => {
+        console.log("室内温度的查找----item", item);
         if (a in item || b in item) {
           if (
             item[a].toUpperCase().indexOf(this.value.toUpperCase()) > -1 ||

@@ -3,13 +3,19 @@
   <div class="ftLineBox" :style="{ width: '100%', height: this.boxHeight }">
     <div class="title-box">
       <div class="title-left">
-        <div class="tipText" v-show=this.isTitleShow>
-           <img class="tt" src="~@/assets/img/logo/yiji.png" alt="">
-          {{ title_name }}</div>
+        <div class="tipText" v-show="this.isTitleShow">
+          <img class="tt" src="~@/assets/img/logo/yiji.png" alt="" />
+          {{ title_name }}
+        </div>
       </div>
       <div class="title-right">
-        <div class="btnList" @click="clickBtn(btn, index)" :style="index == choiceIndex ? clickColor : normalColor"
-          v-for="(btn, index) of btnsList" :key='index'>
+        <div
+          class="btnList"
+          @click="clickBtn(btn, index)"
+          :style="index == choiceIndex ? clickColor : normalColor"
+          v-for="(btn, index) of btnsList"
+          :key="index"
+        >
           {{ btn.name }}
         </div>
       </div>
@@ -28,20 +34,18 @@ export default {
       option: {},
       choiceIndex: 0,
       normalColor: {
-        color: 'white',
+        color: "white",
       },
       clickColor: {
         // color:'green',
-        textShadow: '0 0 10px red,0 0 20px red,0 0 30px red,0 0 40px red'
+        textShadow: "0 0 10px red,0 0 20px red,0 0 30px red,0 0 40px red",
       },
-     
     };
   },
   created() {
     // console.log('ftlinelist------------',ftLineList);
     //  console.log('ftline------------',ftLineList[this.title_name]);
     // console.log(this.btnsList);
-
   },
   props: {
     getData: Array,
@@ -69,34 +73,34 @@ export default {
       type: String,
       default: "100%",
     }, */
-    isTitleShow:true,
+    isTitleShow: true,
   },
   computed: {
     echartKyes() {
       return Object.keys(this.getData[0]);
     },
 
-    btnsList(){
+    btnsList() {
       return ftLineList[this.title_name];
     },
-      //gird中bottom的值
-    girdNum(){
+    //gird中bottom的值
+    girdNum() {
       //根据boxHeight计算girdNum的大小，使图表正确显示大小
-      var hv=parseFloat(this.boxHeight);
-      return ((100-hv)/4+8).toString()+'%'
-    } 
+      var hv = parseFloat(this.boxHeight);
+      return ((100 - hv) / 4 + 8).toString() + "%";
+    },
   },
   mounted() {
     // console.log(Object.keys(this.getData[0]));
     this.$nextTick(function () {
       this.init();
-    });     
+    });
   },
 
   watch: {
     getData: {
       handler() {
-        this.myChart.setOption(this.option); 
+        this.myChart.setOption(this.option);
       },
       deep: true,
     },
@@ -111,12 +115,12 @@ export default {
   methods: {
     init() {
       if (this.myChart == null) {
-       // this.myChart = setTimeout(echarts.init(this.$refs.dw),500);
-        this.myChart=echarts.init(this.$refs.myEchart)
+        // this.myChart = setTimeout(echarts.init(this.$refs.dw),500);
+        this.myChart = echarts.init(this.$refs.myEchart);
       }
 
-        // console.log('init被调用')
-      
+      // console.log('init被调用')
+
       this.option = {
         // backgroundColor: "rgb(6, 17, 39)", //背景颜色
         title: {},
@@ -222,7 +226,10 @@ export default {
           {
             transform: {
               type: "sort",
-              config: { dimension:this.btnsList[this.choiceIndex].value , order: "asc" },
+              config: {
+                dimension: this.btnsList[this.choiceIndex].value,
+                order: "asc",
+              },
             },
           },
         ],
@@ -235,12 +242,13 @@ export default {
               name: this.btnsList[index].name,
               type: this.seriesType,
               datasetIndex: 1,
-              encode: { x: "站点", y: (this.btnsList[index].value) },
-              symbol:'rect',
-              color:(index==0?'rgb(26, 218, 218)':'yellow')
-            }
+              encode: { x: "站点", y: this.btnsList[index].value },
+              symbol: "rect",
+              color: index == 0 ? "rgb(26, 218, 218)" : "yellow",
+            };
             index++;
             series.push(item);
+
           } while (index < this.btnsList.seriesLength);
           return series;
         })(),
@@ -297,7 +305,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.ftLineBox{
+.ftLineBox {
   margin-top: 1rem;
   //  background-color: rgb(26, 218, 218);
   // background-color: rgba(5, 31, 54,0.6);
@@ -308,10 +316,10 @@ export default {
   justify-content: center;
   align-items: center;
   margin-top: 1px;
-  font-size:18px;
+  font-size: 18px;
   z-index: 1;
   // background-color: red;
-  
+
   .tipText {
     flex: 1;
     // background-color: rgb(46, 216, 131);
@@ -322,11 +330,10 @@ export default {
     color: #fff;
     // background: url('~@/assets/img/logo/yiji.png')left top no-repeat;
     // background-size: 3%;
-      .tt{
+    .tt {
       width: 0.5rem;
       height: 1.2rem;
-     
-      }
+    }
   }
 
   .title-left {
@@ -368,9 +375,8 @@ export default {
     z-index: 1;
   }
 }
-.myEchart{
+.myEchart {
   height: 100%;
   width: 100%;
-  
 }
 </style>

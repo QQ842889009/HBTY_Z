@@ -10,7 +10,7 @@
             <span class="title">热力站列表</span>
             <InputSearchStation
               :wide="wide"
-              :data="listArr"
+              :data="options"
               @change="change"
               :findName="findName"
               :placeholder="placeholder"
@@ -21,11 +21,12 @@
             <div class="grid-content bg-purple one">
               <div
                 class="listCss"
-                v-for="(item, index) in listArrShow"
+                v-for="(item, index) in optionsShow"
                 :key="index"
                 :class="{ activeCss: activeVar == index }"
                 @click="activeFunyi(item.Station, index)"
               >
+                <!-- {{ item.Station }} -->
                 {{ item.Station }}
               </div>
             </div></el-card
@@ -58,8 +59,13 @@
             <span class="t"></span>
             <span class="title">用户列表</span>
             <div class="grid-content bg-purple">
-              <div class="yhlb">暂无数据</div>
-              <DoorCardTwo :tableData="ShowData"></DoorCardTwo>
+              <!-- <div class="yhlb">暂无数据</div> -->
+              <DoorCardTwo
+                :tableData="ShowData"
+                :startAndEndDateAndTime="startAndEndDateAndTime"
+              ></DoorCardTwo>
+              pppp {{ doorque }}
+              <button @click="tt">tt</button>
             </div>
           </el-card>
         </el-col>
@@ -67,19 +73,44 @@
     </div>
     <div class="ab"></div>
     <div class="card-line">
-      我是曲线
+      <!-- <DateTimePicker
+        class="picker"
+        @EmitDateTimePicker="receiveDateTimePicker"
+      ></DateTimePicker> -->
+      <!-- <EchartLine :getData="doorque" :title_name="echartTieleName" /> -->
+
       <!-- <el-card class="box-card"> 我是曲线查询占位</el-card> -->
     </div>
   </div>
 </template>
 
 <script>
+import DateTimePicker from "components/common/DateTimePicker"; //选择日期时间的模板
+//import EchartLine from "../Visual/components/EchartLine.vue";
 import InputSearchStation from "components/common/InputSearchStation"; //输入关键词查找模板
 import DoorCardTwo from "./DoorCardTwo";
 import dataStaPlan from "assets/js/sjzlData/sjzlDataPlanMeter";
 export default {
   data() {
     return {
+      //历史数据查询开始
+      startAndEndDateAndTime: [], //其实日期时间和结束日期时间
+      starttime: null, //开始日期时间
+      endtime: null, //结束日期时间
+      doorHistoryData: [], //接收户阀历史数据
+      doorque: [
+        //历史数据给一个初始值
+        {
+          event_time: "2022-06-23",
+          temp: "24",
+        },
+        {
+          event_time: "2022-06-24",
+          temp: "10",
+        },
+      ],
+      echartTieleName: "", //传递的标识
+      //历史数据查询结束
       //输入搜索用的开始
       wide: "212px", //宽度
       findName: {
@@ -99,18 +130,13 @@ export default {
       StationData: [], //数据列表
 
       ShowData: [], //展示数据
-      listArrShow: [],
-      // listArr: ["二十五号站", "二十六号站"],
-      listArr: [
-        { Sid: "0", Station: "二十五号站" },
-        { Sid: "1", Station: "二十六号站" },
-        { Sid: "2", Station: "交警大队" },
-      ],
+
       screeningCondition: "二十五号站",
       optionc: [],
+      optionsShow: [],
       options: [
         {
-          value: "二十五号站",
+          Station: "二十五号站",
           label: "47",
           children: [
             {
@@ -181,37 +207,37 @@ export default {
           ],
         },
         {
-          value: "小A",
+          Station: "1#站",
           label: "147",
           children: [
             {
-              value: "琥珀小区r期/一号楼/一单元",
+              value: "1#小区/一号楼/一单元",
               label: "11",
             },
             {
-              value: "琥珀小区r期/一号楼/二单元",
+              value: "1#小区/一号楼/二单元",
               label: "12",
             },
             {
-              value: "琥珀小区r期/一号楼/三单元",
+              value: "1#小区/一号楼/三单元",
               label: "13",
             },
           ],
         },
         {
-          value: "交警大队",
+          Station: "交警大队",
           label: "247",
           children: [
             {
-              value: "琥珀小区r期/一号楼/一单元",
+              value: "交警大队小区/一号楼/一单元",
               label: "21",
             },
             {
-              value: "琥珀小区r期/一号楼/二单元",
+              value: "交警大队小区/一号楼/二单元",
               label: "22",
             },
             {
-              value: "琥珀小区r期/一号楼/三单元",
+              value: "交警大队小区/一号楼/三单元",
               label: "23",
             },
           ],
@@ -221,17 +247,27 @@ export default {
   },
   created() {
     this.initDataFun();
-    this.listArrShow = this.listArr;
-    // this.activeFuner();
+    this.optionsShow = this.options;
   },
   mounted() {
     this.forEachFun();
-    // this.activeFunyi(this.listArr[0], 0);
+    this.activeFunyi(this.options[0].Station, 0);
+    this.activeFuner(this.options[0].children[0], 0);
+  },
+  computed: {
+    //接收室内温度的数据
+    // doorque() {
+    //   return this.$store.getters.get_doorDataQue;
+    // },
   },
   methods: {
+    tt() {
+      let aa = this.$store.getters.get_doorDataQue;
+      console.log("aa", aa);
+    },
     change(val) {
       console.log("输入搜索返回的数据", val);
-      this.listArrShow = val;
+      this.optionsShow = val;
     },
     activeFunyi(item, index) {
       console.log("选择站点", item);
@@ -249,7 +285,7 @@ export default {
     initDataFun() {
       this.StationData = this.dataStaPlan.doorStation(
         this.$store.getters.get_doorDataAndInfo,
-        this.listArr[0]
+        this.options[0].Station
       );
       this.ShowData = this.dataStaPlan.doorStationGG(
         this.StationData,
@@ -258,9 +294,10 @@ export default {
         this.zfc[2]
       );
     },
+    //根据一级菜单 生成二级菜单
     forEachFun() {
       this.options.forEach((i) => {
-        if (i.value === this.screeningCondition) {
+        if (i.Station === this.screeningCondition) {
           this.optionc.push(i);
         }
       });
@@ -280,10 +317,19 @@ export default {
         this.zfc[2]
       );
     },
+    //日期时间选择器传递过来的数据
+    receiveDateTimePicker(v) {
+      this.startAndEndDateAndTime = v;
+      this.starttime = v[0];
+      this.endtime = v[1];
+      console.log("---选择的日期时间", this.startAndEndDateAndTime);
+    },
   },
   components: {
     DoorCardTwo,
     InputSearchStation,
+    DateTimePicker,
+    // EchartLine,
   },
 };
 </script>
@@ -368,9 +414,16 @@ export default {
 }
 .card-line {
   width: 100%;
-  height: 29%;
+  // height: 29%;
+  //width: 600px;
   height: 260px;
   padding: 25px;
+  //background-color: palegreen;
+  padding: 5px;
+  .picker {
+    position: absolute;
+    right: 30px;
+  }
 }
 .card-line:hover {
   background-color: #e2e6f3;

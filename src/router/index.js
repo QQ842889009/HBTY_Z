@@ -7,7 +7,7 @@ import aiInDoor from "./modules/aiInDoor" //
 import hot from "./modules/hot" //
 import station from "./modules/station" //
 import weather from "./modules/weather" //
-import visual from './modules/visual';
+import visual from "./modules/visual"
 
 Vue.use(VueRouter)
 
@@ -18,7 +18,8 @@ VueRouter.prototype.push = function push(location) {
 }
 const Login = () => import("views/Login/index.vue") //登录
 const layout = () => import("layout/index.vue") //模板
-
+const aidoormain = () => import("views/whiteTheme/AiDoor/main/aidoormain") //白色主题的户阀入口
+const AidoorWhite = () => import("views/whiteTheme/AiDoor/data/AidoorWhite") //白色主题的户阀入口
 const Visual = () => import("views/Visual/index.vue") //可视化  echarts 要包括热源 换热站 楼宇 室内的图表
 export const constantRoutes = [
   //常规配置
@@ -26,6 +27,20 @@ export const constantRoutes = [
     path: "/",
 
     redirect: "/Login" //首页指向
+  },
+
+  {
+    path: "/aidoormain",
+    component: aidoormain,
+
+    children: [
+      { path: "/", redirect: "/AidoorWhite" }, //指定向
+
+      {
+        path: "/AidoorWhite",
+        component: AidoorWhite
+      }
+    ]
   },
   { path: "/Login", component: Login },
 

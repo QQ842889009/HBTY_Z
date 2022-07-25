@@ -338,7 +338,7 @@ export default {
       this.starttime = v[0];
       this.endtime = v[1];
     },
-
+    //选择器传递过来的数据
     receiveSelectValue(v) {
       console.log("选择器传递过来的数据", v);
       this.tableData = v;

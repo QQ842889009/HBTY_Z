@@ -12,6 +12,7 @@
     "core-js": "^3.6.5",
     "echarts": "^5.3.3",
     "element-ui": "^2.14.1",
+    "leader-line": "^1.0.7",
     "lodash": "^4.17.21",
     "moment": "^2.29.3",
     "save": "^2.5.0",
