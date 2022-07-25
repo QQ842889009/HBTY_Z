@@ -1,17 +1,22 @@
 /** 换热站 区间报表*/
 <template>
-  <div class="card-centent">
-    <CascaderT :options="options"></CascaderT>
+  <div class="ss">
+    <button @click="hh">hh</button>
+    <!-- <CascaderT :options="options"></CascaderT> -->
+    <!-- <div id="start" class="a">1</div>
+    <div id="end" class="b">2</div> -->
     <div :class="[2 == 0 ? 'half' : 'halfA']">
-      <!-- <div class="h1"></div>
+      <div class="h1">
+        <div id="end">22</div>
+      </div>
       <div class="h2"></div>
       <div class="s1"></div>
-      <div class="s2"></div> -->
+      <div class="s2"></div>
       <el-row>
         <el-col :span="11" v-for="item in tableData" :key="item.Sid"
           ><div class="centent">
-            <!-- <div class="sj-c"></div>
-            <div class="sj-j"></div> -->
+            <div class="sj-c" id="start"></div>
+            <div class="sj-j"></div>
             <div class="centent-item">
               <span class="centent-item-span1"> {{ item.Num }}</span>
               <span class="centent-item-span2">
@@ -64,6 +69,7 @@
 </template>
 
 <script>
+import LeaderLine from "leader-line";
 import CascaderT from "components/common/CascaderT"; //
 import { options } from "assets/js/common/doorSelect";
 import SysDlialogCard from "./SysDlialogCard";
@@ -75,6 +81,11 @@ import { Message } from "element-ui";
 export default {
   data() {
     return {
+      lineContainer: null,
+      lineContainer2: null,
+      lineContainer3: null,
+      lineContainer4: null,
+      lineContainer5: null,
       //选择换热站，小区，楼，单元，开始
       options: options,
       dataStaPlan,
@@ -134,7 +145,11 @@ export default {
       // this.pagination.total = this.tableData.length;
     });
   },
+  beforeDestroy() {
+    this.hh();
+  },
   mounted() {
+    this.hh();
     this.f();
     this.Avg();
     Bus.$on("valIndoorCard", (data) => {
@@ -160,6 +175,17 @@ export default {
     });
   },
   methods: {
+    hh() {
+      console.log("hh");
+      let startEle = document.getElementById("start");
+      let endEle = document.getElementById("end");
+      console.log("2222", startEle, endEle);
+      this.lineContainer5 = new LeaderLine(startEle, endEle, {
+        color: "red",
+        size: 8,
+      });
+      console.log("/*/*8989", this.lineContainer5);
+    },
     Avg() {
       this.averageTeValue = getAvg(this.tableData, "TE", 100);
       console.log("hhh", this.averageTeValue);
@@ -200,6 +226,26 @@ export default {
 };
 </script>
 <style lang="scss">
+.ss {
+  width: 1500px;
+  height: 900px;
+  background-color: plum;
+}
+.a {
+  width: 90px;
+  height: 90px;
+
+  background-color: red;
+}
+
+.b {
+  position: relative;
+  left: 500px;
+  width: 90px;
+  height: 90px;
+
+  background-color: red;
+}
 .card-centent {
   //background-color: rgb(54, 216, 39);
   width: 100%;
@@ -219,7 +265,7 @@ export default {
     // border: 2px dashed #000;
     border-radius: 10px;
     height: 850px;
-    //background-color: palevioletred;
+    background-color: palevioletred;
     position: relative;
     .h1 {
       width: 94%;
@@ -261,10 +307,10 @@ export default {
     cursor: pointer;
     border-radius: 4px;
     background-color: #f5f7fd;
-    height: 8.8rem;
+    height: 8rem;
     box-shadow: none;
     background-color: #e5e8f6;
-    // background-color: rebeccapurple;
+    background-color: rebeccapurple;
     position: relative;
     top: 20px;
     display: flex; //弹性盒模型

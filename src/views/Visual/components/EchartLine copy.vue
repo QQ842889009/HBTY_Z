@@ -87,7 +87,7 @@ export default {
   watch: {
     getData: {
       handler() {
-        // this.myChart.clear();
+        this.myChart.clear();
         // this.myChart.setOption(this.option);
         this.init();
         console.log("EchartLine----data", this.getData);
@@ -208,17 +208,14 @@ export default {
                 yAxis: 16,
                 name: "Avg",
                 label: {
-                  formatter: "达标室温（18℃）",
+                  formatter: "达标室温（16℃）",
                 },
               },
             ],
           },
-          encode: { x: "created_time", y: "return_water_te" },
+          encode: { x: "event_time", y: "temp" },
         },
       };
-      this.$nextTick(() => {
-        this.myChart.resize(); //图形随着窗口缩放
-      });
       if (this.option && typeof this.option === "object") {
         this.myChart.setOption(this.option, true);
       }
@@ -242,7 +239,7 @@ export default {
 <style lang="scss" scoped>
 .ftLineBox {
   margin-top: 1rem;
-  // background-color: rgb(26, 218, 218);
+  //  background-color: rgb(26, 218, 218);
 }
 .title-box {
   height: 4%;
@@ -305,7 +302,5 @@ export default {
 .myEchart {
   height: 100%;
   width: 100%;
-  // height: 200px;
-  // width: 600px;
 }
 </style>

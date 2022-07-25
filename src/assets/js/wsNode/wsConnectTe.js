@@ -86,6 +86,7 @@ function onMsg(e) {
     case "/hbty/fa/dataQue":
       console.log("触发户阀数据间隔查询的数组AAA", msg.data)
       // that.$store.commit("doorDataQue", msg.data)
+      that.$store.commit("DOORDATAQUE", msg.data)
 
       break
     case "/hbty/ai/dataQue":

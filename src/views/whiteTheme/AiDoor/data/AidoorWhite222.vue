@@ -24,7 +24,7 @@ export default {
   // 注册监听
   mounted() {
     //   this.getLine()
-    this.hh();
+    // this.hh()
   },
   // 销毁监听，防止内存泄露
   destroyed() {},
@@ -49,7 +49,6 @@ export default {
   width: 1500px;
   height: 900px;
   background-color: plum;
-  z-index: 9999;
 }
 .a {
   width: 90px;

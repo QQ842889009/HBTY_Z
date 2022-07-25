@@ -1,10 +1,11 @@
 /** 换热站 区间报表*/
 <template>
   <div class="card-centent">
+    <CascaderT :options="options"></CascaderT>
     <div :class="[2 == 0 ? 'half' : 'halfA']">
       <el-row>
-        <el-col :span="8" v-for="item in tableData" :key="item.Sid"
-          ><div class="centent" @click="historyInquire(item)">
+        <el-col :span="12" v-for="item in tableData" :key="item.Sid"
+          ><div class="centent">
             <div class="centent-item">
               <span class="centent-item-span1"> {{ item.Num }}</span>
               <span class="centent-item-span2">
@@ -57,92 +58,142 @@
 </template>
 
 <script>
-import CascaderT from "components/common/CascaderT"; //
-import { options } from "assets/js/common/doorSelect";
-import SysDlialogCard from "./SysDlialogCard";
-// import Bus from "assets/js/bus.js";
-// import dataStaPlan from "assets/js/sjzlData/sjzlDataPlanMeter";
-import { getAvg } from "@/utils/common";
-import { DoorRequestSingle, doorHistory } from "@/utils/common";
-import { Message } from "element-ui";
+import CascaderT from "components/common/CascaderT" //
+import { options } from "assets/js/common/doorSelect"
+import SysDlialogCard from "./SysDlialogCard"
+import Bus from "assets/js/bus.js"
+import dataStaPlan from "assets/js/sjzlData/sjzlDataPlanMeter"
+import { getAvg } from "@/utils/common"
+import { DoorRequestSingle } from "@/utils/common"
+import { Message } from "element-ui"
 export default {
   data() {
     return {
+      //选择换热站，小区，楼，单元，开始
+      options: options,
+      dataStaPlan,
+      filtCondition: ["二十五号站", "琥珀小区三期", "五号楼", "一单元"],
+      stationname: "",
+      housingname: "",
+      towername: "",
+      unitname: "",
+      numname: "",
+      //选择换热站，小区，楼，单元，结束
+      tableData: [],
       TE: "回温:",
       FVSP: "开度:",
       averageTe: "平均回温:",
+
       dateAndTime: "时间:",
       SdateTE: "更新日期",
       StimeTE: "时间",
+
       averageTeValue: null,
       title: "",
-      rowData: {},
-    };
-  },
-  props: {
-    tableData: {
-      type: Array,
-      default: () => {
-        return [];
-      },
-    },
-
-    startAndEndDateAndTime: {
-      type: Array,
-      default: () => {
-        return [];
-      },
-    },
+      rowData: {}
+    }
   },
   watch: {
     tableData: {
       //这是一个数组里面是对象
       handler() {
         //watch的一个方法
-        this.Avg(); //要执行的方法
+        this.Avg() //要执行的方法
       },
-      deep: true, //深度监听
-    },
+      deep: true //深度监听
+    }
   },
-  created() {},
+  created() {
+    //this.tableData = this.$store.getters.get_doorDataAndInfo; //表格数据
+    console.log("户阀数据", this.tableData)
+    Bus.$on("valIndoorCard", (data) => {
+      console.log("*********************")
+      console.log("bus-valIndoorCard", data)
+      this.filtCondition = data
+      if (this.filtCondition.length === 4) {
+        this.stationname = this.filtCondition[0]
+        this.housingname = this.filtCondition[1]
+        this.towername = this.filtCondition[2]
+        this.unitname = this.filtCondition[3]
+
+        this.tableData = this.dataStaPlan.doorStationHousingTowerUnit(
+          this.$store.getters.get_doorDataAndInfo,
+
+          this.stationname,
+          this.housingname,
+          this.towername,
+          this.unitname
+        )
+      }
+      // this.pagination.total = this.tableData.length;
+    })
+  },
   mounted() {
-    this.Avg();
+    this.f()
+    this.Avg()
+    Bus.$on("valIndoorCard", (data) => {
+      console.log("*********************")
+      console.log("bus-valIndoorCard", data)
+      this.filtCondition = data
+      if (this.filtCondition.length === 4) {
+        this.stationname = this.filtCondition[0]
+        this.housingname = this.filtCondition[1]
+        this.towername = this.filtCondition[2]
+        this.unitname = this.filtCondition[3]
+
+        this.tableData = this.dataStaPlan.doorStationHousingTowerUnit(
+          this.$store.getters.get_doorDataAndInfo,
+
+          this.stationname,
+          this.housingname,
+          this.towername,
+          this.unitname
+        )
+      }
+      // this.pagination.total = this.tableData.length;
+    })
   },
   methods: {
-    historyInquire(v) {
-      // console.log("vvvvv", v);
-      // console.log("startAndEndDateAndTime", this.startAndEndDateAndTime);
-      doorHistory(
-        v.ValveCode,
-        this.startAndEndDateAndTime[0],
-        this.startAndEndDateAndTime[1]
-      );
-      // this.$store.commit("DOORDATAQUE", []);
-    },
     Avg() {
-      this.averageTeValue = getAvg(this.tableData, "TE", 100);
+      this.averageTeValue = getAvg(this.tableData, "TE", 100)
+      console.log("hhh", this.averageTeValue)
     },
 
+    f() {
+      if (4 === 4) {
+        console.log("ff44")
+        this.tableData = this.dataStaPlan.doorStationHousingTowerUnit(
+          this.$store.getters.get_doorDataAndInfo,
+
+          this.filtCondition[0],
+          this.filtCondition[1],
+          this.filtCondition[2],
+          this.filtCondition[3]
+        )
+      }
+    },
     changeInput(v) {
-      this.title = "户阀开度设定";
-      this.rowData = { ...v };
-      this.$refs.dialog.dialogVisible = true;
+      console.log("eeeee-vvvv", v)
+
+      this.title = "户阀开度设定"
+      this.rowData = { ...v }
+      this.$refs.dialog.dialogVisible = true
     },
     requestData(v) {
-      DoorRequestSingle(v.Sid);
+      DoorRequestSingle(v.Sid)
       Message({
         message: `表号：${v.Sid}，数据请求发送成功 `,
-        type: "success",
-      });
-    },
+        type: "success"
+      })
+    }
   },
   components: {
     CascaderT,
-    SysDlialogCard,
-  },
-};
+    SysDlialogCard
+  }
+}
 </script>
-<style lang="scss" scoped>
+<style lang="scss">
 .card-centent {
   //background-color: rgb(54, 216, 39);
   width: 100%;
@@ -168,46 +219,34 @@ export default {
     background-color: #cdd5f5;
   }
   .centent {
-    margin: 0rem 0.5rem 0.5rem 0.5rem;
+    margin: 0.9rem 0.5rem;
     padding: 0.5rem;
     cursor: pointer;
     border-radius: 4px;
     background-color: #f5f7fd;
-    height: 8.5rem;
+    height: 8.8rem;
     box-shadow: none;
-    background-color: #eceef7;
+    background-color: #e5e8f6;
     display: flex; //弹性盒模型
     flex-direction: column; //设置元素为垂直显示
-    .card-centent .centent .centent-item {
-      display: flex;
-      flex: auto;
-      margin: 0px;
-      align-items: center;
-      justify-content: space-between;
-    }
+
     .centent-item {
-      //background-color: palegoldenrod;
+      // background-color: palegoldenrod;
       display: flex;
       flex: auto; //父设置好 后子这样设置就行了
-      margin: 2px;
+      margin: 5px;
       align-items: center;
       justify-content: space-between;
       .centent-item-span1 {
-        flex: 1.2;
+        flex: 1;
       }
       .centent-item-span2 {
-        flex: 0.8;
+        flex: 1;
         text-align: right;
-        .el-icon-setting {
-          color: rgb(32, 84, 241);
-        }
         .el-icon-setting:hover {
           transform-origin: bottom center;
           transform: scale(1.1);
           color: rgb(199, 167, 23);
-        }
-        .el-icon-position {
-          color: rgb(32, 84, 241);
         }
         .el-icon-position:hover {
           transform-origin: bottom center;

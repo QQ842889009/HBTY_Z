@@ -59,7 +59,7 @@ function onMsg(e) {
       break
     case "connection":
       console.log("触发了连接事件ASDF", msg.data)
-      Vue.prototype.$wsSend("login", { name: "admin1563" })
+      Vue.prototype.$wsSend("login", { name: "admin15563" })
       break
     case "login":
       // console.log("触发了登录事件", msg.data.name);
@@ -90,7 +90,7 @@ function onMsg(e) {
       // that.$store.commit("plcS7/mutaPlcDataInfoUpdata", msg.data)
       break
     case "/hbty/simulatePlcData":
-      //  console.log("换热站数据", msg.data)
+      console.log("换热站数据", msg.data)
 
       // that.$store.commit("stationData", msg.data)
       wsPlcDataProcess(msg.data)

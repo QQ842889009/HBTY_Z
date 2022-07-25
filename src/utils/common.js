@@ -152,3 +152,15 @@ export function getAvg(arr, attr = "", deg = 1) {
 
   return avg.toFixed(dot) * 1
 }
+//户阀的历史数据请求开始
+export function doorHistory(v1, v2, v3) {
+  let msg = {
+    valve_code: v1,
+    startTime: v2,
+    endTime: v3
+  }
+
+  that.$wsSendTe("/hbty/fa/dataQue", msg)
+  console.log("户阀的历史查询", msg)
+}
+//户阀的历史数据请求结束

@@ -86,6 +86,7 @@ let socketOnDataAiUnit = (stompClient) => {
     //户阀的数据事件接收和户阀的信息接收
     // 户阀的数据  事件接收
     stompClient.subscribe("/data/wtOnValveData", (msg) => {
+      console.log("户阀的数据", msg)
       manageDataDoor.doorData(JSON.parse(msg.body))
     })
     //接收所有户阀所有信息;
