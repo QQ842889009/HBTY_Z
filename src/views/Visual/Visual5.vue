@@ -13,7 +13,7 @@
                 <el-select class="selectStation" v-model="selectItem" filterable placeholder="温度"
                     @change="get1($event)">
                     <el-option v-for="item in itemArr" :key="item.id" :label="item.name"
-                        :value="{ value: item.value, label: item.name }">
+                        :value="{ value: item.value, label: item.name, unit: item.unit }">
                     </el-option>
                 </el-select>
             </div>
@@ -34,8 +34,8 @@
             <el-button type="primary" class="bt" @click="changeItem">确定</el-button>
         </div>
         <div class="showBox">
-            <FtLineBox :title_name="selectItem.label" :getData="data" :boxHeight="'95%'" :yUnit="'℃'" :isSort="false"
-                :showLenged=true :key="isUpdata" />
+            <FtLineBox :title_name="selectItem.label" :getData="myData" :boxHeight="'97.5%'" :yUnit="myUnit"
+                :isSort="false" :showLenged=true :key="isUpdata" />
         </div>
     </div>
 </template>
@@ -43,17 +43,16 @@
 
 import { mapState } from 'vuex'
 import FtLineBox from "./components/FtLineBoxy copy.vue";
-import axios from 'axios';
-import { URLSearchParams } from 'url';
+
 export default {
     data() {
         return {
             itemArr: [
-                { id: 0, name: "流量", value: ['ft11', 'ft21', 'ft31'] },
-                { id: 1, name: "温度", value: ['te11', 'te12', 'te21', 'te22', 'te22_MP', 'te221', 'te222', 'te223', 'te224', 'te225', 'te226', 'te227', 'te228', 'te229', 'te22A', 'te12_Z'] },
-                { id: 2, name: "压力", value: ['pt11', 'pt12', 'pt21', 'pt22'] },
-                { id: 3, name: "频率", value: ['ft11', 'ft21', 'ft31'] },
-                { id: 4, name: "阀门", value: ['te11'] },
+                { id: 1, name: "温度", unit: "℃", value: ['te11', 'te12', 'te21', 'te22', 'te22_MP', 'te221', 'te222', 'te223', 'te224', 'te225', 'te226', 'te227', 'te228', 'te229', 'te22A', 'te12_Z'] },
+                { id: 2, name: "压力", unit: "MPa", value: ['pt11', 'pt12', 'pt21', 'pt22'] },
+                { id: 0, name: "流量", unit: "t/h", value: ['ft11', 'ft21', 'ft31'] },
+                { id: 3, name: "频率", unit: "Hz", value: ['ft11', 'ft21', 'ft31'] },
+                { id: 4, name: "阀门", unit: "%", value: ['te11'] },
             ],
             timeArr: [
                 { id: 0, name: "半小时", value: "0.5" },
@@ -69,7 +68,9 @@ export default {
             selectDate: '',
             selectTime: '',
             myParams: {},
-            data: [],
+            myData: [],
+            stationInfo: [],
+            myUnit: '',
             isUpdata: 0,
             pickerOptions: {
                 disabledDate: (time) => {
@@ -85,6 +86,7 @@ export default {
         this.selectItem = "";
         this.selectDate = "2022-06-25 05:00:00";
         this.selectTime = "0.5";
+        this.getStationInfo();
     },
     computed: {
         ...mapState('realtime', ['stations']),
@@ -93,7 +95,7 @@ export default {
 
     },
     methods: {
-        changeItem() {
+        async changeItem() {
             // console.log("ivalue----", `station:${this.selectStation},item:${this.selectItem},date:${this.selectDate},time:${this.selectTime}`)
             var startTime = Date.parse(new Date(this.selectDate).toString())
             var endTime = startTime + (this.selectTime * 60 * 60 * 1000)
@@ -104,13 +106,16 @@ export default {
             this.myParams.stArr = this.selectItem.value;
             this.myParams.startTime = startTime;
             this.myParams.endTime = endTime;
-            this.myParams.datasize = 10;
+            this.myParams.datasize = 180;
             console.log('-------------', this.myParams)
-            this.$http.post("plcdata/temsdemo1/plc/datas",this.myParams
-
-            ).then((res) => {
-                console.log("接受到的数据", res)
-            });
+            this.myUnit = this.selectItem.unit;
+            console.log(this.myUnit)
+            this.myData = await this.$http.post("plcdata/temsdemo1/plc/datas", this.myParams);
+            console.log('plcdata接受到的数据', this.myData)
+            // ).then((res) => {
+            //     console.log("接受到的数据", res)
+            //     this.myData=res;
+            // });
             this.isUpdata++;
             // this.$http({
             //     method:'post',
@@ -123,7 +128,10 @@ export default {
             //     console.log("发送数据失败")
             // })
         },
-
+        async getStationInfo() {
+            this.stationInfo = await this.$http.get("plcdata/temsdemo1/plc/stationInfo");
+            console.log('------', this.stationInfo);
+        },
         get1(v) {
             console.log("item------", v);
         },

@@ -42,7 +42,7 @@ export default {
     };
   },
   created() {
-    // console.log("ftlinelist------------", ftLineList);
+    console.log("从外面传进来的数据echarts", this.getData);
     // console.log('ftline------------',ftLineList[this.title_name]);
     // console.log(this.btnsList);
 
@@ -66,7 +66,7 @@ export default {
     },
     seriesType: {
       type: String,
-      default: "scatter",
+      default: "line",
     },
     // xSeries:{
     //   type:String,
@@ -203,11 +203,11 @@ export default {
           boundaryGap: false,
           axisLabel: {
             //不显示X轴的每一项的标签
-            show: false,
+            show: true,
           },
           axisTick: {
             //不显示X轴的每一项的刻度
-            show: false,
+            show: true,
           },
           //data: this.xData,
           axisLine: {
@@ -220,17 +220,17 @@ export default {
         },
         grid: {
           //绘图版的大小
-          top: "10%",
+          top: "7%",
           left: "7%",
           right: "5%",
-          bottom: this.girdNum,
+          bottom:"12%" ,
           //height:this.boxHeight,
           // containLabel: true, // 距离是包含坐标轴上的文字
         },
         yAxis: {
           name: this.yUnit,
           // nameTextStyle: { align: "right" }, //坐标轴文字的对齐
-          nameGap: "5", //名字距离轴线的距离
+          // nameGap: "5", //名字距离轴线的距离
           axisLine: {
             //坐标轴线
             show: true,

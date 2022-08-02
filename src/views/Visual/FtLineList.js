@@ -247,35 +247,35 @@ export default {
   压力:{
     0:{
       name:"一网供压",
-      value:"PT11"
+      value:"pt11"
     },
     1:{
       name:"一网回压",
-      value:"PT12"
+      value:"pt12"
     },
     2:{
       name:"二网供压",
-      value:"PT21"
+      value:"pt21"
     },
     3:{
       name:"二网回压",
-      value:"PT22"
+      value:"pt22"
     },
     4:{
       name:"二网回压",
-      value:"PT11_FV"
+      value:"pt11_FV"
     },
     5:{
       name:"一网阀后压力",
-      value:"PT21_FV"
+      value:"pt21_FV"
     },
     6:{
       name:"二网回压",
-      value:"PT22_BF"
+      value:"pt22_BF"
     },
     7:{
       name:"二网回压",
-      value:"PT22_BL"
+      value:"pt22_BL"
     },
     xSeries:"SdateTime" ,
     seriesLength: 4
@@ -283,11 +283,39 @@ export default {
   阀门:{
     0:{
       name:"二网供温",
-      value:"TE11"
+      value:"te11"
     },
     1:{
       name:"二网回温",
-      value:"TE22"
+      value:"te22"
+    },
+    xSeries:"SdateTime" ,
+    seriesLength: 2
+  },
+  流量:{
+    0:{
+      name:"一网流量",
+      value:"ft11"
+    },
+    1:{
+      name:"二网回温",
+      value:"ft21"
+    },
+    2:{
+      name:"二网回温",
+      value:"ft31"
+    },
+    xSeries:"SdateTime" ,
+    seriesLength: 2
+  },
+  频率:{
+    0:{
+      name:"二网供温",
+      value:"ft11"
+    },
+    1:{
+      name:"二网回温",
+      value:"ft22"
     },
     xSeries:"SdateTime" ,
     seriesLength: 2
