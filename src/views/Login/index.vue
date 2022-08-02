@@ -162,8 +162,8 @@ export default {
     return {
       rotate: true,
       ruleForm: {
-        account: "admin",
-        password: "admin@123",
+        username: "admin",
+        password: "abc123456",
       },
       rules: {
         account: [
@@ -189,6 +189,10 @@ export default {
   },
   methods: {
     submitForm(formName) {
+      console.log("登录", this.ruleForm);
+      // this.$http.post("plcdata/user/login", this.ruleForm).then((res) => {
+      //   console.log("登录的返回数据", res);
+      // });
       this.$router.push("/layout");
       this.$wsSendTe("login", {
         name: "aap" + Math.random() * 100,
