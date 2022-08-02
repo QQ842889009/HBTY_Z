@@ -10,16 +10,6 @@ export default {
     return {
       myChart: null,
       option: {},
-      location: "",
-      keyWeather: "BSSPJ3TEPQH7BV8W5J759DHC5",
-      keyGaode: "3c28c781f2aa4227580098e95db055e0",
-      weatherInfo: {},
-      weatherArr: [],
-      tempmaxArr: [],
-      tempminArr: [],
-      dataTimeArr: [],
-      conditionsArr: [],
-      isGet: false,
     };
   },
   props: {
@@ -31,60 +21,18 @@ export default {
       type: String,
       default: "唐山市",
     },
+    weatherInfo: [],
   },
   created() {
-    // console.log(this.location.length==0);
-    this.weatherGet();
-    // console.log(Object.keys(this.weatherInfo).length);
-    // console.log(this.weatherInfo)
   },
   mounted() {
+    console.log("外面传进来的信息", this.weatherInfo)
     this.$nextTick(function () {
       this.init();
 
     });
   },
   methods: {
-    //获取时间戳 var timestamp1 = Date.parse (new Date ());
-    async weatherGet() {
-      this.location = localStorage.getItem('location')
-      if (this.location == null) {
-        const { data: res } = await this.$http.get(
-          `position?key=${this.keyGaode}&address=${this.city}`
-        );
-        console.log("城市的经纬度请求", res);
-        // console.log(res.geocodes[0].location);
-        console.log(res.status);
-        if (res.status == 1) {
-          //status为0，表示请求失败，status为1，表示请求成功
-          var temp = res.geocodes[0].location;
-          var arr = temp.split(",");
-          var lo = arr.splice(-1) + "," + arr
-          localStorage.setItem('location', lo)
-        }
-      }
-      this.location = localStorage.getItem('location')
-      console.log("----location-----", this.location);
-      this.weatherInfo = JSON.parse(localStorage.getItem('weather'))
-      if (this.weatherInfo == null) {
-        const { data: res } = await this.$http.get(
-          `api/${this.location}/next7days?unitGroup=metric&key=${this.keyWeather}`
-          // `api/London,UK/2020-12-01/2020-12-31?key=${this.keyWeather}`
-        );
-        localStorage.setItem('weather', JSON.stringify(res))
-        console.log("天气的请求", res);
-      }
-      this.weatherInfo = JSON.parse(localStorage.getItem('weather'));
-      this.weatherArr = this.weatherInfo.days
-      console.log("----weatherInfo-----", this.weatherInfo);
-      console.log("----weatherArr-----", this.weatherArr);
-      for (let index = 0; index < this.weatherArr.length; index++) {
-        this.tempmaxArr.push(this.weatherArr[index].tempmax);
-        this.tempminArr.push(this.weatherArr[index].tempmin);
-        this.conditionsArr.push(this.weatherArr[index].icon);
-        this.dataTimeArr.push(this.weatherArr[index].datetime)
-      }
-    },
     init() {
       if (this.myChart == null) {
         this.myChart = echarts.init(this.$refs.weather);
@@ -115,43 +63,13 @@ export default {
           show: false,
         },
         xAxis: [
-
-          //#region 星期
-          /* {
-            type: "category",
-            boundaryGap: false,
-            position: "top",
-            offset: 120,
-            zlevel: 100,
-            axisLine: {
-              show: false,
-            },
-            axisTick: {
-              show: false,
-            },
-            axisLabel: {
-              interval: 0,
-              formatter: ["{a|{value}}"].join("\n"),
-              rich: {
-                a: {
-                  color: "white",
-                  fontSize: 14,
-                },
-              },
-            },
-            nameTextStyle: {
-              fontWeight: "bold",
-              fontSize: 19,
-            },
-            data: ["周一", "周二", "周三", "周四", "周五", "周六", "周日"],
-          }, */
-          //#endregion
           //#region 日期
           {
+            id: "data",
             type: "category",
             boundaryGap: false,
             position: "top",
-            offset: 80,
+            offset: 60,
             zlevel: 100,
             axisLine: {
               show: false,
@@ -170,16 +88,16 @@ export default {
               },
             },
             // nameTextStyle: {},
-            data: this.dataTimeArr,
           },
           //#endregion
           // 天气图标
           {
+            id: "icon",
             type: "category",
             boundaryGap: false,
             backgroundColor: 'red',
             position: "top",
-            offset: 20,
+            offset: 10,
             // zlevel: 100,
             axisLine: {
               show: false,
@@ -190,82 +108,16 @@ export default {
             axisLabel: {
               interval: 0,
               formatter: function (value, index) {
-                console.log('format3333333')
+                // console.log('format3333333', index)
                 return "{" + index + "| }";
-
               },
               rich: "",
-              //#region     rich: {
-              //       0: {
-              //         backgroundColor: {
-              //           // image: require('@/assets/weather_icon/' + this.weatherIconDic[this.weatherdata.weather[0]] + '.png')
-              //           image: require("assets/img/weather/rain.png"),
-              //         },
-              // height: 40,
-              //         // width: 64,
-              //       },
-              //       1: {
-              //         backgroundColor: {
-              //           // image: require('@/assets/weather_icon/' + this.weatherIconDic[this.weatherdata.weather[1]] + '.png')
-              //           image: require("assets/img/weather/rain.png"),
-              //         },
-              //         height: 40,
-              //         // width: 40,
-              //       },
-              //       2: {
-              //         backgroundColor: {
-              //           // image: require('@/assets/weather_icon/' + this.weatherIconDic[this.weatherdata.weather[2]] + '.png')
-              //           image: require("assets/img/weather/cloudy.png"),
-              //         },
-              //         height: 40,
-              //         // width: 40,
-              //       },
-              //       3: {
-              //         backgroundColor: {
-              //           // image: require('@/assets/weather_icon/' + this.weatherIconDic[this.weatherdata.weather[3]] + '.png')
-              //           image: require("assets/img/weather/rain.png"),
-              //         },
-              //         height: 40,
-              //         // width: 40,
-              //       },
-              //       4: {
-              //         backgroundColor: {
-              //           // image: require('@/assets/weather_icon/' + this.weatherIconDic[this.weatherdata.weather[4]] + '.png')
-              //           image: require("assets/img/weather/partly-cloudy-day.png"),
-              //         },
-              //         height: 40,
-              //         // width: 40,
-              //       },
-              //       5: {
-              //         backgroundColor: {
-              //           // image: require('@/assets/weather_icon/' + this.weatherIconDic[this.weatherdata.weather[5]] + '.png')
-              //           image: require("assets/img/weather/cloudy.png"),
-              //         },
-              //         height: 40,
-              //         // width: 40,
-              //       },
-              //       6: {
-              //         backgroundColor: {
-              //           // image: require('@/assets/weather_icon/' + this.weatherIconDic[this.weatherdata.weather[6]] + '.png')
-              //           image: require("assets/img/weather/snow.png"),
-              //         },
-              //         height: 40,
-              //         // width: 40,
-              //       },
-              //       b: {
-              //         color: "white",
-              //         fontSize: 12,
-              //         lineHeight: 30,
-              //         height: 20,
-              //     },
-              //#endregion },    
             },
             nameTextStyle: {
               fontWeight: "bold",
               fontSize: 19,
             },
-            data: this.conditionsArr
-            // data: ["小雨", "小雨", "阴", "小雨", "多云", "多云", "小雪"],
+            data:this.getWeatherIcon(this.weatherInfo)
           },
 
         ],
@@ -273,15 +125,21 @@ export default {
           type: "value",
           show: false,
           axisLabel: {
-            formatter: "{value} °C",
+            // formatter: "{value} °C",
             // color: "white",
           },
         },
+        dataset: [
+          { source: this.weatherInfo }
+        ],
         series: [
           {
             name: "最高气温",
             type: "line",
-            data: this.tempmaxArr,
+            encode: {
+              x: "datetime",
+              y: "tempmax"
+            },
             symbol: "emptyCircle",
             symbolSize: 10,
             showSymbol: true,
@@ -294,7 +152,10 @@ export default {
               position: "top",
               color: "white",
               fontSize: "16",
-              formatter: "{c} °C",
+              formatter(value) {
+                var temp = value.data.tempmax
+                return temp + "℃"
+              },
             },
             lineStyle: {
               width: 1,
@@ -308,7 +169,7 @@ export default {
           {
             name: "最低气温",
             type: "line",
-            data: this.tempminArr,
+            encode: { x: 'datetime', y: "tempmin" },
             symbol: "emptyCircle",
             symbolSize: 10,
             showSymbol: true,
@@ -321,7 +182,10 @@ export default {
               position: "bottom",
               color: "white",
               fontSize: "16",
-              formatter: "{c} °C",
+              formatter(value) {
+                var temp = value.data.tempmin
+                return temp + "℃"
+              },
             },
             lineStyle: {
               width: 1,
@@ -335,12 +199,13 @@ export default {
         ],
       };
       var obj = {};
-      var objV = this.option.xAxis[1].data
+      // var objV = this.option.xAxis[1].data
+      var objV = this.weatherInfo
       console.log('vvvvvvvvv---v', objV)
       for (let index = 0; index < objV.length; index++) {
         obj[index] = {
           backgroundColor: {
-            image: require("assets/img/weather/" + objV[index] + ".png"),
+            image: require("assets/img/weather/" + objV[index].icon + ".png"),
           },
           height: 40,
         }
@@ -351,8 +216,8 @@ export default {
         lineHeight: 30,
         height: 20,
       }
-      console.log('obj---------', obj)
       this.option.xAxis[1].axisLabel.rich = obj;
+      console.log('obj---------', this.option.xAxis)
       this.$nextTick(() => {
         this.myChart.resize();
       })
@@ -361,6 +226,15 @@ export default {
         this.myChart.resize();
       });
     },
+
+    getWeatherIcon(data){
+      let iconArr=[];
+      for (let index = 0; index < data.length; index++) {
+        const element = data[index].icon;
+        iconArr.push(element)
+      }
+      return iconArr;
+    }
   },
 };
 </script>

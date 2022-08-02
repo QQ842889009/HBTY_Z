@@ -75,6 +75,8 @@ import FtPie from "./components/FtPie.vue";
 import FtLineBox from "./components/FtLineBoxy.vue";
 import { createNamespacedHelpers } from "vuex";
 
+import { getWeatherForecast } from "./getWeatherData";
+
 const { mapState } = createNamespacedHelpers("plcS7");
 export default {
   data() {
@@ -100,7 +102,7 @@ export default {
     console.log('staEchartData-----',this.staEchartData);
     this.clickRowSta = this.staPlcData[0].Station;      
     this.stationData = this.staPlcData[0];
-    
+     getWeatherForecast("唐山");
   },
   computed: {
     ...mapState(["staPlcData", "staPlcNum", "staEchartData"]),

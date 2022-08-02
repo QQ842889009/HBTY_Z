@@ -183,7 +183,9 @@ export default {
           textStyle: {
             color: "#fff",
           },
-          right: "10%",
+          left: "10%",
+          // width:"40px",
+          // height:"20px",
         },
 
         xAxis: {
@@ -272,20 +274,20 @@ export default {
               datasetIndex: this.isSort ? 1 : 0,
               encode: { x: this.btnsList.xSeries, y: this.btnsList[index].value },
               symbol: "rect",
-              color: index == 0 ? "rgb(26, 218, 218)":"yellow",
-              itemStyle: {
-                color: function (p) {
-                  // console.log("颜色的参数", p)
-                  var c="";                 
-                  if(p.data.PT11==0&&p.data.TE11==0){
-                    c="red"
-                  }else {            
-                      c=(p.seriesIndex ==0 ? "rgb(26, 218, 218)":"yellow")
-                  }
-                  // console.log("颜色")
-                  return c
-                }
-              }
+              // color: index == 0 ? "rgb(26, 218, 218)":"yellow",
+              // itemStyle: {
+              //   color: function (p) {
+              //     // console.log("颜色的参数", p)
+              //     var c="";                 
+              //     if(p.data.PT11==0&&p.data.TE11==0){
+              //       c="red"
+              //     }else {            
+              //         c=(p.seriesIndex ==0 ? "rgb(26, 218, 218)":"yellow")
+              //     }
+              //     // console.log("颜色")
+              //     return c
+              //   }
+              // }
 
             };
             index++;
@@ -347,16 +349,16 @@ export default {
       flex: 1;
       // background-color: rgb(46, 216, 131);
       position: relative;
-      // top: 0.3rem;
+      top: 0.3rem;
       left: 1rem;
       color: #fff;
-      font-size: 16px;
+      font-size: 20px;
       text-align: left;
-      letter-spacing: 6px;
+      letter-spacing: 10px;
 
       .tt {
         width: 0.5rem;
-        height: 1.2rem;
+        height: 1.8rem;
 
       }
     }

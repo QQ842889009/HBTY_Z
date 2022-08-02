@@ -7,7 +7,7 @@
       <div class="box_corner right_bottom"></div>
     <div class="num" :style="{ color: this.bColor }">{{ this.bNum }}</div>
     <div class="text">{{ this.bText }}</div>
-     <div  class="icon" :class="iconObj[this.iconIndex]" style="color: #fff " v-show="this.isShow" ></div>
+     <div  class="icon" :class="iconObj[this.iconIndex]" style="color: #fff " v-show="isShow" ></div>
   </div>
 </template>
 

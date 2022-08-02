@@ -6,8 +6,12 @@ function realtime(data, len, dataInitArray) {
       let newDate=new Date();
       let nowHour=newDate.getHours();
       let nowMinutes=newDate.getMinutes();
+      let nowDay=newDate.getDate();
+      let nowMonth=newDate.getMonth()+1;
+      let nowYear=newDate.getFullYear();
+      let nowSecond=newDate.getSeconds();
       for (let i = 0; i < len; i++) {
-        dataInitArray.SdateTime=formatTime(nowHour,nowMinutes+i)
+        dataInitArray.SdateTime=formatTime(nowYear,nowMonth,nowDay,nowHour,nowMinutes-i,nowSecond)
         dataInitArray.TE11=0;
         dataInitArray.TE12=0;
         dataInitArray.TE21=0;
@@ -18,7 +22,7 @@ function realtime(data, len, dataInitArray) {
         dataInitArray.PT22=0;
         let obj = _.cloneDeep(dataInitArray)
   
-        data.push(obj)
+        data.unshift(obj)
       }
     }
   }
@@ -43,10 +47,10 @@ function realtime(data, len, dataInitArray) {
     num = num.toString()
     return num[1] ? num : '0' + num
   }
-  function formatTime(hour,minute){
+  function formatTime(year,month,day,hour,minute,second){
     if(hour>=24)  hour=0
-    if(minute>=60){hour++;minute=minute-60}
-    return hour+":"+formatNumber(minute)
+    if(minute<0){hour--;minute=minute+60}
+    return year+"-"+formatNumber(month)+"-"+ formatNumber(day)+" "+formatNumber(hour)+":"+formatNumber(minute)+":"+formatNumber(second)
   }
   export {
     realtime,stations,deepClone

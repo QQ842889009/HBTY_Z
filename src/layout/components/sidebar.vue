@@ -106,6 +106,11 @@ export default {
               name: "实时展示",
               id: "1124",
               path: "Visual4"
+            },
+            {
+              name: "测试",
+              id: "1125",
+              path: "Visual5"
             }
           ]
         },

@@ -92,7 +92,7 @@ function onMsg(e) {
       // that.$store.commit("plcS7/mutaPlcDataInfoUpdata", msg.data)
       break
     case "/hbty/simulatePlcData":
-      console.log("换热站数据", msg.data)
+      // console.log("换热站数据", msg.data)
 
       // that.$store.commit("REALTIMEDATAUPDATE", msg.data)
       wsPlcDataProcess(msg.data)

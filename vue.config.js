@@ -23,6 +23,14 @@ module.exports = {
             '^/position': ''
         }
     },
+    '/plcdata': {        //      
+      target:"http://10.168.1.176:9001",
+      changeOrigin: true,
+      ws: true,
+      pathRewrite: {
+          '^/plcdata': ''
+      }
+  },
   }
   },
   lintOnSave: false,

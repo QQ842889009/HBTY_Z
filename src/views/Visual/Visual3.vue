@@ -18,7 +18,7 @@
     </div>
     <div class="box3 topBox">
       <span class="stitle">天 气</span>
-      <WeatherForecast />
+      <WeatherForecast :weatherInfo="weatherInfo"/>
     </div>
     <div class="box3 midBox">
       <span class="stitle">供热量</span>
@@ -68,6 +68,11 @@ export default {
       return this.$store.getters.get_inDoorDataAndInfo.slice(0, 100);
       // :bHeight="'30%'" :bWidth="'50%'"
     },
+     weatherInfo() {           
+                var weatherAll = (JSON.parse(localStorage.getItem("weather")))
+                console.log('----------', weatherAll)
+                 return weatherAll.days
+        }
   },
   methods: {
     receiveDateTimePicker(v) {
@@ -75,6 +80,8 @@ export default {
 
       this.starttime = v[0];
       this.endtime = v[1];
+      console.log('starttime',this.starttime)
+       console.log('endtime',this.endtime)
     },
   },
   components: {
