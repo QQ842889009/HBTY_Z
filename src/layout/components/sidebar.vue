@@ -100,19 +100,20 @@ export default {
               name: "楼宇",
               id: "1123",
 
-              path: "Visual3"
+              path: "Visual3",
             },
             {
               name: "实时展示",
               id: "1124",
-              path: "Visual4"
+
+              path: "Visual4",
             },
             {
               name: "测试",
               id: "1125",
-              path: "Visual5"
-            }
-          ]
+              path: "Visual5",
+            },
+          ],
         },
         {
           name: "热源",
@@ -165,6 +166,24 @@ export default {
               id: "226",
               // path: "pfd",
               path: "HistoryQuery",
+            },
+            {
+              name: "面积系数",
+              id: "227",
+
+              path: "Space",
+            },
+            {
+              name: "面积系数2",
+              id: "228",
+
+              path: "Space2",
+            },
+            {
+              name: "变频控制",
+              id: "229",
+
+              path: "BpControl",
             },
           ],
         },
@@ -220,6 +239,17 @@ export default {
             },
           ],
         },
+        {
+          name: "测试",
+          id: "17",
+          children: [
+            {
+              name: "面积",
+              id: "721",
+              path: "xxx",
+            },
+          ],
+        },
       ],
     };
   },
@@ -242,7 +272,7 @@ export default {
 
   color: #fff;
 
-  width: 80%;
+  width: 60%;
 
   position: relative;
   left: 500px;

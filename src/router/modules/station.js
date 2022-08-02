@@ -6,7 +6,9 @@ const TableIntegralPoint = () => import("views/Station/TableIntegralPoint.vue")
 const TableSection = () => import("views/Station/TableSection.vue")
 const HistoryQuery = () => import("views/Station/HistoryQuery.vue")
 const TabData = () => import("views/Station/TabData/index.vue")
-
+const Space = () => import("views/Station/Space/index.vue")
+const Space2 = () => import("views/Station/Space/Space2.vue")
+const BpControl = () => import("views/Station/BpControl/index.vue")
 const station = {
   path: "/station",
   name: "station",
@@ -55,6 +57,24 @@ const station = {
       name: "HistoryQuery",
       meta: { title: "历史查询" },
       component: HistoryQuery
+    },
+    {
+      path: "/Space",
+      name: "Space",
+      meta: { title: "面积" },
+      component: Space
+    },
+    {
+      path: "/Space2",
+      name: "Space2",
+      meta: { title: "面积" },
+      component: Space2
+    },
+    {
+      path: "/BpControl",
+      name: "BpControl",
+      meta: { title: "变频控制" },
+      component: BpControl
     }
   ]
 }

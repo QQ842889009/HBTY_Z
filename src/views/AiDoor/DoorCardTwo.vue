@@ -187,6 +187,7 @@ export default {
     }
     .centent-item {
       //background-color: palegoldenrod;
+      // border: 2px rgb(21, 212, 75) solid;
       display: flex;
       flex: auto; //父设置好 后子这样设置就行了
       margin: 2px;

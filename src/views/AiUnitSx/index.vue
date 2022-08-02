@@ -1,6 +1,7 @@
 <template>
   <div class="checkbox" id="checkbox">
-    <div class="content">
+    <el-slider :min="1" :max="50" v-model="bb" show-input> </el-slider>
+    <!-- <div class="content">
       <template v-if="allData != null && allData.length > 0">
         <div
           class="item"
@@ -36,7 +37,7 @@
       <el-button type="primary" @click="handleSelectAllChecked">全选</el-button>
       <el-button type="info" @click="handleEmptyAllChecked">清空</el-button>
       <el-button type="success" @click="handleCheckedSure">确认</el-button>
-    </div>
+    </div> -->
   </div>
 </template>
 
@@ -44,6 +45,7 @@
 export default {
   data() {
     return {
+      bb: 55,
       mychecked: true,
       allDataTemp: [
         {
