@@ -6,32 +6,36 @@
 module.exports = {
   devServer: {
     //before: require('./mock/index.js') // 引入mock/index.js
-    proxy: {      // 匹配所有以 /api 开头的url      
-      '/api': {
-          target:"https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline",
-          changeOrigin: true,
-          ws: true,
-          pathRewrite: {
-              '^/api': ''
-          }
-      },
-      '/position': {        //根据地址获取经纬度        
-        target:"https://restapi.amap.com/v3/geocode/geo	",
+    proxy: {
+      // 匹配所有以 /api 开头的url
+      "/api": {
+        target:
+          "https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline",
         changeOrigin: true,
         ws: true,
         pathRewrite: {
-            '^/position': ''
+          "^/api": ""
         }
-    },
-    '/plcdata': {        //      
-      target:"http://10.168.1.176:9001",
-      changeOrigin: true,
-      ws: true,
-      pathRewrite: {
-          '^/plcdata': ''
+      },
+      "/position": {
+        //根据地址获取经纬度
+        target: "https://restapi.amap.com/v3/geocode/geo	",
+        changeOrigin: true,
+        ws: true,
+        pathRewrite: {
+          "^/position": ""
+        }
+      },
+      "/plcdata": {
+        //
+        target: "http://10.168.1.176:9000",
+        changeOrigin: true,
+        ws: true,
+        pathRewrite: {
+          "^/plcdata": ""
+        }
       }
-  },
-  }
+    }
   },
   lintOnSave: false,
   runtimeCompiler: true,

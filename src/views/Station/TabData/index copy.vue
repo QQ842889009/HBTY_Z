@@ -4,7 +4,7 @@
       <template #header-box-temp1> 数据总览</template>
       <!-- <template #header-box-temp2> 数据总览</template> -->
       <template #header-box-temp3>
-        <!-- <InputSearch
+        <InputSearch
           :wide="wide"
           :data="staPlcData"
           @change="change"
@@ -13,13 +13,13 @@
           :prefixIcon="prefixIcon"
           :size="size"
           :clearable="clearable"
-        ></InputSearch> -->
+        ></InputSearch>
       </template>
       <template #content>
         <MyTable
           :col="col"
           :dropCol="dropCol"
-          :tableData="tableDataxx"
+          :tableData="staPlcData"
           :pagination="pagination"
           :zebarCrossing="zebarCrossing"
           class="customer-table"
@@ -40,7 +40,7 @@ import InputSearch from "components/common/InputSearch"; //输入关键词查找
 
 import { Input } from "element-ui";
 import { createNamespacedHelpers } from "vuex"; //
-//const { mapState } = createNamespacedHelpers("plcS7");
+const { mapState } = createNamespacedHelpers("plcS7");
 export default {
   data() {
     return {
@@ -378,23 +378,22 @@ export default {
       //分页的设置
       pagination: {
         current: 1,
-        size: 31,
+        size: 30,
         total: 0,
       },
     };
   },
   created() {
-    this.tableDataxx = this.$store.getters.stationDataAndInfo; //表格数据
     // inDoorRequestAll();
     // this.tableData = this.$store.getters.get_staPlcData; //表格数据
     // console.log("换热站数据AAA", this.tableData);
-    this.pagination.total = this.tableDataxx.lenght; //数据的长度给分页总数用
+    this.pagination.total = this.staPlcNum; //数据的长度给分页总数用
     // this.transuFindData = this.$store.getters.get_inDoorDataAndInfo;
     // console.log("sssss", this.transuFindData)
   },
   watch: {},
   computed: {
-    // ...mapState(["staPlcData", "staPlcNum"]),
+    ...mapState(["staPlcData", "staPlcNum"]),
 
     paginationNum() {
       return parseInt(this.staPlcNum / this.pagination.size + 0.9);

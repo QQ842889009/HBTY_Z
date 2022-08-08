@@ -35,6 +35,9 @@
                 icon="el-icon-refresh"
                 size="mini"
                 @click="requestDataAll"
+                :disabled="
+                  !this.ISAUTH.isAUth(['ROOT', 'HRZ:WDKZ', 'HRZ:SJZL'])
+                "
                 >请求数据</el-button
               >
 

@@ -3,6 +3,8 @@ import App from "./App.vue"
 import router from "./router"
 import store from "./store"
 import ElementUI from "element-ui"
+import isAuth from "assets/js/isAuth/isAuth.js"
+import dayjs from "dayjs"
 import "element-ui/lib/theme-chalk/index.css"
 import "@/styles/index.scss"
 import "./assets/fonts/iconfont.css" //引入阿里图标
@@ -21,6 +23,9 @@ import "./permission" //路由拦截
 import animated from "animate.css" //引入移动动画库
 Vue.use(animated) //注册移动动画库
 
+Vue.prototype.$dayjs = dayjs //引入时间处理
+
+Vue.prototype.ISAUTH = isAuth
 import { plcdataType, echartdataType } from "assets/js/storeBox/dataType.js"
 import {
   inDoorDataInitTemplate,
@@ -42,10 +47,10 @@ new Promise((resolve, reject) => {
 
   store.commit("MUINDOORDATAINIT", inDoorDataInitTemplate) //
   store.commit("MUDOORDATAINIT", doorDataInitTemplate) //
-  store.commit("AIUNIT", socketStation) //*****改造新加
+  store.commit("STATION", stationTemplate) //*****改造新加
 
-  store.commit("realtime/MUREALTIMEINIT",realtimeTemplate)
-  store.commit("realtime/MUSTATIONINT",stationTemplate)
+  store.commit("realtime/MUREALTIMEINIT", realtimeTemplate)
+  store.commit("realtime/MUSTATIONINT", stationTemplate)
 
   resolve()
 }).then(() => {
@@ -58,13 +63,12 @@ new Promise((resolve, reject) => {
   )
 
   // socketRealtime.connected("http://221.206.242.116:1666/endpoint-websocket")
-  // socketStation.connected("http://221.206.242.116:1666/endpoint-websocket") //生产和开发环境的PLC换热站连接不包括热源
+  socketStation.connected("http://221.206.242.116:1666/endpoint-websocket") //生产和开发环境的PLC换热站连接不包括热源
 })
 
 import moment from "moment" //导入时间插件npm install moment –save
 Vue.prototype.$moment = moment //全局注册时间插件
 import "./utils/axios"
-
 
 Vue.use(ElementUI)
 

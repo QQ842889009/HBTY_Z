@@ -240,13 +240,18 @@ export default {
           ],
         },
         {
-          name: "测试",
+          name: "后台管理",
           id: "17",
           children: [
             {
-              name: "面积",
+              name: "用户列表",
               id: "721",
-              path: "xxx",
+              path: "user",
+            },
+            {
+              name: "角色管理",
+              id: "722",
+              path: "role",
             },
           ],
         },

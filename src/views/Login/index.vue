@@ -1,30 +1,4 @@
 <template>
-  <!-- <div class="about">
-    <h1>登录页</h1>
-    <el-form
-      :model="ruleForm"
-      :rules="rules"
-      ref="ruleForm"
-      label-width="100px"
-      class="demo-ruleForm"
-    >
-      <el-form-item label="用户名" prop="account">
-        <el-input v-model="ruleForm.account"></el-input>
-      </el-form-item>
-
-      <el-form-item label="密码" prop="password">
-        <el-input type="password" v-model="ruleForm.password"></el-input>
-      </el-form-item>
-
-      <el-form-item>
-        <el-button type="primary" @click="submitForm('ruleForm')"
-          >立即创建</el-button
-        >
-        <el-button @click="resetForm('ruleForm')">重置</el-button>
-      </el-form-item>
-    </el-form>
-  </div> -->
-
   <div :class="[rotate ? 'container' : 'container sign-up-mode']">
     <div class="forms-container">
       <div class="signin-signup">
@@ -32,26 +6,34 @@
           <h2 class="title">登录</h2>
           <div class="input-field">
             <i class="el-icon-user"></i>
-            <input type="text" clearable placeholder="用户名" />
-            <!-- <el-input
-              v-model="test2"
+            <input
+              type="text"
+              v-model="ruleForm.username"
               clearable
+              placeholder="用户名"
+            />
+            <!-- <el-input
+              v-model="ruleForm.username"
               placeholder="这里是可以清空的"
             ></el-input> -->
           </div>
           <div class="input-field">
             <i class="el-icon-lock"></i>
-            <input type="password" placeholder="密码" />
+            <input
+              type="password"
+              v-model="ruleForm.password"
+              placeholder="密码"
+            />
           </div>
-          <button
+          <!-- <button
             type="submit"
             @click="submitForm('ruleForm')"
             class="btn solid"
           >
             立即登录
-          </button>
+          </button> -->
           <el-button type="primary" @click="submitForm('ruleForm')"
-            >立即创建www</el-button
+            >登录系统</el-button
           >
           <!-- <el-button type="primary" @click="submitForm('ruleForm')"
             >立即创建</el-button
@@ -85,7 +67,7 @@
             </a>
           </div>
         </form>
-        <form action="#" class="sign-up-form">
+        <!-- <form action="#" class="sign-up-form">
           <h2 class="title">注册</h2>
           <div class="input-field">
             <i class="el-icon-user"></i>
@@ -115,7 +97,7 @@
               <i class="iconfont icon-zu"></i>
             </a>
           </div>
-        </form>
+        </form> -->
       </div>
     </div>
 
@@ -131,9 +113,7 @@
             class="btn transparent animate__animated animate__backInDown animate__delay-1s"
             id="sign-up-btn"
             @click="style1"
-          >
-            去注册
-          </button>
+          ></button>
         </div>
 
         <img src="~assets/img/login/log.svg" class="image" alt="" />
@@ -190,10 +170,27 @@ export default {
   methods: {
     submitForm(formName) {
       console.log("登录", this.ruleForm);
-      // this.$http.post("plcdata/user/login", this.ruleForm).then((res) => {
-      //   console.log("登录的返回数据", res);
-      // });
       this.$router.push("/layout");
+      // this.$http.post("plcdata/tems/user/login", this.ruleForm).then((res) => {
+      //   console.log("登录的返回数据", res);
+      //   if (res.result) {
+      //     //在浏览器的storage中存储用户权限列表，这样其他页面也可使用storage中的数据，实现共享
+      //     let permissions = res.permissions;
+      //     //取出Token令牌，保存到storage中
+      //     let token = res.token;
+      //     localStorage.setItem("permissions", permissions);
+      //     localStorage.setItem("token", token);
+      //     //让路由跳转页面，这里的Home是home.vue页面的名字
+      //     this.$router.push("/layout");
+      //   } else {
+      //     this.$message({
+      //       message: "登陆失败",
+      //       type: "error",
+      //       duration: 1200,
+      //     });
+      //   }
+      // });
+      // this.$router.push("/layout");
       this.$wsSendTe("login", {
         name: "aap" + Math.random() * 100,
 
@@ -214,6 +211,13 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+::v-deep {
+  .el-button {
+    width: 350px;
+    border-radius: 10px;
+    margin: 9px 0 0 0;
+  }
+}
 .container {
   position: relative;
   width: 100%;
@@ -228,6 +232,7 @@ export default {
   height: 100%;
   top: 0;
   left: 0;
+  // background-color: palevioletred;
 }
 
 .signin-signup {
@@ -239,6 +244,7 @@ export default {
   transition: 1s 0.7s ease-in-out;
   display: grid;
   grid-template-columns: 1fr;
+  //background-color: palevioletred;
   z-index: 5;
 }
 
@@ -270,12 +276,12 @@ form.sign-in-form {
 }
 
 .input-field {
-  max-width: 380px;
+  max-width: 350px;
   width: 100%;
   background-color: #f0f0f0;
   margin: 10px 0;
-  height: 55px;
-  border-radius: 55px;
+  height: 45px;
+  border-radius: 10px;
   display: grid;
   grid-template-columns: 15% 85%;
   padding: 0 0.4rem;

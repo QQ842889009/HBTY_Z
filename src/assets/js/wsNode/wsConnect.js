@@ -88,6 +88,7 @@ function onMsg(e) {
       that.$store.commit("plcS7/mutaPlcDataInfoUpdata", msg.data)
       that.$store.commit("plcS7/mutaEchartDataInfoUpdata", msg.data)
       that.$store.commit("realtime/MUSTATIONUPDATE", msg.data)
+      that.$store.commit("STATIONINFOUPDATA", msg.data)
       console.log("换热站信息", msg.data)
       // that.$store.commit("plcS7/mutaPlcDataInfoUpdata", msg.data)
       break
@@ -95,7 +96,7 @@ function onMsg(e) {
       // console.log("换热站数据", msg.data)
 
       // that.$store.commit("REALTIMEDATAUPDATE", msg.data)
-      wsPlcDataProcess(msg.data)
+      //  wsPlcDataProcess(msg.data)
       wsEchartDataProcess(msg.data)
       //  wsPlcDataProcess(msg.data)
       break

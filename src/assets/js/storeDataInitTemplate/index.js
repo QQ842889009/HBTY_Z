@@ -188,7 +188,7 @@ const stationDataInitTemplate = {
   MP2RM: 0,
   TE2X: 0
 }
-const realtimeTemplate={
+const realtimeTemplate = {
   SdateTime: "2030-09-11",
   TE11: 0,
   TE12: 0,
@@ -197,13 +197,37 @@ const realtimeTemplate={
   PT11: 0,
   PT12: 0,
   PT21: 0,
-  PT22: 0,
-
+  PT22: 0
 }
-const stationTemplate={
-  Station:0,
-  Sid:0,
-  Space:0,
+const stationTemplate = {
+  Station: 0,
+  Sid: 0,
+  Space: 0
+}
+const echartdataType = {
+  Sid: "000",
+  一供压力: 0,
+  一供流量: 0,
+  一供温度: 0,
+  一回压力: 0,
+  一回温度: 0,
+  一网温差: 0,
+  一网压差: 0,
+  二供压力: 0,
+  二供流量: 0,
+  二供温度: 0,
+  二回压力: 0,
+  二回温度: 0,
+  二网温差: 0,
+  二网压差: 0,
+  日期时间: 0,
+  时间戳: 0,
+  液位: 0,
+  站点: 0,
+  补水流量: 0,
+  面积: 0,
+  一网热量: 0,
+  二网热量: 0
 }
 export {
   inDoorDataInitTemplate,
@@ -211,5 +235,6 @@ export {
   aiUnitDataInitTemplate,
   stationDataInitTemplate,
   realtimeTemplate,
-  stationTemplate
+  stationTemplate,
+  echartdataType
 }

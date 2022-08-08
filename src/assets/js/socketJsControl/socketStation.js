@@ -50,7 +50,7 @@ function connected(url) {
 let socketOnData = (stompClient) => {
   if (stompClient) {
     stompClient.subscribe("/data/wtOnPlcData", (msg) => {
-      // console.log("我是换热站的数据")
+      console.log("java-----我是换热站的数据", msg)
       // console.log("1****msg");
       // console.log(msg);
       // console.log(msg.body);
