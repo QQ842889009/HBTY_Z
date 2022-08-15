@@ -30,7 +30,7 @@ const mutations = {
   },
 
   STATIONDATA(state, data) {
-    console.log("-----", data)
+    // console.log("-----", data)
     let j = parseInt(data.Sid)
     if (j < state.stationLenght) {
       let obj = isNumber.isNumberObj(data)

@@ -144,7 +144,7 @@ import Collocate from "./Collocate"; //配置显示和隐藏的
 import SelectSearch from "./SelectSearch"; //配置显示和隐藏的
 import Tab from "components/common/Tab"; //table表格公共模板
 import InputSearch from "components/common/InputSearch"; //输入关键词查找模板
-import DateTimePicker from "components/common/DateTimePicker"; //选择日期时间的模板
+import DateTimePicker from "components/common/DateTimePicker"; //选择日期时间的模板//
 // import SysDlialog22 from "./SysDlialog22" ////
 import SysDlialog from "./SysDlialog"; ////
 import EchartLine from "../Visual/components/EchartLine.vue";

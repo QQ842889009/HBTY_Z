@@ -1,7 +1,10 @@
 <template>
   <div class="station">
+    <!-- <p>{{ a }}</p>
+    <button @click="cc">aaa</button> -->
+
     <BjBox class="BjBox-z">
-      <template #header-box-temp1> 数据总览</template>
+      <template #header-box-temp1> 整点报表</template>
       <template #header-box-temp3> </template>
       <template #content>
         <MyTable
@@ -32,6 +35,14 @@ import { createNamespacedHelpers } from "vuex"; //
 export default {
   data() {
     return {
+      a: [
+        { sid: 0, a: 1, b: "1", c: 0, d: "0" },
+        { sid: 1, a: 1, b: "1", c: 0, d: "0" },
+        { sid: 2, a: 1, b: "1", c: 0, d: "0" },
+        { sid: 3, a: 1, b: "1", c: 0, d: "0" },
+        { sid: 4, a: 1, b: "1", c: 0, d: "0" },
+      ],
+
       col: [
         {
           prop: "Station",
@@ -39,11 +50,13 @@ export default {
 
           width: "130PX",
           fixed: "left",
+          type: "text",
         },
         {
           prop: "Space",
           label: "面积",
           fixed: "left",
+          type: "text",
         },
 
         {
@@ -53,34 +66,41 @@ export default {
             {
               prop: "TE11",
               label: "供温(℃)",
+              type: "text",
             },
             {
               prop: "TE12",
               label: "回温(℃)",
+              type: "text",
             },
             {
               prop: "PT11",
               label: "供压(MPa)",
               width: "90PX",
+              type: "text",
             },
             {
               prop: "PT12",
               label: "回压(MPa)",
               width: "90PX",
+              type: "text",
             },
             {
               prop: "PT11_FV",
               label: "阀后压(MPa)",
               width: "110PX",
+              type: "text",
             },
             {
               prop: "FT11",
               label: "流量(t/h)",
+              type: "text",
             },
             {
               prop: "FV1FB",
               label: "电动阀(%)",
               width: "90PX",
+              type: "text",
             },
           ],
         },
@@ -92,54 +112,65 @@ export default {
             {
               prop: "TE21",
               label: "供温(℃)",
+              type: "text",
             },
             {
               prop: "TE22",
               label: "回温(℃)",
+              type: "text",
             },
             {
               prop: "PT21",
               label: "供压(MPa)",
               width: "90PX",
+              type: "text",
             },
             {
               prop: "PT22",
               label: "回压(MPa)",
               width: "90PX",
+              type: "text",
             },
             {
               prop: "PT22_BF",
               label: "泵前压(MPa)",
               width: "110PX",
+              type: "text",
             },
             {
               prop: "PT22_BL",
               label: "泵后压(MPa)",
               width: "110PX",
+              type: "text",
             },
             {
               prop: "FT21",
               label: "流量(t/h)",
+              type: "text",
             },
             {
               prop: "BP21FB",
               label: "循环泵(Hz)",
               width: "90PX",
+              type: "text",
             },
             {
               prop: "FV2FB",
               label: "二网阀(%)",
               width: "90PX",
+              type: "text",
             },
             {
               prop: "TE22_MP",
               label: "补水后温(℃)",
               width: "110PX",
+              type: "text",
             },
             {
               prop: "BP21FB",
               label: "循环泵(Hz)",
               width: "110PX",
+              type: "text",
             },
           ],
         },
@@ -150,14 +181,17 @@ export default {
             {
               prop: "MP1C",
               label: "补水泵",
+              type: "state",
             },
             {
               prop: "MP2S",
               label: "潜水泵",
+              type: "state",
             },
             {
               prop: "XYVC",
               label: "泄压阀",
+              type: "state",
             },
           ],
         },
@@ -165,18 +199,21 @@ export default {
           prop: "LT",
           label: "液位(m)",
           width: "100PX",
+          type: "text",
         },
         {
           prop: "ZFT31",
           label: "补水量(m³)",
           fixed: "right",
           width: "100PX",
+          type: "text",
         },
         {
           prop: "DL",
           label: "电能(kWh)",
           fixed: "right",
           width: "100PX",
+          type: "text",
         },
       ],
       dropCol: [
@@ -232,82 +269,6 @@ export default {
           ],
         },
 
-        // {
-        //   label: "二次网",
-        //   // isHidden: false,
-        //   children: [
-        //     {
-        //       prop: "TE21",
-        //       label: "供温(℃)",
-        //     },
-        //     {
-        //       prop: "TE22",
-        //       label: "回温(℃)",
-        //     },
-        //     {
-        //       prop: "PT21",
-        //       label: "供压(MPa)",
-        //       width: "90PX",
-        //     },
-        //     {
-        //       prop: "PT22",
-        //       label: "回压(MPa)",
-        //       width: "90PX",
-        //     },
-        //     {
-        //       prop: "PT22_BF",
-        //       label: "泵前压(MPa)",
-        //       width: "110PX",
-        //     },
-        //     {
-        //       prop: "PT22_BL",
-        //       label: "泵后压(MPa)",
-        //       width: "110PX",
-        //     },
-        //     {
-        //       prop: "FT21",
-        //       label: "流量(t/h)",
-        //     },
-        //     {
-        //       prop: "BP21FB",
-        //       label: "循环泵(Hz)",
-        //       width: "90PX",
-        //     },
-        //     {
-        //       prop: "FV2FB",
-        //       label: "二网阀(%)",
-        //       width: "90PX",
-        //     },
-        //     {
-        //       prop: "TE22_MP",
-        //       label: "补水后温(℃)",
-        //       width: "110PX",
-        //     },
-        //     {
-        //       prop: "BP21FB",
-        //       label: "循环泵(Hz)",
-        //       width: "110PX",
-        //     },
-        //   ],
-        // },
-        // {
-        //   label: "状态",
-        //   // isHidden: false,
-        //   children: [
-        //     {
-        //       prop: "MP1C",
-        //       label: "补水泵",
-        //     },
-        //     {
-        //       prop: "MP2S",
-        //       label: "潜水泵",
-        //     },
-        //     {
-        //       prop: "XYVC",
-        //       label: "泄压阀",
-        //     },
-        //   ],
-        // },
         {
           prop: "LT",
           label: "液位(m)",
@@ -343,22 +304,6 @@ export default {
       prefixIcon: "el-icon-search", //前面的图标
       size: "small", //大小
       clearable: true, //是否带清除
-      // InputSearch结束
-      //表格配置
-      // table_config: {
-      //   thead: tableHeader,
-
-      //   checkbox: false, //复选框默认有
-      //   Load: true, //加载现在没用
-      //   //传递斑马线和文字的颜色
-      //   zebarCrossing: {
-      //     crossingOne: "#254A93",
-      //     crossingTwo: "#1c47c4",
-      //     colorOne: "#fff",
-      //     colorTwo: "#fff",
-      //   },
-      // },
-      //斑马线的参数
 
       //表格数据
       tableData: [],
@@ -397,20 +342,18 @@ export default {
     this.columnDrop();
   },
   methods: {
-    //历史查询
-    // FY() {
-    //   for (let i = 0; i < this.paginationNum; i++) {
-    //     console.log("iiiiiiiii", i);
-    //     setTimeout(() => {
-    //       this.pagination.current = i;
-    //     }, 1000 * i);
-    //   }
-    // },
-    //InputSearch传递回来的数据
+    cc() {
+      console.log("cc");
+      for (let i = 0; i < this.a.length; i++) {
+        console.log(this.a[i].a);
+        if (this.a[i].c == 0) {
+          this.a[i].c = "停止状态";
+        }
+      }
+      console.log(this.a);
+    },
     change(val) {
       console.log("TTTT", val);
-      // this.staPlcData = val;
-      // this.pagination.total = val.length;
     },
     myStyle(value) {
       if (value > 18 && value <= 22) {
@@ -460,13 +403,8 @@ export default {
     },
   },
   components: {
-    // Collocate,
-    // Tab,
     InputSearch,
-    // SelectSearch,
-    // DateTimePicker,
-    // SysDlialog22,
-    // tt,
+
     MyTable,
     BjBox,
   },

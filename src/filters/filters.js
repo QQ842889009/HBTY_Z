@@ -1,27 +1,56 @@
-export function getSex(value){
-    switch (value) {
-        case 'man':
-          return '男';
-        case 'woman':
-          return '女';
-        default:
-          return value;
-      }
-};
+export function Sid(value) {
+  var a = parseInt(value, 16)
+  // console.log("aaarr", a)
+  return a
+}
 
-export function getDate(time){
-    var d = new Date(time);
-      var times=d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds();
-      return times;
-};
+export function getDate(time) {
+  var d = new Date(time)
+  var times =
+    d.getFullYear() +
+    "-" +
+    (d.getMonth() + 1) +
+    "-" +
+    d.getDate() +
+    " " +
+    d.getHours() +
+    ":" +
+    d.getMinutes() +
+    ":" +
+    d.getSeconds()
+  return times
 
-export function getEducation(value){
-    switch (value) {
-        case 'college':
-          return '大学';
-        case 'highschool':
-          return '高中';
-        default:
-          return value;
-      }
-};
+  // let myyear = new Date(time).getFullYear()
+  // let mymonth = new Date(time).getMonth() + 1
+  // let mydate = new Date(time).getDate()
+  // let mydatef = new Date(time).getDate() - 1
+  // //                 let myhh = new Date().getHours();
+
+  // let myhh =
+  //   new Date().getHours() < 10
+  //     ? "0" + new Date().getHours()
+  //     : new Date().getHours()
+  // let mymm =
+  //   new Date().getMinutes() < 10
+  //     ? "0" + new Date().getMinutes()
+  //     : new Date().getMinutes()
+
+  // let myss =
+  //   new Date().getSeconds() < 10
+  //     ? "0" + new Date().getSeconds()
+  //     : new Date().getSeconds()
+  // let mynowTime =
+  //   myyear +
+  //   "-" +
+  //   mymonth +
+  //   "-" +
+  //   mydatef +
+  //   " " +
+  //   myhh +
+  //   ":" +
+  //   mymm +
+  //   ":" +
+  //   myss
+
+  // return mynowTime
+}

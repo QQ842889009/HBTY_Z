@@ -621,6 +621,7 @@ export default {
     .el-card-title-history {
       display: flex;
       justify-content: space-between;
+      background-color: greenyellow;
       // position: absolute;
       .item {
         // background-color: rgb(134, 224, 49);
