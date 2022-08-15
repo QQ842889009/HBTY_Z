@@ -161,7 +161,7 @@ export default {
 
         async getStationInfo() {
             this.stationInfo = await this.$http.get(
-                "plcdata/temsdemo1/plc/stationInfo"
+                "plcdata/tems/plc/stationInfo"
             );
             console.log("------", this.stationInfo);
 
