@@ -42,7 +42,7 @@
 </template>
 <script>
 import { mapState } from "vuex";
-import FtLineBox from "./components/FtLineBoxy copy.vue";
+import FtLineBox from "./components/FtLineBoxy copy.vue"; //
 
 export default {
 

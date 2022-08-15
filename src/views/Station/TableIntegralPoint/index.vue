@@ -1,89 +1,32 @@
 <template>
   <div class="all">
     <div class="data">
-      <div class="data1">
-        <span>选择站点：</span>
-        <el-select
-          class="selectStation"
-          v-model="selectStation"
-          filterable
-          placeholder="选择换热站"
-        >
-          <el-option
-            v-for="item in stations"
-            :key="item.Sid"
-            :label="item.Station"
-            :value="item.Sid"
-          >
-          </el-option>
-        </el-select>
-      </div>
-      <div class="data2">
-        <span>选择时间：</span>
-        <el-date-picker
-          class="selectStation"
-          v-model="selectDate"
-          type="datetime"
-          placeholder="选择日期时间"
-          value-format="yyyy-MM-dd HH:mm:ss"
-          :picker-options="pickerOptions"
-        >
-        </el-date-picker>
-      </div>
-      <div class="data3">
-        <span>时间间隔：</span>
-        <el-select
-          class="selectStation"
-          v-model="selectTime"
-          filterable
-          placeholder="半小时"
-        >
-          <el-option
-            v-for="item in timeArr"
-            :key="item.id"
-            :label="item.name"
-            :value="item.value"
-          >
-          </el-option>
-        </el-select>
-      </div>
-      <div class="data4">
-        <el-button type="primary" class="bt" @click="changeItem"
-          >确定</el-button
-        >
-      </div>
-      <div class="data5">
-        <el-button type="primary" class="bt" @click="exportExcel('日报表')"
-          >导出报表</el-button
-        >
-      </div>
-      <!-- <div class="a">
+      <div class="a">
         <SelectDateAndTime
           class="b"
           @dateandtime="Toinquirebutton"
         ></SelectDateAndTime>
-      </div> -->
-      <!-- <div class="station">
-        <span>选择换热站：</span>
-        <el-select
-          class="selectStation"
-          v-model="selectStation"
-          filterable
-          placeholder="选择换热站"
-        >
-          <el-option
-            v-for="item in stations"
-            :key="item.Sid"
-            :label="item.Station"
-            :value="item.Sid"
-          >
-          </el-option>
-        </el-select>
-      </div> -->
-      <!-- <div class="c">
+      </div>
+      <div class="c">
         <el-button class="d" @click="exportExcel('整点报表')"
           >导出报表2</el-button
         >
+      </div>
+      <!-- <div class="data1"> -->
+      <!-- <SelectDateAndTime
+        class="data1-1"
+        @dateandtime="Toinquirebutton"
+      ></SelectDateAndTime> -->
+
+      <!-- <div class="data1-2">
+        <el-button @click="exportExcel('整点报表')">导出</el-button>
+      </div> -->
+      <!-- </div> -->
+      <!-- <div class="data1">
+        <SelectDateAndTime
+          class="data2"
+          @dateandtime="Toinquirebutton"
+        ></SelectDateAndTime>
       </div> -->
     </div>
 
@@ -92,14 +35,14 @@
     <div class="table">
       <el-table
         ref="report-table"
-        :data="tableData"
+        :data="myData"
         style="width: 100%"
         max-height="910"
-        :cell-style="{ padding: '5.5px 0' }"
+        :cell-style="{ padding: '1.8px 0' }"
         :header-cell-style="headerStyle"
       >
         <el-table-column
-          prop="name"
+          prop="station"
           label="站点名称"
           width="120"
           fixed
@@ -107,7 +50,7 @@
         >
         </el-table-column>
         <el-table-column
-          prop="name"
+          prop="space"
           label="面积"
           width="120"
           fixed="left"
@@ -115,73 +58,68 @@
         >
         </el-table-column>
         <el-table-column
-          prop="name"
-          label="日期时间xxx"
-          width="150"
+          prop="timestamp"
+          label="日期时间"
+          width="160"
           fixed="left"
           align="center"
         >
           <template slot-scope="scope">
-            {{ scope.row.zip | getDate }}
+            {{ scope.row.timestamp | getDate }}
           </template>
         </el-table-column>
         <el-table-column label="一次网" align="center">
-          <el-table-column
-            prop="province"
-            label="流量"
-            width="120"
-            align="center"
-          >
-            <template slot-scope="scope">
+          <el-table-column prop="ft11" label="流量" width="120" align="center">
+            <!-- <template slot-scope="scope">
               {{ scope.row.province | Sid }}
-            </template>
+            </template> -->
           </el-table-column>
-          <el-table-column prop="city" label="热量" width="120" align="center">
+          <el-table-column prop="q1" label="热量" width="120" align="center">
           </el-table-column>
           <el-table-column
-            prop="city"
+            prop="q1_sum"
             label="累计热量"
             width="100"
             align="center"
           >
           </el-table-column>
           <el-table-column
-            prop="name"
+            prop="pt11"
             label="供压(MPa)"
             width="120"
             align="center"
           >
           </el-table-column>
           <el-table-column
-            prop="name"
+            prop="pt12"
             label="回压(MPa)"
             width="120"
             align="center"
           >
           </el-table-column>
           <el-table-column
-            prop="name"
+            prop="pt11_fv"
             label="阀门压(MPa)"
             width="120"
             align="center"
           >
           </el-table-column>
           <el-table-column
-            prop="name"
+            prop="te11"
             label="供温(℃)"
             width="120"
             align="center"
           >
           </el-table-column>
           <el-table-column
-            prop="name"
+            prop="te12"
             label="回温(℃)"
             width="120"
             align="center"
           >
           </el-table-column>
           <el-table-column
-            prop="name"
+            prop="fv1fb"
             label="阀门开度(%)"
             width="120"
             align="center"
@@ -189,75 +127,70 @@
           </el-table-column>
         </el-table-column>
         <el-table-column label="二次网" align="center">
-          <el-table-column
-            prop="province"
-            label="流量"
-            width="120"
-            align="center"
-          >
-            <template slot-scope="scope">
+          <el-table-column prop="ft21" label="流量" width="120" align="center">
+            <!-- <template slot-scope="scope">
               {{ scope.row.province | Sid }}
-            </template>
+            </template> -->
           </el-table-column>
 
           <el-table-column
-            prop="name"
+            prop="pt21"
             label="供压(MPa)"
             width="120"
             align="center"
           >
           </el-table-column>
           <el-table-column
-            prop="name"
+            prop="pt22"
             label="回压(MPa)"
             width="120"
             align="center"
           >
           </el-table-column>
           <el-table-column
-            prop="name"
+            prop="pt21_fv"
             label="泵前压(MPa)"
             width="120"
             align="center"
           >
           </el-table-column>
           <el-table-column
-            prop="name"
+            prop="pt21_hh"
             label="泵后压(MPa)"
             width="120"
             align="center"
           >
           </el-table-column>
           <el-table-column
-            prop="name"
+            prop="te21"
             label="供温(℃)"
             width="120"
             align="center"
           >
           </el-table-column>
           <el-table-column
-            prop="name"
+            prop="te22"
             label="回温(℃)"
             width="120"
             align="center"
           >
           </el-table-column>
           <el-table-column
-            prop="name"
+            prop="fv2fb"
             label="阀门开度(%)"
             width="120"
             align="center"
           >
           </el-table-column>
           <el-table-column
-            prop="name"
+            prop="bp21fb"
             label="1#泵(Hz)"
             width="120"
             align="center"
           >
           </el-table-column>
           <el-table-column
-            prop="name"
+            prop="bp22fb"
             label="2#泵(Hz)"
             width="120"
             align="center"
@@ -265,7 +198,7 @@
           </el-table-column>
         </el-table-column>
         <el-table-column
-          prop="name"
+          prop="lt"
           label="液位(m)"
           width="120"
           fixed="right"
@@ -273,19 +206,14 @@
         >
         </el-table-column>
         <el-table-column
-          prop="name"
+          prop="ft31"
           label="补水(m³)"
           width="120"
           fixed="right"
           align="center"
         >
         </el-table-column>
-        <el-table-column
-          prop="name"
-          label="电能(kwh)"
-          width="120"
-          fixed="right"
-        >
+        <el-table-column prop="dl" label="电能(kwh)" width="120" fixed="right">
         </el-table-column>
       </el-table>
     </div>
@@ -293,7 +221,6 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
 import SelectDateAndTime from "components/common/SelectDateAndTime"; //选择日期时间的模板
 import FileSaver from "file-saver";
 import XLSX from "xlsx";
@@ -301,16 +228,6 @@ export default {
   name: "project",
   data() {
     return {
-      selectStation: "",
-      timeArr: [
-        { id: 0, name: "半小时", value: "0.5" },
-        { id: 1, name: "1小时", value: "1" },
-        { id: 2, name: "12小时", value: "12" },
-        { id: 3, name: "24小时", value: "24" },
-      ],
-      selectDate: "",
-      selectTime: "",
-      myParams: {},
       dd: "c",
       selectDate: "",
       myData: [],
@@ -325,7 +242,7 @@ export default {
       tableData: [
         {
           date: "2016-05-03",
-          name: "0",
+          name: "王小虎",
           province: "c",
           city: "普陀区",
           address: "15",
@@ -333,7 +250,7 @@ export default {
         },
         {
           date: "2016-05-02",
-          name: "1",
+          name: "王小虎",
           province: "d",
           city: "普陀区",
           address: "20",
@@ -341,7 +258,7 @@ export default {
         },
         {
           date: "2016-05-04",
-          name: "2",
+          name: "王小虎",
           province: "d",
           city: "普陀区",
           address: "上海市普陀区金沙江路 1518 弄",
@@ -349,7 +266,7 @@ export default {
         },
         {
           date: "2016-05-01",
-          name: "3",
+          name: "王小虎",
           province: "d",
           city: "普陀区",
           address: "上海市普陀区金沙江路 1518 弄",
@@ -357,7 +274,7 @@ export default {
         },
         {
           date: "2016-05-08",
-          name: "4",
+          name: "王小虎",
           province: "d",
           city: "普陀区",
           address: "上海市普陀区金沙江路 1518 弄",
@@ -365,7 +282,7 @@ export default {
         },
         {
           date: "2016-05-03",
-          name: "5",
+          name: "王小虎",
           province: "c",
           city: "普陀区",
           address: "15",
@@ -373,7 +290,7 @@ export default {
         },
         {
           date: "2016-05-02",
-          name: "6",
+          name: "王小虎",
           province: "d",
           city: "普陀区",
           address: "20",
@@ -381,7 +298,7 @@ export default {
         },
         {
           date: "2016-05-04",
-          name: "7",
+          name: "王小虎",
           province: "d",
           city: "普陀区",
           address: "上海市普陀区金沙江路 1518 弄",
@@ -389,7 +306,7 @@ export default {
         },
         {
           date: "2016-05-01",
-          name: "8",
+          name: "王小虎",
           province: "d",
           city: "普陀区",
           address: "上海市普陀区金沙江路 1518 弄",
@@ -397,7 +314,7 @@ export default {
         },
         {
           date: "2016-05-08",
-          name: "9",
+          name: "王小虎",
           province: "d",
           city: "普陀区",
           address: "上海市普陀区金沙江路 1518 弄",
@@ -405,7 +322,7 @@ export default {
         },
         {
           date: "2016-05-03",
-          name: "10",
+          name: "王小虎",
           province: "c",
           city: "普陀区",
           address: "15",
@@ -413,7 +330,7 @@ export default {
         },
         {
           date: "2016-05-02",
-          name: "11",
+          name: "王小虎",
           province: "d",
           city: "普陀区",
           address: "20",
@@ -421,7 +338,7 @@ export default {
         },
         {
           date: "2016-05-04",
-          name: "12",
+          name: "王小虎",
           province: "d",
           city: "普陀区",
           address: "上海市普陀区金沙江路 1518 弄",
@@ -429,7 +346,7 @@ export default {
         },
         {
           date: "2016-05-01",
-          name: "13",
+          name: "王小虎",
           province: "d",
           city: "普陀区",
           address: "上海市普陀区金沙江路 1518 弄",
@@ -437,7 +354,7 @@ export default {
         },
         {
           date: "2016-05-08",
-          name: "14",
+          name: "王小虎",
           province: "d",
           city: "普陀区",
           address: "上海市普陀区金沙江路 1518 弄",
@@ -445,7 +362,7 @@ export default {
         },
         {
           date: "2016-05-03",
-          name: "15",
+          name: "王小虎",
           province: "c",
           city: "普陀区",
           address: "15",
@@ -453,7 +370,7 @@ export default {
         },
         {
           date: "2016-05-02",
-          name: "16",
+          name: "王小虎",
           province: "d",
           city: "普陀区",
           address: "20",
@@ -461,7 +378,7 @@ export default {
         },
         {
           date: "2016-05-04",
-          name: "17",
+          name: "王小虎",
           province: "d",
           city: "普陀区",
           address: "上海市普陀区金沙江路 1518 弄",
@@ -469,7 +386,7 @@ export default {
         },
         {
           date: "2016-05-01",
-          name: "18",
+          name: "王小虎",
           province: "d",
           city: "普陀区",
           address: "上海市普陀区金沙江路 1518 弄",
@@ -477,7 +394,7 @@ export default {
         },
         {
           date: "2016-05-08",
-          name: "19",
+          name: "王小虎",
           province: "d",
           city: "普陀区",
           address: "上海市普陀区金沙江路 1518 弄",
@@ -485,7 +402,7 @@ export default {
         },
         {
           date: "2016-05-03",
-          name: "20",
+          name: "王小虎",
           province: "c",
           city: "普陀区",
           address: "15",
@@ -493,7 +410,7 @@ export default {
         },
         {
           date: "2016-05-02",
-          name: "21",
+          name: "王小虎",
           province: "d",
           city: "普陀区",
           address: "20",
@@ -501,7 +418,7 @@ export default {
         },
         {
           date: "2016-05-04",
-          name: "22",
+          name: "王小虎",
           province: "d",
           city: "普陀区",
           address: "上海市普陀区金沙江路 1518 弄",
@@ -509,7 +426,55 @@ export default {
         },
         {
           date: "2016-05-01",
-          name: "23",
+          name: "王小虎",
+          province: "d",
+          city: "普陀区",
+          address: "上海市普陀区金沙江路 1518 弄",
+          zip: 200333,
+        },
+        {
+          date: "2016-05-08",
+          name: "王小虎",
+          province: "d",
+          city: "普陀区",
+          address: "上海市普陀区金沙江路 1518 弄",
+          zip: 200333,
+        },
+        {
+          date: "2016-05-03",
+          name: "王小虎",
+          province: "c",
+          city: "普陀区",
+          address: "15",
+          zip: 1660288787000,
+        },
+        {
+          date: "2016-05-02",
+          name: "王小虎",
+          province: "d",
+          city: "普陀区",
+          address: "20",
+          zip: 1660288787000,
+        },
+        {
+          date: "2016-05-04",
+          name: "王小虎",
+          province: "d",
+          city: "普陀区",
+          address: "上海市普陀区金沙江路 1518 弄",
+          zip: 200333,
+        },
+        {
+          date: "2016-05-01",
+          name: "王小虎",
+          province: "d",
+          city: "普陀区",
+          address: "上海市普陀区金沙江路 1518 弄",
+          zip: 200333,
+        },
+        {
+          date: "2016-05-08",
+          name: "王小虎",
           province: "d",
           city: "普陀区",
           address: "上海市普陀区金沙江路 1518 弄",
@@ -524,7 +489,6 @@ export default {
   },
   watch: {},
   computed: {
-    ...mapState("realtime", ["stations"]),
     headerStyle() {
       return {
         background: "#66B1FF",
@@ -540,40 +504,16 @@ export default {
     },
   },
   methods: {
-    async changeItem() {
-      // console.log("ivalue----", `station:${this.selectStation},item:${this.selectItem},date:${this.selectDate},time:${this.selectTime}`)
-      var startTime = Date.parse(new Date(this.selectDate).toString());
-      var endTime = startTime + this.selectTime * 60 * 60 * 1000;
-      if (endTime > Date.now()) {
-        return alert("时间加间隔超过当前时间");
-      }
-      this.myParams.sid = this.selectStation;
-      // this.myParams.stArr = this.selectItem.value;
-      this.myParams.startTime = startTime;
-      this.myParams.endTime = endTime;
-      this.myParams.datasize = 24;
-      // console.log("-------------", this.myParams);
-      // this.myUnit = this.selectItem.unit;
-      // console.log(this.myUnit);
-      console.log("---日报表的参数", this.myParams);
-      this.myData = await this.$http.post(
-        "plcdata/tems/plc/datas",
-
-        this.myParams
-      );
-      console.log("plcdata接受到的数据", this.myData);
-
-      // this.isUpdata++;
-    },
     async Toinquirebutton(v) {
       console.log("tyty", v);
-      var time = Date.parse(new Date(this.selectDate).toString());
-      console.log(time);
-      // this.myData = await this.$http.post(
-      //   "plcdata/tems/plc/DatasByTime",
+      //var time = Date.parse(new Date(this.v).toString());
+      var time = v;
+      console.log("ttt", time);
+      this.myData = await this.$http.post(
+        "plcdata/tems/plc/DatasByTime",
 
-      //   { time }
-      // );
+        { time }
+      );
       console.log("ttt", this.myData);
     },
     ddg() {
@@ -623,88 +563,45 @@ export default {
   width: 100%;
   height: 100%;
   .data {
-    display: flex;
-    color: #000;
+    width: 100%;
+    height: 40px;
+    //background-color: rgb(204, 83, 83);
     position: relative;
-    top: 10px;
-    .data1 {
-      flex: 1;
-      //background-color: gold;
-      text-align: right;
+    .a {
+      width: 250px;
+      height: 100%;
+      // background-color: gold;
+      position: absolute;
+      right: 130px;
+      .b {
+        // line-height: 80px;
+      }
     }
-    .data2 {
-      flex: 1;
-      //background-color: blue;
-      text-align: right;
-      // text-align: right;
-      // padding: 0px 0px 0px 10px;
+    .c {
+      width: 100px;
+      height: 100%;
+      //  background-color: blueviolet;
+      position: absolute;
+      right: 50px;
+      // .d {
+      //   height: 40px;
+      //   line-height: 60px;
+      // }
     }
-    .data3 {
-      flex: 1;
-      // background-color: green;
-      text-align: right;
-    }
-    .data4 {
-      flex: 1;
-      //background-color: purple;
-    }
-    .data5 {
-      flex: 1;
-      //  background-color: hotpink;
-      //text-align: center;
-      position: relative;
-      // top: 0.25rem;
-      right: -245px;
-      // float: 20px;
-    }
+    // .data1-1 {
+    //   position: absolute;
+    //   right: 300px;
+    //   //  top: 20px;
+    //   background-color: blue;
+    // }
+    // .data2 {
+    //   position: absolute;
+    //   right: 100px;
+    //   top: 20px;
+    // }
   }
-  // .data {
-  //   width: 100%;
-  //   height: 40px;
-  //   //background-color: rgb(204, 83, 83);
-  //   position: relative;
-  //   .station {
-  //     width: 200px;
-  //     height: 100%;
-  //     background-color: red;
-  //   }
-  //   .a {
-  //     width: 250px;
-  //     height: 100%;
-  //     // background-color: gold;
-  //     position: absolute;
-  //     right: 130px;
-  //     .b {
-  //       // line-height: 80px;
-  //     }
-  //   }
-  //   .c {
-  //     width: 100px;
-  //     height: 100%;
-  //     //  background-color: blueviolet;
-  //     position: absolute;
-  //     right: 50px;
-  //     // .d {
-  //     //   height: 40px;
-  //     //   line-height: 60px;
-  //     // }
-  //   }
-  //   // .data1-1 {
-  //   //   position: absolute;
-  //   //   right: 300px;
-  //   //   //  top: 20px;
-  //   //   background-color: blue;
-  //   // }
-  //   // .data2 {
-  //   //   position: absolute;
-  //   //   right: 100px;
-  //   //   top: 20px;
-  //   // }
-  // }
 }
 .table {
-  position: absolute;
-  top: 130px;
   width: 1880px;
   height: 970px;
   // background-color: palevioletred;
