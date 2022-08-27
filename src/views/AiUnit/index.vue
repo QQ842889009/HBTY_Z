@@ -1,229 +1,465 @@
 <template>
-  <div>
-    <div class="yiji">
-      <div
-        class="listCss"
-        v-for="(item, index) in listArr"
-        :key="index"
-        :class="{ activeCss: activeVar == index }"
-        @click="activeFunyi(item, index)"
+  <div class="unit-container">
+    <div class="condition-box">
+      <el-form :inline="true" :model="dataForm" ref="dataForm">
+        <el-form-item prop="name" label="选择位置:">
+          <el-select
+            size="small"
+            class="selectStation"
+            v-model="selectStationSid"
+            filterable
+            placeholder="选择换热站"
+            @change="dd"
+          >
+            <el-option
+              v-for="item in infoArr"
+              :key="item.sid"
+              :label="item.station"
+              :value="item.sid"
+            >
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="通讯:">
+          <el-select
+            v-model="dataForm.communication"
+            class="input"
+            placeholder="通讯"
+            size="medium"
+            clearable
+            @change="tongxun"
+          >
+            <el-option label="在线" value="1" />
+            <el-option label="离线" value="0" />
+          </el-select>
+        </el-form-item>
+        <el-form-item label="故障:">
+          <el-select
+            v-model="dataForm.malfunction"
+            class="input"
+            placeholder="故障"
+            size="medium"
+            clearable
+            @change="tongxun"
+          >
+            <el-option label="故障" value="1" />
+            <el-option label="正常" value="0" />
+          </el-select>
+        </el-form-item>
+
+        <el-form-item>
+          <el-button
+            size="medium"
+            icon="el-icon-refresh-left"
+            type="primary"
+            @click="reset()"
+            >重置</el-button
+          >
+          <el-button
+            size="medium"
+            icon="el-icon-refresh-left"
+            type="primary"
+            @click="exportExcel111('单元箱数据')"
+            >导出报表1</el-button
+          >
+          <el-button
+            size="medium"
+            icon="el-icon-refresh-left"
+            type="primary"
+            @click="exportExcel222('单元箱数据')"
+            >导出报表2</el-button
+          >
+        </el-form-item>
+      </el-form>
+    </div>
+
+    <div class="table">
+      <el-table
+        ref="report-table"
+        :data="myData"
+        style="width: 100%"
+        max-height="910"
+        :cell-style="{ padding: '1.8px 0' }"
+        :header-cell-style="headerStyle"
+        id="el-table"
       >
-        {{ item }}
-      </div>
-    </div>
-    <div class="erji">
-      <div class="listCss" v-for="(item2, index) in optionc" :key="item2.label">
-        <div
-          v-for="(item4, i) in item2.children"
-          :key="item4.label"
-          @click="activeFuner(item4, i)"
-          :class="{ activeCss: activeVarER == i }"
+        <el-table-column
+          prop="sid"
+          label="表号"
+          width="120"
+          fixed
+          align="center"
         >
-          {{ item4.value }}
-        </div>
-      </div>
+        </el-table-column>
+        <el-table-column
+          prop="ConcentratorCode"
+          label="集中器号"
+          width="120"
+          fixed="left"
+          align="center"
+        >
+        </el-table-column>
+        <el-table-column
+          prop="station"
+          label="站点"
+          width="120"
+          fixed="left"
+          align="center"
+        >
+        </el-table-column>
+        <el-table-column
+          prop="Housing"
+          label="小区"
+          width="120"
+          fixed="left"
+          align="center"
+        >
+        </el-table-column>
+        <el-table-column
+          prop="Tower"
+          label="楼"
+          width="120"
+          fixed="left"
+          align="center"
+        >
+        </el-table-column>
+        <el-table-column
+          prop="Unit"
+          label="单元"
+          width="120"
+          fixed="left"
+          align="center"
+        >
+        </el-table-column>
+
+        <el-table-column
+          prop="timestamp"
+          label="日期时间"
+          width="160"
+          fixed="left"
+          align="center"
+        >
+          <template slot-scope="scope">
+            {{ scope.row.timestamp | getDate }}
+          </template>
+        </el-table-column>
+        <el-table-column label="一次侧" align="center">
+          <el-table-column
+            prop="fv1sp"
+            label="1#阀门给定(%)"
+            width="120"
+            align="center"
+          >
+            <template slot-scope="scope">
+              <el-input
+                type="number"
+                size="mini"
+                max="100"
+                min="0"
+                v-model="scope.row.fv1sp"
+                onkeyup="this.value=this.value.replace(/[\u4E00-\u9FA5]/g,'') "
+                oninput="if(value>100)value=100;if(value<0)value=0"
+                @change="changeInput(scope.row)"
+              >
+              </el-input>
+            </template>
+          </el-table-column>
+          <el-table-column
+            prop="ft11"
+            label="1#阀门反馈(%)"
+            width="120"
+            align="center"
+          >
+          </el-table-column>
+          <el-table-column
+            prop="q1_sum"
+            label="供温(℃)"
+            width="100"
+            align="center"
+          >
+          </el-table-column>
+          <el-table-column
+            prop="pt11"
+            label="回温(℃)"
+            width="120"
+            align="center"
+          >
+          </el-table-column>
+          <el-table-column
+            prop="pt12"
+            label="供压(MPa)"
+            width="120"
+            align="center"
+          >
+          </el-table-column>
+          <el-table-column
+            prop="pt11_fv"
+            label="回压(MPa)"
+            width="120"
+            align="center"
+          >
+          </el-table-column>
+        </el-table-column>
+        <el-table-column label="二次侧" align="center">
+          <el-table-column
+            prop="ft11"
+            label="2#阀门给定(%)"
+            width="120"
+            align="center"
+          >
+          </el-table-column>
+          <el-table-column
+            prop="ft11"
+            label="2#阀门反馈(%)"
+            width="120"
+            align="center"
+          >
+          </el-table-column>
+          <el-table-column
+            prop="q1_sum"
+            label="供温(℃)"
+            width="100"
+            align="center"
+          >
+          </el-table-column>
+          <el-table-column
+            prop="pt11"
+            label="回温(℃)"
+            width="120"
+            align="center"
+          >
+          </el-table-column>
+          <el-table-column
+            prop="pt12"
+            label="供压(MPa)"
+            width="120"
+            align="center"
+          >
+          </el-table-column>
+          <el-table-column
+            prop="pt11_fv"
+            label="回压(MPa)"
+            width="120"
+            align="center"
+          >
+          </el-table-column>
+        </el-table-column>
+        <el-table-column label="操作" width="250" fixed="right" align="center">
+          <template slot-scope="scope">
+            <el-button type="primary" size="mini" fixed="right">刷新</el-button>
+            <el-button
+              type="primary"
+              size="mini"
+              @click="searchHistoryList(scope.row)"
+              fixed="right"
+              >历史查询</el-button
+            >
+          </template>
+        </el-table-column>
+      </el-table>
+      <el-pagination
+        @size-change="sizeChangeHandle"
+        @current-change="currentChangeHandle"
+        :current-page="pageIndex"
+        :page-sizes="[10, 20, 50]"
+        :page-size="pageSize"
+        :total="totalCount"
+        layout="total, sizes, prev, pager, next, jumper"
+      ></el-pagination>
     </div>
-    <div class="card-box"></div>
+    <!-- <div v-show="tt === 5"></div> -->
+    <div>
+      <SysDlialog ref="dialog" :title="title" :rowData="rowData"> </SysDlialog>
+    </div>
   </div>
 </template>
-
 <script>
-import dataStaPlan from "assets/js/sjzlData/sjzlDataPlanMeter"; ////
+import SysDlialog from "./SysDlialog"; ////
+// import { options } from "assets/js/common/doorSelect";
+import FileSaver from "file-saver";
+import XLSX from "xlsx";
 export default {
   data() {
     return {
-      activeVar: 0,
-      activeVarER: 0,
-      dataStaPlan,
-      zfc: [], //二级菜单拆分的字符串
-      StationData: [], //数据列表
-
-      ShowData: [], //展示数据
-      listArr: ["二十五号站", "二十六号站"],
-      screeningCondition: "二十五号站",
-      optionc: [],
-      options: [
-        {
-          value: "二十五号站",
-          label: "47",
-          children: [
-            {
-              value: "琥珀小区三期/一号楼/一单元",
-              label: "1",
-            },
-            {
-              value: "琥珀小区三期/一号楼/二单元",
-              label: "2",
-            },
-            {
-              value: "琥珀小区三期/一号楼/三单元",
-              label: "3",
-            },
-            {
-              value: "琥珀小区三期/一号楼/三单元",
-              label: "4",
-            },
-            {
-              value: "琥珀小区三期/一号楼/三单元",
-              label: "5",
-            },
-            {
-              value: "琥珀小区三期/一号楼/三单元",
-              label: "6",
-            },
-            {
-              value: "琥珀小区三期/一号楼/三单元",
-              label: "7",
-            },
-            {
-              value: "琥珀小区三期/一号楼/三单元",
-              label: "8",
-            },
-            {
-              value: "琥珀小区三期/一号楼/三单元",
-              label: "9",
-            },
-            {
-              value: "琥珀小区三期/一号楼/三单元",
-              label: "10",
-            },
-            {
-              value: "琥珀小区三期/一号楼/三单元",
-              label: "11",
-            },
-            {
-              value: "琥珀小区三期/一号楼/三单元",
-              label: "12",
-            },
-            {
-              value: "琥珀小区三期/一号楼/三单元",
-              label: "13",
-            },
-            {
-              value: "琥珀小区三期/一号楼/三单元",
-
-              label: "14",
-            },
-            {
-              value: "琥珀小区三期/一号楼/三单元",
-              label: "15",
-            },
-            {
-              value: "琥珀小区三期/一号楼/三单元",
-              label: "16",
-            },
-          ],
-        },
-        {
-          value: "二十六号站",
-          label: "147",
-          children: [
-            {
-              value: "琥珀小区r期/一号楼/一单元",
-              label: "11",
-            },
-            {
-              value: "琥珀小区r期/一号楼/二单元",
-              label: "12",
-            },
-            {
-              value: "琥珀小区r期/一号楼/三单元",
-              label: "13",
-            },
-          ],
-        },
+      title: "曲线查询",
+      selectStationSid: null,
+      rowData: {},
+      infoArr: [],
+      myData: [
+        { sid: 2, ConcentratorCode: "123", station: "站", fv1sp: 55 },
+        { sid: 2, ConcentratorCode: "123", station: "站", fv1sp: 55 },
+        { sid: 2, ConcentratorCode: "123", station: "站", fv1sp: 55 },
+        { sid: 2, ConcentratorCode: "123", station: "站", fv1sp: 55 },
+        { sid: 2, ConcentratorCode: "123", station: "站", fv1sp: 55 },
+        { sid: 2, ConcentratorCode: "123", station: "站", fv1sp: 55 },
+        { sid: 2, ConcentratorCode: "123", station: "站", fv1sp: 55 },
+        { sid: 2, ConcentratorCode: "123", station: "站", fv1sp: 55 },
+        { sid: 2, ConcentratorCode: "123", station: "站", fv1sp: 55 },
       ],
+      info: "",
+      dataForm: {
+        malfunction: null, //故障
+        communication: null, //通讯
+      },
+
+      // options: options,
+      pageIndex: 1,
+      pageSize: 10,
+      totalCount: 0,
     };
   },
-  mounted() {
-    this.forEachFun();
+  created() {
+    this.askData();
   },
+  watch: {},
+  computed: {
+    headerStyle() {
+      return {
+        background: "#66B1FF",
+        padding: "5px 0",
+        height: "30px",
+        borderColor: "#006CC1",
+        textAlign: "center",
+        // color: "#FEFEFE",
+        fontSize: "14px",
+        color: "#fff",
+        borderColor: "black",
+      };
+    },
+  },
+  mounted() {},
   methods: {
-    activeFunyi(item, index) {
-      console.log("选择站点", item);
-      this.StationData = this.dataStaPlan.doorStation(
-        this.$store.getters.get_doorDataAndInfo,
-        item
-      );
-
-      this.screeningCondition = item;
-      this.optionc = [];
-      this.forEachFun();
-
-      this.activeVar = index;
+    dd() {},
+    async askData() {
+      // console.log("ttt", time);
+      this.infoArr = await this.$http.get("plcdata/tems/plc/stationInfo");
+      console.log("yyyyy", this.infoArr);
     },
-    forEachFun() {
-      this.options.forEach((i) => {
-        if (i.value === this.screeningCondition) {
-          this.optionc.push(i);
+    sizeChangeHandle(val) {
+      this.pageSize = val;
+      //更改每页显示记录数量后，都从第一页开始查询
+      this.pageIndex = 1;
+      this.gg();
+    },
+    currentChangeHandle(val) {
+      this.pageIndex = val;
+      this.gg();
+    },
+    handleChange() {
+      this.gg();
+    },
+    tongxun() {
+      this.gg();
+    },
+    gg() {
+      let data = {
+        station: this.info[0],
+        housing: this.info[1],
+        communication: parseInt(this.dataForm.communication),
+        malfunction: parseInt(this.dataForm.malfunction),
+        pageIndex: parseInt(this.pageIndex),
+        pageSize: parseInt(this.pageSize),
+      };
+      console.log("data", data);
+    },
+    changeInput(v) {
+      console.log("****", v);
+    },
+    reset() {
+      // this.selectStationSid = null;
+      // this.dataForm.malfunction = null;
+      // this.dataForm.category = null;
+      // this.dataForm.alarmConfirm = null;
+    },
+    searchHistoryList(v) {
+      this.$refs.dialog.dialogVisible = true;
+    },
+    exportExcel111(excelName) {
+      try {
+        const $e = this.$refs["report-table"].$el;
+        console.log("----", $e);
+        let $table = $e.querySelector(".el-table__fixed");
+        if (!$table) {
+          $table = $e;
         }
+
+        const wb = XLSX.utils.table_to_book($table, { raw: true });
+        const wbout = XLSX.write(wb, {
+          bookType: "xlsx",
+          bookSST: true,
+          type: "array",
+        });
+        FileSaver.saveAs(
+          new Blob([wbout], { type: "application/octet-stream" }),
+          `${excelName}.xlsx`
+        );
+      } catch (e) {
+        if (typeof console !== "undefined") console.error(e);
+      }
+    },
+    exportExcel222() {
+      let time = new Date();
+      let wb = XLSX.utils.table_to_book(document.querySelector("#el-table"));
+      let wbout = XLSX.write(wb, {
+        bookType: "xlsx",
+        bookSST: true,
+        type: "array",
       });
-    },
 
-    activeFuner(v, i) {
-      // console.log("二级菜单");
-      // console.log("二级菜单vvv", v);
-      this.zfc = v.value.split("/");
-      console.log("this.zfc", this.zfc);
-      this.activeVarER = i;
+      try {
+        FileSaver.saveAs(
+          new Blob([wbout], { type: "application/octet-stream" }),
+          `名字 ${time.getTime()}.xlsx` // 文件名
+        );
+      } catch (e) {
+        if (typeof console !== "undefined") {
+          this.$message.error("导出失败");
+          console.log(e, wbout);
+        }
+      }
 
-      this.ShowData = this.dataStaPlan.doorStationGG(
-        this.StationData,
-        this.zfc[0],
-        this.zfc[1],
-        this.zfc[2]
-      );
+      return wbout;
     },
+  },
+  components: {
+    SysDlialog,
   },
 };
 </script>
-<style lang="scss">
-.yiji {
-  width: 250px;
-  height: 600px;
-  // background-color: #fff;
-  background-color: palegreen;
-  color: #000;
-  display: inline-block;
+<style lang="scss" scoped>
+::v-deep {
+  .el-form-item__label {
+    text-align: right;
+    vertical-align: middle;
+    float: left;
+    font-size: 23px;
+    color: #606266;
+    line-height: 40px;
+    padding: 0 12px 0 0;
+    box-sizing: border-box;
+  }
 }
-.erji {
-  display: inline-block;
-  width: 250px;
-  height: 600px;
-  // background-color: #fff;
-  background-color: palegreen;
-  color: #000;
-  overflow-y: scroll; /*y轴滚动*/
-  scrollbar-color: transparent transparent;
-  scrollbar-track-color: transparent;
-  -ms-scrollbar-track-color: transparent;
-}
-.card-box {
-  width: 1300px;
-  height: 600px;
-  display: inline-block;
-  background-color: rgb(179, 18, 18);
-}
-.erji::-webkit-scrollbar {
-  width: 0 !important;
-}
-
-.listCss {
-  cursor: pointer;
-  width: 250px;
-  height: 50px;
-  text-align: center;
-  line-height: 50px;
-  //border: 1px solid #ccc;
-  float: left;
-  // margin-right: 10px;
-  border-color: #5473e8;
-}
-// 选中时的样式 (继承上方默认样式)
-.activeCss {
-  background: #f5f7fd;
-  color: rgb(0, 0, 0);
-  color: #5473e8;
-  border-left: 0.4rem solid #5473e8;
+.unit-container {
+  width: 100%;
+  height: 100%;
+  font-size: 30px;
+  background-color: rgb(228, 226, 213);
+  position: relative;
+  .condition-box {
+    position: absolute;
+    top: 30px;
+    left: 50px;
+    font-size: 30px;
+  }
+  .table {
+    position: absolute;
+    top: 70px;
+    width: 1880px;
+    height: 970px;
+    // background-color: palevioletred;
+    overflow: auto;
+    margin: 0px 20px 20px 20px;
+    padding: 0px 20px 20px 20px;
+  }
 }
 </style>

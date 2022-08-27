@@ -1,10 +1,6 @@
 <template>
   <div class="ccvv">
-    <!-- <el-radio-group v-model="isCollapse" style="margin-bottom: 20px">
-      <el-radio-button :label="false">展开</el-radio-button>
-      <el-radio-button :label="true">收起</el-radio-button>
-    </el-radio-group> -->
-    <div class="aaa">
+    <div class="aaa" v-if="is == 5">
       <el-menu
         :popper-append-to-body="false"
         :collapse-transition="false"
@@ -13,9 +9,9 @@
         @open="handleOpen"
         @close="handleClose"
       >
-        <el-menu-item index="home" @click="$router.push({ name: 'Home' })">
+        <el-menu-item index="home" @click="fanhui">
           <i class="el-icon-user"></i>
-          <span slot="title">首页</span>
+          <span slot="title">返回</span>
         </el-menu-item>
         <el-submenu index="数据总览">
           <template #title>
@@ -119,21 +115,22 @@
         </el-submenu>
       </el-menu>
     </div>
-    <div class="bbb"></div>
-    <div class="hhh">
-      <el-button type="primary">主要按钮</el-button>
-    </div>
   </div>
 </template>
 
 <script>
+import Bus from "assets/js/bus.js";
 export default {
   data() {
     return {
       isCollapse: true,
+      is: 2,
     };
   },
   methods: {
+    fanhui() {
+      this.is = 999;
+    },
     handleOpen(key, keyPath) {
       console.log(key, keyPath);
     },
@@ -143,11 +140,17 @@ export default {
   },
   mounted() {
     //
+    Bus.$on("val", (data) => {
+      console.log("二级菜单点阿什么" + data);
+      if (data === "客服模块") {
+        this.is = 5;
+      }
+    });
   },
 };
 </script>
 
-<style lang="scss"  >
+<style lang="scss" scoped >
 .ccvv {
   background-color: transparent;
   background-color: transparent !important; //背景颜色
@@ -210,6 +213,7 @@ export default {
 .el-submenu__title:hover {
   outline: 0;
   background-color: transparent !important;
+  //background-color: rgb(149, 228, 23) !important;
 }
 
 ::v-deep {
@@ -245,8 +249,8 @@ export default {
   //二级菜单
   li.el-menu-item {
     color: rgb(252, 250, 250) !important;
-    //background-color: #57a4e7 !important;
-    background-color: transparent; //背景颜色
+    background-color: #57a4e7 !important;
+    // background-color: transparent; //背景颜色
     font-size: 55px;
   }
   li.el-menu-item:focus {
@@ -297,6 +301,7 @@ export default {
 }
 .aaa {
   background-color: palegreen;
+  width: 160px;
   .q1 {
     width: 10px;
     height: 150px;

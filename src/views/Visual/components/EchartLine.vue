@@ -56,7 +56,7 @@ export default {
     //标题
     title_name: {
       type: String,
-      default: "姓名",
+      default: "",
     },
     seriesType: {
       type: String,
@@ -159,8 +159,8 @@ export default {
           //绘图版的大小
           top: "8%",
           left: "5%",
-          right: "5%",
-          bottom: "7%",
+          right: "7%",
+          bottom: "17%",
           //height:this.boxHeight,
           // containLabel: true, // 距离是包含坐标轴上的文字
         },
@@ -208,7 +208,7 @@ export default {
                 yAxis: 16,
                 name: "Avg",
                 label: {
-                  formatter: "达标室温（18℃）",
+                  formatter: "达标（22℃）",
                 },
               },
             ],

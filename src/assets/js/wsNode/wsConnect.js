@@ -60,7 +60,7 @@ function onMsg(e) {
       break
     case "connection":
       console.log("触发了连接事件ASDF", msg.data)
-      Vue.prototype.$wsSend("login", { name: "admin155638" })
+      Vue.prototype.$wsSend("login", { name: "admin355638" })
       break
     case "login":
       // console.log("触发了登录事件", msg.data.name);

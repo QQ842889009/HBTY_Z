@@ -2,7 +2,7 @@
 import Vue from "vue"
 // import that from '@/main.js'
 
-import manageDataStation from "assets/js/manageData/manageDataStation.js"
+//import manageDataStation from "assets/js/manageData/manageDataStation.js"
 import that from "@/main.js"
 
 // import manageMeterData from "assets/js/wtMeter/manageMeterData";//
@@ -19,10 +19,10 @@ let connectJs = (stompClient) => {
   stompClient.connect({}, () => {
     // socketOnInfoData(stompClient);
     // //console.log("socketJs连接成功");
-    Vue.prototype.$stompClient = stompClient
+    Vue.prototype.$stompClientStationAlarm = stompClient
 
     //调用的是下面的函数，开始监听仪表数据
-    socketOnData(stompClient)
+    socketOnDataStationAlarm(stompClient)
   }),
     (err) => {
       连接发生错误时的处理函数
@@ -47,9 +47,13 @@ function connected(url) {
   }, 5000)
 }
 
-let socketOnData = (stompClient) => {
+let socketOnDataStationAlarm = (stompClient) => {
   if (stompClient) {
-    stompClient.subscribe("/data/wtOnPlcData", (msg) => {
+    stompClient.subscribe("/topic/getResponse", (msg) => {
+      console.log("换热站的报警数据", msg)
+      console.log("换热站的报警数据----message", JSON.parse(msg.body).warning)
+      that.$store.commit("STATIONALARM", JSON.parse(msg.body).warning)
+      // console.log("换热站的报警数据", JSON.parse(msg.body).message)
       // console.log("java-----我是换热站的数据", msg)
       // console.log("1****msg");
       // console.log(msg);
@@ -58,7 +62,7 @@ let socketOnData = (stompClient) => {
       //  msg.body存放的是服务端发送json字符串的形式，需要转化为json对象的形式，然后拿到里面的map对象，直接点是不行的
       // //console.log(JSON.parse(msg.body).map); // msg.body存放的是服务端发送给我们的信息
 
-      manageDataStation.stationData(JSON.parse(msg.body).map) //数据的展示
+      // manageDataStation.stationData(JSON.parse(msg.body).map) //数据的展示
       //manageDataStation.stationAlarmData(JSON.parse(msg.body).map) //需要给报警数组几个数据
 
       heartDog = 1

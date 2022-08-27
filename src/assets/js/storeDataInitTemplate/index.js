@@ -229,6 +229,20 @@ const echartdataType = {
   一网热量: 0,
   二网热量: 0
 }
+//换热站报警的初始化
+// const stationAlarm = {
+//   alarmConfirm: false,
+//   Station: "",
+//   Branch: "",
+//   Housing: "",
+//   Tower: "",
+//   Unit: "",
+//   Num: "",
+
+//   versions: 0, //
+//   ValveCode: 0, //户阀号
+//   ConcentratorCode: 0 //集中器号
+// }
 export {
   inDoorDataInitTemplate,
   doorDataInitTemplate,
