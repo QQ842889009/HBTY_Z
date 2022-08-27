@@ -113,6 +113,11 @@ export default {
               id: "1125",
               path: "Visual5",
             },
+            {
+              name: "工艺控制",
+              id: "1126",
+              path: "Visual6",
+            },
           ],
         },
         {

@@ -2,7 +2,7 @@ import that from "@/main.js"
 
 let location;
 let weatherInfo;
-let keyGaode = "3c28c781f2aa4227580098e95db055e0";
+let keyGaode = "59219eb882d60393da45c43a0b921330";
 let keyWeather = "BSSPJ3TEPQH7BV8W5J759DHC5";
 async function getLocation(city) {
     location = localStorage.getItem('location')

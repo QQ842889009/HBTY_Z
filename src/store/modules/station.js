@@ -18,6 +18,9 @@ const getters = {
   },
   stationAlarmSet(state) {
     return state.stationAlarmSet
+  },
+  stationInfos(state) {
+    return state.stationInfos
   }
 }
 
@@ -26,6 +29,7 @@ const actions = {}
 const mutations = {
   STATION(state) {
     station.station(state.stationDataAndInfo, state.stationLenght)
+    station.station(state.stationInfos, state.stationLenght)
     //console.log("换热站的初始化占位", state.station)
   },
 
@@ -49,6 +53,7 @@ const mutations = {
     for (let i = 0; i < len; i++) {
       state.stationDataAndInfo[i].Space = data[i].Space
       state.stationDataAndInfo[i].Station = data[i].Station
+      state.stationInfos[i].Station = data[i].Station
     }
   },
 
