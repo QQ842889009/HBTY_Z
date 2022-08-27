@@ -5,6 +5,10 @@ export function Sid(value) {
 }
 
 export function getDate(time) {
+  console.log("time", time)
+  if (time == undefined) {
+    return
+  }
   var d = new Date(time)
   var times =
     d.getFullYear() +

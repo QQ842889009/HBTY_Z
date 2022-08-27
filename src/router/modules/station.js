@@ -10,7 +10,10 @@ const HistoryQuery = () => import("views/Station/HistoryQuery.vue")
 const TabData = () => import("views/Station/TabData/index.vue")
 const Space = () => import("views/Station/Space/index.vue")
 const Space2 = () => import("views/Station/Space/Space2.vue")
-const BpControl = () => import("views/Station/BpControl/index.vue")
+const ChangeInfo = () => import("views/Station/ChangeInfo/index.vue")
+const BpControl = () => import("views/Station/Space/Space2.vue")
+const HistoryAlarm = () => import("views/Station/Alarm/HistoryAlarm.vue")
+const RealAlarm = () => import("views/Station/Alarm/RealAlarm.vue")
 const station = {
   path: "/station",
   name: "station",
@@ -72,6 +75,25 @@ const station = {
       meta: { title: "面积" },
       component: Space2
     },
+    {
+      path: "/HistoryAlarm",
+      name: "HistoryAlarm",
+      meta: { title: "报警" },
+      component: HistoryAlarm
+    },
+    {
+      path: "/RealAlarm",
+      name: "RealAlarm",
+      meta: { title: "报警" },
+      component: RealAlarm
+    },
+    {
+      path: "/ChangeInfo",
+      name: "ChangeInfo",
+      meta: { title: "修改信息" },
+      component: ChangeInfo
+    },
+
     {
       path: "/BpControl",
       name: "BpControl",

@@ -36,7 +36,7 @@
         </el-menu-item>
       </el-submenu>
     </el-menu>
-    <div class="aaa" v-if="5 == 6">
+    <div class="aaa" v-if="station === 5">
       <i class="el-icon-caret-left" @click="fanhui"></i>
       <el-menu
         unique-opened
@@ -44,8 +44,9 @@
         router
         :default-active="this.$route.path"
         class="bbb"
+        v-if="station === 5"
       >
-        <el-submenu index="数据总览" v-if="uu == 2">
+        <el-submenu index="数据总览">
           <template #title>
             <i class="iconfont icon-shujuzonglan"></i>
             <span slot="title" class="yy">数据总览</span>
@@ -59,7 +60,7 @@
             <span slot="title">数据总览</span>
           </el-menu-item>
         </el-submenu>
-        <el-submenu index="工艺控制" v-if="uu == 2">
+        <el-submenu index="工艺控制">
           <template #title>
             <i class="iconfont icon-kongzhi"></i>
             <span slot="title" class="yy">工艺控制</span>
@@ -73,7 +74,7 @@
             <span slot="title">工艺控制</span>
           </el-menu-item>
         </el-submenu>
-        <el-submenu index="历史查询" v-if="uu == 2">
+        <el-submenu index="历史查询">
           <template #title>
             <i class="iconfont icon-icon_A3"></i>
             <span slot="title" class="yy">历史查询</span>
@@ -87,29 +88,21 @@
             <span slot="title">历史查询</span>
           </el-menu-item>
         </el-submenu>
-        <el-submenu index="故障报警" v-if="uu == 2">
+        <el-submenu index="故障报警">
           <template #title>
             <i class="iconfont icon-guzhang"></i>
             <span slot="title" class="yy">故障报警</span>
           </template>
           <el-menu-item
-            index="41"
-            @click="$router.push({ name: 'RealAlarm' })"
+            index="4"
+            @click="$router.push({ name: 'Alarm' })"
             ref="ABC"
           >
             <i class="el-icon-menu"></i>
-            <span slot="title">实时报警</span>
-          </el-menu-item>
-          <el-menu-item
-            index="42"
-            @click="$router.push({ name: 'HistoryAlarm' })"
-            ref="ABC"
-          >
-            <i class="el-icon-menu"></i>
-            <span slot="title">报警查询</span>
+            <span slot="title">故障报警</span>
           </el-menu-item>
         </el-submenu>
-        <el-submenu index="报表系统" v-if="uu == 2">
+        <el-submenu index="报表系统">
           <template #title>
             <i class="iconfont icon-baobiao"></i>
             <span slot="title" class="yy">报表系统</span>
@@ -131,7 +124,7 @@
             <span slot="title">整点报表</span>
           </el-menu-item>
         </el-submenu>
-        <el-submenu index="参数修改" v-if="uu == 2">
+        <el-submenu index="参数修改">
           <template #title>
             <i class="iconfont icon-jianyifankui"></i>
             <span slot="title" class="yy">参数修改</span>
@@ -146,90 +139,28 @@
           </el-menu-item>
         </el-submenu>
 
-        <el-submenu index="数据总览" v-if="uu == 1">
-          <template #title>
-            <i class="iconfont icon-shujuzonglan"></i>
-            <span slot="title" class="yy">数据总览</span>
+        <!-- <el-submenu
+          :index="item.id + ''"
+          :popper-append-to-body="false"
+          v-for="item in menuList"
+          :key="item.id"
+        >
+          <template slot="title">
+            <i :class="iconObj[item.id]" style="color: #fff"></i>
+            <span class="yy">{{ item.name }}</span>
           </template>
+
           <el-menu-item
-            index="1"
-            @click="$router.push({ name: 'Dept' })"
-            ref="ABC"
+            v-for="subItem in item.children"
+            :key="subItem.id"
+            @click="fg(subItem)"
           >
-            <i class="el-icon-menu"></i>
-            <span slot="title">数据总览</span>
+            <template slot="title">
+              <i class="el-icon-menu"></i>
+              <span>{{ subItem.name }}</span>
+            </template>
           </el-menu-item>
-        </el-submenu>
-        <el-submenu index="工艺控制" v-if="uu == 1">
-          <template #title>
-            <i class="iconfont icon-kongzhi"></i>
-            <span slot="title" class="yy">工艺控制</span>
-          </template>
-          <el-menu-item
-            index="2"
-            @click="$router.push({ name: 'ddd' })"
-            ref="ABC"
-          >
-            <i class="el-icon-menu"></i>
-            <span slot="title">工艺控制</span>
-          </el-menu-item>
-        </el-submenu>
-        <el-submenu index="历史查询" v-if="uu == 1">
-          <template #title>
-            <i class="iconfont icon-icon_A3"></i>
-            <span slot="title" class="yy">历史查询</span>
-          </template>
-          <el-menu-item
-            index="2"
-            @click="$router.push({ name: 'ddd' })"
-            ref="ABC"
-          >
-            <i class="el-icon-menu"></i>
-            <span slot="title">历史查询</span>
-          </el-menu-item>
-        </el-submenu>
-        <el-submenu index="故障报警" v-if="uu == 1">
-          <template #title>
-            <i class="iconfont icon-guzhang"></i>
-            <span slot="title" class="yy">故障报警</span>
-          </template>
-          <el-menu-item
-            index="2"
-            @click="$router.push({ name: 'ddd' })"
-            ref="ABC"
-          >
-            <i class="el-icon-menu"></i>
-            <span slot="title">故障报警</span>
-          </el-menu-item>
-        </el-submenu>
-        <el-submenu index="报表系统" v-if="uu == 1">
-          <template #title>
-            <i class="iconfont icon-baobiao"></i>
-            <span slot="title" class="yy">报表系统</span>
-          </template>
-          <el-menu-item
-            index="2"
-            @click="$router.push({ name: 'ddd' })"
-            ref="ABC"
-          >
-            <i class="el-icon-menu"></i>
-            <span slot="title">报表系统</span>
-          </el-menu-item>
-        </el-submenu>
-        <el-submenu index="参数修改" v-if="uu == 1">
-          <template #title>
-            <i class="iconfont icon-jianyifankui"></i>
-            <span slot="title" class="yy">报表系统</span>
-          </template>
-          <el-menu-item
-            index="2"
-            @click="$router.push({ name: 'ddd' })"
-            ref="ABC"
-          >
-            <i class="el-icon-menu"></i>
-            <span slot="title">报表系统</span>
-          </el-menu-item>
-        </el-submenu>
+        </el-submenu> -->
       </el-menu>
     </div>
     <div class="hot" v-if="hot == 5">
@@ -422,7 +353,6 @@ export default {
   data() {
     return {
       is: 2,
-      uu: 0,
       r: [],
       iconObj: {
         11: "iconfont icon-shujuzonglan ",
@@ -560,7 +490,6 @@ export default {
         this.door = 0;
         this.indoor = 0;
         this.is = 1;
-        this.uu = 2;
       } else if (v.name === "热源") {
         this.station = 0;
         this.hot = 5;
@@ -568,7 +497,6 @@ export default {
         this.door = 0;
         this.indoor = 0;
         this.is = 2;
-        this.uu = 1;
       } else if (v.name === "楼宇单元阀") {
         this.station = 0;
         this.hot = 0;
@@ -576,7 +504,6 @@ export default {
         this.door = 0;
         this.indoor = 0;
         this.is = 3;
-        this.uu = 3;
       } else if (v.name === "户阀") {
         this.station = 0;
         this.hot = 0;
@@ -584,7 +511,6 @@ export default {
         this.door = 5;
         this.indoor = 0;
         this.is = 4;
-        this.uu = 4;
       } else if (v.name === "室内温度") {
         this.station = 0;
         this.hot = 0;
@@ -592,7 +518,6 @@ export default {
         this.door = 0;
         this.indoor = 5;
         this.is = 5;
-        this.uu = 5;
       } else {
         this.station = 0;
         this.hot = 0;
@@ -600,7 +525,6 @@ export default {
         this.door = 0;
         this.indoor = 0;
         this.is = 0;
-        this.uu = 0;
       }
     },
   },

@@ -1,6 +1,6 @@
 /** 连选  可单选*/
 <template>
-  <div>
+  <div class="aaaaa">
     <div class="block">
       <span class="demonstration"></span>
       <span class="c">选择位置</span>
@@ -8,8 +8,23 @@
         :options="options"
         :props="{ checkStrictly: true }"
         clearable
-        @change="handleChange"
+        @change="infoChange"
       ></el-cascader>
+    </div>
+    <div class="block">
+      <span class="demonstration"></span>
+      <span class="c">在线/离线</span>
+      <el-select
+        v-model="selectionCondition.line"
+        class="input"
+        placeholder="状态"
+        size="medium"
+        clearable
+        @change="lineChange"
+      >
+        <el-option label="在线" value="1" />
+        <el-option label="离线" value="0" />
+      </el-select>
     </div>
   </div>
 </template>
@@ -26,17 +41,31 @@ export default {
     },
   },
   data() {
-    return {};
+    return {
+      selectionCondition: {
+        station: null,
+        housing: null,
+        line: null,
+      },
+    };
   },
   methods: {
-    handleChange(value) {
-      console.log("***", value);
-      Bus.$emit("val", value);
+    infoChange(value) {
+      this.selectionCondition.station = value[0];
+      this.selectionCondition.housing = value[1];
+      console.log("222", this.selectionCondition);
+      this.$emit("EmitinfoChangeVal", this.selectionCondition);
+    },
+    lineChange(value) {
+      this.$emit("EmitlineChangeVal", value);
     },
   },
 };
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
+.aaaaa {
+  display: flex;
+}
 .c {
   color: #000;
   font-size: 20px;

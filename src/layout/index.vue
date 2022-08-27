@@ -11,12 +11,12 @@
       backgroundImage: 'url(' + bg1 + ')',
       backgroundRepeat: 'no-repeat',
       backgroundSize: '100% 100%',
-      zIndex: '98'
+      zIndex: '98',
     }"
   >
     <!-- bgc2就是第二张图片开始 -->
     <div class="bgc2">
-      <img src="~assets/img/logo/bgz2.png" alt="" />
+      <!-- <img src="~assets/img/logo/bgz2.png" alt="" /> -->
     </div>
     <!-- bgc2就是第二张图片结束 -->
     <!-- 头部给一个图片开始 -->
@@ -25,10 +25,13 @@
       v-bind:style="{
         backgroundImage: 'url(' + bg2 + ')',
         backgroundRepeat: 'no-repeat',
-        backgroundSize: '100% 100%'
+        backgroundSize: '100% 100%',
       }"
     >
+      <div class="ttt">穆棱福通热力智慧供热管控系统</div>
+
       <Sidebar></Sidebar>
+      <!-- <anniu class="anniuweizhi"></anniu> -->
       <div class="exit">
         <Header></Header>
       </div>
@@ -37,6 +40,7 @@
     <!-- <div class="q2" :style="sliderStyle"></div> -->
     <div class="main-box">
       <div class="main-content">
+        <CaiDan class="f"></CaiDan>
         <Main />
         <!-- <el-input-number
           v-model="num"
@@ -59,16 +63,17 @@
 </template>
 
 <script>
-import { Sidebar, Header, Main } from "./components"
-
+import { Sidebar, Header, Main } from "./components";
+import anniu from "./anniu";
+import CaiDan from "./CaiDan";
 export default {
   name: "login",
   data() {
     return {
       num: 30,
-      bg1: require("assets/img/logo/bgz1.png"), //总背景图
-      bg2: require("assets/img/logo/header1.png") //头部背景图
-    }
+      bg1: require("assets/img/logo/bgz1A.png"), //总背景图
+      bg2: require("assets/img/logo/header2.png"), //头部背景图
+    };
   },
   created() {},
   computed: {},
@@ -76,21 +81,23 @@ export default {
   updated() {},
   methods: {
     goBack() {
-      this.$router.push("/login")
+      this.$router.push("/login");
     },
 
     handleChange(value) {
-      console.log(value)
-      this.sliderStyle.marginLeft = value + "px"
-      this.sliderStyle.marginRight = value + "px"
-    }
+      console.log(value);
+      this.sliderStyle.marginLeft = value + "px";
+      this.sliderStyle.marginRight = value + "px";
+    },
   },
   components: {
     Sidebar,
     Header,
-    Main
-  }
-}
+    Main,
+    anniu,
+    CaiDan,
+  },
+};
 </script>
 
 <style lang="scss" scoped>
@@ -129,5 +136,24 @@ export default {
       width: 100%;
     }
   }
+}
+.f {
+  position: fixed;
+  z-index: 999999;
+}
+.anniuweizhi {
+  position: absolute;
+  left: 650px;
+  top: 30px;
+}
+.ttt {
+  margin: 0 auto;
+  position: absolute;
+  top: 14px;
+  font-size: 30px;
+  font-weight: 500;
+  left: 750px;
+  color: rgb(14, 218, 24);
+  // color: #000;
 }
 </style>

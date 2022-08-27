@@ -28,6 +28,10 @@ const mutations = {
     station.station(state.stationDataAndInfo, state.stationLenght)
     //console.log("换热站的初始化占位", state.station)
   },
+  STATIONALARM(state, data) {
+    console.log("我是仓库中的报警来了吗", data)
+    state.stationAlarmSet = data
+  },
 
   STATIONDATA(state, data) {
     // console.log("-----", data)

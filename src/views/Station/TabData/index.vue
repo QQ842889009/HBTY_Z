@@ -28,7 +28,7 @@ import InputSearch from "components/common/InputSearch"; //输入关键词查找
 
 import { Input } from "element-ui";
 import { createNamespacedHelpers } from "vuex"; //
-//const { mapState } = createNamespacedHelpers("plcS7");
+
 export default {
   data() {
     return {
@@ -460,13 +460,8 @@ export default {
     },
   },
   components: {
-    // Collocate,
-    // Tab,
     InputSearch,
-    // SelectSearch,
-    // DateTimePicker,
-    // SysDlialog22,
-    // tt,
+
     MyTable,
     BjBox,
   },
@@ -481,4 +476,17 @@ export default {
   }
   // opacity: 0.8;
 }
+
+// .isf:hover + .ccc {
+//   background-color: green;
+//   display: none;
+// }
+// .isf {
+//   height: 900px;
+//   width: 60px;
+//   background-color: red;
+//   position: fixed;
+//   z-index: 8888;
+//   left: 158px;
+// }
 </style>

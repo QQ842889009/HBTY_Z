@@ -9,7 +9,7 @@
       </div>
       <div class="c">
         <el-button class="d" @click="exportExcel('整点报表')"
-          >导出报表2</el-button
+          >导出报表</el-button
         >
       </div>
       <!-- <div class="data1"> -->
@@ -99,8 +99,8 @@
           </el-table-column>
           <el-table-column
             prop="pt11_fv"
-            label="阀门压(MPa)"
-            width="120"
+            label="除污器后压(MPa)"
+            width="140"
             align="center"
           >
           </el-table-column>
@@ -534,6 +534,7 @@ export default {
     exportExcel(excelName) {
       try {
         const $e = this.$refs["report-table"].$el;
+        console.log("----", $e);
         let $table = $e.querySelector(".el-table__fixed");
         if (!$table) {
           $table = $e;

@@ -2,10 +2,10 @@
   <div class="dataBlockBox" :style="shape">
     <div class="tipBox">
       <div class="tipText">{{ tipName }}</div>
-      <div class="tipMiddle">  
+      <div class="tipMiddle">
         <slot name="tipMiddleSolt"></slot>
       </div>
-      <div class="tipLast">      
+      <div class="tipLast">
         <slot name="tipLastSolt"></slot>
       </div>
     </div>
@@ -48,11 +48,12 @@ export default {
   // height: 88.3%;
   // width: 90%;
   // aspect-ratio: 1;
-  margin-bottom:1rem;
+  margin-bottom: 1rem;
   // border: 1px solid #000;
   // box-shadow: 0 0 3px 4px hsl(0, 0%, 0%, 0.7);
-  box-shadow: 0px 0px 5px 4px #3498db inset, 0px 0px 5px -4px #3498db;
-  text-shadow:1px 1px 1px #3498db,1px 1px 3px #3498db,1px 1px 5px #3498db,1px 1px 7px #3498db;
+  box-shadow: 0px 0px 5px 4px #0bbd40 inset, 0px 0px 5px -4px #0bbd40;
+  text-shadow: 1px 1px 1px #0bbd40, 1px 1px 3px #0bbd40, 1px 1px 5px #0bbd40,
+    1px 1px 7px #0bbd40;
   // border-radius: 10px;
   // border-top:none;
   // filter: opacity(0.8);
@@ -61,10 +62,10 @@ export default {
     background: url("~@/assets/img/logo/gh.png") left top no-repeat;
     background-size: 98%;
     // background-color: red;
-    height:40px;
+    height: 40px;
     position: relative;
     top: 0.8rem;
-    left:0.5rem;
+    left: 0.5rem;
     display: flex;
     justify-content: space-between;
     justify-items: center;
@@ -77,7 +78,7 @@ export default {
       // top: 0.3rem;
       // left: 1rem;
       color: #fff;
-      font-size:18px ;
+      font-size: 18px;
       text-align: center;
       letter-spacing: 8px;
     }

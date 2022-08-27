@@ -141,6 +141,9 @@ export default {
       let end = this.Fungetdate(0);
       this.value2.push(start, end);
 
+      // let startTo = Date.parse(new Date(start).toString());
+      // let endTo = Date.parse(new Date(end).toString());
+
       this.$emit("EmitDateTimePicker", this.value2);
     },
     Fungetdate(num) {
@@ -169,6 +172,7 @@ export default {
       return y + "-" + m + "-" + d + " " + myhh + ":" + mymm + ":" + myss;
     },
     Toinquirebutton(v) {
+      console.log("ttttt888", v);
       this.$emit("EmitDateTimePicker", v);
     },
   },

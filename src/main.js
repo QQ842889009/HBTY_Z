@@ -37,7 +37,7 @@ import {
 import socketAiUnit from "assets/js/socketJsControl/socketAiUnit" //改版后的楼宇单元和户阀的连接
 import socketAiInDoor from "assets/js/socketJsControl/socketAiInDoor" //改版后的楼宇单元和户阀的连接
 import socketStation from "assets/js/socketJsControl/socketStation" //改版后的楼宇单元和户阀的连接
-
+import socketStationAlarm from "assets/js/socketJsControl/socketStationAlarm" //换热站的报警
 import socketRealtime from "./assets/js/socketJsControl/socketRealtime"
 new Promise((resolve, reject) => {
   store.commit("plcS7/mutaPlcDataInit", plcdataType)
@@ -57,6 +57,10 @@ new Promise((resolve, reject) => {
   ////生产环境的连接开始
   socketAiUnit.connected(
     "http://221.206.242.116:1668/endpoint-websocket-tlgw" //生产环境户阀//
+  )
+  //换热站的报警
+  socketStationAlarm.connected(
+    "http://10.168.1.176:9908/endpointOyzc" //生产环境户阀//
   )
   socketAiInDoor.connected(
     "http://221.206.242.116:2060/hbty/endpoint-websocket-te" //室内温度的2022生产//生产环境室内温度

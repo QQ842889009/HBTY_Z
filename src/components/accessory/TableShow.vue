@@ -76,7 +76,7 @@ export default {
   // color: aliceblue;
   display: flex;
   justify-content: space-between;
-//  overflow: hidden;
+  //  overflow: hidden;
   .firBox {
     // border: 1px solid red;
     width: 49%;
@@ -96,7 +96,7 @@ export default {
       // font-weight: 700;
       // font-size: 0.31rem;
       /* 强制修改背景颜色 */
-      background-color: #052c55 !important;
+      background-color: #0c5505 !important;
     }
     li {
       height: 12%; //填项调节此处高度
@@ -113,10 +113,12 @@ export default {
 
     li:nth-of-type(odd) {
       background-color: #14375c;
+      background-color: #22e975;
       //  background-color: transparent;
     }
     li:nth-of-type(even) {
       background-color: #060f29;
+      background-color: #37383f;
     }
   }
 }

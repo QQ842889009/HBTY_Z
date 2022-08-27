@@ -57,34 +57,6 @@
           >导出报表</el-button
         >
       </div>
-      <!-- <div class="a">
-        <SelectDateAndTime
-          class="b"
-          @dateandtime="Toinquirebutton"
-        ></SelectDateAndTime>
-      </div> -->
-      <!-- <div class="station">
-        <span>选择换热站：</span>
-        <el-select
-          class="selectStation"
-          v-model="selectStation"
-          filterable
-          placeholder="选择换热站"
-        >
-          <el-option
-            v-for="item in stations"
-            :key="item.Sid"
-            :label="item.Station"
-            :value="item.Sid"
-          >
-          </el-option>
-        </el-select>
-      </div> -->
-      <!-- <div class="c">
-        <el-button class="d" @click="exportExcel('整点报表')"
-          >导出报表2</el-button
-        >
-      </div> -->
     </div>
 
     <!-- <div><el-button @click="exportExcel(123)">导出</el-button></div> -->
@@ -92,14 +64,14 @@
     <div class="table">
       <el-table
         ref="report-table"
-        :data="tableData"
+        :data="myData"
         style="width: 100%"
         max-height="910"
         :cell-style="{ padding: '5.5px 0' }"
         :header-cell-style="headerStyle"
       >
         <el-table-column
-          prop="name"
+          prop="station"
           label="站点名称"
           width="120"
           fixed
@@ -107,7 +79,7 @@
         >
         </el-table-column>
         <el-table-column
-          prop="name"
+          prop="space"
           label="面积"
           width="120"
           fixed="left"
@@ -115,73 +87,68 @@
         >
         </el-table-column>
         <el-table-column
-          prop="name"
-          label="日期时间xxx"
+          prop="timestamp"
+          label="日期时间"
           width="150"
           fixed="left"
           align="center"
         >
           <template slot-scope="scope">
-            {{ scope.row.zip | getDate }}
+            {{ scope.row.timestamp | getDate }}
           </template>
         </el-table-column>
         <el-table-column label="一次网" align="center">
-          <el-table-column
-            prop="province"
-            label="流量"
-            width="120"
-            align="center"
-          >
-            <template slot-scope="scope">
+          <el-table-column prop="ft11" label="流量" width="120" align="center">
+            <!-- <template slot-scope="scope">
               {{ scope.row.province | Sid }}
-            </template>
+            </template> -->
           </el-table-column>
-          <el-table-column prop="city" label="热量" width="120" align="center">
+          <el-table-column prop="q1" label="热量" width="120" align="center">
           </el-table-column>
           <el-table-column
-            prop="city"
+            prop="q1_sum"
             label="累计热量"
             width="100"
             align="center"
           >
           </el-table-column>
           <el-table-column
-            prop="name"
+            prop="pt11"
             label="供压(MPa)"
             width="120"
             align="center"
           >
           </el-table-column>
           <el-table-column
-            prop="name"
+            prop="pt12"
             label="回压(MPa)"
             width="120"
             align="center"
           >
           </el-table-column>
           <el-table-column
-            prop="name"
-            label="阀门压(MPa)"
-            width="120"
+            prop="pt11_fv"
+            label="除污器后压(MPa)"
+            width="140"
             align="center"
           >
           </el-table-column>
           <el-table-column
-            prop="name"
+            prop="te11"
             label="供温(℃)"
             width="120"
             align="center"
           >
           </el-table-column>
           <el-table-column
-            prop="name"
+            prop="te12"
             label="回温(℃)"
             width="120"
             align="center"
           >
           </el-table-column>
           <el-table-column
-            prop="name"
+            prop="fv1fb"
             label="阀门开度(%)"
             width="120"
             align="center"
@@ -189,75 +156,70 @@
           </el-table-column>
         </el-table-column>
         <el-table-column label="二次网" align="center">
-          <el-table-column
-            prop="province"
-            label="流量"
-            width="120"
-            align="center"
-          >
-            <template slot-scope="scope">
+          <el-table-column prop="ft21" label="流量" width="120" align="center">
+            <!-- <template slot-scope="scope">
               {{ scope.row.province | Sid }}
-            </template>
+            </template> -->
           </el-table-column>
 
           <el-table-column
-            prop="name"
+            prop="pt21"
             label="供压(MPa)"
             width="120"
             align="center"
           >
           </el-table-column>
           <el-table-column
-            prop="name"
+            prop="pt22"
             label="回压(MPa)"
             width="120"
             align="center"
           >
           </el-table-column>
           <el-table-column
-            prop="name"
+            prop="pt21_fv"
             label="泵前压(MPa)"
             width="120"
             align="center"
           >
           </el-table-column>
           <el-table-column
-            prop="name"
+            prop="pt21_hh"
             label="泵后压(MPa)"
             width="120"
             align="center"
           >
           </el-table-column>
           <el-table-column
-            prop="name"
+            prop="te21"
             label="供温(℃)"
             width="120"
             align="center"
           >
           </el-table-column>
           <el-table-column
-            prop="name"
+            prop="te22"
             label="回温(℃)"
             width="120"
             align="center"
           >
           </el-table-column>
           <el-table-column
-            prop="name"
+            prop="fv2fb"
             label="阀门开度(%)"
             width="120"
             align="center"
           >
           </el-table-column>
           <el-table-column
-            prop="name"
+            prop="bp21fb"
             label="1#泵(Hz)"
             width="120"
             align="center"
           >
           </el-table-column>
           <el-table-column
-            prop="name"
+            prop="bp22fb"
             label="2#泵(Hz)"
             width="120"
             align="center"
@@ -265,7 +227,7 @@
           </el-table-column>
         </el-table-column>
         <el-table-column
-          prop="name"
+          prop="lt"
           label="液位(m)"
           width="120"
           fixed="right"
@@ -273,19 +235,14 @@
         >
         </el-table-column>
         <el-table-column
-          prop="name"
+          prop="ft31"
           label="补水(m³)"
           width="120"
           fixed="right"
           align="center"
         >
         </el-table-column>
-        <el-table-column
-          prop="name"
-          label="电能(kwh)"
-          width="120"
-          fixed="right"
-        >
+        <el-table-column prop="dl" label="电能(kwh)" width="120" fixed="right">
         </el-table-column>
       </el-table>
     </div>
@@ -551,17 +508,15 @@ export default {
       // this.myParams.stArr = this.selectItem.value;
       this.myParams.startTime = startTime;
       this.myParams.endTime = endTime;
-      this.myParams.datasize = 24;
-      // console.log("-------------", this.myParams);
-      // this.myUnit = this.selectItem.unit;
-      // console.log(this.myUnit);
+      this.myParams.size = 24;
+
       console.log("---日报表的参数", this.myParams);
       this.myData = await this.$http.post(
-        "plcdata/tems/plc/datas",
+        "plcdata/tems/plc/DatasByTimeScopeAndSizeAndSid",
 
         this.myParams
       );
-      console.log("plcdata接受到的数据", this.myData);
+      console.log("日报表接受到的数据", this.myData);
 
       // this.isUpdata++;
     },
@@ -658,49 +613,6 @@ export default {
       // float: 20px;
     }
   }
-  // .data {
-  //   width: 100%;
-  //   height: 40px;
-  //   //background-color: rgb(204, 83, 83);
-  //   position: relative;
-  //   .station {
-  //     width: 200px;
-  //     height: 100%;
-  //     background-color: red;
-  //   }
-  //   .a {
-  //     width: 250px;
-  //     height: 100%;
-  //     // background-color: gold;
-  //     position: absolute;
-  //     right: 130px;
-  //     .b {
-  //       // line-height: 80px;
-  //     }
-  //   }
-  //   .c {
-  //     width: 100px;
-  //     height: 100%;
-  //     //  background-color: blueviolet;
-  //     position: absolute;
-  //     right: 50px;
-  //     // .d {
-  //     //   height: 40px;
-  //     //   line-height: 60px;
-  //     // }
-  //   }
-  //   // .data1-1 {
-  //   //   position: absolute;
-  //   //   right: 300px;
-  //   //   //  top: 20px;
-  //   //   background-color: blue;
-  //   // }
-  //   // .data2 {
-  //   //   position: absolute;
-  //   //   right: 100px;
-  //   //   top: 20px;
-  //   // }
-  // }
 }
 .table {
   position: absolute;
