@@ -1,5 +1,6 @@
 <template>
   <div class="unit-container">
+    {{ vv }}
     <!-- {{ dataForm.alarmConfirm }} -->
     <!-- <div class="condition-box">
       <el-form :inline="true" :model="dataForm" ref="dataForm">
@@ -89,16 +90,16 @@
         "
         :header-cell-style="headerStyle"
       >
-        <!-- <el-table-column
-          prop="stationInfo"
+        <el-table-column
+          prop="stationName"
           label="换热站名称"
           width="350"
           fixed
           align="center"
         >
-        </el-table-column> -->
+        </el-table-column>
         <el-table-column
-          prop="createdTime"
+          prop="timeStr"
           label="报警日期时间"
           width="350"
           fixed="left"
@@ -129,22 +130,30 @@
           align="center"
         >
         </el-table-column>
+        <el-table-column label="操作" width="100" fixed="right">
+          <template slot-scope="scope">
+            <el-button type="primary" size="mini" @click="affirm" fixed="right"
+              >确认报警</el-button
+            >
+          </template>
+        </el-table-column>
       </el-table>
       <el-pagination
+        align="center"
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
-        :current-page="currentPage4"
-        :page-sizes="[100, 200, 300, 400]"
-        :page-size="100"
+        :current-page="currentPage"
+        :page-sizes="[25, 30]"
+        :page-size="pageSize"
         layout="total, sizes, prev, pager, next, jumper"
-        :total="400"
+        :total="total"
       >
       </el-pagination>
     </div>
-    <div v-show="tt === 5"></div>
-    <div>
+
+    <!-- <div>
       <SysDlialog ref="dialog" :title="title" :rowData="rowData"> </SysDlialog>
-    </div>
+    </div> -->
   </div>
 </template>
 <script>
@@ -157,10 +166,11 @@ export default {
   data() {
     return {
       showAlarmHistoryData: [],
-      //下面是分页所用
+      tableData: [],
+      tableData333: [],
       currentPage: 1, // 当前页码
-      total: 20, // 总条数
-      pageSize: 19, // 每页的数据条数
+      total: 50, // 总条数
+      pageSize: 10, // 每页的数据条数
     };
   },
   created() {
@@ -187,12 +197,16 @@ export default {
       this.total = this.tableData.length; //数据的长度给分页总数用
       // this.sss = this.$store.getters.LKgetMeter_hufa;
     },
+    vv() {
+      this.tableData333 = this.$store.getters.stationAlarmSet;
+      return this.tableData333;
+    },
   },
   mounted() {},
   methods: {
     //每页条数改变时触发 选择一页显示多少行
     handleSizeChange(val) {
-      //console.log(`每页 ${val} 条`);
+      console.log(`每页 ${val} 条`);
       this.currentPage = 1;
       this.pageSize = val;
     },
@@ -200,6 +214,9 @@ export default {
     handleCurrentChange(val) {
       //console.log(`当前页: ${val}`);
       this.currentPage = val;
+    },
+    affirm() {
+      console.log("确认报警");
     },
     exportExcel111(excelName) {
       try {
@@ -223,29 +240,6 @@ export default {
       } catch (e) {
         if (typeof console !== "undefined") console.error(e);
       }
-    },
-    exportExcel222() {
-      let time = new Date();
-      let wb = XLSX.utils.table_to_book(document.querySelector("#el-table"));
-      let wbout = XLSX.write(wb, {
-        bookType: "xlsx",
-        bookSST: true,
-        type: "array",
-      });
-
-      try {
-        FileSaver.saveAs(
-          new Blob([wbout], { type: "application/octet-stream" }),
-          `名字 ${time.getTime()}.xlsx` // 文件名
-        );
-      } catch (e) {
-        if (typeof console !== "undefined") {
-          this.$message.error("导出失败");
-          console.log(e, wbout);
-        }
-      }
-
-      return wbout;
     },
   },
   components: {
@@ -275,7 +269,7 @@ export default {
   position: relative;
   .condition-box {
     position: absolute;
-    top: 30px;
+    top: 10px;
     left: 50px;
     font-size: 30px;
   }

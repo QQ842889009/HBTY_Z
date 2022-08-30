@@ -60,7 +60,7 @@ new Promise((resolve, reject) => {
   )
   //换热站的报警
   socketStationAlarm.connected(
-    "http://10.168.1.176:9908/endpointOyzc" //生产环境户阀//
+    "http://10.168.1.176:9901/endpointOyzc" //换热站报警
   )
   socketAiInDoor.connected(
     "http://221.206.242.116:2060/hbty/endpoint-websocket-te" //室内温度的2022生产//生产环境室内温度

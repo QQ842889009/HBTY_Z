@@ -133,8 +133,8 @@
 </template>
 
 <script>
-import { login } from "@/api/http";
-import { setToken } from "@/utils/token";
+import { login, denglu } from "@/api/http"
+import { setToken } from "@/utils/token"
 
 export default {
   name: "login",
@@ -143,7 +143,7 @@ export default {
       rotate: true,
       ruleForm: {
         username: "admin",
-        password: "abc123456",
+        password: "abc123456"
       },
       rules: {
         account: [
@@ -152,8 +152,8 @@ export default {
             min: 3,
             max: 18,
             message: "长度在 3 到 18 个字符",
-            trigger: "blur",
-          },
+            trigger: "blur"
+          }
         ],
         password: [
           { required: true, message: "请输入密码", trigger: "blur" },
@@ -161,55 +161,70 @@ export default {
             min: 3,
             max: 18,
             message: "长度在 3 到 18 个字符",
-            trigger: "blur",
-          },
-        ],
-      },
-    };
+            trigger: "blur"
+          }
+        ]
+      }
+    }
   },
   methods: {
     submitForm(formName) {
-      console.log("登录", this.ruleForm);
+      console.log("登录", this.ruleForm)
+
+      // denglu(this.ruleForm).then((res) => {
+      //   console.log("eeee", res);
+      //   // let { code, token } = res.data;
+      //   // console.log("登录成功返回的数据", res.data);
+      //   // console.log();
+      //   // if (code == 200) {
+      //   //   //token缓存
+      //   //   console.log("登录成功");
+      //   //   setToken(token);
+      //   //   this.$router.push("/home");
+      //   // }
+      // });
       //z  this.$router.push("/layout");
       //cls
-      this.$http.post("plcdata/tems/user/login", this.ruleForm).then((res) => {
-        console.log("登录的返回数据", res);
-        if (res.result) {
-          //在浏览器的storage中存储用户权限列表，这样其他页面也可使用storage中的数据，实现共享
-          let permissions = res.permissions;
-          //取出Token令牌，保存到storage中
-          let token = res.token;
-          localStorage.setItem("permissions", permissions);
-          localStorage.setItem("token", token);
-          //让路由跳转页面，这里的Home是home.vue页面的名字
-          this.$router.push("/layout");
-        } else {
-          this.$message({
-            message: "登陆失败",
-            type: "error",
-            duration: 1200,
-          });
-        }
-      });
+      this.$http
+        .post("http://192.168.100.202:9000/tems/user/login", this.ruleForm)
+        .then((res) => {
+          console.log("登录的返回数据", res)
+          if (res.result) {
+            //在浏览器的storage中存储用户权限列表，这样其他页面也可使用storage中的数据，实现共享
+            let permissions = res.permissions
+            //取出Token令牌，保存到storage中
+            let token = res.token
+            localStorage.setItem("permissions", permissions)
+            localStorage.setItem("token", token)
+            //让路由跳转页面，这里的Home是home.vue页面的名字
+            this.$router.push("/layout")
+          } else {
+            this.$message({
+              message: "登陆失败",
+              type: "error",
+              duration: 1200
+            })
+          }
+        })
       // this.$router.push("/layout");
       this.$wsSendTe("login", {
         name: "aap" + Math.random() * 100,
 
-        password: "HBTYyyds",
-      });
+        password: "HBTYyyds"
+      })
     },
 
     resetForm(formName) {
-      this.$refs[formName].resetFields();
+      this.$refs[formName].resetFields()
     },
     style1() {
-      this.rotate = false;
+      this.rotate = false
     },
     style2() {
-      this.rotate = true;
-    },
-  },
-};
+      this.rotate = true
+    }
+  }
+}
 </script>
 <style lang="scss" scoped>
 ::v-deep {

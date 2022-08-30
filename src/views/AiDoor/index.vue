@@ -211,7 +211,7 @@
 // import Form from "views/AiDoor/index.vue"
 // import FromDialog from "./FromDialog"; //配置显示和隐藏的
 import { Message } from "element-ui";
-import { options } from "assets/js/common/doorSelect";
+import { options } from "assets/js/common/doorSelect"; //
 import Bus from "assets/js/bus.js";
 import dataStaPlan from "assets/js/sjzlData/sjzlDataPlanMeter"; //
 import Collocate from "./Collocate"; //配置显示和隐藏的

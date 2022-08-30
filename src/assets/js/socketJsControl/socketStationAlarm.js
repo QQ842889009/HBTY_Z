@@ -50,8 +50,8 @@ function connected(url) {
 let socketOnDataStationAlarm = (stompClient) => {
   if (stompClient) {
     stompClient.subscribe("/topic/getResponse", (msg) => {
-      console.log("换热站的报警数据", msg)
-      console.log("换热站的报警数据----message", JSON.parse(msg.body).warning)
+      // console.log("换热站的报警数据", msg)
+      // console.log("换热站的报警数据----message", JSON.parse(msg.body).warning)
       that.$store.commit("STATIONALARM", JSON.parse(msg.body).warning)
       // console.log("换热站的报警数据", JSON.parse(msg.body).message)
       // console.log("java-----我是换热站的数据", msg)

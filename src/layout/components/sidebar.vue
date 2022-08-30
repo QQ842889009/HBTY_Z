@@ -36,7 +36,7 @@
         </el-menu-item>
       </el-submenu>
     </el-menu>
-    <div class="aaa" v-if="5 == 6">
+    <div class="aaa" v-if="station === 5">
       <i class="el-icon-caret-left" @click="fanhui"></i>
       <el-menu
         unique-opened
@@ -45,10 +45,10 @@
         :default-active="this.$route.path"
         class="bbb"
       >
-        <el-submenu index="数据总览" v-if="uu == 2">
+        <el-submenu index="数据总览1" v-if="uu == 2">
           <template #title>
             <i class="iconfont icon-shujuzonglan"></i>
-            <span slot="title" class="yy">数据总览</span>
+            <span slot="title" class="yy">数据总览1</span>
           </template>
           <el-menu-item
             index="1"
@@ -56,7 +56,7 @@
             ref="ABC"
           >
             <i class="el-icon-menu"></i>
-            <span slot="title">数据总览</span>
+            <span slot="title">数据总览1</span>
           </el-menu-item>
         </el-submenu>
         <el-submenu index="工艺控制" v-if="uu == 2">
@@ -66,7 +66,7 @@
           </template>
           <el-menu-item
             index="2"
-            @click="$router.push({ name: 'ProcessControl' })"
+            @click="$router.push({ name: 'Visual6' })"
             ref="ABC"
           >
             <i class="el-icon-menu"></i>
@@ -145,7 +145,7 @@
             <span slot="title">参数修改</span>
           </el-menu-item>
         </el-submenu>
-
+        <!-- 热源开始 -->
         <el-submenu index="数据总览" v-if="uu == 1">
           <template #title>
             <i class="iconfont icon-shujuzonglan"></i>
@@ -230,9 +230,143 @@
             <span slot="title">报表系统</span>
           </el-menu-item>
         </el-submenu>
+        <!-- 热源结束 -->
+        <!-- 单元阀开始 -->
+        <el-submenu index="数据总览" v-if="uu == 3">
+          <template #title>
+            <i class="iconfont icon-shujuzonglan"></i>
+            <span slot="title" class="yy">数据总览</span>
+          </template>
+          <el-menu-item
+            index="1"
+            @click="$router.push({ name: 'AiUnit' })"
+            ref="ABC"
+          >
+            <i class="el-icon-menu"></i>
+            <span slot="title">数据总览</span>
+          </el-menu-item>
+        </el-submenu>
+        <!-- 单元阀结束 -->
+        <!-- 户阀开始 -->
+        <el-submenu index="数据总览aa" v-if="uu == 4">
+          <template #title>
+            <i class="iconfont icon-shujuzonglan"></i>
+            <span slot="title" class="yy">数据总览aa</span>
+          </template>
+          <el-menu-item
+            index="1"
+            @click="$router.push({ name: 'AiDoor' })"
+            ref="ABC"
+          >
+            <i class="el-icon-menu"></i>
+            <span slot="title">数据总览aa</span>
+          </el-menu-item>
+        </el-submenu>
+        <!-- 户阀结束 -->
+        <!-- 室内温度开始-->
+        <el-submenu index="数据总览" v-if="uu == 5">
+          <template #title>
+            <i class="iconfont icon-shujuzonglan"></i>
+            <span slot="title" class="yy">数据总览</span>
+          </template>
+          <el-menu-item
+            index="1"
+            @click="$router.push({ name: 'AiInDoor' })"
+            ref="ABC"
+          >
+            <i class="el-icon-menu"></i>
+            <span slot="title">数据总览</span>
+          </el-menu-item>
+        </el-submenu>
+        <!-- 室内温度结束 -->
+
+        <!-- <el-submenu index="数据总览" v-if="uu == 1">
+          <template #title>
+            <i class="iconfont icon-shujuzonglan"></i>
+            <span slot="title" class="yy">数据总览hot</span>
+          </template>
+          <el-menu-item
+            index="1"
+            @click="$router.push({ name: 'Dept' })"
+            ref="ABC"
+          >
+            <i class="el-icon-menu"></i>
+            <span slot="title">数据总览</span>
+          </el-menu-item>
+        </el-submenu>
+        <el-submenu index="工艺控制" v-if="uu == 1">
+          <template #title>
+            <i class="iconfont icon-kongzhi"></i>
+            <span slot="title" class="yy">工艺控制</span>
+          </template>
+          <el-menu-item
+            index="2"
+            @click="$router.push({ name: 'ddd' })"
+            ref="ABC"
+          >
+            <i class="el-icon-menu"></i>
+            <span slot="title">工艺控制</span>
+          </el-menu-item>
+        </el-submenu>
+        <el-submenu index="历史查询" v-if="uu == 1">
+          <template #title>
+            <i class="iconfont icon-icon_A3"></i>
+            <span slot="title" class="yy">历史查询</span>
+          </template>
+          <el-menu-item
+            index="2"
+            @click="$router.push({ name: 'ddd' })"
+            ref="ABC"
+          >
+            <i class="el-icon-menu"></i>
+            <span slot="title">历史查询</span>
+          </el-menu-item>
+        </el-submenu>
+        <el-submenu index="故障报警" v-if="uu == 1">
+          <template #title>
+            <i class="iconfont icon-guzhang"></i>
+            <span slot="title" class="yy">故障报警</span>
+          </template>
+          <el-menu-item
+            index="2"
+            @click="$router.push({ name: 'ddd' })"
+            ref="ABC"
+          >
+            <i class="el-icon-menu"></i>
+            <span slot="title">故障报警</span>
+          </el-menu-item>
+        </el-submenu>
+        <el-submenu index="报表系统" v-if="uu == 1">
+          <template #title>
+            <i class="iconfont icon-baobiao"></i>
+            <span slot="title" class="yy">报表系统</span>
+          </template>
+          <el-menu-item
+            index="2"
+            @click="$router.push({ name: 'ddd' })"
+            ref="ABC"
+          >
+            <i class="el-icon-menu"></i>
+            <span slot="title">报表系统</span>
+          </el-menu-item>
+        </el-submenu>
+        <el-submenu index="参数修改" v-if="uu == 1">
+          <template #title>
+            <i class="iconfont icon-jianyifankui"></i>
+            <span slot="title" class="yy">报表系统</span>
+          </template>
+          <el-menu-item
+            index="2"
+            @click="$router.push({ name: 'ddd' })"
+            ref="ABC"
+          >
+            <i class="el-icon-menu"></i>
+            <span slot="title">报表系统</span>
+          </el-menu-item>
+        </el-submenu> -->
       </el-menu>
     </div>
-    <div class="hot" v-if="hot == 5">
+    <!-- <div class="hot" v-if="hot == 5">
       <i class="el-icon-caret-left" @click="fanhui"></i>
 
       <el-menu
@@ -409,7 +543,7 @@
           </el-menu-item>
         </el-submenu>
       </el-menu>
-    </div>
+    </div> -->
   </div>
 </template>
 
@@ -438,46 +572,46 @@ export default {
         1511: "iconfont icon-keshihua-blue ",
       },
       menuList: [
-        {
-          name: "可视化沙盘",
-          id: "1",
+        // {
+        //   name: "可视化沙盘",
+        //   id: "1",
 
-          children: [
-            {
-              name: "热源",
-              id: "11",
-              path: "Visual1",
-            },
-            {
-              name: "热换站",
-              id: "12",
-              path: "Visual2",
-            },
-            {
-              name: "楼宇",
-              id: "13",
+        //   children: [
+        //     {
+        //       name: "热源",
+        //       id: "11",
+        //       path: "Visual1",
+        //     },
+        //     {
+        //       name: "热换站",
+        //       id: "12",
+        //       path: "Visual2",
+        //     },
+        //     {
+        //       name: "楼宇",
+        //       id: "13",
 
-              path: "Visual3",
-            },
+        //       path: "Visual3",
+        //     },
 
-            {
-              name: "实时展示",
-              id: "1124",
+        //     {
+        //       name: "实时展示",
+        //       id: "1124",
 
-              path: "Visual4",
-            },
-            {
-              name: "测试",
-              id: "1125",
-              path: "Visual5",
-            },
-            {
-              name: "工艺控制",
-              id: "1126",
-              path: "Visual6",
-            },
-          ],
-        },
+        //       path: "Visual4",
+        //     },
+        //     {
+        //       name: "测试",
+        //       id: "1125",
+        //       path: "Visual5",
+        //     },
+        //     {
+        //       name: "工艺控制",
+        //       id: "1126",
+        //       path: "Visual6",
+        //     },
+        //   ],
+        // },
         {
           name: "自动控制系统",
           id: "2",
@@ -510,42 +644,42 @@ export default {
             },
           ],
         },
-        {
-          name: "智能学习系统",
-          id: "3",
-          children: [
-            {
-              name: "热站智能调节",
-              id: "31",
-              // path: "pfd",
-              path: "TabData",
-            },
-            {
-              name: "单元阀智能调节",
-              id: "32",
-              // path: "pfd",
-              path: "ProcessControl",
-            },
-            {
-              name: "户阀智能调节",
-              id: "33",
-              // path: "pfd",
-              path: "TeControl",
-            },
-          ],
-        },
+        // {
+        //   name: "智能学习系统",
+        //   id: "3",
+        //   children: [
+        //     {
+        //       name: "热站智能调节",
+        //       id: "31",
+        //       // path: "pfd",
+        //       path: "TabData",
+        //     },
+        //     {
+        //       name: "单元阀智能调节",
+        //       id: "32",
+        //       // path: "pfd",
+        //       path: "ProcessControl",
+        //     },
+        //     {
+        //       name: "户阀智能调节",
+        //       id: "33",
+        //       // path: "pfd",
+        //       path: "TeControl",
+        //     },
+        //   ],
+        // },
 
-        {
-          name: "客服模块",
-          id: "4",
-          children: [
-            {
-              name: "客服模块",
-              id: "41",
-              path: "AiUnit",
-            },
-          ],
-        },
+        // {
+        //   name: "客服模块",
+        //   id: "4",
+        //   children: [
+        //     {
+        //       name: "客服模块",
+        //       id: "41",
+        //       path: "AiUnit",
+        //     },
+        //   ],
+        // },
       ],
       station: 0,
       hot: 0,
@@ -579,7 +713,7 @@ export default {
         this.is = 1;
         this.uu = 2;
       } else if (v.name === "热源") {
-        this.station = 0;
+        this.station = 5;
         this.hot = 5;
         this.unit = 0;
         this.door = 0;
@@ -587,7 +721,7 @@ export default {
         this.is = 2;
         this.uu = 1;
       } else if (v.name === "楼宇单元阀") {
-        this.station = 0;
+        this.station = 5;
         this.hot = 0;
         this.unit = 5;
         this.door = 0;
@@ -595,7 +729,7 @@ export default {
         this.is = 3;
         this.uu = 3;
       } else if (v.name === "户阀") {
-        this.station = 0;
+        this.station = 5;
         this.hot = 0;
         this.unit = 0;
         this.door = 5;

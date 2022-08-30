@@ -61,7 +61,7 @@ export const constantRoutes = [
     // redirect: "/Visual", //首页指向
     component: layout,
     children: [
-      { path: "/", redirect: "/Visual" }, //指定向
+      { path: "/", redirect: "/TabData" }, //指定向
       { path: "/role", component: role },
       visual,
       hot,

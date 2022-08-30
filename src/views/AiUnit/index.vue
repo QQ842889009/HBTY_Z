@@ -3,7 +3,7 @@
     <div class="condition-box">
       <el-form :inline="true" :model="dataForm" ref="dataForm">
         <el-form-item prop="name" label="选择位置:">
-          <el-select
+          <!-- <el-select
             size="small"
             class="selectStation"
             v-model="selectStationSid"
@@ -18,7 +18,15 @@
               :value="item.sid"
             >
             </el-option>
-          </el-select>
+          </el-select> -->
+
+          <el-cascader
+            v-model="value"
+            :options="options"
+            :props="{ checkStrictly: true }"
+            clearable
+            @change="infoChange"
+          ></el-cascader>
         </el-form-item>
         <el-form-item label="通讯:">
           <el-select
@@ -281,6 +289,12 @@ import XLSX from "xlsx";
 export default {
   data() {
     return {
+      station: "",
+      housing: "",
+      pageIndex: 1,
+      pageSize: 10,
+      value: null,
+      totalCount: 0,
       title: "曲线查询",
       selectStationSid: null,
       rowData: {},
@@ -302,10 +316,8 @@ export default {
         communication: null, //通讯
       },
 
-      // options: options,
-      pageIndex: 1,
-      pageSize: 10,
-      totalCount: 0,
+      //options: options,
+      options: [],
     };
   },
   created() {
@@ -329,11 +341,21 @@ export default {
   },
   mounted() {},
   methods: {
+    infoChange(value) {
+      console.log(value, "------");
+      this.gg();
+      // this.selectionCondition.station = value[0];
+      // this.selectionCondition.housing = value[1];
+      // console.log("222", this.selectionCondition);
+      // this.$emit("EmitinfoChangeVal", this.selectionCondition);
+    },
+
+    //获取信息的函数
     dd() {},
     async askData() {
-      // console.log("ttt", time);
-      this.infoArr = await this.$http.get("plcdata/tems/plc/stationInfo");
-      console.log("yyyyy", this.infoArr);
+      this.options = await this.$http.get(
+        "unit/uvms/unitInfo/getStationsAndHousings"
+      );
     },
     sizeChangeHandle(val) {
       this.pageSize = val;
@@ -352,15 +374,31 @@ export default {
       this.gg();
     },
     gg() {
+      console.log("ddgg");
       let data = {
-        station: this.info[0],
-        housing: this.info[1],
-        communication: parseInt(this.dataForm.communication),
-        malfunction: parseInt(this.dataForm.malfunction),
-        pageIndex: parseInt(this.pageIndex),
-        pageSize: parseInt(this.pageSize),
+        //sid: parseInt(this.selectStationSid),
+        station: this.value[0],
+        housing: this.value[1],
+        page: parseInt(this.pageIndex),
+        length: parseInt(this.pageSize),
       };
-      console.log("data", data);
+      console.log("报警历史查询", data);
+
+      // this.$http({
+      //   method: "post",
+      //   url: "unit/uvms/daidatas/searchAiDataByPage",
+      //   data: data,
+      // })
+      //   .then((res) => {
+      //     console.log("接受到的数据", res);
+      //     // this.showAlarmHistoryData = res.page.list;
+      //     // this.totalCount = res.page.totalCount;
+      //   })
+      //   .catch((erroe) => {
+      //     console.log("发送数据失败");
+      //   });
+
+      // console.log("收到报警值数组", this.alarmHistoryData);
     },
     changeInput(v) {
       console.log("****", v);

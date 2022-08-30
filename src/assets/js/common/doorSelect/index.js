@@ -227,16 +227,6 @@ let options = [
         label: "琥珀小区三期"
       }
     ]
-  },
-  {
-    value: "san十五号站",
-    label: "san十五号站",
-    children: [
-      {
-        value: "san期",
-        label: "san期"
-      }
-    ]
   }
 ]
 export { options }
