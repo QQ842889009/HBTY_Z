@@ -173,27 +173,27 @@ export default {
   methods: {
     submitForm(formName) {
       console.log("登录", this.ruleForm);
-      this.$router.push("/layout");
+      // this.$router.push("/layout");
 
-      // this.$http.post("plcdata/tems/user/login", this.ruleForm).then((res) => {
-      //   console.log("登录的返回数据", res);
-      //   if (res.result) {
-      //     //在浏览器的storage中存储用户权限列表，这样其他页面也可使用storage中的数据，实现共享
-      //     let permissions = res.permissions;
-      //     //取出Token令牌，保存到storage中
-      //     let token = res.token;
-      //     localStorage.setItem("permissions", permissions);
-      //     localStorage.setItem("token", token);
-      //     //让路由跳转页面，这里的Home是home.vue页面的名字
-      //     this.$router.push("/layout");
-      //   } else {
-      //     this.$message({
-      //       message: "登陆失败",
-      //       type: "error",
-      //       duration: 1200,
-      //     });
-      //   }
-      // });
+      this.$http.post("plcdata/tems/user/login", this.ruleForm).then((res) => {
+        console.log("登录的返回数据", res);
+        if (res.result) {
+          //在浏览器的storage中存储用户权限列表，这样其他页面也可使用storage中的数据，实现共享
+          let permissions = res.permissions;
+          //取出Token令牌，保存到storage中
+          let token = res.token;
+          localStorage.setItem("permissions", permissions);
+          localStorage.setItem("token", token);
+          //让路由跳转页面，这里的Home是home.vue页面的名字
+          this.$router.push("/layout");
+        } else {
+          this.$message({
+            message: "登陆失败",
+            type: "error",
+            duration: 1200,
+          });
+        }
+      });
       // this.$router.push("/layout");
       this.$wsSendTe("login", {
         name: "aap" + Math.random() * 100,
