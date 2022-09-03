@@ -5,7 +5,7 @@ import { Message, Loading } from "element-ui"
 
 const service = axios.create({
   // baseURL:process.env.BASE_API,
-  timeout: 5 * 1000,
+  timeout: 15 * 1000,
   // headers: {
   //     get: {
   //         'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'
@@ -84,7 +84,7 @@ service.interceptors.response.use(
     Message({
       message: error,
       type: "error",
-      duration: 5 * 1000
+      duration: 15 * 1000
     })
     // 如果请求接口失败，取消loading，否则中间有一个接口错误就一直白屏loading转圈；
     loading.close()

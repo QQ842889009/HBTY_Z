@@ -174,16 +174,6 @@ export default {
           station: "0.65",
           fv1sp: 0.33,
         },
-
-        // { sid: 2, ConcentratorCode: "123", station: "站", fv1sp: 55 },
-        // { sid: 2, ConcentratorCode: "123", station: "站", fv1sp: 55 },
-        // { sid: 2, ConcentratorCode: "123", station: "站", fv1sp: 55 },
-        // { sid: 2, ConcentratorCode: "123", station: "站", fv1sp: 55 },
-        // { sid: 2, ConcentratorCode: "123", station: "站", fv1sp: 55 },
-        // { sid: 2, ConcentratorCode: "123", station: "站", fv1sp: 55 },
-        // { sid: 2, ConcentratorCode: "123", station: "站", fv1sp: 55 },
-        // { sid: 2, ConcentratorCode: "123", station: "站", fv1sp: 55 },
-        // { sid: 2, ConcentratorCode: "123", station: "站", fv1sp: 55 },
       ],
       info: "",
       dataForm: {

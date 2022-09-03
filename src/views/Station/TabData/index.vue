@@ -37,7 +37,7 @@ export default {
           prop: "Station",
           label: "换热站",
 
-          width: "130PX",
+          width: "150PX",
           fixed: "left",
         },
         {

@@ -128,9 +128,6 @@
         </el-table-column>
         <el-table-column label="二次网" align="center">
           <el-table-column prop="ft21" label="流量" width="120" align="center">
-            <!-- <template slot-scope="scope">
-              {{ scope.row.province | Sid }}
-            </template> -->
           </el-table-column>
 
           <el-table-column
@@ -514,7 +511,7 @@ export default {
 
         { time }
       );
-      console.log("ttt", this.myData);
+      console.log("ttt222", this.myData);
     },
     ddg() {
       console.log("*-*-", this.dd);

@@ -9,7 +9,7 @@ module.exports = {
     host: "localhost",
     https: false,
     hotOnly: false, //热更新
-    port: 80,
+    port: 8181,
     //before: require('./mock/index.js') // 引入mock/index.js
     proxy: {
       // 匹配所有以 /api 开头的url
@@ -34,7 +34,7 @@ module.exports = {
       "/plcdata": {
         //
         target: "http://221.206.242.116:9000",
-        // target: "http://192.168.100.202:9000",
+        // target: "http://10.168.1.176:9000",
         changeOrigin: true,
         ws: true,
         pathRewrite: {

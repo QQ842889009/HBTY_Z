@@ -12,7 +12,12 @@ import "./assets/fonts/iconfont.js" //要使用svg图标时要引入这个
 //新通讯加的开始
 import wsConnect from "./assets/js/wsNode/wsConnect.js"
 import wsConnectTe from "./assets/js/wsNode/wsConnectTe.js"
+//测试温度控制的开始
+import wsConnectTeCon from "./assets/js/wsNode/wsConnectTeCon.js"
+wsConnectTeCon.wsInit("ws://221.206.242.116:6501") //生产环境2022
+//测试温度控制的结束
 wsConnect.wsInit("ws://182.61.54.22:6510") //模拟数据
+
 wsConnectTe.wsInit("ws://221.206.242.116:6500") //室内温度最后一次上数据  生产环境
 // 引入全局自定义组件
 import "./components/global"
@@ -21,6 +26,7 @@ import "./filters/index"
 
 import "./permission" //路由拦截
 import animated from "animate.css" //引入移动动画库
+import "assets/font/font.css"
 Vue.use(animated) //注册移动动画库
 
 Vue.prototype.$dayjs = dayjs //引入时间处理
@@ -60,7 +66,7 @@ new Promise((resolve, reject) => {
   )
   //换热站的报警
   socketStationAlarm.connected(
-    "http://10.168.1.176:9901/endpointOyzc" //换热站报警
+    "http://221.206.242.116:9001/endpointOyzc" //换热站报警
   )
   socketAiInDoor.connected(
     "http://221.206.242.116:2060/hbty/endpoint-websocket-te" //室内温度的2022生产//生产环境室内温度

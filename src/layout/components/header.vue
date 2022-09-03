@@ -1,27 +1,6 @@
 <template>
   <div class="app-breadcrumb">
-    <!-- <el-breadcrumb separator="/">
-      <el-breadcrumb-item v-for="(v, i) in list" :key="i">
-        <span v-if="i == list.length - 1">{{ v.meta.title }}</span>
-        <router-link :to="v.path" v-else>{{ v.meta.title }}</router-link>
-      </el-breadcrumb-item> -->
-
-    <!-- 右侧下拉框 -->
-    <!-- <div class="right-menu">
-      <el-dropdown>
-        <span class="el-dropdown-link">
-          xx<i class="el-icon-arrow-down el-icon--right"></i>
-        </span>
-        <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item>
-            <span style="display: block" @click="goBack">退出</span>
-            <span style="display: block" @click="goBack">退出2</span>
-            <span style="display: block" @click="goBack">退出</span>
-            <span style="display: block" @click="goBack">退出2</span>
-          </el-dropdown-item>
-        </el-dropdown-menu>
-      </el-dropdown>
-    </div> -->
+    <span class="aaa">{{ nowTime }}</span>
 
     <div class="right-menu">
       <el-dropdown>
@@ -66,6 +45,7 @@ export default {
       list: [],
       role: "管理员",
       name: "",
+      nowTime: "",
       updatePasswordVisible: false,
     };
   },
@@ -128,12 +108,26 @@ export default {
   },
   mounted() {
     this.loadUserInfo();
+    let timer = setInterval(() => {
+      this.nowTime = this.$dayjs().format("YYYY-MM-DD HH:mm:ss");
+    }, 800);
   },
   components: { UpdatePassword },
 };
 </script>
 
 <style lang="scss" scoped>
+.aaa {
+  font-family: electronicFont;
+  color: #0bf317;
+  //color: rgb(98, 87, 245);
+}
+.app-breadcrumb {
+  // background-color: #fff;
+  position: absolute;
+  top: -20px;
+  left: -140px;
+}
 .el-breadcrumb {
   margin: 20px 10px;
   background-color: gold;
@@ -143,7 +137,7 @@ export default {
 }
 .el-dropdown-link {
   cursor: pointer;
-  color: #409eff;
+  color: #0bf317;
   font-size: 15px;
   // line-height: 10px;
   .el-icon-user-solid {

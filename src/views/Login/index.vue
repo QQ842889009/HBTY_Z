@@ -133,8 +133,8 @@
 </template>
 
 <script>
-import { login, denglu } from "@/api/http"
-import { setToken } from "@/utils/token"
+// import { login, denglu } from "@/api/http";
+import { setToken } from "@/utils/token";
 
 export default {
   name: "login",
@@ -143,7 +143,7 @@ export default {
       rotate: true,
       ruleForm: {
         username: "admin",
-        password: "abc123456"
+        password: "abc123456",
       },
       rules: {
         account: [
@@ -152,8 +152,8 @@ export default {
             min: 3,
             max: 18,
             message: "长度在 3 到 18 个字符",
-            trigger: "blur"
-          }
+            trigger: "blur",
+          },
         ],
         password: [
           { required: true, message: "请输入密码", trigger: "blur" },
@@ -161,70 +161,81 @@ export default {
             min: 3,
             max: 18,
             message: "长度在 3 到 18 个字符",
-            trigger: "blur"
-          }
-        ]
-      }
-    }
+            trigger: "blur",
+          },
+        ],
+      },
+    };
+  },
+  created() {
+    this.askData();
   },
   methods: {
     submitForm(formName) {
-      console.log("登录", this.ruleForm)
+      console.log("登录", this.ruleForm);
+      this.$router.push("/layout");
 
-      // denglu(this.ruleForm).then((res) => {
-      //   console.log("eeee", res);
-      //   // let { code, token } = res.data;
-      //   // console.log("登录成功返回的数据", res.data);
-      //   // console.log();
-      //   // if (code == 200) {
-      //   //   //token缓存
-      //   //   console.log("登录成功");
-      //   //   setToken(token);
-      //   //   this.$router.push("/home");
-      //   // }
+      // this.$http.post("plcdata/tems/user/login", this.ruleForm).then((res) => {
+      //   console.log("登录的返回数据", res);
+      //   if (res.result) {
+      //     //在浏览器的storage中存储用户权限列表，这样其他页面也可使用storage中的数据，实现共享
+      //     let permissions = res.permissions;
+      //     //取出Token令牌，保存到storage中
+      //     let token = res.token;
+      //     localStorage.setItem("permissions", permissions);
+      //     localStorage.setItem("token", token);
+      //     //让路由跳转页面，这里的Home是home.vue页面的名字
+      //     this.$router.push("/layout");
+      //   } else {
+      //     this.$message({
+      //       message: "登陆失败",
+      //       type: "error",
+      //       duration: 1200,
+      //     });
+      //   }
       // });
-      //z  this.$router.push("/layout");
-      //cls
-      this.$http
-        .post("http://192.168.100.202:9000/tems/user/login", this.ruleForm)
-        .then((res) => {
-          console.log("登录的返回数据", res)
-          if (res.result) {
-            //在浏览器的storage中存储用户权限列表，这样其他页面也可使用storage中的数据，实现共享
-            let permissions = res.permissions
-            //取出Token令牌，保存到storage中
-            let token = res.token
-            localStorage.setItem("permissions", permissions)
-            localStorage.setItem("token", token)
-            //让路由跳转页面，这里的Home是home.vue页面的名字
-            this.$router.push("/layout")
-          } else {
-            this.$message({
-              message: "登陆失败",
-              type: "error",
-              duration: 1200
-            })
-          }
-        })
       // this.$router.push("/layout");
       this.$wsSendTe("login", {
         name: "aap" + Math.random() * 100,
 
-        password: "HBTYyyds"
-      })
+        password: "HBTYyyds",
+      });
+      this.$wsSend("login", {
+        name: "aa" + Math.random() * 100,
+        // name: "aa",
+        password: "HBTYyyds",
+      }); ///
     },
+    askData() {
+      console.log("********************");
+      // this.infoArr = this.$http.get("plcdata/tems/plc/stationInfo");
+      // this.$store.commit("CC", this.infoArr);
 
+      this.$http({
+        method: "get",
+        url: "plcdata/tems/plc/stationInfo",
+      })
+        .then((res) => {
+          console.log("接受到的数据plcdata/tems/plc/stationInfo", res);
+          // this.showAlarmHistoryData = res.page.list;
+          // this.totalCount = res.page.totalCount;
+          this.$store.commit("CC", res);
+        })
+        .catch((erroe) => {
+          console.log("发送数据失败");
+        });
+    },
     resetForm(formName) {
-      this.$refs[formName].resetFields()
+      this.$refs[formName].resetFields();
     },
     style1() {
-      this.rotate = false
+      this.rotate = false;
     },
     style2() {
-      this.rotate = true
-    }
-  }
-}
+      this.rotate = true;
+    },
+  },
+};
 </script>
 <style lang="scss" scoped>
 ::v-deep {

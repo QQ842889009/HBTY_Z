@@ -9,7 +9,8 @@ const state = {
   stationDataAndInfo: [], //换热站数据和信息//
   stationLenght: 33, //换热站的个数
   stationInfos: [], //换热站的信息
-  stationAlarmSet: []
+  stationAlarmSet: [],
+  stationTeConData: [] //装载node过来的温控数据
 }
 
 const getters = {
@@ -21,6 +22,10 @@ const getters = {
   },
   stationInfos(state) {
     return state.stationInfos
+  },
+  //温度数据从这里拿
+  stationTeConData(state) {
+    return state.stationTeConData
   }
 }
 
@@ -33,7 +38,7 @@ const mutations = {
     //console.log("换热站的初始化占位", state.station)
   },
   STATIONALARM(state, data) {
-    console.log("我是仓库中的报警", data)
+    //  console.log("我是仓库中的报警", data)
     // for (let i = 0; i < data.length; i++) {
     //   state.stationAlarmSet[i] = data[i]
     // }
@@ -55,18 +60,31 @@ const mutations = {
     }
   },
   STATIONINFOUPDATA(state, data) {
-    console.log("换热站信息来了吗")
-    let len = data.length
-    for (let i = 0; i < len; i++) {
-      state.stationDataAndInfo[i].Space = data[i].Space
-      state.stationDataAndInfo[i].Station = data[i].Station
-      state.stationInfos[i].Station = data[i].Station
-    }
+    // console.log("换热站信息来了吗")
+    // let len = data.length
+    // for (let i = 0; i < len; i++) {
+    //   state.stationDataAndInfo[i].Space = data[i].Space
+    //   state.stationDataAndInfo[i].Station = data[i].Station
+    //   state.stationInfos[i].Station = data[i].Station
+    // }
   },
 
   SETROLES: (state, d) => {
     console.log("mmmmm", d)
     state.roles = d
+  },
+  //温度控制
+  SETTECONDATA(state, data) {
+    state.stationTeConData = data
+  },
+  CC(state, data) {
+    console.log("换热站信息来了吗", data)
+    let len = data.length
+    for (let i = 0; i < len; i++) {
+      state.stationDataAndInfo[i].Space = data[i].space
+      state.stationDataAndInfo[i].Station = data[i].station
+      state.stationInfos[i].Station = data[i].station
+    }
   }
 }
 

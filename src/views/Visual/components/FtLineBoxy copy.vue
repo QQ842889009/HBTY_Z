@@ -4,15 +4,21 @@
   <div class="dataBlockBox" :style="{ width: '100%', height: this.boxHeight }">
     <div class="tipBox">
       <div class="tipText">
-        <img class="tt" src="~@/assets/img/logo/yiji.png" alt="">
+        <img class="tt" src="~@/assets/img/logo/yiji.png" alt="" />
         {{ title_name }}
       </div>
       <div class="tipMiddle">
         <slot name="tipMiddleSolt"></slot>
       </div>
       <div class="tipLast">
-        <div class="btnList" @click="clickBtn(index)" v-show="isSort"
-          :style="index == choiceIndex ? clickColor : normalColor" v-for="(btn, index) of btnsList" :key="index">
+        <div
+          class="btnList"
+          @click="clickBtn(index)"
+          v-show="isSort"
+          :style="index == choiceIndex ? clickColor : normalColor"
+          v-for="(btn, index) of btnsList"
+          :key="index"
+        >
           {{ btn.name }}
         </div>
       </div>
@@ -45,7 +51,6 @@ export default {
     console.log("从外面传进来的数据echarts", this.getData);
     // console.log('ftline------------',ftLineList[this.title_name]);
     // console.log(this.btnsList);
-
   },
   props: {
     shape: {
@@ -89,19 +94,19 @@ export default {
       type: String,
       default: "100%",
     }, */
-    isSort: { //是否根据数据排序
+    isSort: {
+      //是否根据数据排序
       type: Boolean,
-      default: true
+      default: true,
     },
     isRed: {
       type: Boolean,
-      default: false
+      default: false,
     },
-    showLenged:{
+    showLenged: {
       type: Boolean,
-      default: false
+      default: false,
     },
-
   },
   computed: {
     echartKyes() {
@@ -115,8 +120,8 @@ export default {
     girdNum() {
       //根据boxHeight计算girdNum的大小，使图表正确显示大小
       var hv = parseFloat(this.boxHeight);
-      return ((100 - hv) / 4 + 8).toString() + '%'
-    }
+      return ((100 - hv) / 4 + 8).toString() + "%";
+    },
   },
   mounted() {
     // console.log(Object.keys(this.getData[0]));
@@ -223,7 +228,7 @@ export default {
           top: "7%",
           left: "7%",
           right: "5%",
-          bottom:"12%" ,
+          bottom: "12%",
           //height:this.boxHeight,
           // containLabel: true, // 距离是包含坐标轴上的文字
         },
@@ -272,23 +277,25 @@ export default {
               name: this.btnsList[index].name,
               type: this.seriesType,
               datasetIndex: this.isSort ? 1 : 0,
-              encode: { x: this.btnsList.xSeries, y: this.btnsList[index].value },
+              encode: {
+                x: this.btnsList.xSeries,
+                y: this.btnsList[index].value,
+              },
               symbol: "rect",
               // color: index == 0 ? "rgb(26, 218, 218)":"yellow",
               // itemStyle: {
               //   color: function (p) {
               //     // console.log("颜色的参数", p)
-              //     var c="";                 
+              //     var c="";
               //     if(p.data.PT11==0&&p.data.TE11==0){
               //       c="red"
-              //     }else {            
+              //     }else {
               //         c=(p.seriesIndex ==0 ? "rgb(26, 218, 218)":"yellow")
               //     }
               //     // console.log("颜色")
               //     return c
               //   }
               // }
-
             };
             index++;
             series.push(item);
@@ -305,7 +312,6 @@ export default {
       this.choiceIndex = index;
       this.init();
     },
-
   },
 };
 </script>
@@ -324,9 +330,9 @@ export default {
   margin-bottom: 1rem;
   // border: 1px solid #000;
   // box-shadow: 0 0 3px 4px hsl(0, 0%, 0%, 0.7);
-  box-shadow: 0px 0px 5px 4px #3498db inset, 0px 0px 5px -4px #3498db;
-  text-shadow: 1px 1px 1px #3498db, 1px 1px 3px #3498db, 1px 1px 5px #3498db,
-    1px 1px 7px #3498db;
+  box-shadow: 0px 0px 5px 4px #38e616 inset, 0px 0px 5px -4px #38e616;
+  text-shadow: 1px 1px 1px #38e616, 1px 1px 3px #38e616, 1px 1px 5px #38e616,
+    1px 1px 7px #38e616;
 
   // border-radius: 10px;
   // border-top:none;
@@ -359,7 +365,6 @@ export default {
       .tt {
         width: 0.5rem;
         height: 1.8rem;
-
       }
     }
 

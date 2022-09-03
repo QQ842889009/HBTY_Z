@@ -19,10 +19,10 @@
           </div>
 
           <!-- 配置数据开始 -->
-          <div class="el-card-title"><span>数据配置</span></div>
-          <div class="filter-row">
+          <!-- <div class="el-card-title"><span>数据配置</span></div> -->
+          <!-- <div class="filter-row">
             <Collocate @EmitTableConfig="receiveTableConfig"></Collocate>
-          </div>
+          </div> -->
           <!-- 配置数据结束 -->
           <!-- 数据展示标题和搜索框的展示 -->
           <div class="el-card-title-f">
@@ -112,7 +112,7 @@
             <SysDlialog ref="dialog" :title="title" :rowData="rowData">
             </SysDlialog>
           </div>
-          <el-card shadow="always" class="box-card">
+          <!-- <el-card shadow="always" class="box-card">
             <div class="el-card-title-history">
               <div class="el-card-title-history item">{{ name }}</div>
               <div class="el-card-title-history item">
@@ -125,11 +125,11 @@
             <div class="ff">
               <EchartLine :getData="indoorque" :title_name="echartTieleName" />
             </div>
-          </el-card>
+          </el-card> -->
         </el-tab-pane>
-        <el-tab-pane label="占位1" name="second">配置管理</el-tab-pane>
-        <el-tab-pane label="占位2" name="third">角色管理</el-tab-pane>
-        <el-tab-pane label="占位3" name="fourth">定时任务补偿</el-tab-pane>
+        <!-- <el-tab-pane label="" name="second">配置管理</el-tab-pane>
+        <el-tab-pane label="" name="third">角色管理</el-tab-pane>
+        <el-tab-pane label="" name="fourth">定时任务补偿</el-tab-pane> -->
       </el-tabs>
     </div>
 
@@ -216,7 +216,7 @@ export default {
       //分页的设置
       pagination: {
         current: 1,
-        size: 10,
+        size: 19,
         total: 0,
       },
       //弹框的开始

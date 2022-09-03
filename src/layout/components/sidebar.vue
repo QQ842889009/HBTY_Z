@@ -65,12 +65,20 @@
             <span slot="title" class="yy">工艺控制</span>
           </template>
           <el-menu-item
-            index="2"
+            index="21"
             @click="$router.push({ name: 'Visual6' })"
             ref="ABC"
           >
             <i class="el-icon-menu"></i>
             <span slot="title">工艺控制</span>
+          </el-menu-item>
+          <el-menu-item
+            index="22"
+            @click="$router.push({ name: 'TeCon' })"
+            ref="ABC"
+          >
+            <i class="el-icon-menu"></i>
+            <span slot="title">温度控制</span>
           </el-menu-item>
         </el-submenu>
         <el-submenu index="历史查询" v-if="uu == 2">
@@ -80,11 +88,19 @@
           </template>
           <el-menu-item
             index="3"
-            @click="$router.push({ name: 'HistoryQuery' })"
+            @click="$router.push({ name: 'Visual4' })"
             ref="ABC"
           >
             <i class="el-icon-menu"></i>
-            <span slot="title">历史查询</span>
+            <span slot="title">实时曲线</span>
+          </el-menu-item>
+          <el-menu-item
+            index="32"
+            @click="$router.push({ name: 'Visual5' })"
+            ref="ABC"
+          >
+            <i class="el-icon-menu"></i>
+            <span slot="title">曲线查询</span>
           </el-menu-item>
         </el-submenu>
         <el-submenu index="故障报警" v-if="uu == 2">
@@ -120,7 +136,7 @@
             ref="ABC"
           >
             <i class="el-icon-menu"></i>
-            <span slot="title">区间报表</span>
+            <span slot="title">整点报表</span>
           </el-menu-item>
           <el-menu-item
             index="6"
@@ -128,7 +144,7 @@
             ref="ABC"
           >
             <i class="el-icon-menu"></i>
-            <span slot="title">整点报表</span>
+            <span slot="title">区间报表</span>
           </el-menu-item>
         </el-submenu>
         <el-submenu index="参数修改" v-if="uu == 2">
@@ -248,10 +264,10 @@
         </el-submenu>
         <!-- 单元阀结束 -->
         <!-- 户阀开始 -->
-        <el-submenu index="数据总览aa" v-if="uu == 4">
+        <el-submenu index="数据总览" v-if="uu == 4">
           <template #title>
             <i class="iconfont icon-shujuzonglan"></i>
-            <span slot="title" class="yy">数据总览aa</span>
+            <span slot="title" class="yy">数据总览</span>
           </template>
           <el-menu-item
             index="1"
@@ -259,7 +275,7 @@
             ref="ABC"
           >
             <i class="el-icon-menu"></i>
-            <span slot="title">数据总览aa</span>
+            <span slot="title">数据总览</span>
           </el-menu-item>
         </el-submenu>
         <!-- 户阀结束 -->
@@ -572,46 +588,6 @@ export default {
         1511: "iconfont icon-keshihua-blue ",
       },
       menuList: [
-        // {
-        //   name: "可视化沙盘",
-        //   id: "1",
-
-        //   children: [
-        //     {
-        //       name: "热源",
-        //       id: "11",
-        //       path: "Visual1",
-        //     },
-        //     {
-        //       name: "热换站",
-        //       id: "12",
-        //       path: "Visual2",
-        //     },
-        //     {
-        //       name: "楼宇",
-        //       id: "13",
-
-        //       path: "Visual3",
-        //     },
-
-        //     {
-        //       name: "实时展示",
-        //       id: "1124",
-
-        //       path: "Visual4",
-        //     },
-        //     {
-        //       name: "测试",
-        //       id: "1125",
-        //       path: "Visual5",
-        //     },
-        //     {
-        //       name: "工艺控制",
-        //       id: "1126",
-        //       path: "Visual6",
-        //     },
-        //   ],
-        // },
         {
           name: "自动控制系统",
           id: "2",
@@ -644,6 +620,23 @@ export default {
             },
           ],
         },
+        // {
+        //   name: "后台管理系统",
+        //   id: "222",
+
+        //   children: [
+        //     {
+        //       name: "用户管理",
+        //       id: "2221",
+        //       path: "user",
+        //     },
+        //     {
+        //       name: "角色管理",
+        //       id: "2221",
+        //       path: "role",
+        //     },
+        //   ],
+        // },
         // {
         //   name: "智能学习系统",
         //   id: "3",
@@ -737,7 +730,7 @@ export default {
         this.is = 4;
         this.uu = 4;
       } else if (v.name === "室内温度") {
-        this.station = 0;
+        this.station = 5;
         this.hot = 0;
         this.unit = 0;
         this.door = 0;
