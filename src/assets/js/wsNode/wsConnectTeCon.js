@@ -198,7 +198,7 @@ function onMsg(e) {
       // teConJs.teControl(msg.data)
       break
     case "/hbty/fyAllTeConData":
-      console.log("触发了温度控制的---111", msg.data)
+      //console.log("触发了温度控制的---111", msg.data)
 
       manageDataStationTeCon.manageDataTeCon(msg.data)
 

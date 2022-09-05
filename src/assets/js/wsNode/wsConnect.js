@@ -89,7 +89,7 @@ function onMsg(e) {
       that.$store.commit("plcS7/mutaEchartDataInfoUpdata", msg.data)
       that.$store.commit("realtime/MUSTATIONUPDATE", msg.data)
       that.$store.commit("STATIONINFOUPDATA", msg.data)
-      console.log("换热站信息", msg.data)
+      // console.log("换热站信息", msg.data)
       // that.$store.commit("plcS7/mutaPlcDataInfoUpdata", msg.data)
       break
     case "/hbty/simulatePlcData":

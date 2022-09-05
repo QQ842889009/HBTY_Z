@@ -32,9 +32,10 @@ const getters = {
 const actions = {}
 
 const mutations = {
-  STATION(state) {
-    station.station(state.stationDataAndInfo, state.stationLenght)
-    station.station(state.stationInfos, state.stationLenght)
+  STATION(state, data) {
+    // console.log("qqqqq", data)
+    station.station(state.stationDataAndInfo, state.stationLenght, data) //
+    station.stations(state.stationInfos, state.stationLenght)
     //console.log("换热站的初始化占位", state.station)
   },
   STATIONALARM(state, data) {
@@ -70,17 +71,20 @@ const mutations = {
   },
 
   SETROLES: (state, d) => {
-    console.log("mmmmm", d)
+    //console.log("mmmmm", d)
     state.roles = d
   },
   //温度控制
   SETTECONDATA(state, data) {
     state.stationTeConData = data
   },
+  //换热站信息
   CC(state, data) {
-    console.log("换热站信息来了吗", data)
+    // console.log("换热站信息", data)
     let len = data.length
+    // console.log("5566", len)
     for (let i = 0; i < len; i++) {
+      // console.log("iiiii--------------", i)
       state.stationDataAndInfo[i].Space = data[i].space
       state.stationDataAndInfo[i].Station = data[i].station
       state.stationInfos[i].Station = data[i].station

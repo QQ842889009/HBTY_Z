@@ -45,10 +45,10 @@
         :default-active="this.$route.path"
         class="bbb"
       >
-        <el-submenu index="数据总览1" v-if="uu == 2">
+        <el-submenu index="数据总览" v-if="uu == 2">
           <template #title>
             <i class="iconfont icon-shujuzonglan"></i>
-            <span slot="title" class="yy">数据总览1</span>
+            <span slot="title" class="yy">数据总览</span>
           </template>
           <el-menu-item
             index="1"
@@ -56,7 +56,7 @@
             ref="ABC"
           >
             <i class="el-icon-menu"></i>
-            <span slot="title">数据总览1</span>
+            <span slot="title">数据总览</span>
           </el-menu-item>
         </el-submenu>
         <el-submenu index="工艺控制" v-if="uu == 2">
@@ -72,14 +72,14 @@
             <i class="el-icon-menu"></i>
             <span slot="title">工艺控制</span>
           </el-menu-item>
-          <el-menu-item
+          <!-- <el-menu-item
             index="22"
             @click="$router.push({ name: 'TeCon' })"
             ref="ABC"
           >
             <i class="el-icon-menu"></i>
             <span slot="title">温度控制</span>
-          </el-menu-item>
+          </el-menu-item> -->
         </el-submenu>
         <el-submenu index="历史查询" v-if="uu == 2">
           <template #title>
@@ -295,271 +295,32 @@
           </el-menu-item>
         </el-submenu>
         <!-- 室内温度结束 -->
-
-        <!-- <el-submenu index="数据总览" v-if="uu == 1">
+        <!-- 后台管理开始 -->
+        <el-submenu index="后台管理" v-if="uu == 6">
           <template #title>
-            <i class="iconfont icon-shujuzonglan"></i>
-            <span slot="title" class="yy">数据总览hot</span>
+            <i class="iconfont icon-wode"></i>
+            <span slot="title" class="yy">后台管理</span>
           </template>
           <el-menu-item
             index="1"
-            @click="$router.push({ name: 'Dept' })"
+            @click="$router.push({ name: 'user' })"
             ref="ABC"
           >
             <i class="el-icon-menu"></i>
-            <span slot="title">数据总览</span>
+            <span slot="title">用户管理</span>
           </el-menu-item>
-        </el-submenu>
-        <el-submenu index="工艺控制" v-if="uu == 1">
-          <template #title>
-            <i class="iconfont icon-kongzhi"></i>
-            <span slot="title" class="yy">工艺控制</span>
-          </template>
           <el-menu-item
             index="2"
-            @click="$router.push({ name: 'ddd' })"
+            @click="$router.push({ name: 'role' })"
             ref="ABC"
           >
             <i class="el-icon-menu"></i>
-            <span slot="title">工艺控制</span>
+            <span slot="title">角色管理</span>
           </el-menu-item>
         </el-submenu>
-        <el-submenu index="历史查询" v-if="uu == 1">
-          <template #title>
-            <i class="iconfont icon-icon_A3"></i>
-            <span slot="title" class="yy">历史查询</span>
-          </template>
-          <el-menu-item
-            index="2"
-            @click="$router.push({ name: 'ddd' })"
-            ref="ABC"
-          >
-            <i class="el-icon-menu"></i>
-            <span slot="title">历史查询</span>
-          </el-menu-item>
-        </el-submenu>
-        <el-submenu index="故障报警" v-if="uu == 1">
-          <template #title>
-            <i class="iconfont icon-guzhang"></i>
-            <span slot="title" class="yy">故障报警</span>
-          </template>
-          <el-menu-item
-            index="2"
-            @click="$router.push({ name: 'ddd' })"
-            ref="ABC"
-          >
-            <i class="el-icon-menu"></i>
-            <span slot="title">故障报警</span>
-          </el-menu-item>
-        </el-submenu>
-        <el-submenu index="报表系统" v-if="uu == 1">
-          <template #title>
-            <i class="iconfont icon-baobiao"></i>
-            <span slot="title" class="yy">报表系统</span>
-          </template>
-          <el-menu-item
-            index="2"
-            @click="$router.push({ name: 'ddd' })"
-            ref="ABC"
-          >
-            <i class="el-icon-menu"></i>
-            <span slot="title">报表系统</span>
-          </el-menu-item>
-        </el-submenu>
-        <el-submenu index="参数修改" v-if="uu == 1">
-          <template #title>
-            <i class="iconfont icon-jianyifankui"></i>
-            <span slot="title" class="yy">报表系统</span>
-          </template>
-          <el-menu-item
-            index="2"
-            @click="$router.push({ name: 'ddd' })"
-            ref="ABC"
-          >
-            <i class="el-icon-menu"></i>
-            <span slot="title">报表系统</span>
-          </el-menu-item>
-        </el-submenu> -->
+        <!-- 后台管理结束 -->
       </el-menu>
     </div>
-    <!-- <div class="hot" v-if="hot == 5">
-      <i class="el-icon-caret-left" @click="fanhui"></i>
-
-      <el-menu
-        unique-opened
-        :collapse-transition="false"
-        router
-        :default-active="this.$route.path"
-        class="bbb"
-        v-if="hot == 5"
-      >
-        <el-submenu index="数据总览">
-          <template #title>
-            <i class="iconfont icon-shujuzonglan"></i>
-            <span slot="title" class="yy">数据总览</span>
-          </template>
-          <el-menu-item
-            index="1"
-            @click="$router.push({ name: 'Dept' })"
-            ref="ABC"
-          >
-            <i class="el-icon-menu"></i>
-            <span slot="title">数据总览</span>
-          </el-menu-item>
-        </el-submenu>
-        <el-submenu index="工艺控制">
-          <template #title>
-            <i class="iconfont icon-kongzhi"></i>
-            <span slot="title" class="yy">工艺控制</span>
-          </template>
-          <el-menu-item
-            index="2"
-            @click="$router.push({ name: 'ddd' })"
-            ref="ABC"
-          >
-            <i class="el-icon-menu"></i>
-            <span slot="title">工艺控制</span>
-          </el-menu-item>
-        </el-submenu>
-        <el-submenu index="历史查询">
-          <template #title>
-            <i class="iconfont icon-icon_A3"></i>
-            <span slot="title" class="yy">历史查询</span>
-          </template>
-          <el-menu-item
-            index="2"
-            @click="$router.push({ name: 'ddd' })"
-            ref="ABC"
-          >
-            <i class="el-icon-menu"></i>
-            <span slot="title">历史查询</span>
-          </el-menu-item>
-        </el-submenu>
-        <el-submenu index="故障报警">
-          <template #title>
-            <i class="iconfont icon-guzhang"></i>
-            <span slot="title" class="yy">故障报警</span>
-          </template>
-          <el-menu-item
-            index="2"
-            @click="$router.push({ name: 'ddd' })"
-            ref="ABC"
-          >
-            <i class="el-icon-menu"></i>
-            <span slot="title">故障报警</span>
-          </el-menu-item>
-        </el-submenu>
-        <el-submenu index="报表系统">
-          <template #title>
-            <i class="iconfont icon-baobiao"></i>
-            <span slot="title" class="yy">报表系统</span>
-          </template>
-          <el-menu-item
-            index="2"
-            @click="$router.push({ name: 'ddd' })"
-            ref="ABC"
-          >
-            <i class="el-icon-menu"></i>
-            <span slot="title">报表系统</span>
-          </el-menu-item>
-        </el-submenu>
-        <el-submenu index="参数修改">
-          <template #title>
-            <i class="iconfont icon-jianyifankui"></i>
-            <span slot="title" class="yy">报表系统</span>
-          </template>
-          <el-menu-item
-            index="2"
-            @click="$router.push({ name: 'ddd' })"
-            ref="ABC"
-          >
-            <i class="el-icon-menu"></i>
-            <span slot="title">报表系统</span>
-          </el-menu-item>
-        </el-submenu>
-      </el-menu>
-    </div>
-    <div class="unit" v-if="unit == 5">
-      <i class="el-icon-caret-left" @click="fanhui"></i>
-
-      <el-menu
-        unique-opened
-        :collapse-transition="false"
-        router
-        :default-active="this.$route.path"
-        class="bbb"
-        v-if="unit == 5"
-      >
-        <el-submenu index="数据总览">
-          <template #title>
-            <i class="iconfont icon-shujuzonglan"></i>
-            <span slot="title" class="yy">数据总览</span>
-          </template>
-          <el-menu-item
-            index="1"
-            @click="$router.push({ name: 'Dept' })"
-            ref="ABC"
-          >
-            <i class="el-icon-menu"></i>
-            <span slot="title">数据总览</span>
-          </el-menu-item>
-        </el-submenu>
-      </el-menu>
-    </div>
-    <div class="door" v-if="door == 5">
-      <i class="el-icon-caret-left" @click="fanhui"></i>
-
-      <el-menu
-        unique-opened
-        :collapse-transition="false"
-        router
-        :default-active="this.$route.path"
-        class="bbb"
-        v-if="door == 5"
-      >
-        <el-submenu index="数据总览">
-          <template #title>
-            <i class="iconfont icon-shujuzonglan"></i>
-            <span slot="title" class="yy">数据总览</span>
-          </template>
-          <el-menu-item
-            index="1"
-            @click="$router.push({ name: 'Dept' })"
-            ref="ABC"
-          >
-            <i class="el-icon-menu"></i>
-            <span slot="title">数据总览</span>
-          </el-menu-item>
-        </el-submenu>
-      </el-menu>
-    </div>
-    <div class="indoor" v-if="indoor == 5">
-      <i class="el-icon-caret-left" @click="fanhui"></i>
-
-      <el-menu
-        unique-opened
-        :collapse-transition="false"
-        router
-        :default-active="this.$route.path"
-        class="bbb"
-        v-if="indoor == 5"
-      >
-        <el-submenu index="数据总览">
-          <template #title>
-            <i class="iconfont icon-shujuzonglan"></i>
-            <span slot="title" class="yy">数据总览</span>
-          </template>
-          <el-menu-item
-            index="1"
-            @click="$router.push({ name: 'Dept' })"
-            ref="ABC"
-          >
-            <i class="el-icon-menu"></i>
-            <span slot="title">数据总览</span>
-          </el-menu-item>
-        </el-submenu>
-      </el-menu>
-    </div> -->
   </div>
 </template>
 
@@ -618,6 +379,11 @@ export default {
               id: "25",
               path: "Hot",
             },
+            // {
+            //   name: "后台系统",
+            //   id: "26",
+            //   path: "Hot",
+            // },
           ],
         },
         // {
@@ -679,6 +445,7 @@ export default {
       unit: 0,
       door: 0,
       indoor: 0,
+      houtai: 0,
     };
   },
   mounted() {},
@@ -696,13 +463,13 @@ export default {
       this.is = 0;
     },
     fg(v) {
-      console.log("vvvvffffgggg", v);
       if (v.name === "换热站") {
         this.station = 5;
         this.hot = 0;
         this.unit = 0;
         this.door = 0;
         this.indoor = 0;
+        this.houtai = 0;
         this.is = 1;
         this.uu = 2;
       } else if (v.name === "热源") {
@@ -711,6 +478,7 @@ export default {
         this.unit = 0;
         this.door = 0;
         this.indoor = 0;
+        this.houtai = 0;
         this.is = 2;
         this.uu = 1;
       } else if (v.name === "楼宇单元阀") {
@@ -719,6 +487,7 @@ export default {
         this.unit = 5;
         this.door = 0;
         this.indoor = 0;
+        this.houtai = 0;
         this.is = 3;
         this.uu = 3;
       } else if (v.name === "户阀") {
@@ -727,6 +496,7 @@ export default {
         this.unit = 0;
         this.door = 5;
         this.indoor = 0;
+        this.houtai = 0;
         this.is = 4;
         this.uu = 4;
       } else if (v.name === "室内温度") {
@@ -735,8 +505,18 @@ export default {
         this.unit = 0;
         this.door = 0;
         this.indoor = 5;
+        this.houtai = 0;
         this.is = 5;
         this.uu = 5;
+      } else if (v.name === "后台系统") {
+        this.station = 5;
+        this.hot = 0;
+        this.unit = 0;
+        this.door = 0;
+        this.indoor = 0;
+        this.houtai = 5;
+        this.is = 6;
+        this.uu = 6;
       } else {
         this.station = 0;
         this.hot = 0;

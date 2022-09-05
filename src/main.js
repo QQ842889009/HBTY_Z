@@ -40,6 +40,7 @@ import {
   realtimeTemplate,
   stationTemplate
 } from "assets/js/storeDataInitTemplate" //初始化模板
+
 import socketAiUnit from "assets/js/socketJsControl/socketAiUnit" //改版后的楼宇单元和户阀的连接
 import socketAiInDoor from "assets/js/socketJsControl/socketAiInDoor" //改版后的楼宇单元和户阀的连接
 import socketStation from "assets/js/socketJsControl/socketStation" //改版后的楼宇单元和户阀的连接
@@ -53,7 +54,7 @@ new Promise((resolve, reject) => {
 
   store.commit("MUINDOORDATAINIT", inDoorDataInitTemplate) //
   store.commit("MUDOORDATAINIT", doorDataInitTemplate) //
-  store.commit("STATION", stationTemplate) //*****改造新加
+  store.commit("STATION", stationDataInitTemplate) //*****改造新加
 
   store.commit("realtime/MUREALTIMEINIT", realtimeTemplate)
   store.commit("realtime/MUSTATIONINT", stationTemplate)

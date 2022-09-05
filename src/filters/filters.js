@@ -5,7 +5,7 @@ export function Sid(value) {
 }
 
 export function getDate(time) {
-  console.log("time", time)
+  // console.log("time", time)
   if (time == undefined) {
     return
   }
