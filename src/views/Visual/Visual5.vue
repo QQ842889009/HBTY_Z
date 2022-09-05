@@ -7,7 +7,7 @@
           class="selectStation"
           v-model="selectStation"
           filterable
-          placeholder="1#换热站"
+          placeholder="请选择换热站"
         >
           <el-option
             v-for="item in stations"
@@ -24,7 +24,7 @@
           class="selectStation"
           v-model="selectItem"
           filterable
-          placeholder="温度"
+          placeholder="请选择参数"
         >
           <el-option
             v-for="item in itemArr"
@@ -53,7 +53,7 @@
           class="selectStation"
           v-model="selectTime"
           filterable
-          placeholder="半小时"
+          placeholder="请选择间隔"
         >
           <el-option
             v-for="item in timeArr"
@@ -80,7 +80,6 @@
   </div>
 </template>
 <script>
-import { mapState } from "vuex";
 import FtLineBox from "./components/FtLineBoxy copy.vue"; //
 
 export default {
@@ -138,71 +137,75 @@ export default {
       stationInfo: [],
       myUnit: "",
       isUpdata: 0,
+      //设定时间选择限制，不能大于当前时间
       pickerOptions: {
         disabledDate: (time) => {
           const maxTime = Date.now();
           return time.getTime() > maxTime;
         },
       },
+      stations: [],
     };
   },
   created() {
-    this.selectStation = "29";
-    this.selectItem = "";
-    this.selectDate = "2022-06-25 05:00:00";
-    this.selectTime = "0.5";
+    // this.selectStation = "29";
+    // this.selectItem = "";
+    // this.selectDate = "2022-06-25 05:00:00";
+    // this.selectTime = "0.5";
+    this.stations = this.$store.getters.stationInfos;
     this.getStationInfo();
   },
   computed: {
-    ...mapState("realtime", ["stations"]),
   },
   mounted() {},
   methods: {
     async changeItem() {
-      // console.log("ivalue----", `station:${this.selectStation},item:${this.selectItem},date:${this.selectDate},time:${this.selectTime}`)
+      console.log("ivalue----",this.selectItem)
       var startTime = Date.parse(new Date(this.selectDate).toString());
       var endTime = startTime + this.selectTime * 60 * 60 * 1000;
       if (endTime > Date.now()) {
         return alert("时间加间隔超过当前时间");
       }
-      this.myParams.sid = this.selectStation;
-      this.myParams.stArr = this.selectItem.value;
-      this.myParams.startTime = startTime;
-      this.myParams.endTime = endTime;
-      this.myParams.datasize = 180;
-      console.log("-------------", this.myParams);
-      this.myUnit = this.selectItem.unit;
-      console.log(this.myUnit);
+      if(this.selectStation==""|| this.selectItem.value==""||this.selectDate==""||this.selectTime==""){
+        return alert("条件选择不完整！！")
+      }
+      if(this.selectItem.label=="温度"||this.selectItem.label=="压力"){
+        this.getItmeArr(this.selectStation);
+      }
+      // this.myParams.sid = this.selectStation;
+      // this.myParams.stArr = this.selectItem.value;
+      // this.myParams.startTime = startTime;
+      // this.myParams.endTime = endTime;
+      // this.myParams.datasize = 180;
+      // console.log("-------------", this.myParams);
+      // this.myUnit = this.selectItem.unit;
+      // console.log(this.myUnit);
+     
       // this.myData = await this.$http.post(
-      //   "plcdata/temsdemo1/plc/datas",
+      //   "plcdata/tems/plc/datas",
       //   this.myParams
       // );
-      this.myData = await this.$http.post(
-        "plcdata/tems/plc/datas",
-        this.myParams
-      );
-      console.log("plcdata接受到的数据", this.myData);
-      // ).then((res) => {
-      //     console.log("接受到的数据", res)
-      //     this.myData=res;
-      // });
+      // console.log("plcdata接受到的数据", this.myData);
+      
       this.isUpdata++;
-      // this.$http({
-      //     method:'post',
-      //     url:'plcdata/temsdemo1/plc/datas',
-      //     data:this.myParams,
-      // }).then(res=>{
-      //     console.log('接受到的数据',res)
-      // })
-      // .catch(erroe=>{
-      //     console.log("发送数据失败")
-      // })
+    
     },
 
     async getStationInfo() {
       this.stationInfo = await this.$http.get("plcdata/tems/plc/stationInfo");
+      // this.stationInfo=this.stationInfo[1].slice(12,22);
       console.log("------", this.stationInfo);
     },
+    getItmeArr(id){
+      if(this.stationInfo){
+        var stainfonId=this.stationInfo[id];
+        console.log('stainfo---------',stainfonId);
+
+      }else{
+        console.log("没有获取到换热站的分支信息");
+      }
+     
+    }
   },
   components: {
     FtLineBox,
