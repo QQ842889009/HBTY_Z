@@ -33,8 +33,8 @@ module.exports = {
       },
       "/plcdata": {
         //
-        // target: "http://221.206.242.116:9000",
-        target: "http://10.168.1.176:9000",
+        target: "http://221.206.242.116:9000",
+        //target: "http://10.168.1.176:9000",
         changeOrigin: true,
         ws: true,
         pathRewrite: {
