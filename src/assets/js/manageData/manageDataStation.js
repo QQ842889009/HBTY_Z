@@ -8,6 +8,7 @@ import that from "@/main.js"
 //import station from "assets/js/storeDataInit/station" //
 
 let stationData = (msg) => {
+  // console.log('---------msg',msg);
   new Promise((resolve, reject) => {
     let msgJsObjFormat = {
       Sid: "000",
@@ -174,6 +175,7 @@ let stationData = (msg) => {
     msgJsObjFormat.Sid = parseInt(msg.sid.slice(2), 16)
     msgJsObjFormat.Sdate = msg.sdate
     msgJsObjFormat.Stime = msg.stime
+    msgJsObjFormat.Timestamp=msg.timestamp
     msgJsObjFormat.FT11 = msg.bd0.toFixed(1)
     msgJsObjFormat.FT21 = msg.bd1.toFixed(1)
     msgJsObjFormat.FT31 = msg.bd2.toFixed(1)

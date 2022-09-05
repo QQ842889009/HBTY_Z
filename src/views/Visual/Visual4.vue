@@ -3,48 +3,21 @@
     <div class="selectBox">
       <div class="selectText"><span>数据筛选</span></div>
 
-      <el-select
-        class="select"
-        v-model="value"
-        filterable
-        placeholder="1#换热站"
-        @change="cleraInfo($event)"
-      >
-        <el-option
-          v-for="item in stations"
-          :key="item.Sid"
-          :label="item.Station"
-          :value="item.Sid"
-        >
+      <el-select class="select" v-model="value" filterable placeholder="请选择换热站" @change="cleraInfo($event)">
+        <el-option v-for="item in stations" :key="item.Sid" :label="item.Station" :value="item.Sid">
         </el-option>
       </el-select>
     </div>
     <div class="showBox">
-      <FtLineBox
-        title_name="二网实时温度"
-        :getData="realtimeInfo"
-        :boxHeight="'44%'"
-        :yUnit="'℃'"
-        :isSort="false"
-        :isRed="isRed"
-        :showLenged="true"
-        :key="isUpdata"
-      />
-      <FtLineBox
-        title_name="二网实时压力"
-        :getData="realtimeInfo"
-        :boxHeight="'44%'"
-        :yUnit="'t'"
-        :isSort="false"
-        :isRed="isRed"
-        :showLenged="true"
-        :key="isUpdata + '-only'"
-      />
+      <FtLineBox title_name="二网实时温度" :getData="realtimeInfo" :boxHeight="'44%'" :yUnit="'℃'" :isSort="false"
+        :isRed="isRed" :showLenged="true" :key="isUpdata" />
+      <FtLineBox title_name="二网实时压力" :getData="realtimeInfo" :boxHeight="'44%'" :yUnit="'t'" :isSort="false"
+        :isRed="isRed" :showLenged="true" :key="isUpdata + '-only'" />
     </div>
   </div>
 </template>
 <script>
-import { mapState } from "vuex";
+import { getDate } from "../../filters/filters";
 // import {deepClone} from "assets/js/storeDataInit/realtime"
 import _ from "lodash";
 import FtLineBox from "./components/FtLineBoxy.vue";
@@ -54,16 +27,18 @@ export default {
     return {
       value: "",
       realtimeInfo: [],
+      stations: [],
+      staPlcData: [],
       isUpdata: 0,
       isRed: false,
     };
   },
   created() {
-    console.log("staPlcData------", this.staPlcData);
+    this.stations = this.$store.getters.stationInfos;
+    this.staPlcData = this.$store.getters.stationDataAndInfo;
     //    this.getRealtimeInfos(this.value);
-    //   deepClone(this.realtimeInfo,this.realtimeInfos)
-    this.realtimeInfo = _.cloneDeep(this.realtimeInfos);
-    //    console.log('realtimeInfo---000---',this.realtimeInfo)
+    // this.realtimeInfo = _.cloneDeep(this.realtimeInfos);
+    console.log('staPlcData---000---', this.staPlcData);
   },
   mounted() {
     //  this.timer=setInterval(() => {
@@ -73,56 +48,51 @@ export default {
   },
 
   computed: {
-    ...mapState("realtime", ["stations", "realtimeInfos"]),
-    ...mapState("plcS7", ["staPlcData"]),
+    // ...mapState("realtime", ["realtimeInfos"]),
+    // ...mapState("plcS7", ["staPlcData"]),
   },
   methods: {
     //实时信息
     getRealtimeData(value) {
+      console.log('value-------', value);
       if (value.length != 0) {
         let staPlcData = this.staPlcData;
+        console.log('data-------', staPlcData[value]);
         let obj = {};
         let sumTimeTamp = 0;
-        let nowTimeTamp = Date.parse(new Date()) / 1000;
-        for (let i = 0; i < staPlcData.length; i++) {
-          if (staPlcData[i].Sid == value) {
-            sumTimeTamp = Math.abs(nowTimeTamp - staPlcData[i].TimesTamp);
-            console.log("当前时间", nowTimeTamp);
-            console.log("系统时间", staPlcData[i].TimesTamp);
-            if (sumTimeTamp <= 10) {
-              console.log("有新的数据", staPlcData[i].Sid);
-              obj.SdateTime = staPlcData[i].SdateTime;
-              obj.TE11 = staPlcData[i].TE11;
-              obj.TE12 = staPlcData[i].TE12;
-              obj.TE21 = staPlcData[i].TE21;
-              obj.TE22 = staPlcData[i].TE22;
-              obj.PT11 = staPlcData[i].PT11;
-              obj.PT12 = staPlcData[i].PT12;
-              obj.PT21 = staPlcData[i].PT21;
-              obj.PT22 = staPlcData[i].PT22;
-              this.realtimeInfo.shift();
-              this.realtimeInfo.push(obj);
-              this.isRed = false;
-              // console.log("颜色改变-------", this.seriesColor)
-              // this.isUpdata++;
-            } else {
-              console.log("没有新的数据");
-              obj.SdateTime = this.formatTime();
-              obj.TE11 = 0;
-              obj.TE12 = 0;
-              obj.TE21 = 0;
-              obj.TE22 = 0;
-              obj.PT11 = 0;
-              obj.PT12 = 0;
-              obj.PT21 = 0;
-              obj.PT22 = 0;
-              this.realtimeInfo.shift();
-              this.realtimeInfo.push(obj);
-              this.isRed = true;
-              // this.seriesColor="red"
-              // this.isUpdata++;
-            }
-          }
+        let nowTimeTamp = Date.parse(new Date());
+        let i = value;
+        sumTimeTamp = Math.abs(nowTimeTamp - staPlcData[i].Timestamp);
+        console.log("当前时间", nowTimeTamp);
+        console.log("系统时间", staPlcData[i].Timestamp);
+        if (sumTimeTamp <= 10000) {
+          console.log("有新的数据", staPlcData[i].Sid);
+          obj.SdateTime = staPlcData[i].Sdate+" "+ staPlcData[i].Stime;
+          obj.te11 = staPlcData[i].TE11;
+          obj.te12 = staPlcData[i].TE12;
+          obj.te21 = staPlcData[i].TE21;
+          obj.te22 = staPlcData[i].TE22;
+          obj.pt11 = staPlcData[i].PT11;
+          obj.pt12 = staPlcData[i].PT12;
+          obj.pt21 = staPlcData[i].PT21;
+          obj.pt22 = staPlcData[i].PT22;
+          console.log("obj-----------",obj);
+          this.realtimeInfo.shift();
+          this.realtimeInfo.push(obj);   
+        } else {
+          console.log("没有新的数据");
+          obj.SdateTime = this.formatTime();
+          obj.te11 = 0;
+          obj.te12 = 0;
+          obj.te21 = 0;
+          obj.te22 = 0;
+          obj.pt11 = 0;
+          obj.pt12 = 0;
+          obj.pt21 = 0;
+          obj.pt22 = 0;
+          this.realtimeInfo.shift();
+          this.realtimeInfo.push(obj);
+         
         }
       }
     },
@@ -153,30 +123,39 @@ export default {
       );
     },
     //请求数据
-    getRealtimeInfos(sid) {
-      let msgSend = {
-        Sid: String(sid),
-      };
-      if (this.$stompClientRealtime.connected === true) {
-        this.$stompClientRealtime.send(
-          "hbty/hoursStationData",
-          JSON.stringify(msgSend)
-        );
+    async getRealtimeInfos(sid) {
+      var endTime = Date.parse(new Date());
+      var startTime=endTime-60*60*1000;
+      var params={
+        sid:sid,
+        startTime:startTime,
+        endTime:endTime,
+        size:60
       }
-      //把请求到的数据放到this.realtimeInfo中
-      else {
-        console.log("实时信息请求失败");
-      }
+      this.realtimeInfo = await this.$http.post(
+        "plcdata/tems/plc/DatasByTimeScopeAndSizeAndSid",params);
+        console.log("realtimeInfo---111---", this.realtimeInfo);
+        if(this.realtimeInfo){
+          //传过来的数据是按时间倒序的，需要把数组倒序
+          this.realtimeInfo= this.realtimeInfo.reverse();
+        for (let index = 0; index < this.realtimeInfo.length; index++) {
+          this.realtimeInfo[index].SdateTime=getDate( this.realtimeInfo[index].timestamp); 
+        }
+        console.log("realtimeInfo---111---", this.realtimeInfo);
+        this.isUpdata++;
+        }else{
+          return alert('数据错误');
+        }
+      
     },
     cleraInfo(v) {
       console.log("选择了新的换热站", v);
       clearInterval(this.timer);
+      this.getRealtimeInfos(v)
       this.isUpdata++;
-      this.realtimeInfo = _.cloneDeep(this.realtimeInfos);
-      // this.getRealtimeInfos(v)
       this.timer = setInterval(() => {
         this.getRealtimeData(this.value);
-        console.log("realtimeInfo---111---", this.realtimeInfo);
+        console.log('staPlcData---000---', this.staPlcData);
       }, 10000);
       // this.realtimeInfo=_.cloneDeep(this.realtimeInfos)
     },

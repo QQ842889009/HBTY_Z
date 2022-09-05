@@ -99,10 +99,6 @@ export default {
       type: Boolean,
       default: true,
     },
-    isRed: {
-      type: Boolean,
-      default: false,
-    },
     showLenged: {
       type: Boolean,
       default: false,
@@ -280,20 +276,22 @@ export default {
                 y: this.btnsList[index].value,
               },
               symbol: "rect",
+              valueT:this.btnsList[index].value,
               color: index == 0 ? "rgb(26, 218, 218)" : "yellow",
-              itemStyle: {
-                color: function (p) {
-                  // console.log("颜色的参数", p)
-                  var c = "";
-                  if (p.data.PT11 == 0 && p.data.TE11 == 0) {
-                    c = "red";
-                  } else {
-                    c = p.seriesIndex == 0 ? "rgb(26, 218, 218)" : "yellow";
-                  }
-                  // console.log("颜色")
-                  return c;
-                },
-              },
+              // itemStyle: {
+              //   color:  (p)=> {
+              //     // console.log("颜色的参数",p)
+              //     var c = "";
+              //     if (p.data.PT11 == 0 && p.data.TE11 == 0) {
+              //       c = "red";
+              //      } 
+              //     else {
+              //       c = p.seriesIndex == 0 ? "rgb(26, 218, 218)" : "yellow";
+              //     }
+              //     // console.log("颜色")
+              //     return c;
+              //   },
+              // },
             };
             index++;
             series.push(item);
