@@ -10,7 +10,7 @@ function plcS7dataInit(data, len, dataType) {
     let obj = JSON.parse(JSON.stringify(dataType))
     data.push(obj)
   }
-  console.log("plc数据初始化完毕", data)
+  //console.log("plc数据初始化完毕", data)
   // console.log("-----AAA")
 }
 /**

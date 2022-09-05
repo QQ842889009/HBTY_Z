@@ -73,7 +73,7 @@
         <el-table-column
           prop="station"
           label="站点名称"
-          width="120"
+          width="150"
           fixed
           align="center"
         >
@@ -279,200 +279,6 @@ export default {
           return time.getTime() > maxTime;
         },
       },
-      tableData: [
-        {
-          date: "2016-05-03",
-          name: "0",
-          province: "c",
-          city: "普陀区",
-          address: "15",
-          zip: 1660205157000,
-        },
-        {
-          date: "2016-05-02",
-          name: "1",
-          province: "d",
-          city: "普陀区",
-          address: "20",
-          zip: 1660288787000,
-        },
-        {
-          date: "2016-05-04",
-          name: "2",
-          province: "d",
-          city: "普陀区",
-          address: "上海市普陀区金沙江路 1518 弄",
-          zip: 200333,
-        },
-        {
-          date: "2016-05-01",
-          name: "3",
-          province: "d",
-          city: "普陀区",
-          address: "上海市普陀区金沙江路 1518 弄",
-          zip: 200333,
-        },
-        {
-          date: "2016-05-08",
-          name: "4",
-          province: "d",
-          city: "普陀区",
-          address: "上海市普陀区金沙江路 1518 弄",
-          zip: 200333,
-        },
-        {
-          date: "2016-05-03",
-          name: "5",
-          province: "c",
-          city: "普陀区",
-          address: "15",
-          zip: 1660288787000,
-        },
-        {
-          date: "2016-05-02",
-          name: "6",
-          province: "d",
-          city: "普陀区",
-          address: "20",
-          zip: 1660288787000,
-        },
-        {
-          date: "2016-05-04",
-          name: "7",
-          province: "d",
-          city: "普陀区",
-          address: "上海市普陀区金沙江路 1518 弄",
-          zip: 200333,
-        },
-        {
-          date: "2016-05-01",
-          name: "8",
-          province: "d",
-          city: "普陀区",
-          address: "上海市普陀区金沙江路 1518 弄",
-          zip: 200333,
-        },
-        {
-          date: "2016-05-08",
-          name: "9",
-          province: "d",
-          city: "普陀区",
-          address: "上海市普陀区金沙江路 1518 弄",
-          zip: 200333,
-        },
-        {
-          date: "2016-05-03",
-          name: "10",
-          province: "c",
-          city: "普陀区",
-          address: "15",
-          zip: 1660288787000,
-        },
-        {
-          date: "2016-05-02",
-          name: "11",
-          province: "d",
-          city: "普陀区",
-          address: "20",
-          zip: 1660288787000,
-        },
-        {
-          date: "2016-05-04",
-          name: "12",
-          province: "d",
-          city: "普陀区",
-          address: "上海市普陀区金沙江路 1518 弄",
-          zip: 200333,
-        },
-        {
-          date: "2016-05-01",
-          name: "13",
-          province: "d",
-          city: "普陀区",
-          address: "上海市普陀区金沙江路 1518 弄",
-          zip: 200333,
-        },
-        {
-          date: "2016-05-08",
-          name: "14",
-          province: "d",
-          city: "普陀区",
-          address: "上海市普陀区金沙江路 1518 弄",
-          zip: 200333,
-        },
-        {
-          date: "2016-05-03",
-          name: "15",
-          province: "c",
-          city: "普陀区",
-          address: "15",
-          zip: 1660288787000,
-        },
-        {
-          date: "2016-05-02",
-          name: "16",
-          province: "d",
-          city: "普陀区",
-          address: "20",
-          zip: 1660288787000,
-        },
-        {
-          date: "2016-05-04",
-          name: "17",
-          province: "d",
-          city: "普陀区",
-          address: "上海市普陀区金沙江路 1518 弄",
-          zip: 200333,
-        },
-        {
-          date: "2016-05-01",
-          name: "18",
-          province: "d",
-          city: "普陀区",
-          address: "上海市普陀区金沙江路 1518 弄",
-          zip: 200333,
-        },
-        {
-          date: "2016-05-08",
-          name: "19",
-          province: "d",
-          city: "普陀区",
-          address: "上海市普陀区金沙江路 1518 弄",
-          zip: 200333,
-        },
-        {
-          date: "2016-05-03",
-          name: "20",
-          province: "c",
-          city: "普陀区",
-          address: "15",
-          zip: 1660288787000,
-        },
-        {
-          date: "2016-05-02",
-          name: "21",
-          province: "d",
-          city: "普陀区",
-          address: "20",
-          zip: 1660288787000,
-        },
-        {
-          date: "2016-05-04",
-          name: "22",
-          province: "d",
-          city: "普陀区",
-          address: "上海市普陀区金沙江路 1518 弄",
-          zip: 200333,
-        },
-        {
-          date: "2016-05-01",
-          name: "23",
-          province: "d",
-          city: "普陀区",
-          address: "上海市普陀区金沙江路 1518 弄",
-          zip: 200333,
-        },
-      ],
     };
   },
 
@@ -480,8 +286,11 @@ export default {
     SelectDateAndTime,
   },
   watch: {},
+  created() {
+    this.stations = this.$store.getters.stationInfos;
+  },
   computed: {
-    ...mapState("realtime", ["stations"]),
+    // ...mapState("realtime", ["stations"]),
     headerStyle() {
       return {
         background: "#66B1FF",
@@ -510,13 +319,14 @@ export default {
       this.myParams.endTime = endTime;
       this.myParams.size = 24;
 
-      console.log("---日报表的参数", this.myParams);
+      // console.log("---日报表的参数", this.myParams);
       this.myData = await this.$http.post(
         "plcdata/tems/plc/DatasByTimeScopeAndSizeAndSid",
 
         this.myParams
       );
-      console.log("日报表接受到的数据", this.myData);
+      // this.myData = this.myData.reverse();
+      // console.log("日报表接受到的数据", this.myData);
 
       // this.isUpdata++;
     },

@@ -100,6 +100,7 @@
       <el-table
         :data="dataList"
         border
+        class="aa"
         v-loading="dataListLoading"
         @selection-change="selectionChangeHandle"
         style="width: 100%"
@@ -329,7 +330,7 @@ export default {
     loadRoleList() {
       let that = this;
       that.$http.get("plcdata/tems/role/searchAllRole").then((res) => {
-        console.log("所有的角色", res);
+        // console.log("所有的角色", res);
         that.roleList = res.list;
       });
       //   that.$http("role/searchAllRole", "GET", null, true, function (resp) {
@@ -340,7 +341,7 @@ export default {
     loadDeptList() {
       let that = this;
       that.$http.get("plcdata/tems/dept/searchAllDept").then((res) => {
-        console.log("所有的部门", res);
+        //console.log("所有的部门", res);
         that.deptList = res.list;
       });
     },
@@ -480,7 +481,11 @@ export default {
     width: 100%;
     height: 100%;
     background-color: rgb(207, 210, 223);
+    // background-color: rgb(187, 15, 15);
     padding: 100px 50px 50px 50px;
   }
+}
+.aa {
+  z-index: 1;
 }
 </style>

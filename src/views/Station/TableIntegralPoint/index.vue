@@ -44,7 +44,7 @@
         <el-table-column
           prop="station"
           label="站点名称"
-          width="120"
+          width="140"
           fixed
           align="center"
         >

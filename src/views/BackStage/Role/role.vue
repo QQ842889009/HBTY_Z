@@ -2,7 +2,7 @@
   <div class="role-container">
     <div class="role-container-box">
       <div v-if="this.ISAUTH.isAUth(['ROOT'])">
-        <el-form
+        <!-- <el-form
           :inline="true"
           :model="dataForm"
           :rules="dataRule"
@@ -28,7 +28,7 @@
               批量删除
             </el-button>
           </el-form-item>
-        </el-form>
+        </el-form> -->
         <el-table
           :data="dataList"
           border
