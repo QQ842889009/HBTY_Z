@@ -99,8 +99,8 @@ export default {
   created() {
     // this.staPlcData = this.$store.getters.station;
     // this.stPlcNum = this.$store.getters.stationLenght;
-    console.log("staPlcdata-----", this.staPlcData);
-    console.log("staEchartData-----", this.staEchartData);
+    // console.log("staPlcdata-----", this.staPlcData);
+    // console.log("staEchartData-----", this.staEchartData);
     this.clickRowSta = this.staPlcData[0].Station;
     this.stationData = this.staPlcData[0];
     getWeatherForecast("唐山");

@@ -38,7 +38,6 @@ export default {
     this.staPlcData = this.$store.getters.stationDataAndInfo;
     //    this.getRealtimeInfos(this.value);
     // this.realtimeInfo = _.cloneDeep(this.realtimeInfos);
-    console.log('staPlcData---000---', this.staPlcData);
   },
   mounted() {
     //  this.timer=setInterval(() => {
@@ -54,19 +53,18 @@ export default {
   methods: {
     //实时信息
     getRealtimeData(value) {
-      console.log('value-------', value);
       if (value.length != 0) {
         let staPlcData = this.staPlcData;
-        console.log('data-------', staPlcData[value]);
+        // console.log('data-------', staPlcData[value]);
         let obj = {};
         let sumTimeTamp = 0;
         let nowTimeTamp = Date.parse(new Date());
         let i = value;
         sumTimeTamp = Math.abs(nowTimeTamp - staPlcData[i].Timestamp);
-        console.log("当前时间", nowTimeTamp);
-        console.log("系统时间", staPlcData[i].Timestamp);
+        // console.log("当前时间", nowTimeTamp);
+        // console.log("系统时间", staPlcData[i].Timestamp);
         if (sumTimeTamp <= 10000) {
-          console.log("有新的数据", staPlcData[i].Sid);
+          // console.log("有新的数据", staPlcData[i].Sid);
           obj.SdateTime = staPlcData[i].Sdate+" "+ staPlcData[i].Stime;
           obj.te11 = staPlcData[i].TE11;
           obj.te12 = staPlcData[i].TE12;
@@ -76,11 +74,11 @@ export default {
           obj.pt12 = staPlcData[i].PT12;
           obj.pt21 = staPlcData[i].PT21;
           obj.pt22 = staPlcData[i].PT22;
-          console.log("obj-----------",obj);
+          // console.log("obj-----------",obj);
           this.realtimeInfo.shift();
           this.realtimeInfo.push(obj);   
         } else {
-          console.log("没有新的数据");
+          // console.log("没有新的数据");
           obj.SdateTime = this.formatTime();
           obj.te11 = 0;
           obj.te12 = 0;
@@ -134,14 +132,15 @@ export default {
       }
       this.realtimeInfo = await this.$http.post(
         "plcdata/tems/plc/DatasByTimeScopeAndSizeAndSid",params);
-        console.log("realtimeInfo---111---", this.realtimeInfo);
+        // console.log("realtimeInfo---111---", this.realtimeInfo);
         if(this.realtimeInfo){
           //传过来的数据是按时间倒序的，需要把数组倒序
-          this.realtimeInfo= this.realtimeInfo.reverse();
+          // this.realtimeInfo= this.realtimeInfo.reverse();
+          //添加一个时间字段。格式为2022-9-5 16：05：34
         for (let index = 0; index < this.realtimeInfo.length; index++) {
           this.realtimeInfo[index].SdateTime=getDate( this.realtimeInfo[index].timestamp); 
         }
-        console.log("realtimeInfo---111---", this.realtimeInfo);
+        // console.log("realtimeInfo---111---", this.realtimeInfo);
         this.isUpdata++;
         }else{
           return alert('数据错误');
@@ -149,13 +148,13 @@ export default {
       
     },
     cleraInfo(v) {
-      console.log("选择了新的换热站", v);
+      // console.log("选择了新的换热站", v);
       clearInterval(this.timer);
       this.getRealtimeInfos(v)
       this.isUpdata++;
       this.timer = setInterval(() => {
         this.getRealtimeData(this.value);
-        console.log('staPlcData---000---', this.staPlcData);
+        // console.log('staPlcData---000---', this.staPlcData);
       }, 10000);
       // this.realtimeInfo=_.cloneDeep(this.realtimeInfos)
     },
@@ -165,7 +164,7 @@ export default {
   },
   beforeDestroy() {
     clearInterval(this.timer);
-    console.log("vm即将销毁");
+    // console.log("vm即将销毁");
     this.realtimeInfo = [];
   },
 };

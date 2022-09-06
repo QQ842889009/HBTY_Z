@@ -3,121 +3,62 @@
     <div class="topBox">
       <div class="station">
         <span>站点选择</span>
-        <el-select
-          class="selectStation"
-          v-model="selectStation"
-          filterable
-          placeholder="请选择换热站"
-        >
-          <el-option
-            v-for="item in stations"
-            :key="item.Sid"
-            :label="item.Station"
-            :value="item.Sid"
-          >
+        <el-select class="selectStation" v-model="selectStation" filterable placeholder="请选择换热站">
+          <el-option v-for="item in stations" :key="item.Sid" :label="item.Station" :value="item.Sid">
           </el-option>
         </el-select>
       </div>
       <div class="item">
         <span>参数选择</span>
-        <el-select
-          class="selectStation"
-          v-model="selectItem"
-          filterable
-          placeholder="请选择参数"
-        >
-          <el-option
-            v-for="item in itemArr"
-            :key="item.id"
-            :label="item.name"
-            :value="{ value: item.value, label: item.name, unit: item.unit }"
-          >
+        <el-select class="selectStation" v-model="selectItem" filterable placeholder="请选择参数">
+          <el-option v-for="item in itemArr" :key="item.id" :label="item.name"
+            :value="{label: item.name, value: item.value}">
           </el-option>
         </el-select>
       </div>
       <div class="data">
         <span>时间选择</span>
-        <el-date-picker
-          class="selectStation"
-          v-model="selectDate"
-          type="datetime"
-          placeholder="选择日期时间"
-          value-format="yyyy-MM-dd HH:mm:ss"
-          :picker-options="pickerOptions"
-        >
+        <el-date-picker class="selectStation" v-model="selectDate" type="datetime" placeholder="选择日期时间"
+          value-format="yyyy-MM-dd HH:mm:ss" :picker-options="pickerOptions">
         </el-date-picker>
       </div>
       <div class="time">
         <span>时间间隔</span>
-        <el-select
-          class="selectStation"
-          v-model="selectTime"
-          filterable
-          placeholder="请选择间隔"
-        >
-          <el-option
-            v-for="item in timeArr"
-            :key="item.id"
-            :label="item.name"
-            :value="item.value"
-          >
+        <el-select class="selectStation" v-model="selectTime" filterable placeholder="请选择间隔">
+          <el-option v-for="item in timeArr" :key="item.id" :label="item.name" :value="item.value">
           </el-option>
         </el-select>
       </div>
       <el-button type="primary" class="bt" @click="changeItem">确定</el-button>
     </div>
     <div class="showBox">
-      <FtLineBox
-        :title_name="selectItem.label"
-        :getData="myData"
-        :boxHeight="'97.5%'"
-        :yUnit="myUnit"
-        :isSort="false"
-        :showLenged="true"
-        :key="isUpdata"
-      />
+      <FtLineBox :title_name="selectItem.label" :getData="myData" :boxHeight="'97.5%'" :yUnit="myUnit" :isSort="false"
+        :showLenged="true" :key="isUpdata" :ftLineList="myHistoryList" />
     </div>
   </div>
 </template>
 <script>
-import FtLineBox from "./components/FtLineBoxy copy.vue"; //
-
+import FtLineBox from "./components/FtLineBoxHistory.vue"; //
+import historyList from "./FtLineListHistory";
+import { getDate } from "../../filters/filters";
+import _ from "lodash"
 export default {
   data() {
     return {
       itemArr: [
         {
-          id: 1,
+          id: 0,
           name: "温度",
-          unit: "℃",
-          value: [
-            "te11",
-            "te12",
-            "te21",
-            "te22",
-            "te22_MP",
-            "te221",
-            "te222",
-            "te223",
-            "te224",
-            "te225",
-            "te226",
-            "te227",
-            "te228",
-            "te229",
-            "te22A",
-            "te12_Z",
-          ],
+          value: "℃",
         },
         {
-          id: 2,
+          id: 1,
           name: "压力",
-          unit: "MPa",
-          value: ["pt11", "pt12", "pt21", "pt22"],
+          value: "MPa",
         },
-        { id: 0, name: "流量", unit: "t/h", value: ["ft11", "ft21", "ft31"] },
-        { id: 3, name: "频率", unit: "Hz", value: ["ft11", "ft21", "ft31"] },
-        { id: 4, name: "阀门", unit: "%", value: ["te11"] },
+        { id: 2, name: "流量", value: "t/h",  },
+        { id: 3, name: "频率", value: "Hz",},
+        { id: 4, name: "阀门", value: "%",},
       ],
       timeArr: [
         { id: 0, name: "半小时", value: "0.5" },
@@ -126,10 +67,7 @@ export default {
         { id: 3, name: "24小时", value: "24" },
       ],
       selectStation: "",
-      selectItem: {
-        label: "温度",
-        value: "",
-      },
+      selectItem: "",
       selectDate: "",
       selectTime: "",
       myParams: {},
@@ -137,6 +75,7 @@ export default {
       stationInfo: [],
       myUnit: "",
       isUpdata: 0,
+      echartEncodeArr: {},
       //设定时间选择限制，不能大于当前时间
       pickerOptions: {
         disabledDate: (time) => {
@@ -145,66 +84,102 @@ export default {
         },
       },
       stations: [],
+      myHistoryList:{},
     };
   },
   created() {
     // this.selectStation = "29";
-    // this.selectItem = "";
-    // this.selectDate = "2022-06-25 05:00:00";
-    // this.selectTime = "0.5";
+    this.selectDate = "2022-09-5 05:00:00";
+    this.selectTime = "0.5";
     this.stations = this.$store.getters.stationInfos;
     this.getStationInfo();
+    this.myHistoryList=_.cloneDeep(historyList);
+    
   },
   computed: {
   },
-  mounted() {},
+  mounted() { },
   methods: {
     async changeItem() {
-      console.log("ivalue----",this.selectItem)
+      this.myData = [];
       var startTime = Date.parse(new Date(this.selectDate).toString());
       var endTime = startTime + this.selectTime * 60 * 60 * 1000;
       if (endTime > Date.now()) {
         return alert("时间加间隔超过当前时间");
       }
-      if(this.selectStation==""|| this.selectItem.value==""||this.selectDate==""||this.selectTime==""){
+      if (this.selectStation === "" || this.selectItem === "" || this.selectDate === "" || this.selectTime === "") {
         return alert("条件选择不完整！！")
       }
-      if(this.selectItem.label=="温度"||this.selectItem.label=="压力"){
+      if (this.selectItem.label == "温度" || this.selectItem.label == "压力") {
         this.getItmeArr(this.selectStation);
       }
+      this.myUnit = this.selectItem.value;
       // this.myParams.sid = this.selectStation;
       // this.myParams.stArr = this.selectItem.value;
       // this.myParams.startTime = startTime;
       // this.myParams.endTime = endTime;
-      // this.myParams.datasize = 180;
-      // console.log("-------------", this.myParams);
-      // this.myUnit = this.selectItem.unit;
-      // console.log(this.myUnit);
-     
-      // this.myData = await this.$http.post(
-      //   "plcdata/tems/plc/datas",
-      //   this.myParams
-      // );
+      // this.myParams.size = 180;
+      this.myParams = {
+        sid: this.selectStation,
+        startTime: startTime,
+        endTime: endTime,
+        size: 180
+      }
+
+      this.myData = await this.$http.post(
+        "plcdata/tems/plc/DatasByTimeScopeAndSizeAndSid",
+        this.myParams
+      );
       // console.log("plcdata接受到的数据", this.myData);
-      
+      if (this.myData == "") {
+        this.myData = [];
+        alert("数据为空！！")
+      } else {
+        //添加一个时间字段。格式为2022-9-5 16：05：34
+        for (let index = 0; index < this.myData.length; index++) {
+          this.myData[index].SdateTime = getDate(this.myData[index].timestamp);
+        }
+      }
       this.isUpdata++;
-    
+
     },
 
     async getStationInfo() {
-      this.stationInfo = await this.$http.get("plcdata/tems/plc/stationInfo");
-      // this.stationInfo=this.stationInfo[1].slice(12,22);
-      console.log("------", this.stationInfo);
+      this.stationInfo = await this.$http.get("plcdata/tems/plc/stationInfoForBraName");
+      // console.log("------", this.stationInfo);
     },
-    getItmeArr(id){
-      if(this.stationInfo){
-        var stainfonId=this.stationInfo[id];
-        console.log('stainfo---------',stainfonId);
-
-      }else{
+    getItmeArr(staId) {
+      this.myHistoryList={};
+      this.myHistoryList=_.cloneDeep(historyList);
+      // console.log('historyList---------', historyList);
+      if (this.stationInfo != undefined) {
+        var stainfonId = this.stationInfo[staId];
+        //对象的解构，branch为除了id，sid，station，的数据
+        let { id, sid, station, ...branch } = stainfonId;
+        // console.log('branch---------', branch);
+        //branch是分支的信息
+        for (let i in branch) {
+          if (branch[i] != null) { //如果分支不为null，
+            //name为分支的名称，value为分支对应的字段,i[9]是取字符串bra_name_1的最后一位
+            let objTE = { name: branch[i], value: 'te22' + i[9] };
+            let objPT = { name: branch[i], value: 'pt22' + i[9] };
+            this.myHistoryList['温度'].push(objTE);
+            this.myHistoryList['压力'].push(objPT);
+          }
+        }
+       
+      } else {
         console.log("没有获取到换热站的分支信息");
       }
-     
+
+    },
+    //键值对去重
+    unique(arr) {
+      let obj = {};
+      return arr.filter((item, index, array) => {
+        return obj.hasOwnProperty(typeof item.value + JSON.stringify(item.value)) ?
+          false : (obj[typeof item.value + JSON.stringify(item.value)] = true)
+      })
     }
   },
   components: {

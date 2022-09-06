@@ -26,7 +26,7 @@ export default {
   created() {
   },
   mounted() {
-    console.log("外面传进来的信息", this.weatherInfo)
+    // console.log("外面传进来的信息", this.weatherInfo)
     this.$nextTick(function () {
       this.init();
 
@@ -201,7 +201,7 @@ export default {
       var obj = {};
       // var objV = this.option.xAxis[1].data
       var objV = this.weatherInfo
-      console.log('vvvvvvvvv---v', objV)
+      // console.log('vvvvvvvvv---v', objV)
       for (let index = 0; index < objV.length; index++) {
         obj[index] = {
           backgroundColor: {
@@ -217,7 +217,7 @@ export default {
         height: 20,
       }
       this.option.xAxis[1].axisLabel.rich = obj;
-      console.log('obj---------', this.option.xAxis)
+      // console.log('obj---------', this.option.xAxis)
       this.$nextTick(() => {
         this.myChart.resize();
       })

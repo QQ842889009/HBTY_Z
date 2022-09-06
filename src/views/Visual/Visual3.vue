@@ -70,7 +70,7 @@ export default {
     },
      weatherInfo() {           
                 var weatherAll = (JSON.parse(localStorage.getItem("weather")))
-                console.log('----------', weatherAll)
+                // console.log('----------', weatherAll)
                  return weatherAll.days
         }
   },
@@ -80,8 +80,8 @@ export default {
 
       this.starttime = v[0];
       this.endtime = v[1];
-      console.log('starttime',this.starttime)
-       console.log('endtime',this.endtime)
+      // console.log('starttime',this.starttime)
+      //  console.log('endtime',this.endtime)
     },
   },
   components: {

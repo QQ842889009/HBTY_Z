@@ -11,17 +11,17 @@ export function getDate(time) {
   }
   var d = new Date(time)
   var times =
-    d.getFullYear() +
+  formatNumber(d.getFullYear()) +
     "-" +
-    (d.getMonth() + 1) +
+   formatNumber((d.getMonth() + 1)) +
     "-" +
-    d.getDate() +
+    formatNumber(d.getDate()) +
     " " +
-    d.getHours() +
+     formatNumber(d.getHours()) +
     ":" +
-    d.getMinutes() +
+    formatNumber(d.getMinutes()) +
     ":" +
-    d.getSeconds()
+    formatNumber(d.getSeconds())
   return times
 
   // let myyear = new Date(time).getFullYear()
@@ -57,4 +57,9 @@ export function getDate(time) {
   //   myss
 
   // return mynowTime
+}
+//在各位前面加0
+function formatNumber(num) {
+  num = num.toString();
+  return num[1] ? num : "0" + num;
 }

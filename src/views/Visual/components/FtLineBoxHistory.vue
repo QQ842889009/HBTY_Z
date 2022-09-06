@@ -1,4 +1,4 @@
-<!-- 排序散点图带边框 -->
+<!-- 历史查询的表 -->
 
 <template>
   <div class="dataBlockBox" :style="{ width: '100%', height: this.boxHeight }">
@@ -31,7 +31,7 @@
 
 <script>
 import echarts from "components/echart/echartsVue.js";
-import ftLineList from "../FtLineList";
+// import ftLineList from "../FtLineList";
 export default {
   data() {
     return {
@@ -48,7 +48,10 @@ export default {
     };
   },
   created() {
-    console.log("从外面传进来的数据echarts", this.getData);
+    // console.log("从外面传进来的数据echarts", this.getData);
+    if(this.getData==null){
+      return alert("数据为空！！")
+    }
     // console.log('ftline------------',ftLineList[this.title_name]);
     // console.log(this.btnsList);
   },
@@ -67,7 +70,7 @@ export default {
     //标题，根据此从ftLineList中获取对象
     title_name: {
       type: String,
-      default: "一网温度",
+      default: "温度",
     },
     seriesType: {
       type: String,
@@ -107,14 +110,12 @@ export default {
       type: Boolean,
       default: false,
     },
+    ftLineList:{}
   },
   computed: {
-    echartKyes() {
-      return Object.keys(this.getData[0]);
-    },
-
-    btnsList() {
-      return ftLineList[this.title_name];
+    
+    btnsList() {   
+        return this.ftLineList[this.title_name]; 
     },
     //gird中bottom的值
     girdNum() {
@@ -155,6 +156,18 @@ export default {
       // console.log("init被调用");
       //  console.log("num--------",[this.boxHeight,this.girdNum]);
       this.option = {
+        // color: [
+        //   //调整默认颜色
+        //   "#5470c6",
+        //   "#91cc75",
+        //   "#fac858",
+        //   "#ee6666",
+        //   "#73c0de",
+        //   "#3ba272",
+        //   "#fc8452",
+        //   "#9a60b4",
+        //   "#ea7ccc",
+        // ],
         // backgroundColor: "rgb(6, 17, 39)", //背景颜色
         title: {},
         tooltip: {
@@ -258,15 +271,15 @@ export default {
           //datasetIndex: 0,
           { source: this.getData }, //数据源
           //datasetIndex: 1,
-          {
-            transform: {
-              type: "sort",
-              config: {
-                dimension: this.btnsList[this.choiceIndex].value,
-                order: "asc",
-              },
-            },
-          },
+          // {
+          //   transform: {
+          //     type: "sort",
+          //     config: {
+          //       dimension: this.btnsList[this.choiceIndex].value,
+          //       order: "asc",
+          //     },
+          //   },
+          // },
         ],
         series: (() => {
           var series = [];
@@ -278,7 +291,7 @@ export default {
               type: this.seriesType,
               datasetIndex: this.isSort ? 1 : 0,
               encode: {
-                x: this.btnsList.xSeries,
+                x: 'SdateTime',
                 y: this.btnsList[index].value,
               },
               symbol: "rect",
@@ -299,7 +312,7 @@ export default {
             };
             index++;
             series.push(item);
-          } while (index < this.btnsList.seriesLength);
+          } while (index < this.btnsList.length);
           return series;
         })(),
       };
