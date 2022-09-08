@@ -379,11 +379,11 @@ export default {
               id: "25",
               path: "Hot",
             },
-            // {
-            //   name: "后台系统",
-            //   id: "26",
-            //   path: "Hot",
-            // },
+            {
+              name: "后台系统",
+              id: "26",
+              path: "Hot",
+            },
           ],
         },
         // {

@@ -4,19 +4,19 @@
       <el-form :inline="true" :model="dataForm" ref="dataForm">
         <el-form-item prop="name" label="">
           <span>选择位置:</span>
-          <el-cascader
+          <!-- <el-cascader
             :popper-append-to-body="false"
             v-model="value"
             :options="options"
             :props="{ checkStrictly: true }"
             clearable
             @change="infoChange"
-          ></el-cascader>
+          ></el-cascader> -->
         </el-form-item>
         <el-form-item label="">
           <span>通讯:</span>
-          <el-select
-            v-model="dataForm.communication"
+          <!-- <el-select
+            v-model="noData"
             :popper-append-to-body="false"
             class="input"
             placeholder="通讯"
@@ -26,12 +26,12 @@
           >
             <el-option label="在线" value="1" />
             <el-option label="离线" value="0" />
-          </el-select>
+          </el-select> -->
         </el-form-item>
         <el-form-item label="">
           <span>故障:</span>
           <el-select
-            v-model="dataForm.malfunction"
+            v-model="hour2"
             :popper-append-to-body="false"
             class="input"
             placeholder="故障"
@@ -45,19 +45,19 @@
         </el-form-item>
 
         <el-form-item>
-          <el-button
+          <!-- <el-button
             size="medium"
             icon="el-icon-refresh-left"
             type="success"
             @click="reset()"
             >重置</el-button
-          >
+          > -->
           <el-button
             size="medium"
             icon="el-icon-refresh-left"
             type="success"
             @click="exportExcel111('单元箱数据')"
-            >导出报表1</el-button
+            >导出报表</el-button
           >
           <!-- <el-button
             size="medium"
@@ -72,9 +72,10 @@
 
     <div class="table">
       <el-table
+        v-loading="dataListLoading"
         fixed
         ref="report-table"
-        :data="myData"
+        :data="tableData"
         style="width: 100%"
         max-height="910"
         class="customer-table"
@@ -84,23 +85,20 @@
         @selection-change="handleSelectionChange"
         :row-class-name="tableRowClassName"
         :style="zebarCrossingStyle"
+        :row-key="getRowKey"
       >
-        <!-- 勾选框 -->
-        <el-table-column type="selection" width="35" :reserve-selection="true">
-          <!--带回调的展示  -->
-        </el-table-column>
         <el-table-column
           prop="sid"
           label="表号"
-          width="120"
+          width="130"
           fixed
           align="center"
         >
         </el-table-column>
         <el-table-column
-          prop="ConcentratorCode"
-          label="集中器号"
-          width="120"
+          prop="sn"
+          label="设备编号"
+          width="130"
           fixed="left"
           align="center"
         >
@@ -108,38 +106,70 @@
         <el-table-column
           prop="station"
           label="站点"
-          width="120"
+          width="150"
           fixed="left"
           align="center"
         >
         </el-table-column>
         <el-table-column
-          prop="Housing"
+          prop="community"
           label="小区"
-          width="120"
+          width="160"
           fixed="left"
           align="center"
         >
         </el-table-column>
         <el-table-column
-          prop="Tower"
+          prop="tower"
           label="楼"
-          width="120"
+          width="130"
           fixed="left"
           align="center"
         >
         </el-table-column>
         <el-table-column
-          prop="Unit"
+          prop="unit"
           label="单元"
+          width="130"
+          fixed="left"
+          align="center"
+        >
+        </el-table-column>
+        <el-table-column
+          prop="num"
+          label="室"
+          width="130"
+          fixed="left"
+          align="center"
+        >
+        </el-table-column>
+        <el-table-column
+          prop="householderName"
+          label="联系人"
+          width="130"
+          fixed="left"
+          align="center"
+        >
+        </el-table-column>
+        <el-table-column
+          prop="phone"
+          label="电话"
           width="120"
           fixed="left"
           align="center"
         >
         </el-table-column>
-
         <el-table-column
-          prop="timestamp"
+          prop="eventTime"
+          label="更新日期"
+          width="200"
+          fixed="left"
+          align="center"
+          :formatter="dateFormat"
+        >
+        </el-table-column>
+        <!-- <el-table-column
+          prop="eventTime"
           label="日期时间"
           width="160"
           fixed="left"
@@ -148,111 +178,19 @@
           <template slot-scope="scope">
             {{ scope.row.timestamp | getDate }}
           </template>
+        </el-table-column> -->
+        <el-table-column
+          prop="temp"
+          label="室温(℃)"
+          width="150"
+          fixed="left"
+          align="center"
+        >
         </el-table-column>
-        <el-table-column label="一次侧" align="center">
-          <el-table-column
-            prop="fv1sp"
-            label="1#阀门给定(%)"
-            width="120"
-            align="center"
-          >
-            <template slot-scope="scope">
-              <el-input
-                type="number"
-                size="mini"
-                max="100"
-                min="0"
-                v-model="scope.row.fv1sp"
-                onkeyup="this.value=this.value.replace(/[\u4E00-\u9FA5]/g,'') "
-                oninput="if(value>100)value=100;if(value<0)value=0"
-                @change="changeInput(scope.row)"
-              >
-              </el-input>
-            </template>
-          </el-table-column>
-          <el-table-column
-            prop="ft11"
-            label="1#阀门反馈(%)"
-            width="120"
-            align="center"
-          >
-          </el-table-column>
-          <el-table-column
-            prop="q1_sum"
-            label="供温(℃)"
-            width="100"
-            align="center"
-          >
-          </el-table-column>
-          <el-table-column
-            prop="pt11"
-            label="回温(℃)"
-            width="120"
-            align="center"
-          >
-          </el-table-column>
-          <el-table-column
-            prop="pt12"
-            label="供压(MPa)"
-            width="120"
-            align="center"
-          >
-          </el-table-column>
-          <el-table-column
-            prop="pt11_fv"
-            label="回压(MPa)"
-            width="120"
-            align="center"
-          >
-          </el-table-column>
-        </el-table-column>
-        <el-table-column label="二次侧" align="center">
-          <el-table-column
-            prop="ft11"
-            label="2#阀门给定(%)"
-            width="120"
-            align="center"
-          >
-          </el-table-column>
-          <el-table-column
-            prop="ft11"
-            label="2#阀门反馈(%)"
-            width="120"
-            align="center"
-          >
-          </el-table-column>
-          <el-table-column
-            prop="q1_sum"
-            label="供温(℃)"
-            width="100"
-            align="center"
-          >
-          </el-table-column>
-          <el-table-column
-            prop="pt11"
-            label="回温(℃)"
-            width="120"
-            align="center"
-          >
-          </el-table-column>
-          <el-table-column
-            prop="pt12"
-            label="供压(MPa)"
-            width="120"
-            align="center"
-          >
-          </el-table-column>
-          <el-table-column
-            prop="pt11_fv"
-            label="回压(MPa)"
-            width="120"
-            align="center"
-          >
-          </el-table-column>
-        </el-table-column>
+
         <el-table-column label="操作" width="250" fixed="right" align="center">
           <template slot-scope="scope">
-            <el-button type="success" size="mini" fixed="right">刷新</el-button>
+            <!-- <el-button type="success" size="mini" fixed="right">刷新</el-button> -->
             <el-button
               type="success"
               size="mini"
@@ -270,7 +208,7 @@
         :page-sizes="[10, 20, 50]"
         :page-size="pageSize"
         :total="totalCount"
-        layout="total, sizes, prev, pager, next, jumper"
+        layout="total, prev, pager, next"
       ></el-pagination>
     </div>
     <!-- <div v-show="tt === 5"></div> -->
@@ -282,12 +220,13 @@
 <script>
 import SysDlialog from "./SysDlialog"; ////
 //临时数据
-import { options } from "assets/js/common/doorSelect";
+//import { options } from "assets/js/common/doorSelect";
 import FileSaver from "file-saver";
 import XLSX from "xlsx";
 export default {
   data() {
     return {
+      dataListLoading: false,
       //斑马线颜色
       zebarCrossing: {
         crossingOne: "#0dc41a",
@@ -298,58 +237,38 @@ export default {
       },
       selectID: [],
       station: "",
-      housing: "",
+
+      community: "",
+      noData: null,
+      hour2: null,
+      TonoData: null,
+      Tohour2: null,
       pageIndex: 1,
-      pageSize: 10,
+      pageSize: 25,
       value: null,
       totalCount: 0,
-      title: "曲线查询",
+      title: "室温曲线查询",
       selectStationSid: null,
       rowData: {},
       infoArr: [],
       multipleSelection: [],
-      myData: [
-        { sid: 2, ConcentratorCode: "123", station: "站", fv1sp: 55 },
-        { sid: 2, ConcentratorCode: "123", station: "站", fv1sp: 55 },
-        { sid: 2, ConcentratorCode: "123", station: "站", fv1sp: 55 },
-        { sid: 2, ConcentratorCode: "123", station: "站", fv1sp: 55 },
-        { sid: 2, ConcentratorCode: "123", station: "站", fv1sp: 55 },
-        { sid: 2, ConcentratorCode: "123", station: "站", fv1sp: 55 },
-        { sid: 2, ConcentratorCode: "123", station: "站", fv1sp: 55 },
-        { sid: 2, ConcentratorCode: "123", station: "站", fv1sp: 55 },
-        { sid: 2, ConcentratorCode: "123", station: "站", fv1sp: 55 },
-        { sid: 2, ConcentratorCode: "123", station: "站", fv1sp: 55 },
-        { sid: 2, ConcentratorCode: "123", station: "站", fv1sp: 55 },
-        { sid: 2, ConcentratorCode: "123", station: "站", fv1sp: 55 },
-        { sid: 2, ConcentratorCode: "123", station: "站", fv1sp: 55 },
-        { sid: 2, ConcentratorCode: "123", station: "站", fv1sp: 55 },
-        { sid: 2, ConcentratorCode: "123", station: "站", fv1sp: 55 },
-        { sid: 2, ConcentratorCode: "123", station: "站", fv1sp: 55 },
-        { sid: 2, ConcentratorCode: "123", station: "站", fv1sp: 55 },
-        { sid: 2, ConcentratorCode: "123", station: "站", fv1sp: 55 },
-        { sid: 2, ConcentratorCode: "123", station: "站", fv1sp: 55 },
-        { sid: 2, ConcentratorCode: "123", station: "站", fv1sp: 55 },
-        { sid: 2, ConcentratorCode: "123", station: "站", fv1sp: 55 },
-        { sid: 2, ConcentratorCode: "123", station: "站", fv1sp: 55 },
-        { sid: 2, ConcentratorCode: "123", station: "站", fv1sp: 55 },
-        { sid: 2, ConcentratorCode: "123", station: "站", fv1sp: 55 },
-        { sid: 2, ConcentratorCode: "123", station: "站", fv1sp: 55 },
-        //  { sid: 2, ConcentratorCode: "123", station: "站", fv1sp: 55 },
-        //{ sid: 2, ConcentratorCode: "123", station: "站", fv1sp: 55 },
-      ],
+      myData: [],
+      tableData: [],
       info: "",
       dataForm: {
         malfunction: null, //故障
         communication: null, //通讯
       },
 
-      options: options,
-      // options: [],
+      // options: options,
+      options: [],
       datah: 850, ///数据报表的高度 动态改
     };
   },
   created() {
-    // this.askData();
+    this.askData();
+    this.asd();
+    this.requestIndoorData();
   },
   watch: {},
   computed: {
@@ -376,8 +295,51 @@ export default {
       };
     },
   },
-  mounted() {},
+  mounted() {
+    this.dd();
+  },
   methods: {
+    //时间日期格式
+    dateFormat(row, column, cellValue, index) {
+      const daterc = row[column.property];
+      if (daterc != null) {
+        var date = new Date(daterc);
+        var year = date.getFullYear();
+        /* 在日期格式中，月份是从0开始，11结束，因此要加0
+         * 使用三元表达式在小于10的前面加0，以达到格式统一  如 09:11:05
+         * */
+        var month =
+          date.getMonth() + 1 < 10
+            ? "0" + (date.getMonth() + 1)
+            : date.getMonth() + 1;
+        var day = date.getDate() < 10 ? "0" + date.getDate() : date.getDate();
+        var hours =
+          date.getHours() < 10 ? "0" + date.getHours() : date.getHours();
+        var minutes =
+          date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes();
+        var seconds =
+          date.getSeconds() < 10 ? "0" + date.getSeconds() : date.getSeconds();
+        // 拼接
+        return (
+          year +
+          "-" +
+          month +
+          "-" +
+          day +
+          " " +
+          hours +
+          ":" +
+          minutes +
+          ":" +
+          seconds
+        );
+      }
+    },
+
+    //解决[ElTable] prop row-key is required的错误
+    getRowKey(row) {
+      return row.id;
+    },
     tableRowClassName({ row, rowIndex }) {
       if (this.selectID.length == 0) {
         if ((rowIndex + 1) % 2 === 0) {
@@ -398,79 +360,108 @@ export default {
     },
     handleSelectionChange(val) {
       this.multipleSelection = val;
-      console.log("1111", this.multipleSelection);
-      //console.log("this.multipleSelection", this.multipleSelection);
     },
     infoChange(value) {
-      console.log(value, "------");
-      this.gg();
-      // this.selectionCondition.station = value[0];
-      // this.selectionCondition.housing = value[1];
-      // console.log("222", this.selectionCondition);
-      // this.$emit("EmitinfoChangeVal", this.selectionCondition);
+      this.station = value[0];
+      this.community = value[1];
+      this.requestIndoorData();
     },
-
+    asd() {},
     //获取信息的函数
     dd() {},
     async askData() {
-      this.options = await this.$http.get(
-        "unit/uvms/unitInfo/getStationsAndHousings"
-      );
+      this.$http
+        .get("/TEhistory/roomtemperature/houser/getAllCommunity")
+        .then((res) => {
+          // console.log("eeeee", res);
+          this.options = res.community;
+          // this.tableData = res.list;
+          // this.totalCount = res.total;
+          // console.log("ddd", this.tableData);
+          // this.dataListLoading = false;
+        })
+        .catch((err) => {
+          // console.log(err);
+          // this.dataListLoading = false;
+        });
     },
     sizeChangeHandle(val) {
       this.pageSize = val;
       //更改每页显示记录数量后，都从第一页开始查询
       this.pageIndex = 1;
-      this.gg();
+
+      this.requestIndoorData();
     },
     currentChangeHandle(val) {
       this.pageIndex = val;
-      this.gg();
+
+      this.requestIndoorData();
     },
     handleChange() {
-      this.gg();
+      this.requestIndoorData();
     },
     tongxun() {
-      this.gg();
+      this.requestIndoorData();
     },
-    gg() {
-      console.log("ddgg");
+
+    requestIndoorData() {
+      this.dataListLoading = true;
+      // if (this.noData === "1") {
+      //   this.TonoData = 1;
+      // }
+      // if (this.noData === "0") {
+      //   this.TonoData = null;
+      // }
+      // if (this.hour2 === "1") {
+      //   this.Tohour2 = 1;
+      // }
+      // if (this.hour2 === "0") {
+      //   this.Tohour2 = null;
+      // }
       let data = {
-        //sid: parseInt(this.selectStationSid),
-        station: this.value[0],
-        housing: this.value[1],
-        page: parseInt(this.pageIndex),
-        length: parseInt(this.pageSize),
+        page: this.pageIndex,
+        count: this.pageSize,
+        station: this.station,
+        community: this.community,
+        noData: this.TonoData,
+        hour2: this.Tohour2,
       };
-      console.log("报警历史查询", data);
-
-      // this.$http({
-      //   method: "post",
-      //   url: "unit/uvms/daidatas/searchAiDataByPage",
-      //   data: data,
-      // })
-      //   .then((res) => {
-      //     console.log("接受到的数据", res);
-      //     // this.showAlarmHistoryData = res.page.list;
-      //     // this.totalCount = res.page.totalCount;
-      //   })
-      //   .catch((erroe) => {
-      //     console.log("发送数据失败");
-      //   });
-
-      // console.log("收到报警值数组", this.alarmHistoryData);
+      console.log("条件", data);
+      this.$http
+        .get("/indoor/hbty/roomTeInfo/list", {
+          params: data,
+        })
+        .then((res) => {
+          this.tableData = res.list;
+          this.totalCount = res.total;
+          // console.log("ddd", this.tableData);
+          this.dataListLoading = false;
+        })
+        .catch((err) => {
+          console.log(err);
+          this.dataListLoading = false;
+        });
+      //结束
     },
     changeInput(v) {
       console.log("****", v);
     },
     reset() {
+      // this.station = null;
+      // this.community = null;
+      this.value = null;
+      this.requestIndoorData();
       // this.selectStationSid = null;
       // this.dataForm.malfunction = null;
       // this.dataForm.category = null;
       // this.dataForm.alarmConfirm = null;
     },
+    //历史查询按钮
     searchHistoryList(v) {
       this.$refs.dialog.dialogVisible = true;
+      this.$refs.dialog.start(); //子组件$on中的名字
+      // this.$refs.dialog.dialogVisible = true;
+      this.rowData = { ...v };
     },
     exportExcel111(excelName) {
       try {
@@ -592,12 +583,13 @@ export default {
     color: rgb(141, 138, 138);
     background-color: #14375c; //没有被选中的页码颜色
     background-color: transparent !important;
+    background-color: red;
     //background-color: transparent;
   }
   .el-pagination.is-background .el-pager li:not(.disabled).active {
     color: rgb(241, 158, 62);
     background-color: rgb(241, 158, 62); //选中页码的颜色
-    background-color: transparent !important;
+    //background-color: transparent !important;
     //background-color: transparent;
   }
   .el-pagination__total,
@@ -611,7 +603,22 @@ export default {
   }
   .btn-next {
     background-color: transparent !important;
-    // color: #fff;
+    color: #fff;
+  }
+  .el-pager li.btn-quicknext,
+  .el-pager li.btn-quickprev {
+    line-height: 28px;
+    color: #303133;
+    color: #fff;
+  }
+  .el-pager li {
+    padding: 0 4px;
+    background: transparent !important;
+    font-size: 13px;
+    min-width: 35.5px;
+    height: 28px;
+    line-height: 28px;
+    box-sizing: border-box;
   }
   .el-input__inner {
     background-color: transparent !important;
@@ -658,10 +665,11 @@ export default {
   //   color: #000;
   //   font-size: 18px;
   // }
+  //有fixed的时候用
   .el-table__body .el-table__row.hover-row td {
     background-color: #66b1ff;
     color: #000;
-    font-size: 18px;
+    font-size: 13px;
   }
   /*最外层透明   表格透明*/
   .el-table,

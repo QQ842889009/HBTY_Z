@@ -95,6 +95,7 @@ export default {
   created() {
     this.getDate();
     this.Fungetdate();
+    // this.Toinquirebutton(this.value2);
   },
   computed: {
     timeDefault() {
@@ -172,7 +173,7 @@ export default {
       return y + "-" + m + "-" + d + " " + myhh + ":" + mymm + ":" + myss;
     },
     Toinquirebutton(v) {
-      console.log("ttttt888", v);
+      console.log("时间选择的组件", v);
       this.$emit("EmitDateTimePicker", v);
     },
   },

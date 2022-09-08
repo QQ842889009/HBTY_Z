@@ -34,22 +34,42 @@ module.exports = {
       "/plcdata": {
         //
         target: "http://221.206.242.116:9000",
-        //target: "http://10.168.1.176:9000",
+        //target: "http://10.168.1.176:9002",
         changeOrigin: true,
         ws: true,
         pathRewrite: {
           "^/plcdata": ""
         }
       },
-      "/unit": {
+      "/indoor": {
         //
-        target: "http://10.168.1.176:9001",
-        changeOrigin: true,
+        target: "http://221.206.242.116:2060",
         ws: true,
+        changeOrigin: true,
+
         pathRewrite: {
-          "^/unit": ""
+          "^/indoor": ""
+        }
+      },
+      "/TEhistory": {
+        //
+        target: "http://221.206.242.116:9002", //室内温度的历史曲线
+        // ws: true,
+        changeOrigin: true,
+
+        pathRewrite: {
+          "^/TEhistory": ""
         }
       }
+      // "/unit": {
+      //   //
+      //   target: "http://10.168.1.176:9001",
+      //   changeOrigin: true,
+      //   ws: true,
+      //   pathRewrite: {
+      //     "^/unit": ""
+      //   }
+      // }
     }
   },
   lintOnSave: false,

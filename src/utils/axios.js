@@ -44,7 +44,10 @@ service.interceptors.request.use(
         customClass: "request-loading"
       })
       if (config.method == "post") {
-        config.headers["Content-Type"] = "application/json"
+        console.log("wo shi  post")
+        // application/x-www-form-urlencoded
+        config.headers["Content-Type"] = "application/json;charset=utf-8"
+        // 删除空的数据
         for (var key in config.data) {
           if (config.data[key] === "") {
             delete config.data[key]
@@ -52,8 +55,11 @@ service.interceptors.request.use(
         }
         // 用json.stringify效果一样
         // config.data = JSON.stringify(config.data)
+      } else if (config.method == "get") {
+        console.log("我是get请求")
+        config.headers["Content-Type"] = "application/json;charset=utf-8"
       } else {
-        config.headers["Content-Type"] = "application/json"
+        config.headers["Content-Type"] = "application/json;charset=utf-8"
         // config.params
       }
     }

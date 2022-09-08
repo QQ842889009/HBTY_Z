@@ -143,7 +143,8 @@ export default {
       rotate: true,
       ruleForm: {
         username: "admin",
-        password: "abc123456",
+        password: "abc12345",
+        //  password: "abc123456",
       },
       rules: {
         account: [

@@ -61,7 +61,7 @@
             />
           </el-select>
         </el-form-item>
-        <el-form-item>
+        <!-- <el-form-item>
           <el-select
             v-model="dataForm.status"
             class="input"
@@ -72,7 +72,7 @@
             <el-option label="在职" value="1" />
             <el-option label="离职" value="2" />
           </el-select>
-        </el-form-item>
+        </el-form-item> -->
         <el-form-item>
           <el-button size="medium" type="primary" @click="searchHandle()"
             >查询</el-button
@@ -85,14 +85,14 @@
           >
             新增
           </el-button>
-          <el-button
+          <!-- <el-button
             size="medium"
             type="danger"
             :disabled="!this.ISAUTH.isAUth(['ROOT'])"
             @click="deleteHandle()"
           >
             批量删除
-          </el-button>
+          </el-button> -->
         </el-form-item>
       </el-form>
 
@@ -129,6 +129,13 @@
           align="center"
           min-width="100"
           label="姓名"
+        />
+        <el-table-column
+          prop="username"
+          header-align="center"
+          align="center"
+          min-width="100"
+          label="账号"
         />
         <el-table-column
           prop="sex"
@@ -174,13 +181,13 @@
           min-width="120"
           label="部门"
         />
-        <el-table-column
+        <!-- <el-table-column
           prop="status"
           header-align="center"
           align="center"
           min-width="100"
           label="状态"
-        />
+        /> -->
         <el-table-column
           header-align="center"
           align="center"
@@ -435,30 +442,6 @@ export default {
                   });
                 }
               });
-
-            ////------////
-            // that.$http(
-            //   "user/deleteUserByIds",
-            //   "POST",
-            //   { ids: ids },
-            //   true,
-            //   function (resp) {
-            //     if (resp.rows > 0) {
-            //       that.$message({
-            //         message: "操作成功",
-            //         type: "success",
-            //         duration: 1200,
-            //       });
-            //       that.loadDataList();
-            //     } else {
-            //       that.$message({
-            //         message: "未能删除记录",
-            //         type: "warning",
-            //         duration: 1200,
-            //       });
-            //     }
-            //   }
-            // );
           });
       }
     },

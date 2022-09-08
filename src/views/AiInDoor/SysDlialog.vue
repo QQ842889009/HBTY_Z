@@ -1,7 +1,3 @@
-
-
-
-
 <template>
   <div class="dialog-consumer">
     <el-dialog
@@ -12,57 +8,41 @@
       :height="height + 'px'"
       :before-close="handleClose"
     >
-      <!--   -->
-      <el-radio-group v-model="labelPosition" size="small">
-        <el-radio-button label="left">左对齐</el-radio-button>
-        <el-radio-button label="right">右对齐</el-radio-button>
-        <el-radio-button label="top">顶部对齐</el-radio-button>
-      </el-radio-group>
-      <div style="margin: 20px"></div>
-      <el-form
-        :label-position="labelPosition"
-        label-width="80px"
-        :model="ruleForm"
-        ref="ruleForm"
-        :rules="rules"
-      >
-        <el-form-item label="表号" prop="sid">
-          <el-input v-model="ruleForm.sid"></el-input>
-        </el-form-item>
-        <el-form-item label="换热站" prop="station">
-          <el-select v-model="ruleForm.station">
-            <el-option label="1#站" value="1#站"></el-option>
-            <el-option label="2#站" value="2#站"></el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item label="小区" prop="community">
-          <el-input v-model="ruleForm.community"></el-input>
-        </el-form-item>
-        <el-form-item label="楼">
-          <el-input v-model="ruleForm.tower"></el-input>
-        </el-form-item>
-        <el-form-item label="单元">
-          <el-input v-model="ruleForm.unit"></el-input>
-        </el-form-item>
-        <el-form-item label="室" prop="num">
-          <el-input v-model="ruleForm.num"></el-input>
-        </el-form-item>
-      </el-form>
-      <span slot="footer" class="dialog-footer" v-if="isbtn === 5">
-        <el-button @click="clearForm(ruleForm)">取 消</el-button>
-        <el-button type="primary" @click="submitForm('ruleForm')"
-          >确 定</el-button
-        >
-      </span>
+      <div class="a">
+        <div class="t">
+          <span>换热站：{{ obj01.station }}</span>
+          <span>小区:{{ obj01.community }}</span>
+          <span>楼：{{ obj01.tower }}</span>
+          <span>单元：{{ obj01.unit }}</span>
+          <span>室：{{ obj01.num }}</span>
+          <span>联系人：{{ obj01.householder_name }}</span>
+        </div>
+        <div class="shijian">
+          <DateTimePicker
+            class="picker"
+            @EmitDateTimePicker="receiveDateTimePicker"
+          ></DateTimePicker>
+        </div>
+        <div class="quxian">
+          <EchartLine :getData="indoorque" />
+        </div>
+      </div>
     </el-dialog>
   </div>
 </template>
 
 <script>
-import { Message } from "element-ui";
+import qs from "qs";
+import axios from "axios";
+import EchartLine from "../Visual/components/EchartLine.vue";
+import DateTimePicker from "components/common/DateTimePicker";
 export default {
+  components: {
+    DateTimePicker,
+    EchartLine,
+  },
   name: "ArticleList",
-  components: {},
+
   props: {
     title: {
       type: String,
@@ -74,114 +54,178 @@ export default {
         return {};
       },
     },
+    tableData: {
+      type: Array,
+      default: () => {
+        return [];
+      },
+    },
     width: {
       type: Number,
-      default: 600,
+      default: 1500,
     },
     height: {
       type: Number,
-      default: 250,
+      default: 850,
     },
   },
   data() {
     return {
+      //显示信息用到的
+      obj01: {},
       labelPosition: "right",
-      ruleForm: {
-        sid: "",
-        station: "",
-        community: "",
-        tower: "",
-        unit: "",
-        num: "",
-      },
-      rules: {
-        sid: [{ required: true, message: "请输入表号", trigger: "blur" }],
-
-        community: [
-          { required: true, message: "请输入小区名称", trigger: "blur" },
-        ],
-        station: [
-          { required: true, message: "请选择换热站", trigger: "change" },
-        ],
-        num: [{ required: true, message: "请选择门牌号", trigger: "change" }],
-      },
+      sn: null,
+      startTime: null,
+      endTime: null,
+      value2: [],
       dialogVisible: false,
-      isbtn: 0,
-      //ff: { a: "1", b: "12", c: "4441" },
+      indoorque: [
+        {
+          event_time: "2022-06-23",
+          temp: "24",
+        },
+        {
+          event_time: "2022-06-24",
+          temp: "10",
+        },
+      ],
     };
   },
-  created() {},
-  mounted() {},
+  created() {
+    // this.getDate();
+    // console.log("fffffff");
+    // this.receiveDateTimePicker(v);
+  },
+  mounted() {
+    // this.start();
+  },
   watch: {
-    rowData(val) {
-      //监听传递
-      this.ruleForm.sid = val.Sid;
-      this.ruleForm.station = val.Station;
-      this.ruleForm.community = val.Community;
-      this.ruleForm.tower = val.Tower;
-      this.ruleForm.unit = val.Unit;
-      this.ruleForm.num = val.Num;
+    //这个是要监听的数据
+    rowData: {
+      //这个是固定写法
+      handler() {
+        //watch的一个方法
+        this.start22(); //要执行的方法
+      },
+      // immediate: true, //初始监听
+      deep: true, //深度监听
     },
   },
   methods: {
-    qq(v) {
-      console.log("------------", v);
+    start() {
+      // this.getDate();
+      // this.getDate();
+      // // this.sn = this.rowData.sn;
+      // // console.log("kaishi----------", this.rowData.sn);
+      // this.receiveDateTimePicker(this.value2);
+      // this.gg();
     },
-    clearForm() {
-      this.dialogVisible = false;
-      this.isbtn = 0;
-      this.ruleForm = {
-        sid: "",
-        station: "",
-        Community: "",
-        tower: "",
-        unit: "",
-        num: "",
-      };
+    start22() {
+      // this.getDate();
+      this.getDate();
+      this.sn = this.rowData.sn;
+      // this.sn = this.rowData.sn;
+      // console.log("kaishi----------", this.rowData.sn);
+      this.receiveDateTimePicker(this.value2);
+      // this.gg();
+    },
+    Fungetdate(num) {
+      var dd = new Date();
+      dd.setDate(dd.getDate() + num);
+      var y = dd.getFullYear();
+      var m = dd.getMonth() + 1; //获取当前月份的日期
+      var d = dd.getDate();
+
+      let myhh =
+        new Date().getHours() < 10
+          ? "0" + new Date().getHours()
+          : new Date().getHours();
+      let mymm =
+        new Date().getMinutes() < 10
+          ? "0" + new Date().getMinutes()
+          : new Date().getMinutes();
+      // if(mymm>1){
+      // mymm = mymm-1;
+      // }
+
+      let myss =
+        new Date().getSeconds() < 10
+          ? "0" + new Date().getSeconds()
+          : new Date().getSeconds();
+      return y + "-" + m + "-" + d + " " + myhh + ":" + mymm + ":" + myss;
+    },
+    getDate() {
+      this.value2 = [];
+      this.startTime = this.Fungetdate(-1);
+      this.endTime = this.Fungetdate(0);
+      this.value2.push(this.startTime, this.endTime);
+      console.log("this.value2", this.value2);
+      // let startTo = Date.parse(new Date(start).toString());
+      // let endTo = Date.parse(new Date(end).toString());
     },
 
-    submitForm(formName) {
-      this.$refs[formName].validate((valid) => {
-        if (valid) {
-          if (this.title === "修改设备参数") {
-            Message({
-              message: "我是修改设备参数的提示",
-              type: "success",
-            });
-          }
-          if (this.title === "删除设备") {
-            Message({
-              message: "我是删除设备参数的提示",
-              type: "error",
-            });
-          }
-          if (this.title === "增加设备") {
-            Message({
-              message: "我是增加设备参数的提示",
-              type: "success",
-            });
-          }
-          // Message({
-          //   message: "提交成功",
-          //   type: "success",
-          // });
-        } else {
-          console.log("error submit!!");
-          return false;
-        }
-      });
-    },
     handleClose(done) {
       this.dialogVisible = false;
-      this.isbtn = 0;
-      this.ruleForm = {
-        sid: "",
-        station: "",
-        Community: "",
-        tower: "",
-        unit: "",
-        num: "",
+      this.obj01 = {};
+      this.indoorque = [
+        {
+          event_time: "2022-06-23",
+          temp: "24",
+        },
+        {
+          event_time: "2022-06-24",
+          temp: "10",
+        },
+      ];
+    },
+    receiveDateTimePicker(v) {
+      this.startTime = v[0];
+      this.endTime = v[1];
+      this.sn = this.rowData.sn;
+      this.gg();
+      if (v.length > 0) {
+        // let a = v[0];
+        // let b = v[1];
+        // this.startingTime = Date.parse(new Date(a).toString());
+        // this.endTime = Date.parse(new Date(b).toString());
+        // console.log("1221", this.startingTime, this.endTime);
+        // let data = {
+        //   sn: this.sn,
+        //   startTime: a,
+        //   endTime: b,
+        // };
+        // this.$http
+        //   .post(
+        //     "TEhistory/roomtemperature/houser/searchDatasAndHouserholderInfoForSnAndTimeScope",
+        //     data
+        //   )
+        //   .then((res) => {
+        //     console.log("室内温度历史曲线", res);
+        //     this.obj01 = res.houser;
+        //     this.indoorque = res.datas;
+        //     console.log("this.obj01", this.obj01);
+        //   });
+      }
+    },
+    gg() {
+      console.log("gggg");
+      let data = {
+        sn: this.sn,
+        startTime: this.startTime,
+        endTime: this.endTime,
       };
+      console.log("gggg", data);
+      this.$http
+        .post(
+          "TEhistory/roomtemperature/houser/searchDatasAndHouserholderInfoForSnAndTimeScope",
+          data
+        )
+        .then((res) => {
+          console.log("室内温度历史曲线", res);
+          this.obj01 = res.houser;
+          this.indoorque = res.datas;
+          console.log("this.obj01", this.obj01);
+        });
     },
   },
 };
@@ -247,6 +291,33 @@ export default {
         width: 100%;
       }
     }
+  }
+}
+.a {
+  height: 450px;
+  position: relative;
+  .shijian {
+    position: absolute;
+    left: 1080px;
+  }
+  .t {
+    width: 850px;
+    height: 40px;
+    // background-color: red;
+    position: absolute;
+    font-size: 15px;
+    top: 10px;
+    span {
+      padding: 20px 10px;
+    }
+  }
+  .quxian {
+    height: 400px;
+    width: 1480px;
+    background-color: #fff;
+    box-shadow: 10px 10px 25px #888888;
+    position: absolute;
+    top: 50px;
   }
 }
 </style>

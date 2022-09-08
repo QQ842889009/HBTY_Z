@@ -32,7 +32,7 @@ export default {
       choiceIndex: 0,
       btnsList: [
         {
-          name: "默认",
+          name: "时间",
         },
         {
           name: "温度",
@@ -205,15 +205,15 @@ export default {
             silent: true,
             data: [
               {
-                yAxis: 16,
+                yAxis: 20,
                 name: "Avg",
                 label: {
-                  formatter: "达标（22℃）",
+                  formatter: "达标（20℃）",
                 },
               },
             ],
           },
-          encode: { x: "created_time", y: "return_water_te" },
+          encode: { x: "event_time", y: "temp" },
         },
       };
       this.$nextTick(() => {
@@ -284,7 +284,7 @@ export default {
     // align-items: center;
     //justify-content:flex-end;
     position: relative;
-    right: 265px;
+    right: 100px;
     // background-color: rgb(96, 235, 53);
   }
 
@@ -294,7 +294,7 @@ export default {
     // height: 40px;
     // font-size: 18px;
     // align-items: center;
-    padding-left: 5%;
+    padding-left: 3%;
     color: rgb(22, 141, 238);
     white-space: nowrap;
     text-decoration: none;

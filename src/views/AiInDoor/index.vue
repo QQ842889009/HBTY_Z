@@ -1,543 +1,792 @@
 <template>
-  <div class="indoor-consumer">
-    <div class="heat-consumer-report">
-      <el-tabs type="border-card" v-model="activeName" @tab-click="handleClick">
-        <el-tab-pane label="室内温度" name="first">
-          <!-- 数据筛选标题 -->
-          <div class="el-card-title"><span>数据筛选</span></div>
-          <!-- <Form></Form> -->
-          <!-- 4哥筛选框 -->
-          <div class="filter-row">
-            <div class="filter-item">
-              <div class="el-select">
-                <SelectSearch
-                  :stationInfo="stationInfo"
-                  @EmitSelectValue="receiveSelectValue"
-                ></SelectSearch>
-              </div>
-            </div>
-          </div>
-
-          <!-- 配置数据开始 -->
-          <!-- <div class="el-card-title"><span>数据配置</span></div> -->
-          <!-- <div class="filter-row">
-            <Collocate @EmitTableConfig="receiveTableConfig"></Collocate>
-          </div> -->
-          <!-- 配置数据结束 -->
-          <!-- 数据展示标题和搜索框的展示 -->
-          <div class="el-card-title-f">
-            <div class="el-card-title-f-title"><span>数据展示</span></div>
-
-            <div class="el-card-title-f-btn">
-              <el-button
-                type="primary"
-                icon="el-icon-refresh"
-                size="mini"
-                @click="requestData"
-                >请求数据</el-button
-              >
-
-              <el-button
-                size="mini"
-                type="success"
-                icon="el-icon-circle-plus"
-                @click="createData"
-                >增加设备</el-button
-              >
-            </div>
-
-            <div class="el-card-title-f-select">
-              <InputSearch
-                :wide="wide"
-                :data="transuFindData"
-                @change="change"
-                :findName="findName"
-                :placeholder="placeholder"
-                :prefixIcon="prefixIcon"
-                :size="size"
-                :clearable="clearable"
-              ></InputSearch>
-            </div>
-          </div>
-          <Tab
-            :config="table_config"
-            :tableData="tableData"
-            :pagination="pagination"
-            @handleSizeChange="handleSizeChange"
-            @handleCurrentChange="handleCurrentChange"
+  <div class="unit-container">
+    <div class="condition-box">
+      <el-form :inline="true" :model="dataForm" ref="dataForm">
+        <el-form-item prop="name" label="">
+          <span>选择位置:</span>
+          <el-cascader
+            :popper-append-to-body="false"
+            v-model="value"
+            :options="options"
+            :props="{ checkStrictly: true }"
+            clearable
+            @change="infoChange"
+          ></el-cascader>
+        </el-form-item>
+        <el-form-item label="">
+          <span>通讯:</span>
+          <el-select
+            v-model="noData"
+            :popper-append-to-body="false"
+            class="input"
+            placeholder="通讯"
+            size="medium"
+            clearable
+            @change="tongxun"
           >
-            <template v-slot:TE="slotData">
-              <span :style="myStyle(slotData.data.TE)">{{
-                slotData.data.TE
-              }}</span>
-            </template>
+            <el-option label="在线" value="1" />
+            <el-option label="离线" value="0" />
+          </el-select>
+        </el-form-item>
+        <el-form-item label="">
+          <span>故障:</span>
+          <el-select
+            v-model="hour2"
+            :popper-append-to-body="false"
+            class="input"
+            placeholder="故障"
+            size="medium"
+            clearable
+            @change="tongxun"
+          >
+            <el-option label="故障" value="1" />
+            <el-option label="正常" value="0" />
+          </el-select>
+        </el-form-item>
 
-            <template v-slot:operation="slotData">
-              <el-button
-                type="primary"
-                size="small"
-                @click="historyInquire(slotData.data)"
-                plain
-                >查询</el-button
-              >
-
-              <!-- <el-button type="success" size="small" plain>增加</el-button> -->
-              <el-button
-                type="danger"
-                size="small"
-                @click="deleteData(slotData.data)"
-                plain
-                >删除</el-button
-              >
-              <el-button
-                type="warning"
-                size="small"
-                @click="updateData(slotData.data)"
-                plain
-                >修改</el-button
-              >
-              <el-button
-                type="info"
-                size="small"
-                @click="readData(slotData.data)"
-                plain
-                >查看</el-button
-              >
-              <!-- <el-button type="nm" size="small" @click="requestData()" plain
-                >请求</el-button
-              > -->
-            </template>
-          </Tab>
-          <div>
-            <SysDlialog ref="dialog" :title="title" :rowData="rowData">
-            </SysDlialog>
-          </div>
-          <!-- <el-card shadow="always" class="box-card">
-            <div class="el-card-title-history">
-              <div class="el-card-title-history item">{{ name }}</div>
-              <div class="el-card-title-history item">
-                <DateTimePicker
-                  class="picker"
-                  @EmitDateTimePicker="receiveDateTimePicker"
-                ></DateTimePicker>
-              </div>
-            </div>
-            <div class="ff">
-              <EchartLine :getData="indoorque" :title_name="echartTieleName" />
-            </div>
-          </el-card> -->
-        </el-tab-pane>
-        <!-- <el-tab-pane label="" name="second">配置管理</el-tab-pane>
-        <el-tab-pane label="" name="third">角色管理</el-tab-pane>
-        <el-tab-pane label="" name="fourth">定时任务补偿</el-tab-pane> -->
-      </el-tabs>
+        <el-form-item>
+          <!-- <el-button
+            size="medium"
+            icon="el-icon-refresh-left"
+            type="success"
+            @click="reset()"
+            >重置</el-button
+          > -->
+          <el-button
+            size="medium"
+            icon="el-icon-refresh-left"
+            type="success"
+            @click="exportExcel111('单元箱数据')"
+            >导出报表</el-button
+          >
+          <!-- <el-button
+            size="medium"
+            icon="el-icon-refresh-left"
+            type="success"
+            @click="exportExcel222('单元箱数据')"
+            >导出报表2</el-button
+          > -->
+        </el-form-item>
+      </el-form>
     </div>
 
-    <!-- <p>ffff{{ table_config.thead }}</p> ]]-->
+    <div class="table">
+      <el-table
+        v-loading="dataListLoading"
+        fixed
+        ref="report-table"
+        :data="tableData"
+        style="width: 100%"
+        max-height="910"
+        class="customer-table"
+        :cell-style="{ padding: '1.8px 0' }"
+        :header-cell-style="headerStyle"
+        id="el-table"
+        @selection-change="handleSelectionChange"
+        :row-class-name="tableRowClassName"
+        :style="zebarCrossingStyle"
+        :row-key="getRowKey"
+      >
+        <el-table-column
+          prop="sid"
+          label="表号"
+          width="130"
+          fixed
+          align="center"
+        >
+        </el-table-column>
+        <el-table-column
+          prop="sn"
+          label="设备编号"
+          width="130"
+          fixed="left"
+          align="center"
+        >
+        </el-table-column>
+        <el-table-column
+          prop="station"
+          label="站点"
+          width="150"
+          fixed="left"
+          align="center"
+        >
+        </el-table-column>
+        <el-table-column
+          prop="community"
+          label="小区"
+          width="160"
+          fixed="left"
+          align="center"
+        >
+        </el-table-column>
+        <el-table-column
+          prop="tower"
+          label="楼"
+          width="130"
+          fixed="left"
+          align="center"
+        >
+        </el-table-column>
+        <el-table-column
+          prop="unit"
+          label="单元"
+          width="130"
+          fixed="left"
+          align="center"
+        >
+        </el-table-column>
+        <el-table-column
+          prop="num"
+          label="室"
+          width="130"
+          fixed="left"
+          align="center"
+        >
+        </el-table-column>
+        <el-table-column
+          prop="householderName"
+          label="联系人"
+          width="130"
+          fixed="left"
+          align="center"
+        >
+        </el-table-column>
+        <el-table-column
+          prop="phone"
+          label="电话"
+          width="120"
+          fixed="left"
+          align="center"
+        >
+        </el-table-column>
+        <el-table-column
+          prop="eventTime"
+          label="更新日期"
+          width="200"
+          fixed="left"
+          align="center"
+          :formatter="dateFormat"
+        >
+        </el-table-column>
+
+        <el-table-column
+          prop="temp"
+          label="室温(℃)"
+          width="150"
+          fixed="left"
+          align="center"
+        >
+        </el-table-column>
+
+        <el-table-column label="操作" width="250" fixed="right" align="center">
+          <template slot-scope="scope">
+            <el-button
+              type="success"
+              size="mini"
+              @click="searchHistoryList(scope.row)"
+              fixed="right"
+              >历史查询</el-button
+            >
+          </template>
+        </el-table-column>
+      </el-table>
+
+      <el-pagination
+        @size-change="sizeChangeHandle"
+        @current-change="currentChangeHandle"
+        :current-page="pageIndex"
+        :page-sizes="[10, 20, 50]"
+        :page-size="pageSize"
+        :total="totalCount"
+        layout="total, prev, pager, next"
+      ></el-pagination>
+    </div>
+    <!-- <div v-show="tt === 5"></div> -->
+    <div>
+      <SysDlialog ref="dialog" :title="title" :rowData="rowData"> </SysDlialog>
+    </div>
   </div>
 </template>
 <script>
-import { Message } from "element-ui";
-// import Form from "views/AiDoor/index.vue"
-// import FromDialog from "./FromDialog"; //配置显示和隐藏的
-import Collocate from "./Collocate"; //配置显示和隐藏的
-import SelectSearch from "./SelectSearch"; //配置显示和隐藏的
-import Tab from "components/common/Tab"; //table表格公共模板
-import InputSearch from "components/common/InputSearch"; //输入关键词查找模板
-import DateTimePicker from "components/common/DateTimePicker"; //选择日期时间的模板//
-// import SysDlialog22 from "./SysDlialog22" ////
 import SysDlialog from "./SysDlialog"; ////
-import EchartLine from "../Visual/components/EchartLine.vue";
-
-import {
-  DoorRequestSingle,
-  inDoorRequestAll_node,
-  teHistory,
-} from "@/utils/common";
-import { ruleForm } from "@/utils/indoor";
-const { tableHeader } = require("./TableConfig");
-
-import { Input } from "element-ui";
-
+//临时数据
+//import { options } from "assets/js/common/doorSelect";
+import FileSaver from "file-saver";
+import XLSX from "xlsx";
 export default {
   data() {
     return {
-      //修改开始
-      // ruleForm: ruleForm,
-      // BV: true,
-      //结束时间
-      zzz: {
-        sta: null,
-        db: null,
+      dataListLoading: false,
+      //斑马线颜色
+      zebarCrossing: {
+        crossingOne: "#0dc41a",
+        crossingTwo: "#155f14",
+        //crossingTwo: "#224394",
+        colorOne: "#fff",
+        colorTwo: "#fff",
       },
+      selectID: [],
+      station: "",
 
-      name: null,
-      Height: "100px",
-      Width: "18500px",
-      inDooHistory: [], //接收室内温度的历史数据
-      startAndEndDateAndTime: [], //其实日期时间和结束日期时间
-      starttime: null, //开始日期时间
-      endtime: null, //结束日期时间
-      kong: [],
-      activeName: "first",
-      disabled: {
-        is: "qwer", //设置点击后的禁用
-      },
-
-      wide: "220px", //宽度
-      findName: {
-        findName1: "Station", //要搜索的关键词
-        findName2: "Community", //要搜索的关键词
-      },
-
-      placeholder: "站点/小区", //提示
-      prefixIcon: "el-icon-search", //前面的图标
-      size: "small", //大小
-      clearable: true, //是否带清除
-      //表格配置
-      table_config: {
-        thead: tableHeader,
-
-        checkbox: false, //复选框默认有
-        Load: true, //加载现在没用
-        //传递斑马线和文字的颜色
-        zebarCrossing: {
-          crossingOne: "#ffffff",
-          crossingTwo: "#f5f7fd",
-          colorOne: "#000",
-          colorTwo: "#000",
-        },
-      },
-      //斑马线的参数
-
-      //表格数据
-      tableData: [],
-      transuFindData: [],
-      //分页的设置
-      pagination: {
-        current: 1,
-        size: 19,
-        total: 0,
-      },
-      //弹框的开始
-      dialogVisible: false,
-      title: "添加商品",
+      community: "",
+      noData: null,
+      hour2: null,
+      TonoData: null,
+      Tohour2: null,
+      pageIndex: 1,
+      pageSize: 25,
+      value: null,
+      totalCount: 0,
+      title: "室温曲线查询",
+      selectStationSid: null,
       rowData: {},
-      //弹框的结束
+      infoArr: [],
+      multipleSelection: [],
+      myData: [],
+      tableData: [],
+      info: "",
+      dataForm: {
+        malfunction: null, //故障
+        communication: null, //通讯
+      },
 
-      indoorque: [
-        {
-          event_time: "2022-06-23",
-          temp: "24",
-        },
-        {
-          event_time: "2022-06-24",
-          temp: "10",
-        },
-      ],
-      echartTieleName: "",
+      // options: options,
+      options: [],
+      datah: 850, ///数据报表的高度 动态改
     };
   },
   created() {
-    // inDoorRequestAll();
-    this.tableData = this.$store.getters.get_inDoorDataAndInfo; //表格数据
-    // console.log("eeeeee", this.tableData)
-    this.pagination.total = this.tableData.length; //数据的长度给分页总数用
-
-    this.transuFindData = this.$store.getters.get_inDoorDataAndInfo;
-    // console.log("sssss", this.transuFindData)
-
-    // console.log('-------store',this.$store.getters.get_inDoorDataAndInfo.slice(0,100));
+    this.askData();
+    this.asd();
+    this.requestIndoorData();
   },
   watch: {},
   computed: {
-    //接收室内温度的数据
-    // indoorque() {
-    //   return this.$store.getters.get_inDoorDataQue;
-    // },
-    stationInfo() {
-      return this.$store.getters.xx;
+    headerStyle() {
+      return {
+        background: "#0dc41a",
+        padding: "5px 0",
+        height: "30px",
+        borderColor: "#006CC1",
+        textAlign: "center",
+        // color: "#FEFEFE",
+        fontSize: "14px",
+        color: "#fff",
+        borderColor: "black",
+      };
+    },
+    // 斑马线的颜色
+    zebarCrossingStyle() {
+      return {
+        "--crossingOne": this.zebarCrossing.crossingOne,
+        "--crossingTwo": this.zebarCrossing.crossingTwo,
+        "--colorOne": this.zebarCrossing.colorOne,
+        "--colorTwo": this.zebarCrossing.colorTwo,
+      };
     },
   },
-  mounted() {},
+  mounted() {
+    this.dd();
+  },
   methods: {
-    //历史查询
-    historyInquire(v) {
-      console.log("室内温度历史查询", v);
-      teHistory(v.Sn, this.starttime, this.endtime);
-      this.indoorque.splice(0, this.indoorque.length);
-      this.indoorque = this.$store.getters.get_inDoorDataQue;
-      console.log("+++++++++++++++indoorque", this.indoorque);
-      this.echartTieleName = v.HouseholderName;
-    },
-    requestData(v) {
-      console.log("请求数据");
-      inDoorRequestAll_node();
-      Message({
-        message: "请求数据指令已发送",
-        type: "success",
-      });
-    },
-    createData() {
-      //console.log("增加", v);
-      console.log("fff");
-      this.title = "增加设备";
-
-      this.$refs.dialog.dialogVisible = true;
-      this.$refs.dialog.isbtn = 5;
-    },
-    deleteData(v) {
-      console.log("删除", v);
-      this.title = "删除设备";
-      this.rowData = { ...v };
-      this.$refs.dialog.isbtn = 5;
-
-      this.$refs.dialog.dialogVisible = true;
-    },
-    updateData(v) {
-      console.log("修改", v); //
-      this.title = "修改设备参数";
-      this.rowData = { ...v };
-
-      this.$refs.dialog.dialogVisible = true;
-      this.$refs.dialog.isbtn = 5;
-    },
-    readData(v) {
-      console.log("查看", v);
-      this.title = "查看设备参数";
-      this.$refs.dialog.dialogVisible = true;
-      this.$refs.dialog.isbtn = 0;
-      this.rowData = { ...v };
-    },
-    myStyle(value) {
-      if (value > 18 && value <= 22) {
-        return { color: "#14e90d", fontWeight: "900" };
-      } else if (value > 23 && value < 30) {
-        return { color: "red", fontWeight: "900" };
-      } else if (value < 18) {
-        return { color: "#8d8787" };
+    //时间日期格式
+    dateFormat(row, column, cellValue, index) {
+      const daterc = row[column.property];
+      if (daterc != null) {
+        var date = new Date(daterc);
+        var year = date.getFullYear();
+        /* 在日期格式中，月份是从0开始，11结束，因此要加0
+         * 使用三元表达式在小于10的前面加0，以达到格式统一  如 09:11:05
+         * */
+        var month =
+          date.getMonth() + 1 < 10
+            ? "0" + (date.getMonth() + 1)
+            : date.getMonth() + 1;
+        var day = date.getDate() < 10 ? "0" + date.getDate() : date.getDate();
+        var hours =
+          date.getHours() < 10 ? "0" + date.getHours() : date.getHours();
+        var minutes =
+          date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes();
+        var seconds =
+          date.getSeconds() < 10 ? "0" + date.getSeconds() : date.getSeconds();
+        // 拼接
+        return (
+          year +
+          "-" +
+          month +
+          "-" +
+          day +
+          " " +
+          hours +
+          ":" +
+          minutes +
+          ":" +
+          seconds
+        );
       }
     },
 
-    //通讯localStorage//sessionStorage
-    changeValueT(v) {
-      console.log("通讯");
-      console.log(v);
+    //解决[ElTable] prop row-key is required的错误
+    getRowKey(row) {
+      return row.sid;
+    },
+    tableRowClassName({ row, rowIndex }) {
+      if (this.selectID.length == 0) {
+        if ((rowIndex + 1) % 2 === 0) {
+          return "crossingOne"; //类名
+        } else {
+          return "crossingTwo"; //类名
+        }
+      }
+
+      // if (this.selectID.length > 0) {
+      //   let color = "";
+      //   for (let item of this.selectID.values()) {
+      //     if (item === row.Sid) color = "table-SelectedRow-bgcolor";
+      //   }
+      //   console.log(color);
+      //   return color;
+      // }
+    },
+    handleSelectionChange(val) {
+      this.multipleSelection = val;
+    },
+    infoChange(value) {
+      this.station = value[0];
+      this.community = value[1];
+      this.requestIndoorData();
+    },
+    asd() {},
+    //获取信息的函数
+    dd() {},
+    async askData() {
+      this.$http
+        .get("/TEhistory/roomtemperature/houser/getAllCommunity")
+        .then((res) => {
+          // console.log("eeeee", res);
+          this.options = res.community;
+          // this.tableData = res.list;
+          // this.totalCount = res.total;
+          // console.log("ddd", this.tableData);
+          // this.dataListLoading = false;
+        })
+        .catch((err) => {
+          // console.log(err);
+          // this.dataListLoading = false;
+        });
+    },
+    sizeChangeHandle(val) {
+      this.pageSize = val;
+      //更改每页显示记录数量后，都从第一页开始查询
+      this.pageIndex = 1;
+
+      this.requestIndoorData();
+    },
+    currentChangeHandle(val) {
+      this.pageIndex = val;
+
+      this.requestIndoorData();
+    },
+    handleChange() {
+      this.requestIndoorData();
+    },
+    tongxun() {
+      this.requestIndoorData();
     },
 
-    //接收table列显示隐藏的配置项
-    receiveTableConfig(v) {
-      console.log("接收table列显示隐藏的配置项", v);
-      this.table_config.thead = v;
-      // console.log("接收table列显示隐藏的配置项", v);
-    },
-    //DateTimePicker传过来的选择的日期时间
-    receiveDateTimePicker(v) {
-      this.startAndEndDateAndTime = v;
-
-      this.starttime = v[0];
-      this.endtime = v[1];
-    },
-    //选择器传递过来的数据
-    receiveSelectValue(v) {
-      console.log("选择器传递过来的数据", v);
-      this.tableData = v;
-      this.pagination.total = v.length;
-      // this.findName.findName1 = v;
-    },
-
-    receiveChangeDialog() {
-      this.dialogVisible = false;
-    },
-
-    handleClick(tab, event) {
-      console.log(tab, event);
+    requestIndoorData() {
+      this.dataListLoading = true;
+      // if (this.noData === "1") {
+      //   this.TonoData = 1;
+      // }
+      // if (this.noData === "0") {
+      //   this.TonoData = null;
+      // }
+      // if (this.hour2 === "1") {
+      //   this.Tohour2 = 1;
+      // }
+      // if (this.hour2 === "0") {
+      //   this.Tohour2 = null;
+      // }
+      let data = {
+        page: this.pageIndex,
+        count: this.pageSize,
+        station: this.station,
+        community: this.community,
+        noData: this.TonoData,
+        hour2: this.Tohour2,
+      };
+      console.log("条件", data);
+      this.$http
+        .get("/indoor/hbty/roomTeInfo/list", {
+          params: data,
+        })
+        .then((res) => {
+          this.tableData = res.list;
+          this.totalCount = res.total;
+          // console.log("ddd", this.tableData);
+          this.dataListLoading = false;
+        })
+        .catch((err) => {
+          console.log(err);
+          this.dataListLoading = false;
+        });
+      //结束
     },
     changeInput(v) {
-      this.disabled.is = v.data.Sid;
-      inDoorFvsp2(v, this.disabled);
+      console.log("****", v);
     },
+    reset() {
+      // this.station = null;
+      // this.community = null;
+      this.value = null;
+      this.requestIndoorData();
+      // this.selectStationSid = null;
+      // this.dataForm.malfunction = null;
+      // this.dataForm.category = null;
+      // this.dataForm.alarmConfirm = null;
+    },
+    //历史查询按钮
+    searchHistoryList(v) {
+      this.$refs.dialog.dialogVisible = true;
+      this.$refs.dialog.start(); //子组件$on中的名字
+      // this.$refs.dialog.dialogVisible = true;
+      this.rowData = { ...v };
+    },
+    exportExcel111(excelName) {
+      try {
+        const $e = this.$refs["report-table"].$el;
+        console.log("----", $e);
+        let $table = $e.querySelector(".el-table__fixed");
+        if (!$table) {
+          $table = $e;
+        }
 
-    handleEdit(index, row) {
-      console.log(row, "1");
+        const wb = XLSX.utils.table_to_book($table, { raw: true });
+        const wbout = XLSX.write(wb, {
+          bookType: "xlsx",
+          bookSST: true,
+          type: "array",
+        });
+        FileSaver.saveAs(
+          new Blob([wbout], { type: "application/octet-stream" }),
+          `${excelName}.xlsx`
+        );
+      } catch (e) {
+        if (typeof console !== "undefined") console.error(e);
+      }
     },
-    //单个室内温度历史查询
-    //本体
-    // inDoorRequestSingleHistory(index, row, a) {
-    //   // teHistory(this.starttime);
-    // },
+    exportExcel222() {
+      let time = new Date();
+      let wb = XLSX.utils.table_to_book(document.querySelector("#el-table"));
+      let wbout = XLSX.write(wb, {
+        bookType: "xlsx",
+        bookSST: true,
+        type: "array",
+      });
 
-    change(val) {
-      console.log("TTTT", val);
-      this.tableData = val;
-      this.pagination.total = val.length;
-    },
-    handleSizeChange(val) {
-      //接收子组件传递过来的值，改变父组件的值又传递给子组件
-      this.pagination.size = val;
-    },
-    handleCurrentChange(val) {
-      //接收子组件传递过来的值，改变父组件的值又传递给子组件
-      this.pagination.current = val;
+      try {
+        FileSaver.saveAs(
+          new Blob([wbout], { type: "application/octet-stream" }),
+          `名字 ${time.getTime()}.xlsx` // 文件名
+        );
+      } catch (e) {
+        if (typeof console !== "undefined") {
+          this.$message.error("导出失败");
+          console.log(e, wbout);
+        }
+      }
+
+      return wbout;
     },
   },
   components: {
-    Collocate,
-    Tab,
-    InputSearch,
-    SelectSearch,
-    DateTimePicker,
-    //SysDlialog22,
     SysDlialog,
-    EchartLine,
-    // FromDialog,
-    //Form,
   },
 };
 </script>
+<style lang="scss">
+.el-cascader-menu__wrap {
+  height: 208px;
+  background-color: green !important;
+  color: #fff !important;
+}
+.el-cascader-node:not(.is-disabled):focus,
+.el-cascader-node:not(.is-disabled):hover {
+  background-color: rgba(62, 243, 16, 0.69);
+}
+</style>
 <style lang="scss" scoped>
-.indoor-consumer {
-  // background-color: rgb(223, 202, 12);
-  width: 100%;
-}
-.el-button--nm {
-  color: #42b6ac;
-  background: #f0f9eb;
-  border-color: #b0e7e0;
-  border-radius: 3px;
-}
-
-.el-button--nm.el-button.is-plain:focus,
-.el-button--nm.el-button.is-plain:hover {
-  color: #fff;
-  background: #62c4bb;
-}
-
 ::v-deep {
-  .el-tabs--border-card {
-    border-radius: 12px; //整个的圆角
-    // background-color: transparent !important;
+  .el-cascader__dropdown {
+    margin: 5px 0;
+    margin-top: 5px;
+    font-size: 14px;
+    background-color: #ebb563 !important;
+    border: 1px solid #e4e7ed;
+    border-radius: 4px;
+    box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
   }
 
-  .el-tabs__nav-scroll {
-    padding-left: 12px;
-    //background-color: palegreen;
-    border-top-left-radius: 102px;
-    border-radius: 920px;
+  //去固定的线
+  .el-table__fixed-right::before {
+    background-color: transparent !important ;
   }
-  .el-tabs__nav-wrap {
-    //background-color: rgb(132, 0, 255);
-    border-top-left-radius: 102px;
+  .el-table__fixed::before {
+    background-color: transparent !important ;
   }
-  .is-top {
-    border-top-left-radius: 12px; //子菜单的圆角
-    border-top-right-radius: 12px;
+  //el-table__fixed-body-wrapper
+  //去表格的线
+  .el-table--border,
+  .el-table--group {
+    border: none;
+    // border-right-color: rgb(235, 238, 245);
+    // border-right-style: solid;
+    // border-right-width: 1px;
+    // border-bottom-color: rgb(235, 238, 245);
+    // border-bottom-style: solid;
+    // border-bottom-width: 1px;
+  }
+  .table-SelectedRow-bgcolor {
+    td {
+      background-color: #ebb563 !important;
+    }
+  }
+  .el-table__row > td {
+    /* 去除表格线 */
+    border: none;
+  }
+  .el-table th.is-leaf {
+    border-bottom: none; //去多余的横线
+  }
+  .el-table th.is-leaf {
+    border-bottom: none; //去多余的横线
+  }
+  .el-pagination {
+    // text-align: center;
+    color: #000;
+    height: 30px;
+    // padding: 0.2rem 0.1rem;
+    // background-color: rgb(241, 158, 62); //选中页码的颜色
+  }
+  .el-pagination.is-background .el-pager li:not(.disabled) {
+    color: rgb(141, 138, 138);
+    background-color: #14375c; //没有被选中的页码颜色
+    background-color: transparent !important;
+    background-color: red;
+    //background-color: transparent;
+  }
+  .el-pagination.is-background .el-pager li:not(.disabled).active {
+    color: rgb(241, 158, 62);
+    background-color: rgb(241, 158, 62); //选中页码的颜色
+    //background-color: transparent !important;
+    //background-color: transparent;
+  }
+  .el-pagination__total,
+  .el-pagination__jump {
+    color: #fff;
+  }
+  .btn-prev {
+    background-color: #14375c;
+    background-color: transparent !important;
+    //color: rgb(32, 245, 32);
+  }
+  .btn-next {
+    background-color: transparent !important;
+    color: #fff;
+  }
+  .el-pager li.btn-quicknext,
+  .el-pager li.btn-quickprev {
+    line-height: 28px;
+    color: #303133;
+    color: #fff;
+  }
+  .el-pager li {
+    padding: 0 4px;
+    background: transparent !important;
+    font-size: 13px;
+    min-width: 35.5px;
+    height: 28px;
+    line-height: 28px;
+    box-sizing: border-box;
+  }
+  .el-input__inner {
+    background-color: transparent !important;
+  }
+  .el-pagination__jump {
+    color: #000 !important; //前往xx页的字体颜色
+  }
+  .el-pagination__total {
+    color: #000 !important; //总条数的颜色
+  }
+  .el-checkbox__inner {
+    //color: rgb(241, 158, 62) !important; //总条数的颜色
+    background-color: #66b1ff !important; //选框的颜色
+    //border-radius: 50% !important; //圆角百分比
+  }
+  //斑马线的颜色
+  .customer-table .crossingOne {
+    background-color: var(--crossingOne);
+    // background-color: red;
+    color: var(--colorOne);
+    opacity: 1;
+  }
+  .customer-table .crossingTwo {
+    background-color: var(--crossingTwo);
+    color: var(--colorTwo);
+    opacity: 1;
   }
 
-  .el-card {
-    .el-card__body {
-      padding: 1px;
-    }
-    padding: 1px;
-    // margin: 10px;
-    // background-color: rgb(23, 66, 185);
-    //position: relative;
-    .el-card-title-history {
-      display: flex;
-      justify-content: space-between;
-      // position: absolute;
-      .item {
-        // background-color: rgb(134, 224, 49);
-        padding: 0;
-        height: 32px;
-        font-size: 10px;
-      }
-    }
-    .ff {
-      height: 155px;
-      width: 100%;
-      // background-color: rgb(106, 223, 71);
-    }
+  //
 
-    //  background-color: powderblue;
-    // box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15) !important;
+  //分页的hover颜色
+  .el-pagination.is-background .el-pager li:not(.disabled):hover {
+    color: #fff;
+    background-color: #66b1ff !important;
   }
-}
-.el-card-title {
-  justify-content: space-between; //均匀排列每个元素，首个元素放置于起点，末尾元素放置于终点。
-  padding: 12px 16px;
-  font-size: 2rem;
-  display: flex;
-  // .x5 {
-  //   float: right;
-  //   //background-color: rgb(209, 51, 51);
-  //   .item {
-  //     padding: 0 8px 0 8px;
-  //   }
-  //   .el-button {
-  //     // width: 20px;
-  //     // height: 20px;
-  //     .icon {
-  //       // align-items: center; //上下居中
-  //       //justify-content: center; /* 相对父元素水平居中 */
-  //       text-align: center;
-  //       margin: 0 auto;
-  //     }
-  //   }
+  .el-pagination.is-background .el-pager li:not(.disabled).active:hover {
+    color: #14375c;
+    background-color: #66b1ff !important;
+  }
+  // //没有fixed的时候用
+  // .el-table tbody tr:hover > td {
+  //   background-color: #66b1ff;
+  //   background-color: #c0ccee;
+  //   color: #000;
+  //   font-size: 18px;
   // }
-  // background-color: palegreen;
+  //有fixed的时候用
+  .el-table__body .el-table__row.hover-row td {
+    background-color: #66b1ff;
+    color: #000;
+    font-size: 13px;
+  }
+  /*最外层透明   表格透明*/
+  .el-table,
+  .el-table__expanded-cell {
+    background-color: transparent;
+    // background-color: #061028;
+  }
+  /* 表格内背景颜色 表格透明 */
+  .el-table th,
+  .el-table tr,
+  .el-table td {
+    background-color: transparent;
+  }
+  //固定表头 目的是表头过长把单位用....表示   //表格头部多余内容...的第二步*第一部在methods中的tableRenderHeader
+  .el-table th > .cell {
+    // overflow: hidden; // 超出的文本隐藏
+    // text-overflow: ellipsis; // 溢出用省略号显示
+    // display: -webkit-box;
+    // // white-space: nowrap; // 溢出不换行
+    // //-webkit-line-clamp: 2;
+    // white-space: nowrap;
+    // -webkit-box-orient: vertical;
+    // // color: red;
+    white-space: pre;
+  }
+  .el-table--border::after,
+  .el-table--group::after,
+  .el-table::before {
+    content: "";
+    position: absolute;
+    background-color: transparent; //去多余的横线
+    z-index: 1;
+  }
 }
-.el-card-title span:first-child {
-  font-weight: 700;
-  color: #5473e8;
+// 下拉菜单开始
+/deep/.el-input--suffix .el-input__inner {
+  //padding-right: 102px;
 }
-.filter-row {
-  padding: 0 0.2rem 0.2rem 0.6rem;
-  display: flex;
-  // background-color: red;
-  // align-items: center; //上下居中
-  //justify-content: center; /* 相对父元素水平居中 */
+/deep/.el-input__inner {
+  background-color: green;
+  color: #fff;
+  border: 1px solid #31cae4;
 }
-.filter-row .filter-item {
-  padding-right: 0.4rem;
-  // border: solid 1px red;
-  font-size: 0.4rem;
 
-  // color: rgb(20, 233, 13);
+.el-select-dropdown__item {
+  // font-size: 7px;
+  //line-height: 19px;
+  color: #fff;
+  font-weight: 200;
+  background-color: green;
 }
-.el-select {
-  display: inline-block;
-  position: relative;
-}
-//数据展示和搜搜框的展示
-// .el-card-title {
-//   justify-content: space-between;
-//   padding: 12px 16px;
-//   font-size: 1.8rem;
-//   display: flex;
-//   background-color: gold;
+// 背景全是绿
+
+//三角色
+// .el-popper .popper__arrow {
+//   border-width: 6px;
+//   border-top-width: 6px;
+//   filter: drop-shadow(0 2px 12px rgba(5, 212, 23, 1));
 // }
-.el-card-title-f {
-  display: flex;
-  padding: 12px 16px;
-  font-size: 0.45rem;
-  font-size: 2rem;
-  font-weight: 700;
-  color: #5473e8;
-  justify-content: space-between; //均匀排列每个元素，首个元素放置于起点，末尾元素放置于终点。
-  .el-card-title-f-title {
-    flex: 1;
-    // background-color: rgb(223, 202, 12);
+/deep/.el-select-dropdown {
+  background-color: transparent;
+  border: 1px solid blue;
+}
+/deep/.el-select-dropdown__list {
+  padding: 0;
+}
+/deep/.el-popper[x-placement^="bottom"] {
+  margin-top: 0px;
+}
+/deep/.el-popper .popper__arrow,
+/deep/.el-popper .popper__arrow::after {
+  display: none;
+}
+.el-select-dropdown__item:hover {
+  background-color: rgba(0, 225, 219, 0.690196078431373);
+  background-color: rgba(62, 243, 16, 0.69);
+}
+.el-select-dropdown__list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+//下拉菜单结束
+// 第一个选择站的开始
+
+//第一个选择站的结束
+// ::v-deep {
+//   .el-form-item__label {
+//     text-align: right;
+//     vertical-align: middle;
+//     float: left;
+//     font-size: 23px;
+//     color: #606266;
+//     line-height: 40px;
+//     padding: 0 12px 0 0;
+//     box-sizing: border-box;
+//   }
+// }
+.unit-container {
+  color: #fff;
+  width: 100%;
+  height: 100%;
+  font-size: 30px;
+  // background-color: rgb(228, 226, 213);
+  background: linear-gradient(
+    90deg,
+    rgba(30, 224, 24, 0.4) 0,
+    rgba(0, 0, 0, 0.1) 50%,
+    rgba(30, 224, 24, 0.4)
+  );
+  position: relative;
+  .condition-box {
+    position: absolute;
+    top: 30px;
+    left: 50px;
+    font-size: 30px;
   }
-  .el-card-title-f-btn {
-    flex: 1;
-    // background-color: palegreen;
-    text-align: right;
-  }
-  .el-card-title-f-select {
-    flex: 0.4;
-    //  background-color: rgb(12, 65, 212);
-    text-align: right;
+  .table {
+    position: absolute;
+    top: 70px;
+    width: 1880px;
+    height: 970px;
+    // background-color: palevioletred;
+    overflow: auto;
+    margin: 0px 20px 20px 20px;
+    padding: 0px 20px 20px 20px;
   }
 }
 </style>
