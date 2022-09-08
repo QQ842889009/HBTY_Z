@@ -10,20 +10,25 @@
 </template>
 
 <script>
+
+
 export default {
   data() {
     return {
       stationInfos: [],
       timer: "",
       stations: [],
+      branchInfos:[],  //分支信息
     };
   },
   created() {
     // console.log('-------', this.$store.getters.stationDataAndInfo);
     this.stationInfos = this.$store.getters.stationDataAndInfo;
     this.stations = this.$store.getters.stationInfos;
-    console.log("---------stationInfos-", this.stationInfos);
-    console.log("-----stations-----", this.stations);
+    this.branchInfos=this.$store.getters["stationBranch/branchInfos"];
+    // console.log("---------stationInfos-", this.stationInfos);
+    // console.log("-----stations-----", this.stations);
+    // console.log('处理后的分支信息',this.dealBranch(2));
   },
   components: {},
   // watch: {
@@ -56,13 +61,17 @@ export default {
           console.log("unity发送消息到vue成功");
           this.vueSendToUnity("getStationsName", this.stationName);
           break;
-        case "stationInfo": //自己定义的事件，代表站的数据
+        case "stationInfo": //自己定义的事件，代表站的数据,接受的是unity发过来的换热站id
           clearInterval(this.timer);
           var index = e.data.msg;
-          var msgInfo = this.stationInfos[index];
+          var msgInfo= this.stationInfos[index];
+          // msgInfo = this.stationInfos[index];
+          var branchMsg=[];
+          branchMsg=this.dealBranch(index);
           console.log("某个站的信息-=-=-=-", msgInfo);
           setTimeout(() => {
             this.vueSendToUnity("getStationInfos", msgInfo);
+            this.vueSendToUnity("getBranchInfo", branchMsg);
           }, 300);
           this.timer = setInterval(() => {
             this.vueSendToUnity("getStationInfos", msgInfo);
@@ -177,13 +186,42 @@ export default {
 
       return newArr;
     },
+
+    dealBranch(staId){
+      var branchMsg=[];
+      if (this.branchInfos.length==0) {
+        this.branchInfos=this.$store.getters["stationBranch/branchInfos"];
+      }
+        var branchinfonId = this.branchInfos[staId];
+        //对象的解构，branch为除了id，sid，station，的数据
+        let { id, sid, station, ...branch } = branchinfonId;
+        // console.log('branch---------', branch);
+        //branch是分支的信息
+        for (let i in branch) {
+          if (branch[i] != null) { //如果分支不为null，
+            //name为分支的名称，value为分支对应的字段,i[9]是取字符串bra_name_1的最后一位
+            let obj = branch[i];
+            branchMsg.push(obj);
+          }
+    }
+    branchMsg=branchMsg.reverse();
+    return branchMsg;
+    
   },
-  beforeDestroy() {
+ 
+  // beforeRouteLeave(to, from, next) {
+  //   console.log("----切换界面1111");
+  //   clearInterval(this.timer);
+  //   window.removeEventListener("message", this.unityWatch);
+  //   next();
+  // }
+},
+beforeDestroy() {
     console.log("----切换界面");
     clearInterval(this.timer);
     window.removeEventListener("message", this.unityWatch);
   },
-};
+}
 </script>
 <style lang="scss" scoped>
 </style>

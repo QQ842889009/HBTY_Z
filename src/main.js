@@ -37,15 +37,14 @@ import {
   inDoorDataInitTemplate,
   stationDataInitTemplate,
   doorDataInitTemplate,
-  realtimeTemplate,
-  stationTemplate
+ 
 } from "assets/js/storeDataInitTemplate" //初始化模板
 
 import socketAiUnit from "assets/js/socketJsControl/socketAiUnit" //改版后的楼宇单元和户阀的连接
 import socketAiInDoor from "assets/js/socketJsControl/socketAiInDoor" //改版后的楼宇单元和户阀的连接
 import socketStation from "assets/js/socketJsControl/socketStation" //改版后的楼宇单元和户阀的连接
 import socketStationAlarm from "assets/js/socketJsControl/socketStationAlarm" //换热站的报警
-import socketRealtime from "./assets/js/socketJsControl/socketRealtime"
+
 new Promise((resolve, reject) => {
   store.commit("plcS7/mutaPlcDataInit", plcdataType)
   store.commit("plcS7/mutaEchartDataInit", echartdataType)
@@ -54,10 +53,9 @@ new Promise((resolve, reject) => {
 
   store.commit("MUINDOORDATAINIT", inDoorDataInitTemplate) //
   store.commit("MUDOORDATAINIT", doorDataInitTemplate) //
-  store.commit("STATION", stationDataInitTemplate) //*****改造新加
+  store.commit("STATION", stationDataInitTemplate) 
 
-  store.commit("realtime/MUREALTIMEINIT", realtimeTemplate)
-  store.commit("realtime/MUSTATIONINT", stationTemplate)
+  
 
   resolve()
 }).then(() => {
@@ -73,7 +71,7 @@ new Promise((resolve, reject) => {
     "http://221.206.242.116:2060/hbty/endpoint-websocket-te" //室内温度的2022生产//生产环境室内温度
   )
 
-  // socketRealtime.connected("http://221.206.242.116:1666/endpoint-websocket")
+  
   socketStation.connected("http://221.206.242.116:1666/endpoint-websocket") //生产和开发环境的PLC换热站连接不包括热源
 })
 
@@ -81,6 +79,10 @@ import moment from "moment" //导入时间插件npm install moment –save
 Vue.prototype.$moment = moment //全局注册时间插件
 import "./utils/axios"
 
+Vue.prototype.$http.get("plcdata/tems/plc/stationInfoForBraName").then((res)=>{
+  // console.log('stationBranch---------',res);
+  store.commit("stationBranch/BRANCHINFOS",res);
+});
 Vue.use(ElementUI)
 
 Vue.config.productionTip = false

@@ -92,7 +92,10 @@ export default {
     this.selectDate = "2022-09-5 05:00:00";
     this.selectTime = "0.5";
     this.stations = this.$store.getters.stationInfos;
-    this.getStationInfo();
+    // console.log('store---',this.$store.getters["stationBranch/branchInfos"]);
+    this.stationInfo=this.$store.getters["stationBranch/branchInfos"];
+    console.log('branch',this.$store.getters.stationDataAndInfo);
+    // this.getStationInfo();
     this.myHistoryList=_.cloneDeep(historyList);
     
   },
@@ -151,7 +154,7 @@ export default {
     getItmeArr(staId) {
       this.myHistoryList={};
       this.myHistoryList=_.cloneDeep(historyList);
-      // console.log('historyList---------', historyList);
+      // console.log('historyList---------', this.stationInfo);
       if (this.stationInfo != undefined) {
         var stainfonId = this.stationInfo[staId];
         //对象的解构，branch为除了id，sid，station，的数据
@@ -184,6 +187,10 @@ export default {
   },
   components: {
     FtLineBox,
+  },
+  beforeDestroy() {
+    console.log("----切换界面");
+   
   },
 };
 </script>

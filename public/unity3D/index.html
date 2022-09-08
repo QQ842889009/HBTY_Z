@@ -56,11 +56,11 @@
       }
 
       var buildUrl = "Build";
-      var loaderUrl = buildUrl + "/2022-8-27.loader.js";
+      var loaderUrl = buildUrl + "/2022-9-7.loader.js";
       var config = {
-        dataUrl: buildUrl + "/2022-8-27.data.unityweb",
-        frameworkUrl: buildUrl + "/2022-8-27.framework.js.unityweb",
-        codeUrl: buildUrl + "/2022-8-27.wasm.unityweb",
+        dataUrl: buildUrl + "/2022-9-7.data.unityweb",
+        frameworkUrl: buildUrl + "/2022-9-7.framework.js.unityweb",
+        codeUrl: buildUrl + "/2022-9-7.wasm.unityweb",
         streamingAssetsUrl: "StreamingAssets",
         companyName: "huayun",
         productName: "tegaoya",
@@ -118,8 +118,8 @@
       };
       document.body.appendChild(script);
 
-        //自己加的代码
-        var unityInstanceV;
+       //自己加的代码
+       var unityInstanceV;
        function reportReady() {
          window.parent.postMessage({event:"ReportReady",msg:""}, "*");
       }

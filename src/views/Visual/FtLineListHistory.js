@@ -1,5 +1,5 @@
 /*
- *FtLineBoxy copy所需要的列表数组
+ *FtLineBoxyHistory   换热站历史曲线所需要的列表数组
  */
 export default { 
   温度:[

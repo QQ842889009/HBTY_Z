@@ -52,6 +52,7 @@ import FtBoxImg from "./components/FtBoxImg.vue";
 import FtLineBox from "./components/FtLineBoxy.vue";
 import WeatherForecast from "./components/WeatherForecast.vue";
 import DateTimePicker from "./components/DataTimePicker.vue"
+import { getWeatherForecast } from "./getWeatherData";
 const { mapState } = createNamespacedHelpers("plcS7");
 export default {
   data() {
@@ -61,7 +62,9 @@ export default {
       endtime: null, //结束日期时间
     };
   },
-  created() { },
+  created() {
+    getWeatherForecast("唐山");
+   },
   computed: {
     ...mapState(["staPlcData", "staPlcNum", "staEchartData"]),
     indoorData() {
@@ -71,6 +74,9 @@ export default {
      weatherInfo() {           
                 var weatherAll = (JSON.parse(localStorage.getItem("weather")))
                 // console.log('----------', weatherAll)
+                if(weatherAll==null) {
+                  getWeatherForecast("唐山");
+                }
                  return weatherAll.days
         }
   },

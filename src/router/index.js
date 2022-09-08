@@ -22,7 +22,7 @@ const layout = () => import("layout/index.vue") //模板
 const aidoormain = () => import("views/whiteTheme/AiDoor/main/aidoormain") //白色主题的户阀入口
 const AidoorWhite = () => import("views/whiteTheme/AiDoor/data/AidoorWhite") //白色主题的户阀入口
 const xxx = () => import("views/whiteTheme/Station/Space") //白色主题的户阀入口
-const Visual = () => import("views/Visual/index.vue") //可视化  echarts 要包括热源 换热站 楼宇 室内的图表
+// const Visual = () => import("views/Visual/index.vue") //可视化  echarts 要包括热源 换热站 楼宇 室内的图表
 //const role = () => import("views/BackStage/Role/role.vue")
 export const constantRoutes = [
   //常规配置
