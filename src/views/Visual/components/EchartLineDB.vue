@@ -6,14 +6,8 @@
         <div class="tipText">{{ title_name }}</div>
       </div>
       <div class="title-right">
-        <div
-          class="btnList"
-          @click="clickBtn(btn, index)"
-          v-show="isSort"
-          :style="index == choiceIndex ? clickColor : normalColor"
-          v-for="(btn, index) of btnsList"
-          :key="index"
-        >
+        <div class="btnList" @click="clickBtn(btn, index)" v-show="isSort"
+          :style="index == choiceIndex ? clickColor : normalColor" v-for="(btn, index) of btnsList" :key="index">
           {{ btn.name }}
         </div>
       </div>
@@ -41,7 +35,8 @@ export default {
     }
   },
   created() {
-    console.log(this.btnsList)
+    // console.log('66666666666',this.getData)
+
   },
   props: {
     //数据
@@ -95,15 +90,19 @@ export default {
   },
   mounted() {
     // console.log(Object.keys(this.getData[0]));
-    this.$nextTick(function () {
-      this.init()
-    })
+    // this.$nextTick(function () {
+    //   this.init()
+    // })
   },
   watch: {
     getData: {
       handler() {
         // this.myChart.clear();
         // this.myChart.setOption(this.option);
+      //   if (this.getData.length == 0) {
+      //   alert("数据为空！")
+      // }
+      // console.log('66666666666', this.getData)
         this.init()
         // console.log("EchartLine----data", this.getData);
       },
@@ -214,29 +213,6 @@ export default {
             }
           }
         ],
-        series: {
-          name: "温度",
-          type: this.seriesType,
-          datasetIndex: this.choiceIndex,
-          markLine: this.isShowDB
-            ? {}
-            : {
-                lineStyle: { color: "red", opaciy: 1 },
-                silent: true,
-                data: [
-                  {
-                    yAxis: 16,
-                    name: "Avg",
-                    label: {
-                      formatter: "达标室温（" + this.dbTem + "℃）",
-                      color: "yellow",
-                      position: "insideEndTop"
-                    }
-                  }
-                ]
-              },
-          encode: { x: "created_time", y: "return_water_te" }
-        },
         series: (() => {
           var series = []
           var index = 0
@@ -250,7 +226,22 @@ export default {
                 y: this.btnsList[index].value
               },
               symbol: "rect",
-              valueT: this.btnsList[index].value
+              valueT: this.btnsList[index].value,
+              markLine: this.isShowDB ? {
+                lineStyle: { color: "red", opaciy: 1 },
+                silent: true,
+                data: [
+                  {
+                    yAxis: 16,
+                    name: "Avg",
+                    label: {
+                      formatter: "达标室温（" + this.dbTem + "℃）",
+                      color: 'red',
+                      position: 'insideEndTop'
+                    },
+                  },
+                ],
+              } : {},
             }
             index++
             series.push(item)
@@ -261,9 +252,10 @@ export default {
       this.$nextTick(() => {
         this.myChart.resize() //图形随着窗口缩放
       })
-      // if (this.option && typeof this.option === "object") {
-      //   this.myChart.setOption(this.option, true)
-      // }
+      if (this.option && typeof this.option === "object") {
+        this.myChart.clear();
+        this.myChart.setOption(this.option, true)
+      }
       window.addEventListener("resize", () => {
         this.myChart.resize() //图形随着窗口缩放
       })
@@ -286,6 +278,7 @@ export default {
   margin-top: 1rem;
   // background-color: rgb(26, 218, 218);
 }
+
 .title-box {
   height: 4%;
   display: flex;
@@ -344,6 +337,7 @@ export default {
     z-index: 1;
   }
 }
+
 .myEchart {
   height: 100%;
   width: 100%;

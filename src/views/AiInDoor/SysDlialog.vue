@@ -24,7 +24,8 @@
           ></DateTimePicker>
         </div>
         <div class="quxian">
-          <EchartLineDB :getData="indoorque" title_name="室内温度" />
+          <EchartLineDB :getData="indoorque" title_name="室内温度" 
+          :isSort="false" :isShowDB="true" dbTem="35"/>
         </div>
       </div>
     </el-dialog>
@@ -80,14 +81,14 @@ export default {
       value2: [],
       dialogVisible: false,
       indoorque: [
-        {
-          event_time: "2022-06-23",
-          temp: "24"
-        },
-        {
-          event_time: "2022-06-24",
-          temp: "10"
-        }
+        // {
+        //   event_time: "2022-06-23",
+        //   temp: "24"
+        // },
+        // {
+        //   event_time: "2022-06-24",
+        //   temp: "10"
+        // }
       ]
     }
   },

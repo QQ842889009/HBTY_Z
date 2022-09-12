@@ -7,10 +7,10 @@ export default {
       name: "室温", //echart图表提示框的名字和右上角按钮的名字
       value: "temp" //echart的encode的y值，
     },
-    // 1: {
-    //   name: "回温",
-    //   value: "一回温度"
-    // },
+    1: {
+      name: "时间",
+      value: "event_time"
+    },
     // 2: {
     //   name: "温差",
     //   value: "一网温差"
