@@ -64,7 +64,7 @@ module.exports = {
       },
       "/sx": {
         //
-        target: "http://221.206.242.116:1868", //黑蚂蚁的户阀
+        target: "http://221.206.242.116:1868", //四新数据单元阀JAVA
         ws: true,
         changeOrigin: true,
 
@@ -90,6 +90,17 @@ module.exports = {
 
         pathRewrite: {
           "^/AiUnit": ""
+        }
+      },
+      "/hotw": {
+        //
+        // target: "http://221.206.242.116:9003", //ai42个设备那个菜单和历史曲线
+        target: "http://10.168.1.176:9005",
+        // ws: true,
+        changeOrigin: true,
+
+        pathRewrite: {
+          "^/hotw": ""
         }
       },
       "/HUFAhistory": {

@@ -233,7 +233,7 @@ export default {
       pageSize: 25,
       value: null,
       totalCount: 0,
-      title: "室温曲线查询",
+      title: "带户阀的单元阀",
       selectStationSid: null,
       rowData: {},
       infoArr: [],

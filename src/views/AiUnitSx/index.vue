@@ -398,18 +398,7 @@ export default {
     },
     requestIndoorData() {
       this.dataListLoading = true;
-      // if (this.noData === "1") {
-      //   this.TonoData = 1;
-      // }
-      // if (this.noData === "0") {
-      //   this.TonoData = null;
-      // }
-      // if (this.hour2 === "1") {
-      //   this.Tohour2 = 1;
-      // }
-      // if (this.hour2 === "0") {
-      //   this.Tohour2 = null;
-      // }
+
       let data = {
         page: this.pageIndex,
         count: this.pageSize,

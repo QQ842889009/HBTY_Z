@@ -24,19 +24,14 @@
           ></DateTimePicker>
         </div>
         <div class="quxian">
-          <!-- <FtLineBox
-            title_name="单元阀历史曲线"
+          <EchartLineDB
             :getData="indoorque"
-            :boxHeight="'32%'"
-            :yUnit="'℃'"
-          /> -->
-          <!-- {{ indoorque }} -->
-          <QuXian
-            title_name="单元阀曲线"
-            :getData="indoorque"
-            :boxHeight="'95%'"
-            :yUnit="'℃'"
-          ></QuXian>
+            title_name="带户阀的单元阀"
+            :isSort="false"
+            :isShowDB="false"
+            :showLenged="true"
+            dbTem="35"
+          />
         </div>
       </div>
     </el-dialog>
@@ -44,16 +39,14 @@
 </template>
 
 <script>
-import qs from "qs";
+import qs from "qs"; //
 import axios from "axios";
-import EchartLine from "./EchartLine.vue";
-import QuXian from "./QuXian.vue";
+import EchartLineDB from "../Visual/components/EchartLineDB.vue";
 import DateTimePicker from "components/common/DateTimePicker";
 export default {
   components: {
     DateTimePicker,
-    EchartLine,
-    QuXian,
+    EchartLineDB,
   },
   name: "ArticleList",
 

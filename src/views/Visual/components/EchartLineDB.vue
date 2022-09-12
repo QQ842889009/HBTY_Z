@@ -6,8 +6,14 @@
         <div class="tipText">{{ title_name }}</div>
       </div>
       <div class="title-right">
-        <div class="btnList" @click="clickBtn(btn, index)" v-show="isSort"
-          :style="index == choiceIndex ? clickColor : normalColor" v-for="(btn, index) of btnsList" :key="index">
+        <div
+          class="btnList"
+          @click="clickBtn(btn, index)"
+          v-show="isSort"
+          :style="index == choiceIndex ? clickColor : normalColor"
+          v-for="(btn, index) of btnsList"
+          :key="index"
+        >
           {{ btn.name }}
         </div>
       </div>
@@ -17,66 +23,67 @@
 </template>
 
 <script>
-import echarts from "components/echart/echartsVue.js"
-import IndoorList from "../IndoorList"
+import echarts from "components/echart/echartsVue.js";
+import IndoorList from "../IndoorList";
 export default {
   data() {
     return {
       myChart: null,
       option: {},
-      choiceIndex: 0,
+      choiceIndex: 1,
       normalColor: {
-        color: "rgb(22, 141, 238)"
+        color: "rgb(22, 141, 238)",
       },
       clickColor: {
         // color:'green',
-        textShadow: "0 0 10px red,0 0 20px red,0 0 30px red,0 0 40px red"
-      }
-    }
+        textShadow: "0 0 10px red,0 0 20px red,0 0 30px red,0 0 40px red",
+      },
+    };
   },
   created() {
     // console.log('66666666666',this.getData)
-
   },
   props: {
     //数据
     getData: {
-      type: Array
+      type: Array,
     },
     //标题
     title_name: {
       type: String,
-      default: ""
+      default: "",
     },
     seriesType: {
       type: String,
-      default: "line"
+      default: "line",
     },
 
     //y轴单位
     yUnit: {
       type: String,
-      default: "℃"
+      default: "℃",
     },
     boxHeight: {
       type: String,
-      default: "100%"
+      default: "100%",
     },
     isSort: {
       //是否根据数据排序
       type: Boolean,
-      default: true
+      default: true,
     },
     //是否显示达标线
     isShowDB: {
       type: Boolean,
-      default: true
+      default: true,
     },
     //达标温度
     dbTem: {
       type: String,
-      default: "20"
+
+      default: "20",
     },
+    //图例的显示隐藏
     showLenged: {
       type: Boolean,
       default: false,
@@ -85,12 +92,12 @@ export default {
   computed: {
     girdNum() {
       //根据boxHeight计算girdNum的大小，使图表正确显示大小
-      var hv = parseFloat(this.boxHeight)
-      return ((100 - hv) / 4 + 15).toString() + "%"
+      var hv = parseFloat(this.boxHeight);
+      return ((100 - hv) / 4 + 15).toString() + "%";
     },
     btnsList() {
-      return IndoorList[this.title_name]
-    }
+      return IndoorList[this.title_name];
+    },
   },
   mounted() {
     // console.log(Object.keys(this.getData[0]));
@@ -103,21 +110,21 @@ export default {
       handler() {
         // this.myChart.clear();
         // this.myChart.setOption(this.option);
-      //   if (this.getData.length == 0) {
-      //   alert("数据为空！")
-      // }
-      // console.log('66666666666', this.getData)
-        this.init()
+        //   if (this.getData.length == 0) {
+        //   alert("数据为空！")
+        // }
+        // console.log('66666666666', this.getData)
+        this.init();
         // console.log("EchartLine----data", this.getData);
       },
-      deep: true
-    }
+      deep: true,
+    },
   },
   methods: {
     init() {
       if (this.myChart == null) {
         // this.myChart = setTimeout(echarts.init(this.$refs.dw),500);
-        this.myChart = echarts.init(this.$refs.myEchart)
+        this.myChart = echarts.init(this.$refs.myEchart);
       }
       // console.log("init被调用了");
       this.option = {
@@ -130,23 +137,23 @@ export default {
             type: "line", //默认为line，line直线，cross十字准星，shadow阴影
             lineStyle: {
               color: "#43abeb",
-              width: 3
+              width: 3,
               //type: "dashed",
-            }
+            },
           },
           backgroundColor: "#061028", // 背景颜色
           borderColor: "#00bae4",
 
           textStyle: {
             color: "#fff", //提示框的字体颜色
-            fontSize: 15 //提示框的文字大小
-          }
+            fontSize: 15, //提示框的文字大小
+          },
         },
         legend: {
           //图列
           show: this.showLenged,
           textStyle: {
-            color: "#fff",
+            color: "#000",
           },
           right: "10%",
         },
@@ -167,26 +174,26 @@ export default {
           boundaryGap: false,
           axisLabel: {
             //不显示X轴的每一项的标签
-            show: false
+            show: false,
           },
           axisTick: {
             //不显示X轴的每一项的刻度
-            show: true
+            show: true,
           },
           axisLine: {
             lineStyle: {
               //坐标轴线
               color: "rgb(34, 182, 241)", //这里是改变颜色
-              width: 2
-            }
-          }
+              width: 2,
+            },
+          },
         },
         grid: {
           //绘图版的大小
           top: "8%",
           left: "7%",
           right: "7%",
-          bottom: this.girdNum
+          bottom: this.girdNum,
           //height:this.boxHeight,
           // containLabel: true, // 距离是包含坐标轴上的文字
         },
@@ -200,16 +207,16 @@ export default {
             lineStyle: {
               //坐标轴线
               color: "rgb(34, 182, 241)", //这里是改变颜色
-              width: 2
+              width: 2,
             },
             axisLabel: {
               textStyle: {
                 color: "#0D82FF", //轴文字颜色
-                fontSize: "9" //y轴文字大小
-              }
-            }
+                fontSize: "9", //y轴文字大小
+              },
+            },
           },
-          splitLine: { show: false } //y轴的分割线
+          splitLine: { show: false }, //y轴的分割线
         },
         dataset: [
           //datasetIndex: 0,
@@ -220,14 +227,14 @@ export default {
               type: "sort",
               config: {
                 dimension: this.btnsList[this.choiceIndex].value,
-                order: "asc"
-              }
-            }
-          }
+                order: "asc",
+              },
+            },
+          },
         ],
         series: (() => {
-          var series = []
-          var index = 0
+          var series = [];
+          var index = 0;
           do {
             var item = {
               name: this.btnsList[index].name,
@@ -235,54 +242,56 @@ export default {
               datasetIndex: this.isSort ? 1 : 0,
               encode: {
                 x: this.btnsList.xSeries,
-                y: this.btnsList[index].value
+                y: this.btnsList[index].value,
               },
               symbol: "rect",
               valueT: this.btnsList[index].value,
-              markLine: this.isShowDB ? {
-                lineStyle: { color: "red", opaciy: 1 },
-                silent: true,
-                data: [
-                  {
-                    yAxis: 16,
-                    name: "Avg",
-                    label: {
-                      formatter: "达标室温（" + this.dbTem + "℃）",
-                      color: 'red',
-                      position: 'insideEndTop'
-                    },
-                  },
-                ],
-              } : {},
-            }
-            index++
-            series.push(item)
-          } while (index < this.btnsList.seriesLength)
-          return series
-        })()
-      }
+              markLine: this.isShowDB
+                ? {
+                    lineStyle: { color: "red", opaciy: 1 },
+                    silent: true,
+                    data: [
+                      {
+                        yAxis: this.dbTem,
+                        name: "Avg",
+                        label: {
+                          formatter: "达标室温（" + this.dbTem + "℃）",
+                          color: "red",
+                          position: "insideEndTop",
+                        },
+                      },
+                    ],
+                  }
+                : {},
+            };
+            index++;
+            series.push(item);
+          } while (index < this.btnsList.seriesLength);
+          return series;
+        })(),
+      };
       this.$nextTick(() => {
-        this.myChart.resize() //图形随着窗口缩放
-      })
+        this.myChart.resize(); //图形随着窗口缩放
+      });
       if (this.option && typeof this.option === "object") {
         this.myChart.clear();
-        this.myChart.setOption(this.option, true)
+        this.myChart.setOption(this.option, true);
       }
       window.addEventListener("resize", () => {
-        this.myChart.resize() //图形随着窗口缩放
-      })
+        this.myChart.resize(); //图形随着窗口缩放
+      });
     },
 
     clickBtn(item, index) {
-      this.choiceIndex = index
-      console.log(this.choiceIndex)
+      this.choiceIndex = index;
+      console.log(this.choiceIndex);
       // setTimeout(this.init(),500) ;
       if (this.getData.length != 0) {
-        this.init()
+        this.init();
       }
-    }
-  }
-}
+    },
+  },
+};
 </script>
 
 <style lang="scss" scoped>
@@ -331,7 +340,7 @@ export default {
     // align-items: center;
     //justify-content:flex-end;
     position: relative;
-    right: 265px;
+    right: 65px;
     // background-color: rgb(96, 235, 53);
   }
 

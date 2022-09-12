@@ -195,19 +195,16 @@ export default {
     gg() {
       console.log("gggg");
       let data = {
-        sn: this.sn,
+        // sn: this.sn,
         startTime: this.startTime,
         endTime: this.endTime,
       };
-      console.log("gggg", data);
+      console.log("气象的条件", data);
       this.$http
-        .post(
-          "TEhistory/roomtemperature/houser/searchDatasAndHouserholderInfoForSnAndTimeScope",
-          data
-        )
+        .post("hotw/hotandewather/weather/getWeatherDatas", data)
         .then((res) => {
-          console.log("室内温度历史曲线", res);
-          this.obj01 = res.houser;
+          console.log("气象的数据", res);
+          // this.obj01 = res.houser;
           this.indoorque = res.datas;
           // console.log("this.obj01", this.obj01);
         });
