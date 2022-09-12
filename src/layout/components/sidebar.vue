@@ -256,7 +256,7 @@
           </template>
           <el-menu-item
             index="1"
-            @click="$router.push({ name: 'AiUnit' })"
+            @click="$router.push({ name: 'AiUnitSx' })"
             ref="ABC"
           >
             <i class="el-icon-menu"></i>

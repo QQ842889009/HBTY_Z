@@ -54,12 +54,22 @@ module.exports = {
       },
       "/kk": {
         //
-        target: "http://221.206.242.116:1668", //黑蚂蚁的户阀
+        target: "http://221.206.242.116:1668", //黑蚂蚁的单元阀和户阀的JAVA连接信息和数据的连接
         ws: true,
         changeOrigin: true,
 
         pathRewrite: {
           "^/kk": ""
+        }
+      },
+      "/sx": {
+        //
+        target: "http://221.206.242.116:1868", //黑蚂蚁的户阀
+        ws: true,
+        changeOrigin: true,
+
+        pathRewrite: {
+          "^/sx": ""
         }
       },
       "/TEhistory": {
