@@ -5,7 +5,7 @@
       <el-tabs type="border-card" v-model="activeName" @tab-click="handleClick">
         <el-tab-pane label="室内温度" name="first">
           <!-- 数据筛选标题 -->
-          <div class="el-card-title"><span>数据筛选</span></div>
+          <div class="el-card-title"><span>数据筛选ee</span></div>
           <!-- <Form></Form> -->
           <!-- 4哥筛选框 -->
           <div class="filter-row">

@@ -31,7 +31,7 @@
       <div class="ttt">穆棱福通热力智慧供热管控系统</div>
 
       <Sidebar></Sidebar>
-      <!-- <anniu class="anniuweizhi"></anniu> -->
+      <!-- <anniu claass="anniuweizhi"></anniu> -->
       <div class="exit">
         <Header></Header>
       </div>
@@ -40,7 +40,7 @@
     <!-- <div class="q2" :style="sliderStyle"></div> -->
     <div class="main-box">
       <div class="main-content">
-        <CaiDan class="f"></CaiDan>
+        <!-- <CaiDan class="f"></CaiDan> -->
         <Main />
         <!-- <el-input-number
           v-model="num"
@@ -64,8 +64,8 @@
 
 <script>
 import { Sidebar, Header, Main } from "./components";
-import anniu from "./anniu";
-import CaiDan from "./CaiDan";
+// import anniu from "./anniu";
+// import CaiDan from "./CaiDan";
 export default {
   name: "login",
   data() {
@@ -94,8 +94,8 @@ export default {
     Sidebar,
     Header,
     Main,
-    anniu,
-    CaiDan,
+    // anniu,
+    // CaiDan,
   },
 };
 </script>

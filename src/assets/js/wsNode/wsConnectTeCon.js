@@ -1,6 +1,7 @@
 import Vue from "vue"
 import that from "@/main.js"
 import manageDataStationTeCon from "assets/js/manageData/manageDataStationTeCon"
+import manageDataStation from "assets/js/manageData/manageDataStation.js"
 // import manageDataZhan from "assets/js/manageDataZhan"
 // import manageData from "assets/js/manageData"
 // import manageDataMeter from "assets/js/manageDataMeter"
@@ -186,9 +187,10 @@ function onMsg(e) {
 
       break
     case "/hbty/fyAlarmComerr":
-      // //console.log("触发了PLC通讯报警事件", msg.data); //****************************
+      //  console.log("触发了PLC通讯报警事件区分灰色的---", msg.data) //****************************
 
       //manageData.manageDataComerr(msg.data)
+      manageDataStation.Comerr(msg.data)
 
       break
     case "/hbty/fyAllInfoData":

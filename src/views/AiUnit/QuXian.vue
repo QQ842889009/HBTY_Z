@@ -31,7 +31,7 @@
 
 <script>
 import echarts from "components/echart/echartsVue.js";
-import ftLineList from "../FtLineList";
+import ftLineList from "./FtLineList";
 export default {
   data() {
     return {
@@ -67,11 +67,11 @@ export default {
     //标题，根据此从ftLineList中获取对象
     title_name: {
       type: String,
-      default: "一网温度",
+      default: "单元阀曲线",
     },
     seriesType: {
       type: String,
-      default: "scatter",
+      default: "line",
     },
     // xSeries:{
     //   type:String,
@@ -130,6 +130,7 @@ export default {
     getData: {
       handler() {
         this.myChart.setOption(this.option);
+        console.log("eeeee-------------", this.getData);
       },
       deep: true,
     },

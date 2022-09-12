@@ -7,6 +7,7 @@ import user from "./modules/user"
 import permission from "./modules/permission"
 import station from "./modules/station"
 import aiUnit from "./modules/aiUnit"
+import weather from "./modules/weather"
 
 import plcS7 from "./modules/plcS7"
 import inDoor from "./modules/inDoor"
@@ -21,6 +22,7 @@ export default new Vuex.Store({
     plcS7,
     inDoor,
     door,
-    stationBranch
+    stationBranch,
+    weather
   }
 })

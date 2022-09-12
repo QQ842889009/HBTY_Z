@@ -38,6 +38,7 @@
     </el-menu>
     <div class="aaa" v-if="station === 5">
       <i class="el-icon-caret-left" @click="fanhui"></i>
+      <!-- <div class="t">换热站</div> -->
       <el-menu
         unique-opened
         :collapse-transition="false"
@@ -259,7 +260,15 @@
             ref="ABC"
           >
             <i class="el-icon-menu"></i>
-            <span slot="title">数据总览</span>
+            <span slot="title">单独单元阀</span>
+          </el-menu-item>
+          <el-menu-item
+            index="11"
+            @click="$router.push({ name: 'AiUnit' })"
+            ref="ABC"
+          >
+            <i class="el-icon-menu"></i>
+            <span slot="title">带户阀单元阀</span>
           </el-menu-item>
         </el-submenu>
         <!-- 单元阀结束 -->
@@ -319,7 +328,26 @@
           </el-menu-item>
         </el-submenu>
         <!-- 后台管理结束 -->
+        <!-- 气象开始 -->
+        <el-submenu index="气象展示" v-if="uu == 7">
+          <template #title>
+            <i class="iconfont icon-wode"></i>
+            <span slot="title" class="yy">气象展示</span>
+          </template>
+          <el-menu-item
+            index="1"
+            @click="$router.push({ name: 'Weather' })"
+            ref="ABC"
+          >
+            <i class="el-icon-menu"></i>
+            <span slot="title">气象展示</span>
+          </el-menu-item>
+        </el-submenu>
+        <!-- 气象结束 -->
       </el-menu>
+    </div>
+    <div class="bbb" @click="showBtn" v-if="station === 0">
+      <div class="ccc"><i class="el-icon-caret-right"></i></div>
     </div>
   </div>
 </template>
@@ -382,6 +410,18 @@ export default {
             {
               name: "后台系统",
               id: "26",
+              path: "Hot",
+            },
+          ],
+        },
+        {
+          name: "气象",
+          id: "33",
+
+          children: [
+            {
+              name: "气象展示",
+              id: "331",
               path: "Hot",
             },
           ],
@@ -456,11 +496,14 @@ export default {
   methods: {
     fanhui() {
       this.station = 0;
-      this.hot = 0;
-      this.unit = 0;
-      this.door = 0;
-      this.indoor = 0;
-      this.is = 0;
+      // this.hot = 0;
+      // this.unit = 0;
+      // this.door = 0;
+      // this.indoor = 0;
+      // this.is = 0;
+    },
+    showBtn() {
+      this.station = 5;
     },
     fg(v) {
       if (v.name === "换热站") {
@@ -483,40 +526,49 @@ export default {
         this.uu = 1;
       } else if (v.name === "楼宇单元阀") {
         this.station = 5;
-        this.hot = 0;
-        this.unit = 5;
-        this.door = 0;
-        this.indoor = 0;
-        this.houtai = 0;
-        this.is = 3;
+        // this.hot = 0;
+        // this.unit = 5;
+        // this.door = 0;
+        // this.indoor = 0;
+        // this.houtai = 0;
+        // this.is = 3;
         this.uu = 3;
       } else if (v.name === "户阀") {
         this.station = 5;
-        this.hot = 0;
-        this.unit = 0;
-        this.door = 5;
-        this.indoor = 0;
-        this.houtai = 0;
-        this.is = 4;
+        // this.hot = 0;
+        // this.unit = 0;
+        // this.door = 5;
+        // this.indoor = 0;
+        // this.houtai = 0;
+        // this.is = 4;
         this.uu = 4;
       } else if (v.name === "室内温度") {
         this.station = 5;
-        this.hot = 0;
-        this.unit = 0;
-        this.door = 0;
-        this.indoor = 5;
-        this.houtai = 0;
-        this.is = 5;
+        // this.hot = 0;
+        // this.unit = 0;
+        // this.door = 0;
+        // this.indoor = 5;
+        // this.houtai = 0;
+        // this.is = 5;
         this.uu = 5;
       } else if (v.name === "后台系统") {
         this.station = 5;
-        this.hot = 0;
-        this.unit = 0;
-        this.door = 0;
-        this.indoor = 0;
-        this.houtai = 5;
-        this.is = 6;
+        // this.hot = 0;
+        // this.unit = 0;
+        // this.door = 0;
+        // this.indoor = 0;
+        // this.houtai = 5;
+        // this.is = 6;
         this.uu = 6;
+      } else if (v.name === "气象展示") {
+        this.station = 5;
+        // this.hot = 0;
+        // this.unit = 0;
+        // this.door = 0;
+        // this.indoor = 0;
+        // this.houtai = 5;
+        // this.is = 7;
+        this.uu = 7;
       } else {
         this.station = 0;
         this.hot = 0;
@@ -537,20 +589,39 @@ export default {
 }
 .aaa {
   color: #fff;
-  // position: absolute;
+
   position: relative;
   margin: 20px 0px;
-  // padding: 20px 0;
-  // left: -510px;
-  // background-color: #fff;
+
   z-index: 99999999;
   width: 212px;
   height: 980px;
-  //height: 100%;
+
   background: rgba(0, 0, 0, 0.8);
+  .t {
+    position: absolute;
+    top: 1px;
+    right: 5px;
+    color: rgb(11, 233, 66);
+    // top
+  }
   .bbb {
     position: absolute;
     left: 2px;
+  }
+}
+.bbb {
+  width: 50px;
+  height: 50px;
+  //background-color: rgb(206, 15, 15);
+  position: absolute;
+  top: 25px;
+  left: 5px;
+  color: rgb(15, 236, 26);
+  .ccc {
+    position: absolute;
+    top: 30px;
+    left: 10px;
   }
 }
 .hot {

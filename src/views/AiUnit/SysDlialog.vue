@@ -1,7 +1,3 @@
-
-
-
-
 <template>
   <div class="dialog-consumer">
     <el-dialog
@@ -13,6 +9,14 @@
       :before-close="handleClose"
     >
       <div class="a">
+        <div class="t">
+          <span>换热站：{{ obj01.station }}</span>
+          <span>小区:{{ obj01.community }}</span>
+          <span>楼：{{ obj01.tower }}</span>
+          <span>单元：{{ obj01.unit }}</span>
+          <!-- <span>室：{{ obj01.num }}</span>
+          <span>联系人：{{ obj01.householder_name }}</span> -->
+        </div>
         <div class="shijian">
           <DateTimePicker
             class="picker"
@@ -20,8 +24,19 @@
           ></DateTimePicker>
         </div>
         <div class="quxian">
-          曲线
-          <EchartLine :getData="indoorque" />
+          <!-- <FtLineBox
+            title_name="单元阀历史曲线"
+            :getData="indoorque"
+            :boxHeight="'32%'"
+            :yUnit="'℃'"
+          /> -->
+          <!-- {{ indoorque }} -->
+          <QuXian
+            title_name="单元阀曲线"
+            :getData="indoorque"
+            :boxHeight="'95%'"
+            :yUnit="'℃'"
+          ></QuXian>
         </div>
       </div>
     </el-dialog>
@@ -29,12 +44,16 @@
 </template>
 
 <script>
-import EchartLine from "../Visual/components/EchartLine.vue";
+import qs from "qs";
+import axios from "axios";
+import EchartLine from "./EchartLine.vue";
+import QuXian from "./QuXian.vue";
 import DateTimePicker from "components/common/DateTimePicker";
 export default {
   components: {
     DateTimePicker,
     EchartLine,
+    QuXian,
   },
   name: "ArticleList",
 
@@ -66,10 +85,138 @@ export default {
   },
   data() {
     return {
+      //显示信息用到的
+      obj01: {},
       labelPosition: "right",
-
+      sn: null,
+      ai_num: null,
+      startTime: null,
+      endTime: null,
+      value2: [],
       dialogVisible: false,
       indoorque: [
+        {
+          created_time: "2022-06-23",
+          te1: "24",
+          te2: "20",
+          te3: "18",
+          te4: "22",
+          pt1: "12",
+          pt2: "12",
+          pt3: "12",
+          pt4: "12",
+
+          fv1fb: "12",
+          fv2fb: "12",
+        },
+        {
+          created_time: "2022-07-23",
+          te1: "10",
+          te2: "5",
+          te3: "5",
+          te4: "3",
+          pt1: "4",
+          pt2: "6",
+          pt3: "6",
+          pt4: "5",
+
+          fv1fb: "12",
+          fv2fb: "12",
+        },
+        {
+          created_time: "2022-08-23",
+          te1: "24",
+          te2: "20",
+          te3: "18",
+          te4: "22",
+          pt1: "12",
+          pt2: "12",
+          pt3: "12",
+          pt4: "12",
+
+          fv1fb: "12",
+          fv2fb: "12",
+        },
+      ],
+    };
+  },
+  created() {
+    // this.getDate();
+    // console.log("fffffff");
+    // this.receiveDateTimePicker(v);
+  },
+  mounted() {
+    // this.start();
+  },
+  watch: {
+    //这个是要监听的数据
+    rowData: {
+      //这个是固定写法
+      handler() {
+        //watch的一个方法
+        this.start22(); //要执行的方法
+      },
+      // immediate: true, //初始监听
+      deep: true, //深度监听
+    },
+  },
+  methods: {
+    start() {
+      // this.getDate();
+      // this.getDate();
+      // // this.sn = this.rowData.sn;
+      // // console.log("kaishi----------", this.rowData.sn);
+      // this.receiveDateTimePicker(this.value2);
+      // this.gg();
+    },
+    start22() {
+      // this.getDate();
+      this.getDate();
+      this.ai_num = this.rowData.aiNum;
+      // this.sn = this.rowData.sn;
+      // console.log("kaishi----------", this.rowData.sn);
+      this.receiveDateTimePicker(this.value2);
+      // this.gg();
+    },
+    Fungetdate(num) {
+      var dd = new Date();
+      dd.setDate(dd.getDate() + num);
+      var y = dd.getFullYear();
+      var m = dd.getMonth() + 1; //获取当前月份的日期
+      var d = dd.getDate();
+
+      let myhh =
+        new Date().getHours() < 10
+          ? "0" + new Date().getHours()
+          : new Date().getHours();
+      let mymm =
+        new Date().getMinutes() < 10
+          ? "0" + new Date().getMinutes()
+          : new Date().getMinutes();
+      // if(mymm>1){
+      // mymm = mymm-1;
+      // }
+
+      let myss =
+        new Date().getSeconds() < 10
+          ? "0" + new Date().getSeconds()
+          : new Date().getSeconds();
+      return y + "-" + m + "-" + d + " " + myhh + ":" + mymm + ":" + myss;
+    },
+    getDate() {
+      this.value2 = [];
+      this.startTime = this.Fungetdate(-1);
+      this.endTime = this.Fungetdate(0);
+      this.value2.push(this.startTime, this.endTime);
+      console.log("this.value2", this.value2);
+      // let startTo = Date.parse(new Date(start).toString());
+      // let endTo = Date.parse(new Date(end).toString());
+    },
+
+    handleClose(done) {
+      this.dialogVisible = false;
+      this.obj01 = {};
+      this.indoorque = [
         {
           event_time: "2022-06-23",
           temp: "24",
@@ -78,26 +225,53 @@ export default {
           event_time: "2022-06-24",
           temp: "10",
         },
-      ],
-    };
-  },
-  created() {},
-  mounted() {},
-  watch: {},
-  methods: {
-    handleClose(done) {
-      this.dialogVisible = false;
+      ];
     },
     receiveDateTimePicker(v) {
-      // if (v.length > 0) {
-      //   console.log("11111", v);
-      //   let a = v[0];
-      //   let b = v[1];
-      //   this.startingTime = Date.parse(new Date(a).toString());
-      //   this.endTime = Date.parse(new Date(b).toString());
-      //   console.log("1221", this.startingTime, this.endTime);
-      //   this.gg();
-      // }
+      this.startTime = v[0];
+      this.endTime = v[1];
+      this.ai_num = this.rowData.aiNum;
+      this.gg();
+      if (v.length > 0) {
+        // let a = v[0];
+        // let b = v[1];
+        // this.startingTime = Date.parse(new Date(a).toString());
+        // this.endTime = Date.parse(new Date(b).toString());
+        // console.log("1221", this.startingTime, this.endTime);
+        // let data = {
+        //   sn: this.sn,
+        //   startTime: a,
+        //   endTime: b,
+        // };
+        // this.$http
+        //   .post(
+        //     "TEhistory/roomtemperature/houser/searchDatasAndHouserholderInfoForSnAndTimeScope",
+        //     data
+        //   )
+        //   .then((res) => {
+        //     console.log("室内温度历史曲线", res);
+        //     this.obj01 = res.houser;
+        //     this.indoorque = res.datas;
+        //     console.log("this.obj01", this.obj01);
+        //   });
+      }
+    },
+    gg() {
+      console.log("gggg");
+      let data = {
+        ai_num: this.ai_num,
+        startTime: this.startTime,
+        endTime: this.endTime,
+      };
+      console.log("黑蚂蚁楼宇的历史查询", data);
+      this.$http
+        .post("AiUnit/buildingms/datas/searchDatasbyAiNum", data)
+        .then((res) => {
+          console.log("42个的楼宇", res);
+          this.obj01 = res.station_and_housiong;
+          this.indoorque = res.result;
+          console.log("this.indoorque", this.indoorque);
+        });
     },
   },
 };
@@ -171,6 +345,17 @@ export default {
   .shijian {
     position: absolute;
     left: 1080px;
+  }
+  .t {
+    width: 850px;
+    height: 40px;
+    // background-color: red;
+    position: absolute;
+    font-size: 15px;
+    top: 10px;
+    span {
+      padding: 20px 10px;
+    }
   }
   .quxian {
     height: 400px;

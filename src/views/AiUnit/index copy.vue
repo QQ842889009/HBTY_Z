@@ -1,5 +1,75 @@
 <template>
   <div class="unit-container">
+    <div class="condition-box">
+      <el-form :inline="true" :model="dataForm" ref="dataForm">
+        <el-form-item prop="name" label="">
+          <span>选择位置:</span>
+          <!-- <el-cascader
+            :popper-append-to-body="false"
+            v-model="value"
+            :options="options"
+            :props="{ checkStrictly: true }"
+            clearable
+            @change="infoChange"
+          ></el-cascader> -->
+        </el-form-item>
+        <el-form-item label="">
+          <span>通讯:</span>
+          <!-- <el-select
+            v-model="noData"
+            :popper-append-to-body="false"
+            class="input"
+            placeholder="通讯"
+            size="medium"
+            clearable
+            @change="tongxun"
+          >
+            <el-option label="在线" value="1" />
+            <el-option label="离线" value="0" />
+          </el-select> -->
+        </el-form-item>
+        <el-form-item label="">
+          <span>故障:</span>
+          <el-select
+            v-model="hour2"
+            :popper-append-to-body="false"
+            class="input"
+            placeholder="故障"
+            size="medium"
+            clearable
+            @change="tongxun"
+          >
+            <el-option label="故障" value="1" />
+            <el-option label="正常" value="0" />
+          </el-select>
+        </el-form-item>
+
+        <el-form-item>
+          <!-- <el-button
+            size="medium"
+            icon="el-icon-refresh-left"
+            type="success"
+            @click="reset()"
+            >重置</el-button
+          > -->
+          <el-button
+            size="medium"
+            icon="el-icon-refresh-left"
+            type="success"
+            @click="exportExcel111('单元箱数据')"
+            >导出报表</el-button
+          >
+          <!-- <el-button
+            size="medium"
+            icon="el-icon-refresh-left"
+            type="success"
+            @click="exportExcel222('单元箱数据')"
+            >导出报表2</el-button
+          > -->
+        </el-form-item>
+      </el-form>
+    </div>
+
     <div class="table">
       <el-table
         v-loading="dataListLoading"
@@ -9,7 +79,7 @@
         style="width: 100%"
         max-height="910"
         class="customer-table"
-        :cell-style="{ padding: '15px 0' }"
+        :cell-style="{ padding: '1.8px 0' }"
         :header-cell-style="headerStyle"
         id="el-table"
         @selection-change="handleSelectionChange"
@@ -18,64 +88,120 @@
         :row-key="getRowKey"
       >
         <el-table-column
-          prop="createdTime"
-          label="更新日期时间"
-          width="250"
+          prop="sid"
+          label="表号"
+          width="130"
           fixed
           align="center"
         >
         </el-table-column>
         <el-table-column
-          prop="te"
-          label="温度（℃）"
-          width="250"
+          prop="sn"
+          label="设备编号"
+          width="130"
           fixed="left"
           align="center"
         >
         </el-table-column>
         <el-table-column
-          prop="humidity"
-          label="湿度（%RH）"
-          width="250"
+          prop="station"
+          label="站点"
+          width="150"
           fixed="left"
           align="center"
         >
         </el-table-column>
         <el-table-column
-          prop="windPo"
-          label="风力（级）"
-          width="250"
+          prop="community"
+          label="小区"
+          width="160"
           fixed="left"
           align="center"
         >
         </el-table-column>
         <el-table-column
-          prop="windDir"
-          label="风向"
-          width="250"
+          prop="tower"
+          label="楼"
+          width="130"
           fixed="left"
           align="center"
         >
         </el-table-column>
         <el-table-column
-          prop="windSp"
-          label="风速（m/s）"
-          width="250"
+          prop="unit"
+          label="单元"
+          width="130"
           fixed="left"
           align="center"
         >
         </el-table-column>
         <el-table-column
-          prop="beam"
-          label="光照（Lux）"
-          width="300"
+          prop="num"
+          label="室"
+          width="130"
           fixed="left"
           align="center"
         >
+        </el-table-column>
+        <el-table-column
+          prop="householderName"
+          label="联系人"
+          width="130"
+          fixed="left"
+          align="center"
+        >
+        </el-table-column>
+        <el-table-column
+          prop="phone"
+          label="电话"
+          width="120"
+          fixed="left"
+          align="center"
+        >
+        </el-table-column>
+        <el-table-column
+          prop="eventTime"
+          label="更新日期"
+          width="200"
+          fixed="left"
+          align="center"
+          :formatter="dateFormat"
+        >
+        </el-table-column>
+        <!-- <el-table-column
+          prop="eventTime"
+          label="日期时间"
+          width="160"
+          fixed="left"
+          align="center"
+        >
+          <template slot-scope="scope">
+            {{ scope.row.timestamp | getDate }}
+          </template>
+        </el-table-column> -->
+        <el-table-column
+          prop="temp"
+          label="室温(℃)"
+          width="150"
+          fixed="left"
+          align="center"
+        >
+        </el-table-column>
+
+        <el-table-column label="操作" width="250" fixed="right" align="center">
+          <template slot-scope="scope">
+            <!-- <el-button type="success" size="mini" fixed="right">刷新</el-button> -->
+            <el-button
+              type="success"
+              size="mini"
+              @click="searchHistoryList(scope.row)"
+              fixed="right"
+              >历史查询</el-button
+            >
+          </template>
         </el-table-column>
       </el-table>
-
-      <!-- <el-pagination
+      <el-pagination
         @size-change="sizeChangeHandle"
         @current-change="currentChangeHandle"
         :current-page="pageIndex"
@@ -83,31 +209,24 @@
         :page-size="pageSize"
         :total="totalCount"
         layout="total, prev, pager, next"
-      ></el-pagination> -->
-    </div>
-    <div>
-      <SysDlialog ref="dialog" :title="title" :rowData="rowData" class="as">
-      </SysDlialog>
+      ></el-pagination>
     </div>
     <!-- <div v-show="tt === 5"></div> -->
+    <div>
+      <SysDlialog ref="dialog" :title="title" :rowData="rowData"> </SysDlialog>
+    </div>
   </div>
 </template>
 <script>
-//临时数据
 import SysDlialog from "./SysDlialog"; ////
+//临时数据
 //import { options } from "assets/js/common/doorSelect";
 import FileSaver from "file-saver";
 import XLSX from "xlsx";
 export default {
   data() {
     return {
-      bgc: {
-        crossingOne: "#ffffff",
-      },
-      title: "气象历史查询",
-      rowData: {},
       dataListLoading: false,
-      tableData: [],
       //斑马线颜色
       zebarCrossing: {
         crossingOne: "#0dc41a",
@@ -116,17 +235,43 @@ export default {
         colorOne: "#fff",
         colorTwo: "#fff",
       },
+      selectID: [],
+      station: "",
+
+      community: "",
+      noData: null,
+      hour2: null,
+      TonoData: null,
+      Tohour2: null,
+      pageIndex: 1,
+      pageSize: 25,
+      value: null,
+      totalCount: 0,
+      title: "室温曲线查询",
+      selectStationSid: null,
+      rowData: {},
+      infoArr: [],
+      multipleSelection: [],
+      myData: [],
+      tableData: [],
+      info: "",
+      dataForm: {
+        malfunction: null, //故障
+        communication: null, //通讯
+      },
+
+      // options: options,
+      options: [],
+      datah: 850, ///数据报表的高度 动态改
     };
   },
   created() {
-    this.meterb;
+    this.askData();
+    this.asd();
+    this.requestIndoorData();
   },
   watch: {},
   computed: {
-    meterb() {
-      this.tableData = this.$store.getters.weather;
-      console.log("this.tableData", this.tableData);
-    },
     headerStyle() {
       return {
         background: "#0dc41a",
@@ -150,25 +295,174 @@ export default {
       };
     },
   },
-  mounted() {},
+  mounted() {
+    this.dd();
+  },
   methods: {
+    //时间日期格式
+    dateFormat(row, column, cellValue, index) {
+      const daterc = row[column.property];
+      if (daterc != null) {
+        var date = new Date(daterc);
+        var year = date.getFullYear();
+        /* 在日期格式中，月份是从0开始，11结束，因此要加0
+         * 使用三元表达式在小于10的前面加0，以达到格式统一  如 09:11:05
+         * */
+        var month =
+          date.getMonth() + 1 < 10
+            ? "0" + (date.getMonth() + 1)
+            : date.getMonth() + 1;
+        var day = date.getDate() < 10 ? "0" + date.getDate() : date.getDate();
+        var hours =
+          date.getHours() < 10 ? "0" + date.getHours() : date.getHours();
+        var minutes =
+          date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes();
+        var seconds =
+          date.getSeconds() < 10 ? "0" + date.getSeconds() : date.getSeconds();
+        // 拼接
+        return (
+          year +
+          "-" +
+          month +
+          "-" +
+          day +
+          " " +
+          hours +
+          ":" +
+          minutes +
+          ":" +
+          seconds
+        );
+      }
+    },
+
+    //解决[ElTable] prop row-key is required的错误
+    getRowKey(row) {
+      return row.id;
+    },
+    tableRowClassName({ row, rowIndex }) {
+      if (this.selectID.length == 0) {
+        if ((rowIndex + 1) % 2 === 0) {
+          return "crossingOne"; //类名
+        } else {
+          return "crossingTwo"; //类名
+        }
+      }
+
+      // if (this.selectID.length > 0) {
+      //   let color = "";
+      //   for (let item of this.selectID.values()) {
+      //     if (item === row.Sid) color = "table-SelectedRow-bgcolor";
+      //   }
+      //   console.log(color);
+      //   return color;
+      // }
+    },
     handleSelectionChange(val) {
       this.multipleSelection = val;
     },
-    //解决[ElTable] prop row-key is required的错误
-    getRowKey(row) {
-      return row.sid;
+    infoChange(value) {
+      this.station = value[0];
+      this.community = value[1];
+      this.requestIndoorData();
     },
-    tableRowClassName({ row, rowIndex }) {
-      // if (this.selectID.length == 0) {
-      if ((rowIndex + 1) % 2 === 0) {
-        return "crossingOne"; //类名
-      } else {
-        return "crossingTwo"; //类名
-      }
-      // }
+    asd() {},
+    //获取信息的函数
+    dd() {},
+    async askData() {
+      this.$http
+        .get("/TEhistory/roomtemperature/houser/getAllCommunity")
+        .then((res) => {
+          // console.log("eeeee", res);
+          this.options = res.community;
+          // this.tableData = res.list;
+          // this.totalCount = res.total;
+          // console.log("ddd", this.tableData);
+          // this.dataListLoading = false;
+        })
+        .catch((err) => {
+          // console.log(err);
+          // this.dataListLoading = false;
+        });
+    },
+    sizeChangeHandle(val) {
+      this.pageSize = val;
+      //更改每页显示记录数量后，都从第一页开始查询
+      this.pageIndex = 1;
+
+      this.requestIndoorData();
+    },
+    currentChangeHandle(val) {
+      this.pageIndex = val;
+
+      this.requestIndoorData();
+    },
+    handleChange() {
+      this.requestIndoorData();
+    },
+    tongxun() {
+      this.requestIndoorData();
     },
 
+    requestIndoorData() {
+      this.dataListLoading = true;
+      // if (this.noData === "1") {
+      //   this.TonoData = 1;
+      // }
+      // if (this.noData === "0") {
+      //   this.TonoData = null;
+      // }
+      // if (this.hour2 === "1") {
+      //   this.Tohour2 = 1;
+      // }
+      // if (this.hour2 === "0") {
+      //   this.Tohour2 = null;
+      // }
+      let data = {
+        page: this.pageIndex,
+        count: this.pageSize,
+        station: this.station,
+        community: this.community,
+        noData: this.TonoData,
+        hour2: this.Tohour2,
+      };
+      console.log("条件", data);
+      this.$http
+        .get("/indoor/hbty/roomTeInfo/list", {
+          params: data,
+        })
+        .then((res) => {
+          this.tableData = res.list;
+          this.totalCount = res.total;
+          // console.log("ddd", this.tableData);
+          this.dataListLoading = false;
+        })
+        .catch((err) => {
+          console.log(err);
+          this.dataListLoading = false;
+        });
+      //结束
+    },
+    changeInput(v) {
+      console.log("****", v);
+    },
+    reset() {
+      // this.station = null;
+      // this.community = null;
+      this.value = null;
+      this.requestIndoorData();
+      // this.selectStationSid = null;
+      // this.dataForm.malfunction = null;
+      // this.dataForm.category = null;
+      // this.dataForm.alarmConfirm = null;
+    },
+    //历史查询按钮
+    searchHistoryList(v) {
+      this.$refs.dialog.dialogVisible = true;
+      this.$refs.dialog.start(); //子组件$on中的名字
+      // this.$refs.dialog.dialogVisible = true;
+      this.rowData = { ...v };
+    },
     exportExcel111(excelName) {
       try {
         const $e = this.$refs["report-table"].$el;
@@ -222,11 +516,6 @@ export default {
 };
 </script>
 <style lang="scss">
-.as {
-  position: absolute;
-  top: 200px;
-  left: 45px;
-}
 .el-cascader-menu__wrap {
   height: 208px;
   background-color: green !important;

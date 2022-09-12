@@ -10,7 +10,8 @@ const state = {
   stationLenght: 33, //换热站的个数
   stationInfos: [], //换热站的信息
   stationAlarmSet: [],
-  stationTeConData: [] //装载node过来的温控数据
+  stationTeConData: [], //装载node过来的温控数据
+  alarmArr: [] //接收报警的数组可能是显示灰色的那个
 }
 
 const getters = {
@@ -26,6 +27,10 @@ const getters = {
   //温度数据从这里拿
   stationTeConData(state) {
     return state.stationTeConData
+  },
+  //报警的数组可能是显示灰色的那个
+  alarmArr(state) {
+    return state.alarmArr
   }
 }
 
@@ -36,7 +41,8 @@ const mutations = {
     // console.log("qqqqq", data)
     station.station(state.stationDataAndInfo, state.stationLenght, data) //
     station.stations(state.stationInfos, state.stationLenght)
-    //console.log("换热站的初始化占位", state.station)
+    //换热站报警显示灰色的那个
+    station.alarm(state.alarmArr, state.stationLenght)
   },
   STATIONALARM(state, data) {
     //  console.log("我是仓库中的报警", data)
@@ -89,6 +95,13 @@ const mutations = {
       state.stationDataAndInfo[i].Station = data[i].station
       state.stationInfos[i].Station = data[i].station
     }
+  },
+  //去判断显示灰色的数组
+  COMERR(state, data) {
+    state.alarmArr = data
+    // for (let i = 0; i < state.datasLen; i++) {
+    //   state.datas[i].comErr = data[i]
+    // }
   }
 }
 

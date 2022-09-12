@@ -2,24 +2,12 @@
   <div class="station">
     <BjBox class="BjBox-z">
       <template #header-box-temp1> 数据总览</template>
-      <!-- <template #header-box-temp2> 数据总览</template> -->
-      <template #header-box-temp3>
-        <InputSearch
-          :wide="wide"
-          :data="staPlcData"
-          @change="change"
-          :findName="findName"
-          :placeholder="placeholder"
-          :prefixIcon="prefixIcon"
-          :size="size"
-          :clearable="clearable"
-        ></InputSearch>
-      </template>
+      <template #header-box-temp3> </template>
       <template #content>
         <MyTable
           :col="col"
           :dropCol="dropCol"
-          :tableData="staPlcData"
+          :tableData="tableDataxx"
           :pagination="pagination"
           :zebarCrossing="zebarCrossing"
           class="customer-table"
@@ -40,7 +28,7 @@ import InputSearch from "components/common/InputSearch"; //输入关键词查找
 
 import { Input } from "element-ui";
 import { createNamespacedHelpers } from "vuex"; //
-const { mapState } = createNamespacedHelpers("plcS7");
+
 export default {
   data() {
     return {
@@ -49,7 +37,7 @@ export default {
           prop: "Station",
           label: "换热站",
 
-          width: "130PX",
+          width: "150PX",
           fixed: "left",
         },
         {
@@ -378,22 +366,23 @@ export default {
       //分页的设置
       pagination: {
         current: 1,
-        size: 30,
+        size: 32,
         total: 0,
       },
     };
   },
   created() {
+    this.tableDataxx = this.$store.getters.stationDataAndInfo; //表格数据
     // inDoorRequestAll();
     // this.tableData = this.$store.getters.get_staPlcData; //表格数据
     // console.log("换热站数据AAA", this.tableData);
-    this.pagination.total = this.staPlcNum; //数据的长度给分页总数用
+    this.pagination.total = this.tableDataxx.lenght; //数据的长度给分页总数用
     // this.transuFindData = this.$store.getters.get_inDoorDataAndInfo;
     // console.log("sssss", this.transuFindData)
   },
   watch: {},
   computed: {
-    ...mapState(["staPlcData", "staPlcNum"]),
+    // ...mapState(["staPlcData", "staPlcNum"]),
 
     paginationNum() {
       return parseInt(this.staPlcNum / this.pagination.size + 0.9);
@@ -471,13 +460,8 @@ export default {
     },
   },
   components: {
-    // Collocate,
-    // Tab,
     InputSearch,
-    // SelectSearch,
-    // DateTimePicker,
-    // SysDlialog22,
-    // tt,
+
     MyTable,
     BjBox,
   },
@@ -492,4 +476,17 @@ export default {
   }
   // opacity: 0.8;
 }
+
+// .isf:hover + .ccc {
+//   background-color: green;
+//   display: none;
+// }
+// .isf {
+//   height: 900px;
+//   width: 60px;
+//   background-color: red;
+//   position: fixed;
+//   z-index: 8888;
+//   left: 158px;
+// }
 </style>

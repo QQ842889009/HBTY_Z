@@ -34,6 +34,7 @@ module.exports = {
       "/plcdata": {
         //
         target: "http://221.206.242.116:9000",
+        //target: "http://192.168.100.202:9000", //9000端口映射到202机子上
         //target: "http://10.168.1.176:9002",
         changeOrigin: true,
         ws: true,
@@ -51,6 +52,16 @@ module.exports = {
           "^/indoor": ""
         }
       },
+      "/kk": {
+        //
+        target: "http://221.206.242.116:1668", //黑蚂蚁的户阀
+        ws: true,
+        changeOrigin: true,
+
+        pathRewrite: {
+          "^/kk": ""
+        }
+      },
       "/TEhistory": {
         //
         target: "http://221.206.242.116:9002", //室内温度的历史曲线
@@ -60,7 +71,28 @@ module.exports = {
         pathRewrite: {
           "^/TEhistory": ""
         }
+      },
+      "/AiUnit": {
+        //
+        target: "http://221.206.242.116:9003", //ai42个设备那个菜单和历史曲线
+        // ws: true,
+        changeOrigin: true,
+
+        pathRewrite: {
+          "^/AiUnit": ""
+        }
+      },
+      "/HUFAhistory": {
+        //
+        target: "http://10.168.1.176:9004", //ai42个设备那个
+        // ws: true,
+        changeOrigin: true,
+
+        pathRewrite: {
+          "^/HUFAhistory": ""
+        }
       }
+
       // "/unit": {
       //   //
       //   target: "http://10.168.1.176:9001",

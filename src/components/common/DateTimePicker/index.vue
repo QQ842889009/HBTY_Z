@@ -3,6 +3,7 @@
     <el-date-picker
       v-model="value2"
       size="small"
+      :style="styleVar"
       @change="Toinquirebutton"
       value-format="yyyy-MM-dd HH:mm:ss"
       type="datetimerange"
@@ -91,13 +92,23 @@ export default {
       value2: [],
     };
   },
-  props: {},
+  props: {
+    colors: {
+      type: String,
+      default: "#000",
+    },
+  },
   created() {
     this.getDate();
     this.Fungetdate();
     // this.Toinquirebutton(this.value2);
   },
   computed: {
+    styleVar() {
+      return {
+        "--color1": this.colors,
+      };
+    },
     timeDefault() {
       let myyear = new Date().getFullYear();
       let mymonth = new Date().getMonth() + 1;
@@ -208,6 +219,23 @@ export default {
   .el-range-editor.is-active:hover {
     border-color: #14eb5b;
     border-radius: 22px;
+  }
+  .el-date-editor .el-range-input {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    border: none;
+    outline: 0;
+    display: inline-block;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    width: 39%;
+    text-align: center;
+    font-size: 14px;
+    color: #000;
+    color: var(--color1);
+    background-color: transparent !important;
   }
 }
 </style>

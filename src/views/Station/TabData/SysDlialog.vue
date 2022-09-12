@@ -224,7 +224,7 @@ export default {
           console.log("室内温度历史曲线", res);
           this.obj01 = res.houser;
           this.indoorque = res.datas;
-          // console.log("this.obj01", this.obj01);
+          console.log("this.obj01", this.obj01);
         });
     },
   },

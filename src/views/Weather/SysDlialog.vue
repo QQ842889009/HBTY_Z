@@ -1,33 +1,17 @@
 <template>
   <div class="dialog-consumer">
-    <el-dialog
-      :modal-append-to-body="false"
-      :title="title"
-      :visible.sync="dialogVisible"
-      :width="width + 'px'"
-      :height="height + 'px'"
-      :before-close="handleClose"
-    >
-      <div class="a">
-        <div class="t">
-          <span>换热站：{{ obj01.station }}</span>
-          <span>小区:{{ obj01.community }}</span>
-          <span>楼：{{ obj01.tower }}</span>
-          <span>单元：{{ obj01.unit }}</span>
-          <span>室：{{ obj01.num }}</span>
-          <span>联系人：{{ obj01.householder_name }}</span>
-        </div>
-        <div class="shijian">
-          <DateTimePicker
-            class="picker"
-            @EmitDateTimePicker="receiveDateTimePicker"
-          ></DateTimePicker>
-        </div>
-        <div class="quxian">
-          <EchartLine :getData="indoorque" />
-        </div>
+    <div class="a">
+      <div class="shijian">
+        <DateTimePicker
+          class="picker"
+          :colors="colors"
+          @EmitDateTimePicker="receiveDateTimePicker"
+        ></DateTimePicker>
       </div>
-    </el-dialog>
+      <div class="quxian">
+        <EchartLine :getData="indoorque" />
+      </div>
+    </div>
   </div>
 </template>
 
@@ -71,6 +55,7 @@ export default {
   },
   data() {
     return {
+      colors: "#fff",
       //显示信息用到的
       obj01: {},
       labelPosition: "right",
@@ -78,7 +63,7 @@ export default {
       startTime: null,
       endTime: null,
       value2: [],
-      dialogVisible: false,
+      dialogVisible: true,
       indoorque: [
         {
           event_time: "2022-06-23",
@@ -298,7 +283,7 @@ export default {
   position: relative;
   .shijian {
     position: absolute;
-    left: 1080px;
+    left: 1400px;
   }
   .t {
     width: 850px;
@@ -312,10 +297,16 @@ export default {
     }
   }
   .quxian {
-    height: 400px;
-    width: 1480px;
+    height: 500px;
+    width: 1810px;
     background-color: #fff;
-    box-shadow: 10px 10px 25px #888888;
+    box-shadow: 10px 10px 25px #11e634;
+    background: linear-gradient(
+      90deg,
+      rgba(30, 224, 24, 0.4) 0,
+      rgba(0, 0, 0, 0.1) 50%,
+      rgba(30, 224, 24, 0.4)
+    );
     position: absolute;
     top: 50px;
   }

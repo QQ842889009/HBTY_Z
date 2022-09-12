@@ -2,7 +2,7 @@
 import Vue from "vue"
 // import that from '@/main.js'
 
-import manageDataStation from "assets/js/manageData/manageDataStation.js"
+import manageDataStation from "assets/js/manageData/manageDataStation.js" //
 import that from "@/main.js"
 
 // import manageMeterData from "assets/js/wtMeter/manageMeterData";//

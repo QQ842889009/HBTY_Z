@@ -240,7 +240,7 @@ export default {
         return color;
       }
     },
-    //表格头部多余内容...的第一步*第二部在css中的/deep/ .el-table th > .cell
+    //表格头部多余内容...的第一步*第二部在css中的/deep/ .el-table th > .cell//
     tableRenderHeader(h, data) {
       return h("span", [
         h(

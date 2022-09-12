@@ -23,7 +23,16 @@ function stations(data, len) {
     }
   }
 }
+function alarm(data, len) {
+  if (data.length == 0) {
+    for (let i = 0; i < len; i++) {
+      data.push(0)
+    }
+  }
+}
+
 export default {
   station,
-  stations
+  stations,
+  alarm
 }
