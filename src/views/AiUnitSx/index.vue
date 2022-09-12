@@ -3,7 +3,7 @@
     <div class="condition-box">
       <el-form :inline="true" :model="dataForm" ref="dataForm">
         <el-form-item prop="name" label="">
-          <span>选择位置22:</span>
+          <span>选择位置:</span>
           <el-cascader
             :popper-append-to-body="false"
             v-model="value"
@@ -97,7 +97,7 @@
         </el-table-column>
         <el-table-column
           prop="sn"
-          label="设备编号22"
+          label="设备编号"
           width="130"
           fixed="left"
           align="center"
