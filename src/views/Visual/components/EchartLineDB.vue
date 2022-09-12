@@ -76,7 +76,11 @@ export default {
     dbTem: {
       type: String,
       default: "20"
-    }
+    },
+    showLenged: {
+      type: Boolean,
+      default: false,
+    },
   },
   computed: {
     girdNum() {
@@ -137,6 +141,14 @@ export default {
             color: "#fff", //提示框的字体颜色
             fontSize: 15 //提示框的文字大小
           }
+        },
+        legend: {
+          //图列
+          show: this.showLenged,
+          textStyle: {
+            color: "#fff",
+          },
+          right: "10%",
         },
         toolbox: {},
 
