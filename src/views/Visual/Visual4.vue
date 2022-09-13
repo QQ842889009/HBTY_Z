@@ -10,9 +10,9 @@
     </div>
     <div class="showBox">
       <FtLineBox title_name="二网实时温度" :getData="realtimeInfo" :boxHeight="'44%'" :yUnit="'℃'" :isSort="false"
-        :isRed="isRed" :showLenged="true" :key="isUpdata" />
-      <FtLineBox title_name="二网实时压力" :getData="realtimeInfo" :boxHeight="'44%'" :yUnit="'t'" :isSort="false"
-        :isRed="isRed" :showLenged="true" :key="isUpdata + '-only'" />
+       :showLenged="true" :key="isUpdata" seriesType="line"/>
+      <FtLineBox title_name="二网实时压力" :getData="realtimeInfo" :boxHeight="'44%'" :yUnit="'MPa'" :isSort="false"
+       :showLenged="true" :key="isUpdata + '-only'" seriesType="line"/>
     </div>
   </div>
 </template>
@@ -123,12 +123,12 @@ export default {
     //请求数据
     async getRealtimeInfos(sid) {
       var endTime = Date.parse(new Date());
-      var startTime=endTime-60*60*1000;
+      var startTime=endTime-60*60*1000*4;
       var params={
         sid:sid,
         startTime:startTime,
         endTime:endTime,
-        size:60
+        size:120
       }
       this.realtimeInfo = await this.$http.post(
         "plcdata/tems/plc/DatasByTimeScopeAndSizeAndSid",params);

@@ -190,19 +190,19 @@ export default {
         xAxis: {
           type: "category", //整体X坐标轴的类型，离散值
           //#region   x轴名称设置
-          /*   name: "站点", //整体X坐标轴的名称
+          // name: "站点", //整体X坐标轴的名称
           nameLocation: "center", //整体X坐标轴的名称的位置
           boundaryGap: false,
           nameTextStyle: {
             //坐标轴刻度
             fontWeight: "bolder",
             fontSize: "0.32rem",
-          }, */
+          }, 
           //#endregion
           boundaryGap: false,
           axisLabel: {
             //不显示X轴的每一项的标签
-            show: false,
+            show: true,
           },
           axisTick: {
             //不显示X轴的每一项的刻度
@@ -276,6 +276,7 @@ export default {
                 y: this.btnsList[index].value,
               },
               symbol: "rect",
+              // smooth: true,
               valueT: this.btnsList[index].value,
               color: index == 0 ? "rgb(26, 218, 218)" : "yellow",
               // itemStyle: {

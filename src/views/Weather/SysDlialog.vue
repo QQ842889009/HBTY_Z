@@ -9,7 +9,7 @@
         ></DateTimePicker>
       </div>
       <div class="quxian">
-        <EchartLine :getData="indoorque" />
+        <Weather :weatherInfo="indoorque" />
       </div>
     </div>
   </div>
@@ -18,12 +18,12 @@
 <script>
 import qs from "qs";
 import axios from "axios";
-import EchartLine from "../Visual/components/EchartLine.vue";
+import Weather from "../Visual/components/WeatherForecastOwn.vue";
 import DateTimePicker from "components/common/DateTimePicker";
 export default {
   components: {
     DateTimePicker,
-    EchartLine,
+    Weather,
   },
   name: "ArticleList",
 
@@ -67,11 +67,21 @@ export default {
       indoorque: [
         {
           event_time: "2022-06-23",
-          temp: "24",
+          te: "24",
+          windDir:"西北风",
+          wind_po:1,
+          humidity:36.6,
+          beam:9971,
+          windSp:22
         },
         {
           event_time: "2022-06-24",
-          temp: "10",
+          te: "10",
+          windDir:"西风",
+          wind_po:3,
+          humidity:38.5,
+          beam:10021,
+          windSp:32
         },
       ],
     };
@@ -153,13 +163,23 @@ export default {
       this.dialogVisible = false;
       this.obj01 = {};
       this.indoorque = [
-        {
+      {
           event_time: "2022-06-23",
-          temp: "24",
+          te: "24",
+          windDir:"西北风",
+          wind_po:1,
+          humidity:36.6,
+          beam:9971,
+          windSp:22
         },
         {
           event_time: "2022-06-24",
-          temp: "10",
+          te: "10",
+          windDir:"西风",
+          wind_po:3,
+          humidity:38.5,
+          beam:10021,
+          windSp:32
         },
       ];
     },
@@ -205,7 +225,7 @@ export default {
         .then((res) => {
           console.log("气象的数据", res);
           // this.obj01 = res.houser;
-          this.indoorque = res.datas;
+          this.indoorque = res.result;
           // console.log("this.obj01", this.obj01);
         });
     },
