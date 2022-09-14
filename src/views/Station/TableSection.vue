@@ -2,7 +2,7 @@
   <div class="all">
     <div class="data">
       <div class="data1">
-        <span>选择站点：</span>
+        <span>选择站点22：</span>
         <el-select
           class="selectStation"
           v-model="selectStation"

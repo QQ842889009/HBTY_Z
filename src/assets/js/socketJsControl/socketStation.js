@@ -18,7 +18,7 @@ let stompClient = ""
 let connectJs = (stompClient) => {
   stompClient.connect({}, () => {
     // socketOnInfoData(stompClient);
-    // //console.log("socketJs连接成功");
+    console.log("---------plc---------socketJs连接成功")
     Vue.prototype.$stompClient = stompClient
 
     //调用的是下面的函数，开始监听仪表数据
@@ -26,7 +26,7 @@ let connectJs = (stompClient) => {
   }),
     (err) => {
       连接发生错误时的处理函数
-      console.log("socketJs连接发生错误---换热站")
+      console.log("------------plc------------socketJs连接发生错误---换热站")
 
       heartDog = 0
     }
@@ -50,7 +50,7 @@ function connected(url) {
 let socketOnData = (stompClient) => {
   if (stompClient) {
     stompClient.subscribe("/data/wtOnPlcData", (msg) => {
-      // console.log("java-----我是换热站的数据", msg)
+      console.log("--------plc的数据接收-----", msg)
       // console.log("1****msg");
       // console.log(msg);
       // console.log(msg.body);

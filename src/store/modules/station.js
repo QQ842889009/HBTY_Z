@@ -11,10 +11,14 @@ const state = {
   stationInfos: [], //换热站的信息
   stationAlarmSet: [],
   stationTeConData: [], //装载node过来的温控数据
-  alarmArr: [] //接收报警的数组可能是显示灰色的那个
+  alarmArr: [], //接收报警的数组可能是显示灰色的那个
+  ck: 5
 }
 
 const getters = {
+  ck(state) {
+    return state.ck
+  },
   stationDataAndInfo(state) {
     return state.stationDataAndInfo
   },
@@ -51,7 +55,9 @@ const mutations = {
     // }
     state.stationAlarmSet = data
   },
-
+  CK(state, data) {
+    state.ck = data
+  },
   STATIONDATA(state, data) {
     // console.log("-----", data)
     let j = parseInt(data.Sid)
