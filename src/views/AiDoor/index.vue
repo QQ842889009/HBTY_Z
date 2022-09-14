@@ -24,8 +24,8 @@
             clearable
             @change="tongxun"
           >
-            <el-option label="在线" value="1" />
-            <el-option label="离线" value="0" />
+            <el-option label="在线" value="0" />
+            <el-option label="离线" value="1" />
           </el-select>
         </el-form-item>
         <el-form-item label="">
@@ -34,7 +34,7 @@
             v-model="hour2"
             :popper-append-to-body="false"
             class="input"
-            placeholder="故障"
+            placeholder="正常/故障"
             size="medium"
             clearable
             @change="tongxun"
@@ -56,7 +56,7 @@
             size="medium"
             icon="el-icon-refresh-left"
             type="success"
-            @click="exportExcel111('单元箱数据')"
+            @click="exportExcel111('户阀数据')"
             >导出报表</el-button
           >
           <!-- <el-button
@@ -90,15 +90,23 @@
         <el-table-column
           prop="sid"
           label="表号"
-          width="130"
+          width="50"
           fixed
           align="center"
         >
         </el-table-column>
         <el-table-column
-          prop="sn"
-          label="设备编号"
+          prop="concentratorCode"
+          label="集中器号"
           width="130"
+          fixed="left"
+          align="center"
+        >
+        </el-table-column>
+        <el-table-column
+          prop="valveCode"
+          label="户阀号"
+          width="150"
           fixed="left"
           align="center"
         >
@@ -106,15 +114,15 @@
         <el-table-column
           prop="station"
           label="站点"
-          width="150"
+          width="130"
           fixed="left"
           align="center"
         >
         </el-table-column>
         <el-table-column
-          prop="community"
+          prop="housing"
           label="小区"
-          width="160"
+          width="140"
           fixed="left"
           align="center"
         >
@@ -122,7 +130,7 @@
         <el-table-column
           prop="tower"
           label="楼"
-          width="130"
+          width="120"
           fixed="left"
           align="center"
         >
@@ -130,7 +138,7 @@
         <el-table-column
           prop="unit"
           label="单元"
-          width="130"
+          width="120"
           fixed="left"
           align="center"
         >
@@ -138,31 +146,16 @@
         <el-table-column
           prop="num"
           label="室"
-          width="130"
-          fixed="left"
-          align="center"
-        >
-        </el-table-column>
-        <el-table-column
-          prop="householderName"
-          label="联系人"
-          width="130"
-          fixed="left"
-          align="center"
-        >
-        </el-table-column>
-        <el-table-column
-          prop="phone"
-          label="电话"
           width="120"
           fixed="left"
           align="center"
         >
         </el-table-column>
+
         <el-table-column
-          prop="eventTime"
+          prop="createdTime"
           label="更新日期"
-          width="200"
+          width="180"
           fixed="left"
           align="center"
           :formatter="dateFormat"
@@ -170,10 +163,23 @@
         </el-table-column>
 
         <el-table-column
-          prop="temp"
-          label="室温(℃)"
+          prop="returnWaterTe"
+          label="回温(℃)"
           width="150"
-          fixed="left"
+          align="center"
+        >
+        </el-table-column>
+        <el-table-column
+          prop="valveOpening"
+          label="阀门反馈(%)"
+          width="150"
+          align="center"
+        >
+        </el-table-column>
+        <el-table-column
+          prop="valveSetOpening"
+          label="阀门给定(%)"
+          width="150"
           align="center"
         >
         </el-table-column>
@@ -208,11 +214,11 @@
   </div>
 </template>
 <script>
-import SysDlialog from "./SysDlialog" ////
+import SysDlialog from "./SysDlialog"; ////
 //临时数据
 //import { options } from "assets/js/common/doorSelect";
-import FileSaver from "file-saver"
-import XLSX from "xlsx"
+import FileSaver from "file-saver";
+import XLSX from "xlsx";
 export default {
   data() {
     return {
@@ -223,7 +229,7 @@ export default {
         crossingTwo: "#155f14",
         //crossingTwo: "#224394",
         colorOne: "#fff",
-        colorTwo: "#fff"
+        colorTwo: "#fff",
       },
       selectID: [],
       station: "",
@@ -237,7 +243,7 @@ export default {
       pageSize: 25,
       value: null,
       totalCount: 0,
-      title: "室温曲线查询",
+      title: "户阀曲线查询",
       selectStationSid: null,
       rowData: {},
       infoArr: [],
@@ -247,18 +253,18 @@ export default {
       info: "",
       dataForm: {
         malfunction: null, //故障
-        communication: null //通讯
+        communication: null, //通讯
       },
 
       // options: options,
       options: [],
-      datah: 850 ///数据报表的高度 动态改
-    }
+      datah: 850, ///数据报表的高度 动态改
+    };
   },
   created() {
-    this.askData()
-    this.asd()
-    this.requestIndoorData()
+    this.askData();
+    this.asd();
+    this.requestIndoorData();
   },
   watch: {},
   computed: {
@@ -272,8 +278,8 @@ export default {
         // color: "#FEFEFE",
         fontSize: "14px",
         color: "#fff",
-        borderColor: "black"
-      }
+        borderColor: "black",
+      };
     },
     // 斑马线的颜色
     zebarCrossingStyle() {
@@ -281,34 +287,34 @@ export default {
         "--crossingOne": this.zebarCrossing.crossingOne,
         "--crossingTwo": this.zebarCrossing.crossingTwo,
         "--colorOne": this.zebarCrossing.colorOne,
-        "--colorTwo": this.zebarCrossing.colorTwo
-      }
-    }
+        "--colorTwo": this.zebarCrossing.colorTwo,
+      };
+    },
   },
   mounted() {
-    this.dd()
+    this.dd();
   },
   methods: {
     //时间日期格式
     dateFormat(row, column, cellValue, index) {
-      const daterc = row[column.property]
+      const daterc = row[column.property];
       if (daterc != null) {
-        var date = new Date(daterc)
-        var year = date.getFullYear()
+        var date = new Date(daterc);
+        var year = date.getFullYear();
         /* 在日期格式中，月份是从0开始，11结束，因此要加0
          * 使用三元表达式在小于10的前面加0，以达到格式统一  如 09:11:05
          * */
         var month =
           date.getMonth() + 1 < 10
             ? "0" + (date.getMonth() + 1)
-            : date.getMonth() + 1
-        var day = date.getDate() < 10 ? "0" + date.getDate() : date.getDate()
+            : date.getMonth() + 1;
+        var day = date.getDate() < 10 ? "0" + date.getDate() : date.getDate();
         var hours =
-          date.getHours() < 10 ? "0" + date.getHours() : date.getHours()
+          date.getHours() < 10 ? "0" + date.getHours() : date.getHours();
         var minutes =
-          date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes()
+          date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes();
         var seconds =
-          date.getSeconds() < 10 ? "0" + date.getSeconds() : date.getSeconds()
+          date.getSeconds() < 10 ? "0" + date.getSeconds() : date.getSeconds();
         // 拼接
         return (
           year +
@@ -322,20 +328,20 @@ export default {
           minutes +
           ":" +
           seconds
-        )
+        );
       }
     },
 
     //解决[ElTable] prop row-key is required的错误
     getRowKey(row) {
-      return row.sid
+      return row.sid;
     },
     tableRowClassName({ row, rowIndex }) {
       if (this.selectID.length == 0) {
         if ((rowIndex + 1) % 2 === 0) {
-          return "crossingOne" //类名
+          return "crossingOne"; //类名
         } else {
-          return "crossingTwo" //类名
+          return "crossingTwo"; //类名
         }
       }
 
@@ -349,12 +355,12 @@ export default {
       // }
     },
     handleSelectionChange(val) {
-      this.multipleSelection = val
+      this.multipleSelection = val;
     },
     infoChange(value) {
-      this.station = value[0]
-      this.community = value[1]
-      this.requestIndoorData()
+      this.station = value[0];
+      this.community = value[1];
+      this.requestIndoorData();
     },
     asd() {},
     //获取信息的函数
@@ -363,8 +369,8 @@ export default {
       this.$http
         .get("/HUFAhistory/household/info/getStationAndHousing")
         .then((res) => {
-          console.log("AIunit菜单", res)
-          this.options = res.community
+          console.log("AIunit菜单", res);
+          this.options = res.community;
           // this.tableData = res.list;
           // this.totalCount = res.total;
           // console.log("ddd", this.tableData);
@@ -373,29 +379,30 @@ export default {
         .catch((err) => {
           // console.log(err);
           // this.dataListLoading = false;
-        })
+        });
     },
     sizeChangeHandle(val) {
-      this.pageSize = val
+      this.pageSize = val;
       //更改每页显示记录数量后，都从第一页开始查询
-      this.pageIndex = 1
+      this.pageIndex = 1;
 
-      this.requestIndoorData()
+      this.requestIndoorData();
     },
     currentChangeHandle(val) {
-      this.pageIndex = val
+      this.pageIndex = val;
 
-      this.requestIndoorData()
+      this.requestIndoorData();
     },
     handleChange() {
-      this.requestIndoorData()
+      this.requestIndoorData();
     },
     tongxun() {
-      this.requestIndoorData()
+      console.log("黑蚂蚁的单元阀通讯");
+      this.requestIndoorData();
     },
 
     requestIndoorData() {
-      this.dataListLoading = true
+      this.dataListLoading = true;
       // if (this.noData === "1") {
       //   this.TonoData = 1;
       // }
@@ -413,34 +420,34 @@ export default {
         count: this.pageSize,
         station: this.station,
         community: this.community,
-        noData: this.TonoData,
-        hour2: this.Tohour2
-      }
-      console.log("黑蚂蚁的户阀条件", data)
+        noData: this.noData,
+        hour2: this.hour2,
+      };
+      console.log("黑蚂蚁的户阀条件", data);
       this.$http
         .get("/kk/valveDataInfo/list", {
-          params: data
+          params: data,
         })
         .then((res) => {
-          this.tableData = res.list
-          this.totalCount = res.total
-          console.log("黑蚂蚁的户阀数据", this.tableData)
-          this.dataListLoading = false
+          this.tableData = res.list;
+          this.totalCount = res.total;
+          console.log("黑蚂蚁的户阀数据", this.tableData);
+          this.dataListLoading = false;
         })
         .catch((err) => {
-          console.log(err)
-          this.dataListLoading = false
-        })
+          console.log(err);
+          this.dataListLoading = false;
+        });
       //结束
     },
     changeInput(v) {
-      console.log("****", v)
+      console.log("****", v);
     },
     reset() {
       // this.station = null;
       // this.community = null;
-      this.value = null
-      this.requestIndoorData()
+      this.value = null;
+      this.requestIndoorData();
       // this.selectStationSid = null;
       // this.dataForm.malfunction = null;
       // this.dataForm.category = null;
@@ -448,62 +455,62 @@ export default {
     },
     //历史查询按钮
     searchHistoryList(v) {
-      this.$refs.dialog.dialogVisible = true
-      this.$refs.dialog.start() //子组件$on中的名字
+      this.$refs.dialog.dialogVisible = true;
+      this.$refs.dialog.start(); //子组件$on中的名字
       // this.$refs.dialog.dialogVisible = true;
-      this.rowData = { ...v }
+      this.rowData = { ...v };
     },
     exportExcel111(excelName) {
       try {
-        const $e = this.$refs["report-table"].$el
-        console.log("----", $e)
-        let $table = $e.querySelector(".el-table__fixed")
+        const $e = this.$refs["report-table"].$el;
+        console.log("----", $e);
+        let $table = $e.querySelector(".el-table__fixed");
         if (!$table) {
-          $table = $e
+          $table = $e;
         }
 
-        const wb = XLSX.utils.table_to_book($table, { raw: true })
+        const wb = XLSX.utils.table_to_book($table, { raw: true });
         const wbout = XLSX.write(wb, {
           bookType: "xlsx",
           bookSST: true,
-          type: "array"
-        })
+          type: "array",
+        });
         FileSaver.saveAs(
           new Blob([wbout], { type: "application/octet-stream" }),
           `${excelName}.xlsx`
-        )
+        );
       } catch (e) {
-        if (typeof console !== "undefined") console.error(e)
+        if (typeof console !== "undefined") console.error(e);
       }
     },
     exportExcel222() {
-      let time = new Date()
-      let wb = XLSX.utils.table_to_book(document.querySelector("#el-table"))
+      let time = new Date();
+      let wb = XLSX.utils.table_to_book(document.querySelector("#el-table"));
       let wbout = XLSX.write(wb, {
         bookType: "xlsx",
         bookSST: true,
-        type: "array"
-      })
+        type: "array",
+      });
 
       try {
         FileSaver.saveAs(
           new Blob([wbout], { type: "application/octet-stream" }),
           `名字 ${time.getTime()}.xlsx` // 文件名
-        )
+        );
       } catch (e) {
         if (typeof console !== "undefined") {
-          this.$message.error("导出失败")
-          console.log(e, wbout)
+          this.$message.error("导出失败");
+          console.log(e, wbout);
         }
       }
 
-      return wbout
-    }
+      return wbout;
+    },
   },
   components: {
-    SysDlialog
-  }
-}
+    SysDlialog,
+  },
+};
 </script>
 <style lang="scss">
 .el-cascader-menu__wrap {

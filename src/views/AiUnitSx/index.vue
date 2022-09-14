@@ -87,34 +87,28 @@
         :style="zebarCrossingStyle"
         :row-key="getRowKey"
       >
-        <el-table-column
+ <el-table-column
           prop="sid"
           label="表号"
-          width="130"
+          width="50"
           fixed
           align="center"
         >
         </el-table-column>
-        <el-table-column
-          prop="sn"
-          label="设备编号"
-          width="130"
-          fixed="left"
-          align="center"
-        >
-        </el-table-column>
+       
+       
         <el-table-column
           prop="station"
           label="站点"
-          width="150"
+          width="120"
           fixed="left"
           align="center"
         >
         </el-table-column>
         <el-table-column
-          prop="community"
+          prop="housing"
           label="小区"
-          width="160"
+          width="150"
           fixed="left"
           align="center"
         >
@@ -122,7 +116,7 @@
         <el-table-column
           prop="tower"
           label="楼"
-          width="130"
+          width="160"
           fixed="left"
           align="center"
         >
@@ -130,61 +124,108 @@
         <el-table-column
           prop="unit"
           label="单元"
-          width="130"
+          width="100"
           fixed="left"
           align="center"
         >
         </el-table-column>
+
         <el-table-column
-          prop="num"
-          label="室"
-          width="130"
-          fixed="left"
-          align="center"
-        >
-        </el-table-column>
-        <el-table-column
-          prop="householderName"
-          label="联系人"
-          width="130"
-          fixed="left"
-          align="center"
-        >
-        </el-table-column>
-        <el-table-column
-          prop="phone"
-          label="电话"
-          width="120"
-          fixed="left"
-          align="center"
-        >
-        </el-table-column>
-        <el-table-column
-          prop="eventTime"
+          prop="createdTime"
           label="更新日期"
-          width="200"
+          width="160"
           fixed="left"
           align="center"
           :formatter="dateFormat"
         >
         </el-table-column>
 
-        <el-table-column
-          prop="temp"
-          label="室温(℃)"
-          width="150"
-          fixed="left"
-          align="center"
-        >
+      
+        <el-table-column label="一次侧" align="center">
+                    <!-- <el-table-column
+            prop="fv1sp"
+            label="1#阀门给定(%)"
+            width="110"
+            align="center"
+          >
+            <template slot-scope="scope">
+              <el-input
+                type="number"
+                size="mini"
+                max="100"
+                min="0"
+                v-model="scope.row.fv1sp"
+                onkeyup="this.value=this.value.replace(/[\u4E00-\u9FA5]/g,'') "
+                oninput="if(value>100)value=100;if(value<0)value=0"
+                @change="changeInput(scope.row)"
+              >
+              </el-input>
+            </template>
+          </el-table-column> -->
+          <el-table-column
+            prop="fv1fb"
+            label="阀门反馈(%)"
+            width="65"
+            fixed
+            align="center"
+          >
+          </el-table-column>
+          <el-table-column label="供温(℃)" prop="te1" width="65">
+          </el-table-column>
+             <el-table-column label="回温(℃)" prop="te2" width="65">
+          </el-table-column>
+          <el-table-column label="供压(MPa)" prop="pt1" width="65">
+          </el-table-column>
+         <el-table-column label="回压(MPa)" prop="pt2" width="65">
+          </el-table-column>
+            </el-table-column>
+                   <el-table-column label="二次侧" align="center">
+                                         <!-- <el-table-column
+            prop="fv2sp"
+            label="1#阀门给定(%)"
+            width="110"
+            align="center"
+          >
+            <template slot-scope="scope">
+              <el-input
+                type="number"
+                size="mini"
+                max="100"
+                min="0"
+                v-model="scope.row.fv2sp"
+                onkeyup="this.value=this.value.replace(/[\u4E00-\u9FA5]/g,'') "
+                oninput="if(value>100)value=100;if(value<0)value=0"
+                @change="changeInput(scope.row)"
+              >
+              </el-input>
+            </template>
+          </el-table-column> -->
+          <el-table-column
+            prop="fv2fb"
+            label="阀门反馈(%)"
+            width="65"
+            fixed
+            align="center"
+          >
+          </el-table-column>
+          <el-table-column label="供温(℃)" prop="te3" width="65">
+          </el-table-column>
+             <el-table-column label="回温(℃)" prop="te4" width="65">
+          </el-table-column>
+          <el-table-column label="供压(MPa)" prop="pt3" width="65">
+          </el-table-column>
+         <el-table-column label="回压(MPa)" prop="pt4" width="65">
+          </el-table-column>
+            </el-table-column>
+      
         </el-table-column>
-
-        <el-table-column label="操作" width="250" fixed="right" align="center">
+        <el-table-column label="操作" width="200"  align="center">
           <template slot-scope="scope">
             <el-button
               type="success"
               size="mini"
               @click="searchHistoryList(scope.row)"
-              fixed="right"
+             
               >历史查询</el-button
             >
           </template>
@@ -237,7 +278,7 @@ export default {
       pageSize: 25,
       value: null,
       totalCount: 0,
-      title: "室温曲线查询",
+      title: "单独单元阀",
       selectStationSid: null,
       rowData: {},
       infoArr: [],
@@ -361,9 +402,9 @@ export default {
     dd() {},
     async askData() {
       this.$http
-        .get("/TEhistory/roomtemperature/houser/getAllCommunity") //
+        .get("/qwer/hotandewather/sixin/getAiUnitInfos") //
         .then((res) => {
-          console.log("室内温度菜单", res);
+          console.log("四新的菜单", res);
           this.options = res.community;
           // this.tableData = res.list;
           // this.totalCount = res.total;
@@ -398,7 +439,13 @@ export default {
     },
     requestIndoorData() {
       this.dataListLoading = true;
+      if (this.hour2 === "0") {
+        this.Tohour2 = parseInt(this.hour2);
+      }
 
+      if (this.hour2 === "1") {
+        this.Tohour2 = parseInt(this.hour2);
+      }
       let data = {
         page: this.pageIndex,
         count: this.pageSize,

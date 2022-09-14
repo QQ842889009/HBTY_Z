@@ -16,7 +16,7 @@
         ref="ruleForm"
         :inline="true"
       >
-        <el-form-item label="站名33">
+        <el-form-item label="站名">
           <el-input v-model="ruleForm.station"></el-input>
         </el-form-item>
         <el-form-item label="面积">
@@ -293,6 +293,7 @@ export default {
     },
 
     changedata(v) {
+      console.log("bbbbbbb");
       v.id = parseInt(v.id);
       v.sid = parseInt(v.sid);
       v.space = parseFloat(v.space);

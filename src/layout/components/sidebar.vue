@@ -355,7 +355,7 @@
 <script>
 import Bus from "assets/js/bus.js";
 // import { mapGetters } from "vuex";
-import sideItem from "./sideItem";
+//  import sideItem from "./sideItem";
 export default {
   name: "login",
   data() {
@@ -491,7 +491,7 @@ export default {
   mounted() {},
   computed: {},
   components: {
-    sideItem,
+    // sideItem,
   },
   methods: {
     fanhui() {

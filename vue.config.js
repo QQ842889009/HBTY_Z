@@ -33,9 +33,11 @@ module.exports = {
       },
       "/plcdata": {
         //
+
         target: "http://221.206.242.116:9000",
         //target: "http://192.168.100.202:9000", //9000端口映射到202机子上
         // target: "http://10.168.1.176:9000",
+
         changeOrigin: true,
         ws: true,
         pathRewrite: {
@@ -54,7 +56,7 @@ module.exports = {
       },
       "/kk": {
         //
-        target: "http://221.206.242.116:1668", //黑蚂蚁的单元阀和户阀的JAVA连接信息和数据的连接
+        target: "http://221.206.242.116:1668", //黑蚂蚁的单元阀和户阀的连接信息和数据的连接王
         ws: true,
         changeOrigin: true,
 
@@ -64,12 +66,23 @@ module.exports = {
       },
       "/sx": {
         //
-        target: "http://221.206.242.116:1868", //四新数据单元阀JAVA
+        target: "http://221.206.242.116:1868", //四新数据单元阀JAVA-王
         ws: true,
         changeOrigin: true,
 
         pathRewrite: {
           "^/sx": ""
+        }
+      },
+      "/qwer": {
+        //
+        target: "http://221.206.242.116:9005",
+        // target: "http://10.168.1.176:9005", //四新数据单元阀菜单历史数据JAVA-莫
+        ws: true,
+        changeOrigin: true,
+
+        pathRewrite: {
+          "^/qwer": ""
         }
       },
       "/TEhistory": {
@@ -84,7 +97,8 @@ module.exports = {
       },
       "/AiUnit": {
         //
-        target: "http://221.206.242.116:9003", //ai42个设备那个菜单和历史曲线
+        target: "http://221.206.242.116:9003", //ai42个设备那个菜单和历史曲线------黑蚂蚁楼宇单元阀
+        //target: "http://10.168.1.176:9003",
         // ws: true,
         changeOrigin: true,
 
@@ -93,10 +107,9 @@ module.exports = {
         }
       },
       "/hotw": {
-        //
-        
         target: "http://221.206.242.116:9005", //ai42个设备那个菜单和历史曲线
         // target: "http://10.168.1.176:9005",
+
         // ws: true,
         changeOrigin: true,
 
@@ -106,7 +119,8 @@ module.exports = {
       },
       "/HUFAhistory": {
         //
-        target: "http://10.168.1.176:9004", //ai42个设备那个
+        //target: "http://10.168.1.176:9004", //户阀历史和菜单
+        target: "http://221.206.242.116:9004",
         // ws: true,
         changeOrigin: true,
 

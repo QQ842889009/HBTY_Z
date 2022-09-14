@@ -56,7 +56,7 @@
             size="medium"
             icon="el-icon-refresh-left"
             type="success"
-            @click="exportExcel111('单元箱数据')"
+            @click="exportExcel111('室内温度数据')"
             >导出报表</el-button
           >
           <!-- <el-button
@@ -409,7 +409,7 @@ export default {
       // }
       // if (this.hour2 === "0") {
       //   this.Tohour2 = null;
-      // }
+      // }//
       let data = {
         page: this.pageIndex,
         count: this.pageSize,
@@ -418,7 +418,7 @@ export default {
         noData: this.noData,
         hour2: this.hour2,
       };
-      console.log("条件", data);
+      console.log("条件-----", data);
       this.$http
         .get("/indoor/hbty/roomTeInfo/list", {
           params: data,

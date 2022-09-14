@@ -11,11 +11,11 @@
       <div class="a">
         <div class="t">
           <span>换热站：{{ obj01.station }}</span>
-          <span>小区:{{ obj01.community }}</span>
+          <span>小区:{{ obj01.housing }}</span>
           <span>楼：{{ obj01.tower }}</span>
           <span>单元：{{ obj01.unit }}</span>
-          <!-- <span>室：{{ obj01.num }}</span>
-          <span>联系人：{{ obj01.householder_name }}</span> -->
+          <span>室：{{ obj01.num }}</span>
+          <!-- <span>联系人：{{ obj01.householder_name }}</span> -->
         </div>
         <div class="shijian">
           <DateTimePicker
@@ -24,11 +24,13 @@
           ></DateTimePicker>
         </div>
         <div class="quxian">
-          <FtLineBox
-            title_name="单元阀历史曲线"
+          <EchartLineDB
             :getData="indoorque"
-            :boxHeight="'32%'"
-            :yUnit="'℃'"
+            title_name="户阀曲线"
+            :isSort="false"
+            :isShowDB="false"
+            :showLenged="true"
+            dbTem="35"
           />
         </div>
       </div>
@@ -39,12 +41,15 @@
 <script>
 import qs from "qs";
 import axios from "axios";
+import EchartLineDB from "../Visual/components/EchartLineDB.vue";
 // import EchartLine from "./EchartLine.vue";
 // import FtLineBoxy from "./FtLineBoxy.vue";
 import DateTimePicker from "components/common/DateTimePicker";
 export default {
   components: {
     DateTimePicker,
+
+    EchartLineDB,
     // EchartLine,
     // FtLineBoxy,
   },
@@ -82,6 +87,7 @@ export default {
       obj01: {},
       labelPosition: "right",
       sn: null,
+      valveCode: null,
       startTime: null,
       endTime: null,
       value2: [],
@@ -130,7 +136,7 @@ export default {
     start22() {
       // this.getDate();
       this.getDate();
-      this.sn = this.rowData.sn;
+      this.valveCode = this.rowData.valveCode;
       // this.sn = this.rowData.sn;
       // console.log("kaishi----------", this.rowData.sn);
       this.receiveDateTimePicker(this.value2);
@@ -188,7 +194,7 @@ export default {
     receiveDateTimePicker(v) {
       this.startTime = v[0];
       this.endTime = v[1];
-      this.sn = this.rowData.sn;
+      this.valveCode = this.rowData.valveCode;
       this.gg();
       if (v.length > 0) {
         // let a = v[0];
@@ -215,19 +221,18 @@ export default {
       }
     },
     gg() {
-      console.log("gggg");
       let data = {
-        valve_code: "19511210911443",
+        valve_code: this.valveCode,
         startTime: this.startTime,
         endTime: this.endTime,
       };
-      console.log("gggg", data);
+      console.log("黑蚂蚁户阀的历史数据查询", data);
       this.$http
         .post("HUFAhistory/household/datas/searchDatasbyValueCode", data)
         .then((res) => {
           console.log("室内温度历史曲线", res);
           this.obj01 = res.station_and_housiong;
-          this.indoorque = res.datas;
+          this.indoorque = res.result;
           // console.log("this.obj01", this.obj01);
         });
     },
