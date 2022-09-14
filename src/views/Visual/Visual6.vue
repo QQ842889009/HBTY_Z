@@ -44,6 +44,7 @@ export default {
     //     this.vueSendToUnity("getStationsName",this.stationName);
     // }, 10000);
     window.addEventListener("message", this.unityWatch);
+    console.log('router----',this.$route.query)
   },
   computed: {
     stationName() {
@@ -53,13 +54,14 @@ export default {
   methods: {
     //unity发过来的消息处理
     unityWatch(e) {
-      console.log(
-        "unityWatch方法调用 event=" + e.data.event + " msg=" + e.data.msg
-      );
+      // console.log(
+      //   "unityWatch方法调用 event=" + e.data.event + " msg=" + e.data.msg
+      // );
       switch (e.data.event) {
         case "ReportReady":
           console.log("unity发送消息到vue成功");
           this.vueSendToUnity("getStationsName", this.stationName);
+          this.vueSendToUnity("getRouteId", this.$route.query.id);
           break;
         case "stationInfo": //自己定义的事件，代表站的数据,接受的是unity发过来的换热站id
           clearInterval(this.timer);
