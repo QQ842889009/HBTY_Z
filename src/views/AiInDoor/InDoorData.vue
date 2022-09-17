@@ -19,7 +19,7 @@
             v-model="noData"
             :popper-append-to-body="false"
             class="input"
-            placeholder="通讯"
+            placeholder="请选择"
             size="medium"
             clearable
             @change="tongxun"
@@ -34,7 +34,7 @@
             v-model="hour2"
             :popper-append-to-body="false"
             class="input"
-            placeholder="故障/正常"
+            placeholder="请选择"
             size="medium"
             clearable
             @change="guzhang"
@@ -56,7 +56,7 @@
             size="medium"
             icon="el-icon-refresh-left"
             type="success"
-            @click="exportExcel111('单元箱数据')"
+            @click="exportExcel111('室内温度数据')"
             >导出报表</el-button
           >
           <!-- <el-button
@@ -90,23 +90,15 @@
         <el-table-column
           prop="sid"
           label="表号"
-          width="50"
-          fixed
-          align="center"
-        >
-        </el-table-column>
-              <el-table-column
-          prop="sid"
-          label="信号"
-          width="80"
+          width="130"
           fixed
           align="center"
         >
         </el-table-column>
         <el-table-column
-          prop="aiNum"
+          prop="sn"
           label="设备编号"
-          width="140"
+          width="130"
           fixed="left"
           align="center"
         >
@@ -114,15 +106,15 @@
         <el-table-column
           prop="station"
           label="站点"
-          width="90"
+          width="150"
           fixed="left"
           align="center"
         >
         </el-table-column>
         <el-table-column
-          prop="housing"
+          prop="community"
           label="小区"
-          width="110"
+          width="160"
           fixed="left"
           align="center"
         >
@@ -130,7 +122,7 @@
         <el-table-column
           prop="tower"
           label="楼"
-          width="80"
+          width="130"
           fixed="left"
           align="center"
         >
@@ -138,108 +130,61 @@
         <el-table-column
           prop="unit"
           label="单元"
-          width="100"
+          width="130"
           fixed="left"
           align="center"
         >
         </el-table-column>
-
         <el-table-column
-          prop="createdTime"
+          prop="num"
+          label="室"
+          width="130"
+          fixed="left"
+          align="center"
+        >
+        </el-table-column>
+        <el-table-column
+          prop="householderName"
+          label="联系人"
+          width="130"
+          fixed="left"
+          align="center"
+        >
+        </el-table-column>
+        <el-table-column
+          prop="phone"
+          label="电话"
+          width="120"
+          fixed="left"
+          align="center"
+        >
+        </el-table-column>
+        <el-table-column
+          prop="eventTime"
           label="更新日期"
-          width="160"
+          width="200"
           fixed="left"
           align="center"
           :formatter="dateFormat"
         >
         </el-table-column>
 
-      
-        <el-table-column label="一次侧" align="center">
-                    <!-- <el-table-column
-            prop="fv1sp"
-            label="1#阀门给定(%)"
-            width="110"
-            align="center"
-          >
-            <template slot-scope="scope">
-              <el-input
-                type="number"
-                size="mini"
-                max="100"
-                min="0"
-                v-model="scope.row.fv1sp"
-                onkeyup="this.value=this.value.replace(/[\u4E00-\u9FA5]/g,'') "
-                oninput="if(value>100)value=100;if(value<0)value=0"
-                @change="changeInput(scope.row)"
-              >
-              </el-input>
-            </template>
-          </el-table-column> -->
-          <el-table-column
-            prop="fv1fb"
-            label="阀门反馈(%)"
-            width="65"
-            fixed
-            align="center"
-          >
-          </el-table-column>
-          <el-table-column label="供温(℃)" prop="te1" width="65">
-          </el-table-column>
-             <el-table-column label="回温(℃)" prop="te2" width="65">
-          </el-table-column>
-          <el-table-column label="供压(MPa)" prop="pt1" width="65">
-          </el-table-column>
-         <el-table-column label="回压(MPa)" prop="pt2" width="65">
-          </el-table-column>
-            </el-table-column>
-                   <el-table-column label="二次侧" align="center">
-                                         <!-- <el-table-column
-            prop="fv2sp"
-            label="1#阀门给定(%)"
-            width="110"
-            align="center"
-          >
-            <template slot-scope="scope">
-              <el-input
-                type="number"
-                size="mini"
-                max="100"
-                min="0"
-                v-model="scope.row.fv2sp"
-                onkeyup="this.value=this.value.replace(/[\u4E00-\u9FA5]/g,'') "
-                oninput="if(value>100)value=100;if(value<0)value=0"
-                @change="changeInput(scope.row)"
-              >
-              </el-input>
-            </template>
-          </el-table-column> -->
-          <el-table-column
-            prop="fv2fb"
-            label="阀门反馈(%)"
-            width="65"
-            fixed
-            align="center"
-          >
-          </el-table-column>
-          <el-table-column label="供温(℃)" prop="te3" width="65">
-          </el-table-column>
-             <el-table-column label="回温(℃)" prop="te4" width="65">
-          </el-table-column>
-          <el-table-column label="供压(MPa)" prop="pt3" width="65">
-          </el-table-column>
-         <el-table-column label="回压(MPa)" prop="pt4" width="65">
-          </el-table-column>
-            </el-table-column>
-      
+        <el-table-column
+          prop="temp"
+          label="室温(℃)"
+          width="150"
+          fixed="left"
+          align="center"
+        >
         </el-table-column>
-        <el-table-column label="操作" width="200"  align="center">
+
+        <el-table-column label="操作" width="250" fixed="right" align="center">
           <template slot-scope="scope">
             <el-button
               type="success"
               size="mini"
               @click="searchHistoryList(scope.row)"
-             
+              fixed="right"
               >历史查询</el-button
             >
           </template>
@@ -292,7 +237,7 @@ export default {
       pageSize: 25,
       value: null,
       totalCount: 0,
-      title: "带户阀的单元阀",
+      title: "室温曲线查询",
       selectStationSid: null,
       rowData: {},
       infoArr: [],
@@ -416,9 +361,9 @@ export default {
     dd() {},
     async askData() {
       this.$http
-        .get("/AiUnit/buildingms/info/getStationAndHousing")
+        .get("/TEhistory/roomtemperature/houser/getAllCommunity") //
         .then((res) => {
-          console.log("AIunit菜单", res);
+          console.log("室内温度菜单", res);
           this.options = res.community;
           // this.tableData = res.list;
           // this.totalCount = res.total;
@@ -451,7 +396,6 @@ export default {
     guzhang() {
       this.requestIndoorData();
     },
-
     requestIndoorData() {
       this.dataListLoading = true;
       // if (this.noData === "1") {
@@ -465,35 +409,24 @@ export default {
       // }
       // if (this.hour2 === "0") {
       //   this.Tohour2 = null;
-      // }
-
-      if (this.hour2 === "0") {
-        this.Tohour2 = parseInt(this.hour2);
-      }
-
-      if (this.hour2 === "1") {
-        this.Tohour2 = parseInt(this.hour2);
-      }
-      // if (this.hour2 === "1") {
-      //   this.hour2 = parseInt(this.hour2);
-      // }
+      // }//
       let data = {
         page: this.pageIndex,
         count: this.pageSize,
         station: this.station,
         community: this.community,
         noData: this.noData,
-        hour2: this.Tohour2,
+        hour2: this.hour2,
       };
-      console.log("黑蚂蚁单元阀的条件------", data);
+      console.log("条件-----", data);
       this.$http
-        .get("/kk/aiDatas/list", {
+        .get("/indoor/hbty/roomTeInfo/list", {
           params: data,
         })
         .then((res) => {
           this.tableData = res.list;
           this.totalCount = res.total;
-          console.log("黑蚂蚁单元阀数据", this.tableData);
+          // console.log("ddd", this.tableData);
           this.dataListLoading = false;
         })
         .catch((err) => {
@@ -568,15 +501,13 @@ export default {
 
       return wbout;
     },
-    //阀门给定
-    changeInput() {},
   },
   components: {
     SysDlialog,
   },
 };
 </script>
-<style lang="scss">
+<style lang="scss" >
 .el-cascader-menu__wrap {
   height: 208px;
   background-color: green !important;

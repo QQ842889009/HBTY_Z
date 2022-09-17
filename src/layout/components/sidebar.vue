@@ -22,6 +22,7 @@
         <!-- 二级菜单 -->
         <!-- :index="'/' + subItem.path" -->
         <el-menu-item
+          :index="'/' + subItem.path"
           v-for="subItem in item.children"
           :key="subItem.id"
           @click="fg(subItem)"
@@ -36,7 +37,7 @@
         </el-menu-item>
       </el-submenu>
     </el-menu>
-    <div class="aaa" v-if="station === 5">
+    <div class="aaa" v-if="station === 88">
       <i class="el-icon-caret-left" @click="fanhui"></i>
       <!-- <div class="t">换热站</div> -->
       <el-menu
@@ -347,7 +348,7 @@
       </el-menu>
     </div>
     <div class="bbb" @click="showBtn" v-if="station === 0">
-      <div class="ccc"><i class="el-icon-caret-right"></i></div>
+      <!-- <div class="ccc"><i class="el-icon-caret-right"></i></div> -->
     </div>
   </div>
 </template>
@@ -355,7 +356,7 @@
 <script>
 import Bus from "assets/js/bus.js";
 // import { mapGetters } from "vuex";
-import sideItem from "./sideItem";
+//  import sideItem from "./sideItem";
 export default {
   name: "login",
   data() {
@@ -390,27 +391,27 @@ export default {
             {
               name: "换热站",
               id: "22",
-              path: "Hot",
+              path: "TabData",
             },
             {
               name: "楼宇单元阀",
               id: "23",
-              path: "Hot",
+              path: "AiUnitSx",
             },
             {
               name: "户阀",
               id: "24",
-              path: "Hot",
+              path: "AiDoor",
             },
             {
               name: "室内温度",
               id: "25",
-              path: "Hot",
+              path: "AiInDoor",
             },
             {
               name: "后台系统",
               id: "26",
-              path: "Hot",
+              path: "backStagee",
             },
           ],
         },
@@ -422,7 +423,7 @@ export default {
             {
               name: "气象展示",
               id: "331",
-              path: "Hot",
+              path: "Weather",
             },
           ],
         },
@@ -486,12 +487,13 @@ export default {
       door: 0,
       indoor: 0,
       houtai: 0,
+      ck: 0,
     };
   },
   mounted() {},
   computed: {},
   components: {
-    sideItem,
+    // sideItem,
   },
   methods: {
     fanhui() {
@@ -515,6 +517,8 @@ export default {
         this.houtai = 0;
         this.is = 1;
         this.uu = 2;
+        this.ck = 55;
+        this.$store.commit("CK", this.ck);
       } else if (v.name === "热源") {
         this.station = 5;
         this.hot = 5;

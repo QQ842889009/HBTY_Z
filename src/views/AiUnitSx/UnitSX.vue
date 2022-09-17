@@ -19,7 +19,7 @@
             v-model="noData"
             :popper-append-to-body="false"
             class="input"
-            placeholder="通讯"
+            placeholder="请选择"
             size="medium"
             clearable
             @change="tongxun"
@@ -34,7 +34,7 @@
             v-model="hour2"
             :popper-append-to-body="false"
             class="input"
-            placeholder="故障/正常"
+            placeholder="请选择"
             size="medium"
             clearable
             @change="guzhang"
@@ -87,7 +87,7 @@
         :style="zebarCrossingStyle"
         :row-key="getRowKey"
       >
-        <el-table-column
+ <el-table-column
           prop="sid"
           label="表号"
           width="50"
@@ -95,26 +95,12 @@
           align="center"
         >
         </el-table-column>
-              <el-table-column
-          prop="sid"
-          label="信号"
-          width="80"
-          fixed
-          align="center"
-        >
-        </el-table-column>
-        <el-table-column
-          prop="aiNum"
-          label="设备编号"
-          width="140"
-          fixed="left"
-          align="center"
-        >
-        </el-table-column>
+       
+       
         <el-table-column
           prop="station"
           label="站点"
-          width="90"
+          width="120"
           fixed="left"
           align="center"
         >
@@ -122,7 +108,7 @@
         <el-table-column
           prop="housing"
           label="小区"
-          width="110"
+          width="150"
           fixed="left"
           align="center"
         >
@@ -130,7 +116,7 @@
         <el-table-column
           prop="tower"
           label="楼"
-          width="80"
+          width="160"
           fixed="left"
           align="center"
         >
@@ -292,7 +278,7 @@ export default {
       pageSize: 25,
       value: null,
       totalCount: 0,
-      title: "带户阀的单元阀",
+      title: "单独单元阀",
       selectStationSid: null,
       rowData: {},
       infoArr: [],
@@ -416,9 +402,9 @@ export default {
     dd() {},
     async askData() {
       this.$http
-        .get("/AiUnit/buildingms/info/getStationAndHousing")
+        .get("/qwer/hotandewather/sixin/getAiUnitInfos") //
         .then((res) => {
-          console.log("AIunit菜单", res);
+          console.log("四新的菜单", res);
           this.options = res.community;
           // this.tableData = res.list;
           // this.totalCount = res.total;
@@ -451,22 +437,8 @@ export default {
     guzhang() {
       this.requestIndoorData();
     },
-
     requestIndoorData() {
       this.dataListLoading = true;
-      // if (this.noData === "1") {
-      //   this.TonoData = 1;
-      // }
-      // if (this.noData === "0") {
-      //   this.TonoData = null;
-      // }
-      // if (this.hour2 === "1") {
-      //   this.Tohour2 = 1;
-      // }
-      // if (this.hour2 === "0") {
-      //   this.Tohour2 = null;
-      // }
-
       if (this.hour2 === "0") {
         this.Tohour2 = parseInt(this.hour2);
       }
@@ -474,26 +446,23 @@ export default {
       if (this.hour2 === "1") {
         this.Tohour2 = parseInt(this.hour2);
       }
-      // if (this.hour2 === "1") {
-      //   this.hour2 = parseInt(this.hour2);
-      // }
       let data = {
         page: this.pageIndex,
         count: this.pageSize,
         station: this.station,
         community: this.community,
         noData: this.noData,
-        hour2: this.Tohour2,
+        hour2: this.hour2,
       };
-      console.log("黑蚂蚁单元阀的条件------", data);
+      console.log("四新单元阀的条件", data);
       this.$http
-        .get("/kk/aiDatas/list", {
+        .get("/sx/aiDataInfo/list", {
           params: data,
         })
         .then((res) => {
           this.tableData = res.list;
           this.totalCount = res.total;
-          console.log("黑蚂蚁单元阀数据", this.tableData);
+          console.log("四新单元阀的数据", this.tableData);
           this.dataListLoading = false;
         })
         .catch((err) => {
@@ -568,8 +537,6 @@ export default {
 
       return wbout;
     },
-    //阀门给定
-    changeInput() {},
   },
   components: {
     SysDlialog,

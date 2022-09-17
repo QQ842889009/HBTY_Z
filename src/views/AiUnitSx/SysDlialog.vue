@@ -14,8 +14,8 @@
           <span>小区:{{ obj01.community }}</span>
           <span>楼：{{ obj01.tower }}</span>
           <span>单元：{{ obj01.unit }}</span>
-          <span>室：{{ obj01.num }}</span>
-          <span>联系人：{{ obj01.householder_name }}</span>
+          <!-- <span>室：{{ obj01.num }}</span> -->
+          <!-- <span>联系人：{{ obj01.householder_name }}</span> -->
         </div>
         <div class="shijian">
           <DateTimePicker
@@ -24,7 +24,14 @@
           ></DateTimePicker>
         </div>
         <div class="quxian">
-          <EchartLineDB :getData="indoorque" title_name="室内温度" />
+          <EchartLineDB
+            :getData="indoorque"
+            title_name="单独单元阀"
+            :isSort="false"
+            :isShowDB="false"
+            :showLenged="true"
+            dbTem="35"
+          />
         </div>
       </div>
     </el-dialog>
@@ -32,42 +39,42 @@
 </template>
 
 <script>
-import qs from "qs"
-import axios from "axios"
-import EchartLineDB from "../Visual/components/EchartLineDB.vue"
-import DateTimePicker from "components/common/DateTimePicker"
+import qs from "qs";
+import axios from "axios";
+import EchartLineDB from "../Visual/components/EchartLineDB.vue";
+import DateTimePicker from "components/common/DateTimePicker";
 export default {
   components: {
     DateTimePicker,
-    EchartLineDB
+    EchartLineDB,
   },
   name: "ArticleList",
 
   props: {
     title: {
       type: String,
-      default: "标题"
+      default: "标题",
     },
     rowData: {
       type: Object,
       default: function () {
-        return {}
-      }
+        return {};
+      },
     },
     tableData: {
       type: Array,
       default: () => {
-        return []
-      }
+        return [];
+      },
     },
     width: {
       type: Number,
-      default: 1500
+      default: 1500,
     },
     height: {
       type: Number,
-      default: 850
-    }
+      default: 850,
+    },
   },
   data() {
     return {
@@ -75,6 +82,7 @@ export default {
       obj01: {},
       labelPosition: "right",
       sn: null,
+      sid: null,
       startTime: null,
       endTime: null,
       value2: [],
@@ -82,14 +90,14 @@ export default {
       indoorque: [
         {
           event_time: "2022-06-23",
-          temp: "24"
+          temp: "24",
         },
         {
           event_time: "2022-06-24",
-          temp: "10"
-        }
-      ]
-    }
+          temp: "10",
+        },
+      ],
+    };
   },
   created() {
     // this.getDate();
@@ -105,11 +113,11 @@ export default {
       //这个是固定写法
       handler() {
         //watch的一个方法
-        this.start22() //要执行的方法
+        this.start22(); //要执行的方法
       },
       // immediate: true, //初始监听
-      deep: true //深度监听
-    }
+      deep: true, //深度监听
+    },
   },
   methods: {
     start() {
@@ -122,28 +130,28 @@ export default {
     },
     start22() {
       // this.getDate();
-      this.getDate()
-      this.sn = this.rowData.sn
+      this.getDate();
+      this.sid = this.rowData.sid;
       // this.sn = this.rowData.sn;
       // console.log("kaishi----------", this.rowData.sn);
-      this.receiveDateTimePicker(this.value2)
+      this.receiveDateTimePicker(this.value2);
       // this.gg();
     },
     Fungetdate(num) {
-      var dd = new Date()
-      dd.setDate(dd.getDate() + num)
-      var y = dd.getFullYear()
-      var m = dd.getMonth() + 1 //获取当前月份的日期
-      var d = dd.getDate()
+      var dd = new Date();
+      dd.setDate(dd.getDate() + num);
+      var y = dd.getFullYear();
+      var m = dd.getMonth() + 1; //获取当前月份的日期
+      var d = dd.getDate();
 
       let myhh =
         new Date().getHours() < 10
           ? "0" + new Date().getHours()
-          : new Date().getHours()
+          : new Date().getHours();
       let mymm =
         new Date().getMinutes() < 10
           ? "0" + new Date().getMinutes()
-          : new Date().getMinutes()
+          : new Date().getMinutes();
       // if(mymm>1){
       // mymm = mymm-1;
       // }
@@ -151,38 +159,38 @@ export default {
       let myss =
         new Date().getSeconds() < 10
           ? "0" + new Date().getSeconds()
-          : new Date().getSeconds()
-      return y + "-" + m + "-" + d + " " + myhh + ":" + mymm + ":" + myss
+          : new Date().getSeconds();
+      return y + "-" + m + "-" + d + " " + myhh + ":" + mymm + ":" + myss;
     },
     getDate() {
-      this.value2 = []
-      this.startTime = this.Fungetdate(-1)
-      this.endTime = this.Fungetdate(0)
-      this.value2.push(this.startTime, this.endTime)
-      console.log("this.value2", this.value2)
+      this.value2 = [];
+      this.startTime = this.Fungetdate(-1);
+      this.endTime = this.Fungetdate(0);
+      this.value2.push(this.startTime, this.endTime);
+      console.log("this.value2", this.value2);
       // let startTo = Date.parse(new Date(start).toString());
       // let endTo = Date.parse(new Date(end).toString());
     },
 
     handleClose(done) {
-      this.dialogVisible = false
-      this.obj01 = {}
+      this.dialogVisible = false;
+      this.obj01 = {};
       this.indoorque = [
         {
           event_time: "2022-06-23",
-          temp: "24"
+          temp: "24",
         },
         {
           event_time: "2022-06-24",
-          temp: "10"
-        }
-      ]
+          temp: "10",
+        },
+      ];
     },
     receiveDateTimePicker(v) {
-      this.startTime = v[0]
-      this.endTime = v[1]
-      this.sn = this.rowData.sn
-      this.gg()
+      this.startTime = v[0];
+      this.endTime = v[1];
+      this.sid = this.rowData.sid;
+      this.gg();
       if (v.length > 0) {
         // let a = v[0];
         // let b = v[1];
@@ -208,27 +216,24 @@ export default {
       }
     },
     gg() {
-      console.log("gggg")
+      console.log("gggg");
       let data = {
-        sn: this.sn,
+        sid: "97",
         startTime: this.startTime,
-        endTime: this.endTime
-      }
-      console.log("gggg", data)
+        endTime: this.endTime,
+      };
+      console.log("四新的单元阀", data);
       this.$http
-        .post(
-          "TEhistory/roomtemperature/houser/searchDatasAndHouserholderInfoForSnAndTimeScope",
-          data
-        )
+        .post("qwer/hotandewather/sixin/searchDatasbySid", data)
         .then((res) => {
-          console.log("室内温度历史曲线", res)
-          this.obj01 = res.houser
-          this.indoorque = res.datas
+          console.log("四新的单元阀", res);
+          this.obj01 = res.station_and_housiong;
+          this.indoorque = res.result;
           // console.log("this.obj01", this.obj01);
-        })
-    }
-  }
-}
+        });
+    },
+  },
+};
 </script>
 
 <style lang="scss" scoped>

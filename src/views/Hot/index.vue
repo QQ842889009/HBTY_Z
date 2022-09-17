@@ -1,5 +1,5 @@
 <template>
-  <div>rr</div>
+  <div>暂无数据</div>
 </template>
 
 <script>

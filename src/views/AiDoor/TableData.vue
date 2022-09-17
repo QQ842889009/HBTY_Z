@@ -4,18 +4,18 @@
       <el-form :inline="true" :model="dataForm" ref="dataForm">
         <el-form-item prop="name" label="">
           <span>选择位置:</span>
-          <!-- <el-cascader
+          <el-cascader
             :popper-append-to-body="false"
             v-model="value"
             :options="options"
             :props="{ checkStrictly: true }"
             clearable
             @change="infoChange"
-          ></el-cascader> -->
+          ></el-cascader>
         </el-form-item>
         <el-form-item label="">
           <span>通讯:</span>
-          <!-- <el-select
+          <el-select
             v-model="noData"
             :popper-append-to-body="false"
             class="input"
@@ -24,9 +24,9 @@
             clearable
             @change="tongxun"
           >
-            <el-option label="在线" value="1" />
-            <el-option label="离线" value="0" />
-          </el-select> -->
+            <el-option label="在线" value="0" />
+            <el-option label="离线" value="1" />
+          </el-select>
         </el-form-item>
         <el-form-item label="">
           <span>故障:</span>
@@ -34,7 +34,7 @@
             v-model="hour2"
             :popper-append-to-body="false"
             class="input"
-            placeholder="故障"
+            placeholder="正常/故障"
             size="medium"
             clearable
             @change="tongxun"
@@ -56,7 +56,7 @@
             size="medium"
             icon="el-icon-refresh-left"
             type="success"
-            @click="exportExcel111('单元箱数据')"
+            @click="exportExcel111('户阀数据')"
             >导出报表</el-button
           >
           <!-- <el-button
@@ -90,15 +90,23 @@
         <el-table-column
           prop="sid"
           label="表号"
-          width="130"
+          width="50"
           fixed
           align="center"
         >
         </el-table-column>
         <el-table-column
-          prop="sn"
-          label="设备编号"
+          prop="concentratorCode"
+          label="集中器号"
           width="130"
+          fixed="left"
+          align="center"
+        >
+        </el-table-column>
+        <el-table-column
+          prop="valveCode"
+          label="户阀号"
+          width="150"
           fixed="left"
           align="center"
         >
@@ -106,15 +114,15 @@
         <el-table-column
           prop="station"
           label="站点"
-          width="150"
+          width="130"
           fixed="left"
           align="center"
         >
         </el-table-column>
         <el-table-column
-          prop="community"
+          prop="housing"
           label="小区"
-          width="160"
+          width="140"
           fixed="left"
           align="center"
         >
@@ -122,7 +130,7 @@
         <el-table-column
           prop="tower"
           label="楼"
-          width="130"
+          width="120"
           fixed="left"
           align="center"
         >
@@ -130,7 +138,7 @@
         <el-table-column
           prop="unit"
           label="单元"
-          width="130"
+          width="120"
           fixed="left"
           align="center"
         >
@@ -138,59 +146,46 @@
         <el-table-column
           prop="num"
           label="室"
-          width="130"
-          fixed="left"
-          align="center"
-        >
-        </el-table-column>
-        <el-table-column
-          prop="householderName"
-          label="联系人"
-          width="130"
-          fixed="left"
-          align="center"
-        >
-        </el-table-column>
-        <el-table-column
-          prop="phone"
-          label="电话"
           width="120"
           fixed="left"
           align="center"
         >
         </el-table-column>
+
         <el-table-column
-          prop="eventTime"
+          prop="createdTime"
           label="更新日期"
-          width="200"
+          width="180"
           fixed="left"
           align="center"
           :formatter="dateFormat"
         >
         </el-table-column>
-        <!-- <el-table-column
-          prop="eventTime"
-          label="日期时间"
-          width="160"
-          fixed="left"
+
+        <el-table-column
+          prop="returnWaterTe"
+          label="回温(℃)"
+          width="150"
           align="center"
         >
-          <template slot-scope="scope">
-            {{ scope.row.timestamp | getDate }}
-          </template>
-        </el-table-column> -->
+        </el-table-column>
         <el-table-column
-          prop="temp"
-          label="室温(℃)"
+          prop="valveOpening"
+          label="阀门反馈(%)"
           width="150"
-          fixed="left"
+          align="center"
+        >
+        </el-table-column>
+        <el-table-column
+          prop="valveSetOpening"
+          label="阀门给定(%)"
+          width="150"
           align="center"
         >
         </el-table-column>
 
         <el-table-column label="操作" width="250" fixed="right" align="center">
           <template slot-scope="scope">
-            <!-- <el-button type="success" size="mini" fixed="right">刷新</el-button> -->
             <el-button
               type="success"
               size="mini"
@@ -201,6 +196,7 @@
           </template>
         </el-table-column>
       </el-table>
+
       <el-pagination
         @size-change="sizeChangeHandle"
         @current-change="currentChangeHandle"
@@ -247,7 +243,7 @@ export default {
       pageSize: 25,
       value: null,
       totalCount: 0,
-      title: "室温曲线查询",
+      title: "户阀曲线查询",
       selectStationSid: null,
       rowData: {},
       infoArr: [],
@@ -338,7 +334,7 @@ export default {
 
     //解决[ElTable] prop row-key is required的错误
     getRowKey(row) {
-      return row.id;
+      return row.sid;
     },
     tableRowClassName({ row, rowIndex }) {
       if (this.selectID.length == 0) {
@@ -371,9 +367,9 @@ export default {
     dd() {},
     async askData() {
       this.$http
-        .get("/TEhistory/roomtemperature/houser/getAllCommunity")
+        .get("/HUFAhistory/household/info/getStationAndHousing")
         .then((res) => {
-          // console.log("eeeee", res);
+          console.log("AIunit菜单", res);
           this.options = res.community;
           // this.tableData = res.list;
           // this.totalCount = res.total;
@@ -401,6 +397,7 @@ export default {
       this.requestIndoorData();
     },
     tongxun() {
+      console.log("黑蚂蚁的单元阀通讯");
       this.requestIndoorData();
     },
 
@@ -423,18 +420,18 @@ export default {
         count: this.pageSize,
         station: this.station,
         community: this.community,
-        noData: this.TonoData,
-        hour2: this.Tohour2,
+        noData: this.noData,
+        hour2: this.hour2,
       };
-      console.log("条件", data);
+      console.log("黑蚂蚁的户阀条件", data);
       this.$http
-        .get("/indoor/hbty/roomTeInfo/list", {
+        .get("/kk/valveDataInfo/list", {
           params: data,
         })
         .then((res) => {
           this.tableData = res.list;
           this.totalCount = res.total;
-          // console.log("ddd", this.tableData);
+          console.log("黑蚂蚁的户阀数据", this.tableData);
           this.dataListLoading = false;
         })
         .catch((err) => {

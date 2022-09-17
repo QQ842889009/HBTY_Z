@@ -15,7 +15,10 @@ const ChangeInfo = () => import("views/Station/ChangeInfo/index.vue")
 const BpControl = () => import("views/Station/BpControl/index.vue")
 const HistoryAlarm = () => import("views/Station/Alarm/HistoryAlarm.vue")
 const RealAlarm = () => import("views/Station/Alarm/RealAlarm.vue")
-const TeCon = () => import("views/Station/TeCon/index.vue")
+const TeCon = () => import("views/Station/TeCon/index.vue") //
+const Visual4 = () => import("views/Visual/Visual4.vue")
+const Visual5 = () => import("views/Visual/Visual5.vue")
+const Visual6 = () => import("views/Visual/Visual6.vue")
 const station = {
   path: "/station",
   name: "station",
@@ -107,6 +110,24 @@ const station = {
       name: "TeCon",
       meta: { title: "温度控制" },
       component: TeCon
+    },
+    {
+      path: "/Visual6",
+      name: "Visual6",
+      meta: { title: "工艺控制" },
+      component: Visual6
+    },
+    {
+      path: "/Visual4",
+      name: "Visual4",
+      meta: { title: "实时温度" },
+      component: Visual4
+    },
+    {
+      path: "/Visual5",
+      name: "Visual5",
+      meta: { title: "测试" },
+      component: Visual5
     }
   ]
 }
