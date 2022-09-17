@@ -31,8 +31,8 @@
       <div class="ttt">穆棱福通热力智慧供热管控系统</div>
 
       <Sidebar></Sidebar>
-      <!-- <alarmnum class="alarmnum"></alarmnum> -->
-      <!-- <RealAlarmMp3 class="RealAlarmMp3"></RealAlarmMp3> -->
+      <alarmnum class="alarmnum"></alarmnum>
+      <RealAlarmMp3 class="RealAlarmMp3"></RealAlarmMp3>
 
       <div class="exit">
         <Header></Header>

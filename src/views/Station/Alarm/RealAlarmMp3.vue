@@ -7,7 +7,6 @@
         id="audioPlayer"
         controls
         loop="loop"
-        muted
         v-show="bbb === 4"
       ></audio>
     </div>
