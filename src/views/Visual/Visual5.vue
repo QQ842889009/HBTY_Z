@@ -94,8 +94,7 @@ export default {
     this.stations = this.$store.getters.stationInfos;
     // console.log('store---',this.$store.getters["stationBranch/branchInfos"]);
     this.stationInfo=this.$store.getters["stationBranch/branchInfos"];
-    console.log('branch',this.$store.getters.stationDataAndInfo);
-    // this.getStationInfo();
+    // console.log('branch',this.$store.getters.stationDataAndInfo);
     this.myHistoryList=_.cloneDeep(historyList);
     
   },

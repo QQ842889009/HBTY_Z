@@ -63,6 +63,11 @@ export default {
       type: String,
       default: "℃",
     },
+    //y轴单位
+    yUnitOther: {
+      type: String,
+      default: "Mpa",
+    },
     boxHeight: {
       type: String,
       default: "100%",
@@ -197,10 +202,30 @@ export default {
           //height:this.boxHeight,
           // containLabel: true, // 距离是包含坐标轴上的文字
         },
-        yAxis: {
+        yAxis: [{
           name: this.yUnit,
           // nameTextStyle: { align: "left" }, //坐标轴文字的对齐
-          nameGap: "1", //名字距离轴线的距离
+          nameGap: 10, //名字距离轴线的距离
+          axisLine: {
+            //坐标轴线
+            show: true,
+            lineStyle: {
+              //坐标轴线
+              color: "rgb(34, 182, 241)", //这里是改变颜色
+              width: 2,
+            },
+            axisLabel: {
+              textStyle: {
+                color: "#0D82FF", //轴文字颜色
+                fontSize: "9", //y轴文字大小
+              },
+            },
+          },
+          splitLine: { show: false }, //y轴的分割线
+        },{
+          name: this.yUnitOther,
+          // nameTextStyle: { align: "left" }, //坐标轴文字的对齐
+          nameGap: 10, //名字距离轴线的距离
           axisLine: {
             //坐标轴线
             show: true,
@@ -218,6 +243,7 @@ export default {
           },
           splitLine: { show: false }, //y轴的分割线
         },
+      ],
         dataset: [
           //datasetIndex: 0,
           { source: this.getData }, //数据源
@@ -240,6 +266,7 @@ export default {
               name: this.btnsList[index].name,
               type: this.seriesType,
               datasetIndex: this.isSort ? 1 : 0,
+              yAxisIndex:index<4?0:index<8?1:0,
               encode: {
                 x: this.btnsList.xSeries,
                 y: this.btnsList[index].value,

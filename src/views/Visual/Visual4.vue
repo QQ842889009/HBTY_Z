@@ -10,15 +10,14 @@
     </div>
     <div class="showBox">
       <FtLineBox title_name="二网实时温度" :getData="realtimeInfo" :boxHeight="'44%'" :yUnit="'℃'" :isSort="false"
-       :showLenged="true" :key="isUpdata" seriesType="line"/>
+        :showLenged="true" :key="isUpdata" seriesType="line" />
       <FtLineBox title_name="二网实时压力" :getData="realtimeInfo" :boxHeight="'44%'" :yUnit="'MPa'" :isSort="false"
-       :showLenged="true" :key="isUpdata + '-only'" seriesType="line"/>
+        :showLenged="true" :key="isUpdata + '-only'" seriesType="line" />
     </div>
   </div>
 </template>
 <script>
 import { getDate } from "../../filters/filters";
-// import {deepClone} from "assets/js/storeDataInit/realtime"
 import _ from "lodash";
 import FtLineBox from "./components/FtLineBoxy.vue";
 // import formatTime from "assets/js/storeDataInit/realtime"
@@ -36,8 +35,7 @@ export default {
   created() {
     this.stations = this.$store.getters.stationInfos;
     this.staPlcData = this.$store.getters.stationDataAndInfo;
-    //    this.getRealtimeInfos(this.value);
-    // this.realtimeInfo = _.cloneDeep(this.realtimeInfos);
+   
   },
   mounted() {
     //  this.timer=setInterval(() => {
@@ -47,8 +45,6 @@ export default {
   },
 
   computed: {
-    // ...mapState("realtime", ["realtimeInfos"]),
-    // ...mapState("plcS7", ["staPlcData"]),
   },
   methods: {
     //实时信息
@@ -65,7 +61,7 @@ export default {
         // console.log("系统时间", staPlcData[i].Timestamp);
         if (sumTimeTamp <= 10000) {
           // console.log("有新的数据", staPlcData[i].Sid);
-          obj.SdateTime = staPlcData[i].Sdate+" "+ staPlcData[i].Stime;
+          obj.SdateTime = staPlcData[i].Sdate + " " + staPlcData[i].Stime;
           obj.te11 = staPlcData[i].TE11;
           obj.te12 = staPlcData[i].TE12;
           obj.te21 = staPlcData[i].TE21;
@@ -75,8 +71,12 @@ export default {
           obj.pt21 = staPlcData[i].PT21;
           obj.pt22 = staPlcData[i].PT22;
           // console.log("obj-----------",obj);
-          this.realtimeInfo.shift();
-          this.realtimeInfo.push(obj);   
+          this.realtimeInfo.push(obj);
+          if (this.realtimeInfo.length >= 360) {
+            this.realtimeInfo.shift();
+          }
+
+
         } else {
           // console.log("没有新的数据");
           obj.SdateTime = this.formatTime();
@@ -88,9 +88,11 @@ export default {
           obj.pt12 = 0;
           obj.pt21 = 0;
           obj.pt22 = 0;
-          this.realtimeInfo.shift();
           this.realtimeInfo.push(obj);
-         
+          if (this.realtimeInfo.length >= 360) {
+            this.realtimeInfo.shift();
+          }
+
         }
       }
     },
@@ -122,33 +124,35 @@ export default {
     },
     //请求数据
     async getRealtimeInfos(sid) {
-      var endTime = Date.parse(new Date());
-      var startTime=endTime-60*60*1000*4;
-      var params={
-        sid:sid,
-        startTime:startTime,
-        endTime:endTime,
-        size:120
-      }
-      this.realtimeInfo = await this.$http.post(
-        "plcdata/tems/plc/DatasByTimeScopeAndSizeAndSid",params);
-        // console.log("realtimeInfo---111---", this.realtimeInfo);
-        if(this.realtimeInfo){
-          //传过来的数据是按时间倒序的，需要把数组倒序
-          // this.realtimeInfo= this.realtimeInfo.reverse();
-          //添加一个时间字段。格式为2022-9-5 16：05：34
+      // var endTime = Date.parse(new Date());
+      // var startTime=endTime-60*60*1000*4;
+      // var params={
+      //   sid:parseInt(sid),
+      //   startTime:startTime,
+      //   endTime:endTime,
+      //   size:120
+      // }
+      var mySid = parseInt(sid);
+      var plcData = await this.$http.post(
+        "plcdata/tems/plc/DatasBySid", { sid: mySid });
+      this.realtimeInfo = plcData.list;
+      console.log("realtimeInfo---111---", this.realtimeInfo);
+      if (this.realtimeInfo) {
+        //传过来的数据是按时间倒序的，需要把数组倒序
+        // this.realtimeInfo= this.realtimeInfo.reverse();
+        //添加一个时间字段。格式为2022-9-5 16：05：34
         for (let index = 0; index < this.realtimeInfo.length; index++) {
-          this.realtimeInfo[index].SdateTime=getDate( this.realtimeInfo[index].timestamp); 
+          this.realtimeInfo[index].SdateTime = getDate(this.realtimeInfo[index].timestamp);
         }
         // console.log("realtimeInfo---111---", this.realtimeInfo);
         this.isUpdata++;
-        }else{
-          return alert('数据错误');
-        }
-      
+      } else {
+        return alert('数据错误');
+      }
+
     },
     cleraInfo(v) {
-      // console.log("选择了新的换热站", v);
+      console.log("选择了新的换热站", v);
       clearInterval(this.timer);
       this.getRealtimeInfos(v)
       this.isUpdata++;

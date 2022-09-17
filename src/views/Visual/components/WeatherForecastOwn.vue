@@ -1,5 +1,13 @@
 <template>
-  <div ref="weather" class="weatherBox" :style="{ height: this.height }"></div>
+  <div :style="{height:'100%', width:'100%'}">
+    <div ref="weather" class="weatherBox" :style="{ height: this.height }">
+    </div>
+    <div class="title1"> 光照: </div>
+    <div class="title2"> 风力: </div>
+    <div class="title3"> 风向: </div>
+    <div class="title4"> 风速: </div>
+  </div>
+
 </template>
 
 <script>
@@ -32,7 +40,7 @@ export default {
     },
   },
   mounted() {
-  
+
     this.$nextTick(function () {
       this.init();
 
@@ -50,9 +58,9 @@ export default {
           opacity: 0.3,
           borderWidth: "0",
           top: "50%",
-          left: "5%",
+          left: "8%",
           right: "5%",
-          bottom: "1%",
+          bottom: "5%",
         },
         tooltip: {
           trigger: "axis",
@@ -66,7 +74,16 @@ export default {
           },
         },
         legend: {
-          show: false,
+          show: true,
+          top:"65%",
+          right:"95%",
+          itemWidth:30,
+          itemHeight:20,
+          itemGap:15,
+          textStyle:{
+            color:'white',
+            fontSize:16,
+          }
         },
         xAxis: [
           //#region 日期
@@ -89,7 +106,13 @@ export default {
               rich: {
                 a: {
                   color: 'white',
-                  fontSize: 13,
+                  fontSize: 13,               
+                  shadowBlur: 1,
+                  borderWidth: 4,
+                  borderColor: '#3498db',
+                  borderRadius: 2,
+                  borderspacing:10,
+                  padding:10,
                 },
               },
             },
@@ -111,20 +134,25 @@ export default {
             },
             axisLabel: {
               interval: 0,
-              formatter: ["{a|光照：{value}(Lux)}"].join("\n"),
+              formatter: ["{a|{value}(Lux)}"].join("\n"),
               rich: {
                 a: {
                   color: 'white',
-                  fontSize:15,
+                  fontSize: 15,              
+                  borderWidth: 4,
+                  borderColor: '#3498db',
+                  borderRadius: 2,
+                  borderspacing:10,
+                  padding:[8,4],
                 },
               },
             },
-            data:this.getWeatherOption(this.weatherInfo,"beam")
+            data: this.getWeatherOption(this.weatherInfo, "beam")
             // nameTextStyle: {},
           },
           //#endregion
-           //#region 风力
-           {
+          //#region 风力
+          {
             id: "wind_po",
             type: "category",
             boundaryGap: false,
@@ -138,20 +166,25 @@ export default {
             },
             axisLabel: {
               interval: 0,
-              formatter: ["{a|风力：{value}(级)}"].join("\n"),
+              formatter: ["{a|{value}(级)}"].join("\n"),
               rich: {
                 a: {
                   color: 'white',
-                  fontSize:15,
+                  fontSize: 15,
+                  borderWidth: 4,
+                  borderColor: '#3498db',
+                  borderRadius: 2,
+                  borderspacing:10,
+                  padding:[8,4],
                 },
               },
             },
-            data:this.getWeatherOption(this.weatherInfo,"wind_po")
+            data: this.getWeatherOption(this.weatherInfo, "wind_po")
             // nameTextStyle: {},
           },
           //#endregion
-           //#region 风向
-           {
+          //#region 风向
+          {
             id: "windDir",
             type: "category",
             boundaryGap: false,
@@ -165,15 +198,20 @@ export default {
             },
             axisLabel: {
               interval: 0,
-              formatter: ["{a|风向：{value}}"].join("\n"),
+              formatter: ["{a|{value}}"].join("\n"),
               rich: {
                 a: {
                   color: 'white',
                   fontSize: 15,
+                  borderWidth: 4,
+                  borderColor: '#3498db',
+                  borderRadius: 2,
+                  borderspacing:10,
+                  padding:[8,4],
                 },
               },
             },
-            data:this.getWeatherOption(this.weatherInfo,"windDir")
+            data: this.getWeatherOption(this.weatherInfo, "windDir")
             // nameTextStyle: {},
           },
           //#endregion
@@ -192,15 +230,20 @@ export default {
             },
             axisLabel: {
               interval: 0,
-              formatter: ["{a|风速：{value}(m/s)}"].join("\n"),
+              formatter: ["{a|{value}(m/s)}"].join("\n"),
               rich: {
                 a: {
                   color: 'white',
                   fontSize: 15,
+                  borderWidth: 4,
+                  borderColor: '#3498db',
+                  borderRadius: 2,
+                  borderspacing:10,
+                  padding:[8,4],
                 },
               },
             },
-            data:this.getWeatherOption(this.weatherInfo,"wind_sp")
+            data: this.getWeatherOption(this.weatherInfo, "wind_sp")
             // nameTextStyle: {},
           },
 
@@ -210,9 +253,12 @@ export default {
           show: false,
           axisLabel: {
             // formatter: "{value} °C",
-            // color: "white",
+            color: "white",
+            margin:50,
+            fontSize:16,
           },
-        },
+          },
+         
         dataset: [
           { source: this.weatherInfo }
         ],
@@ -242,7 +288,7 @@ export default {
               },
             },
             lineStyle: {
-              width: 1,
+              width: 3,
               color: "red",
             },
             areaStyle: {
@@ -272,7 +318,7 @@ export default {
               },
             },
             lineStyle: {
-              width: 1,
+              width: 3,
               color: "rgb(34, 182, 241) ",
             },
             areaStyle: {
@@ -291,7 +337,7 @@ export default {
           backgroundColor: {
             image: require("assets/img/wind/" + objV[index].windDir + ".png"),
           },
-          height:50,
+          height: 50,
         }
       }
       obj["b"] = {
@@ -315,16 +361,16 @@ export default {
       });
     },
 
-    getWeatherIcon(data){
-      let iconArr=[];
+    getWeatherIcon(data) {
+      let iconArr = [];
       for (let index = 0; index < data.length; index++) {
         const element = data[index].icon;
         iconArr.push(element)
       }
       return iconArr;
     },
-    getWeatherOption(data,option){
-      let iconArr=[];
+    getWeatherOption(data, option) {
+      let iconArr = [];
       for (let index = 0; index < data.length; index++) {
         const element = data[index][option];
         iconArr.push(element)
@@ -341,7 +387,55 @@ export default {
   // background: #3b99cf;
   width: 100%;
   // height: 10%;
-  top:1%;
-  
+  top: 4%;
+  // left: 3%;
+  // display:inline-block;
+
+}
+
+.title1 {
+  width: 4%;
+  // height: 7%;
+  font-size: 22px;
+  position: absolute;
+  top: 13%;
+  left: 0.5%;
+  text-align: center;
+  background: rgba(11, 66, 114, 0.8);
+  border: 3px solid #3498db;
+  box-shadow: 0px 0px 5px 4px #3498db inset, 0px 0px 5px -4px #3498db;
+}
+.title2 {
+  width: 4%;
+  font-size: 22px;
+  position: absolute;
+  top: 21%;
+  left: 0.5%;
+  text-align: center;
+  background: rgba(11, 66, 114, 0.8);
+  border: 3px solid #3498db;
+  box-shadow: 0px 0px 5px 4px #3498db inset, 0px 0px 5px -4px #3498db;
+}
+.title3 {
+  width: 4%;
+  font-size: 22px;
+  position: absolute;
+  top: 29%;
+  left: 0.5%;
+  text-align: center;
+  background: rgba(11, 66, 114, 0.8);
+  border: 3px solid #3498db;
+  box-shadow: 0px 0px 5px 4px #3498db inset, 0px 0px 5px -4px #3498db;
+}
+.title4 {
+  width: 4%;
+  font-size: 22px;
+  position: absolute;
+  top: 37%;
+  left: 0.5%;
+  text-align: center;
+  background: rgba(11, 66, 114, 0.8);
+  border: 3px solid #3498db;
+  box-shadow: 0px 0px 5px 4px #3498db inset, 0px 0px 5px -4px #3498db;
 }
 </style>
