@@ -41,7 +41,7 @@
 <script>
 import qs from "qs";
 import axios from "axios";
-import EchartLineDB from "../Visual/components/EchartLineDB.vue";
+import EchartLineDB from "../Visual/components/EchartLineDBTwoyAxis.vue";
 import DateTimePicker from "components/common/DateTimePicker";
 export default {
   components: {
