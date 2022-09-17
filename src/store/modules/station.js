@@ -12,7 +12,8 @@ const state = {
   stationAlarmSet: [],
   stationTeConData: [], //装载node过来的温控数据
   alarmArr: [], //接收报警的数组可能是显示灰色的那个
-  ck: 5
+  ck: 5,
+  alarmsettings: [] //报警设置
 }
 
 const getters = {
@@ -35,6 +36,10 @@ const getters = {
   //报警的数组可能是显示灰色的那个
   alarmArr(state) {
     return state.alarmArr
+  },
+  //报警设置
+  alarmsettings(state) {
+    return state.alarmsettings
   }
 }
 
@@ -47,7 +52,13 @@ const mutations = {
     station.stations(state.stationInfos, state.stationLenght)
     //换热站报警显示灰色的那个
     station.alarm(state.alarmArr, state.stationLenght)
+    // station.alarmsettings(state.alarmsettings, state.stationLenght, data)
   },
+  STATIONALARMSET(state, data) {
+    console.log("9999", data)
+    station.alarmsettings(state.alarmsettings, state.stationLenght, data)
+  },
+
   STATIONALARM(state, data) {
     //  console.log("我是仓库中的报警", data)
     // for (let i = 0; i < data.length; i++) {

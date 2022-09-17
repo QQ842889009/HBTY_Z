@@ -3,63 +3,36 @@ export function Sid(value) {
   // console.log("aaarr", a)
   return a
 }
+export function kong(value) {
+  if (value < 0) {
+    return
+  } else {
+    return value
+  }
+  // console.log("aaarr", a)
+}
 
 export function getDate(time) {
-  // console.log("time", time)
   if (time == undefined) {
     return
   }
   var d = new Date(time)
   var times =
-  formatNumber(d.getFullYear()) +
+    formatNumber(d.getFullYear()) +
     "-" +
-   formatNumber((d.getMonth() + 1)) +
+    formatNumber(d.getMonth() + 1) +
     "-" +
     formatNumber(d.getDate()) +
     " " +
-     formatNumber(d.getHours()) +
+    formatNumber(d.getHours()) +
     ":" +
     formatNumber(d.getMinutes()) +
     ":" +
     formatNumber(d.getSeconds())
   return times
-
-  // let myyear = new Date(time).getFullYear()
-  // let mymonth = new Date(time).getMonth() + 1
-  // let mydate = new Date(time).getDate()
-  // let mydatef = new Date(time).getDate() - 1
-  // //                 let myhh = new Date().getHours();
-
-  // let myhh =
-  //   new Date().getHours() < 10
-  //     ? "0" + new Date().getHours()
-  //     : new Date().getHours()
-  // let mymm =
-  //   new Date().getMinutes() < 10
-  //     ? "0" + new Date().getMinutes()
-  //     : new Date().getMinutes()
-
-  // let myss =
-  //   new Date().getSeconds() < 10
-  //     ? "0" + new Date().getSeconds()
-  //     : new Date().getSeconds()
-  // let mynowTime =
-  //   myyear +
-  //   "-" +
-  //   mymonth +
-  //   "-" +
-  //   mydatef +
-  //   " " +
-  //   myhh +
-  //   ":" +
-  //   mymm +
-  //   ":" +
-  //   myss
-
-  // return mynowTime
 }
 //在各位前面加0
 function formatNumber(num) {
-  num = num.toString();
-  return num[1] ? num : "0" + num;
+  num = num.toString()
+  return num[1] ? num : "0" + num
 }

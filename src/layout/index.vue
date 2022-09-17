@@ -31,7 +31,9 @@
       <div class="ttt">穆棱福通热力智慧供热管控系统</div>
 
       <Sidebar></Sidebar>
-      <!-- <anniu claass="anniuweizhi"></anniu> -->
+      <!-- <alarmnum class="alarmnum"></alarmnum> -->
+      <!-- <RealAlarmMp3 class="RealAlarmMp3"></RealAlarmMp3> -->
+
       <div class="exit">
         <Header></Header>
       </div>
@@ -63,6 +65,8 @@
 </template>
 
 <script>
+import alarmnum from "views/Station/Alarm/alarmnum"; //
+import RealAlarmMp3 from "views/Station/Alarm/RealAlarmMp3"; //
 import { Sidebar, Header, Main } from "./components";
 // import anniu from "./anniu";
 // import CaiDan from "./CaiDan";
@@ -94,6 +98,8 @@ export default {
     Sidebar,
     Header,
     Main,
+    alarmnum,
+    RealAlarmMp3,
     // anniu,
     // CaiDan,
   },
@@ -155,5 +161,15 @@ export default {
   left: 750px;
   color: rgb(14, 218, 24);
   // color: #000;
+}
+.alarmnum {
+  position: absolute;
+  top: 30px;
+  right: 280px;
+}
+.RealAlarmMp3 {
+  position: absolute;
+  top: 30px;
+  //  right: 280px;
 }
 </style>

@@ -36,9 +36,10 @@ import { plcdataType, echartdataType } from "assets/js/storeBox/dataType.js"
 import {
   inDoorDataInitTemplate,
   stationDataInitTemplate,
-  doorDataInitTemplate
+  doorDataInitTemplate,
+  alarmsettings
 } from "assets/js/storeDataInitTemplate" //初始化模板
-
+// console.log("alarmsettings", alarmsettings)
 import socketAiUnit from "assets/js/socketJsControl/socketAiUnit" //改版后的楼宇单元和户阀的连接
 import socketAiInDoor from "assets/js/socketJsControl/socketAiInDoor" //改版后的楼宇单元和户阀的连接
 import socketStation from "assets/js/socketJsControl/socketStation" //改版后的楼宇单元和户阀的连接
@@ -53,6 +54,7 @@ new Promise((resolve, reject) => {
   store.commit("MUINDOORDATAINIT", inDoorDataInitTemplate) //
   store.commit("MUDOORDATAINIT", doorDataInitTemplate) //
   store.commit("STATION", stationDataInitTemplate)
+  store.commit("STATIONALARMSET", alarmsettings)
 
   resolve()
 }).then(() => {

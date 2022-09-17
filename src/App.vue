@@ -1,5 +1,6 @@
 <template>
   <div
+    class="app"
     id="app"
     v-bind:style="{
       backgroundImage: 'url(' + bg1 + ')',

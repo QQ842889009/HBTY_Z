@@ -187,7 +187,7 @@ function onMsg(e) {
 
       break
     case "/hbty/fyAlarmComerr":
-      //  console.log("触发了PLC通讯报警事件区分灰色的---", msg.data) //****************************
+      console.log("触发了PLC通讯报警事件区分灰色的---", msg.data) //****************************
 
       //manageData.manageDataComerr(msg.data)
       manageDataStation.Comerr(msg.data)

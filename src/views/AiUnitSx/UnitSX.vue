@@ -1,5 +1,6 @@
 <template>
   <div class="unit-container">
+    <div class="ti">单独单元阀数据展示</div>
     <div class="condition-box">
       <el-form :inline="true" :model="dataForm" ref="dataForm">
         <el-form-item prop="name" label="">
@@ -56,7 +57,7 @@
             size="medium"
             icon="el-icon-refresh-left"
             type="success"
-            @click="exportExcel111('单元箱数据')"
+            @click="exportExcel111('单独单元箱数据')"
             >导出报表</el-button
           >
           <!-- <el-button
@@ -141,8 +142,8 @@
         </el-table-column>
 
       
-        <el-table-column label="一次侧" align="center">
-                    <!-- <el-table-column
+        <el-table-column label="立杠一" align="center">
+                    <el-table-column
             prop="fv1sp"
             label="1#阀门给定(%)"
             width="110"
@@ -157,11 +158,11 @@
                 v-model="scope.row.fv1sp"
                 onkeyup="this.value=this.value.replace(/[\u4E00-\u9FA5]/g,'') "
                 oninput="if(value>100)value=100;if(value<0)value=0"
-                @change="changeInput(scope.row)"
+                @change="changeInputAAA(scope.row)"
               >
               </el-input>
             </template>
-          </el-table-column> -->
+          </el-table-column>
           <el-table-column
             prop="fv1fb"
             label="阀门反馈(%)"
@@ -179,8 +180,8 @@
          <el-table-column label="回压(MPa)" prop="pt2" width="65">
           </el-table-column>
             </el-table-column>
-                   <el-table-column label="二次侧" align="center">
-                                         <!-- <el-table-column
+                   <el-table-column label="立杠二" align="center">
+                                         <el-table-column
             prop="fv2sp"
             label="1#阀门给定(%)"
             width="110"
@@ -195,11 +196,11 @@
                 v-model="scope.row.fv2sp"
                 onkeyup="this.value=this.value.replace(/[\u4E00-\u9FA5]/g,'') "
                 oninput="if(value>100)value=100;if(value<0)value=0"
-                @change="changeInput(scope.row)"
+                @change="changeInputBBB(scope.row)"
               >
               </el-input>
             </template>
-          </el-table-column> -->
+          </el-table-column>
           <el-table-column
             prop="fv2fb"
             label="阀门反馈(%)"
@@ -207,14 +208,29 @@
             fixed
             align="center"
           >
+                   <template slot-scope="scope">
+            {{ scope.row.fv2fb | kong }}
+          </template>
           </el-table-column>
           <el-table-column label="供温(℃)" prop="te3" width="65">
+             <template slot-scope="scope">
+            {{ scope.row.te3 | kong }}
+          </template>
           </el-table-column>
              <el-table-column label="回温(℃)" prop="te4" width="65">
+                  <template slot-scope="scope">
+            {{ scope.row.te4 | kong }}
+          </template>
           </el-table-column>
           <el-table-column label="供压(MPa)" prop="pt3" width="65">
+               <template slot-scope="scope">
+            {{ scope.row.pt3 | kong }}
+          </template>
           </el-table-column>
          <el-table-column label="回压(MPa)" prop="pt4" width="65">
+                   <template slot-scope="scope">
+            {{ scope.row.pt4 | kong }}
+          </template>
           </el-table-column>
             </el-table-column>
       
@@ -267,9 +283,9 @@ export default {
         colorTwo: "#fff",
       },
       selectID: [],
-      station: "",
+      station: null,
 
-      community: "",
+      community: null,
       noData: null,
       hour2: null,
       TonoData: null,
@@ -471,8 +487,55 @@ export default {
         });
       //结束
     },
-    changeInput(v) {
-      console.log("****", v);
+    changeInputAAA(v) {
+      console.log("*******", v);
+      let msg = {
+        UserName: "admin",
+        sid: parseFloat(v.sid),
+        // sdate: this.setriqi,
+        // stime: this.setshijian,
+        tag: "FV1SP",
+        //tagValue: parseFloat(v.fv1fb),
+        tagValue: 50,
+        // openValue: parseFloat(this.setFV1SP),
+      };
+      let msgRequest = {
+        sid: parseFloat(v.sid),
+      };
+      console.log("msg11111", msg);
+      if (this.$stompClientSx.connected === true) {
+        this.$stompClientSx.send("/hbty/fySetAiValve", {}, JSON.stringify(msg));
+        let timerRequest = setTimeout(() => {
+          this.$stompClientSx.send(
+            "/hbty/fyGetAiData",
+            {},
+            JSON.stringify(msgRequest)
+          );
+          this.requestIndoorData();
+          clearTimeout(timerRequest);
+        }, 5000);
+      } else {
+      }
+    },
+    changeInputBBB(v) {
+      console.log("*******", v);
+      let msg = {
+        UserName: "admin",
+        sid: parseFloat(v.sid),
+        // sdate: this.setriqi,
+        // stime: this.setshijian,
+        tag: "FV2SP",
+        tagValue: parseFloat(v.fv2fb),
+        // openValue: parseFloat(this.setFV1SP),
+      };
+      console.log("msg2222", msg);
+      if (this.$stompClientSx.connected === true) {
+        this.$stompClientSx.send("/hbty/fySetAiValve", {}, JSON.stringify(msg));
+        //console.log("fa");
+        //console.log(msg);
+      } else {
+        //console.log("2021林口户阀给定失败");
+      }
     },
     reset() {
       // this.station = null;
@@ -798,6 +861,12 @@ export default {
 //   }
 // }
 .unit-container {
+  .ti {
+    position: absolute;
+    right: 5px;
+    color: rgb(28, 223, 28);
+    font-size: 20px;
+  }
   color: #fff;
   width: 100%;
   height: 100%;

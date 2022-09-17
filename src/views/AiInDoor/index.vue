@@ -3,8 +3,8 @@
     <!-- <div class="hua">
       <div class="dian"><i class="el-icon-s-unfold"></i></div>
     </div> -->
-    <div class="aaa" v-if="uu == 2">
-      <i class="el-icon-s-fold" @click="ycbtn"></i>
+    <div class="aaa" v-if="uu == 5">
+      <!-- <i class="el-icon-s-fold" @click="ycbtn"></i> -->
       <div class="t">室内温度</div>
       <el-menu
         unique-opened

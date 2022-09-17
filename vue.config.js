@@ -128,6 +128,16 @@ module.exports = {
           "^/HUFAhistory": ""
         }
       }
+      // "/alaqueren": {
+      //   //
+      //   target: "http://221.206.242.116:9000",
+      //   ws: true,
+      //   changeOrigin: true,
+
+      //   pathRewrite: {
+      //     "^/alaqueren": ""
+      //   }
+      // }
 
       // "/unit": {
       //   //

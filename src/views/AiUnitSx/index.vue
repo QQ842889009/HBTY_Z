@@ -3,45 +3,48 @@
     <!-- <div class="hua">
       <div class="dian"><i class="el-icon-s-unfold"></i></div>
     </div> -->
-    <div class="aaa" v-if="uu == 2">
-      <i class="el-icon-s-fold" @click="ycbtn"></i>
-      <div class="t">单元阀</div>
-      <el-menu
-        unique-opened
-        :collapse-transition="false"
-        router
-        :default-active="this.$route.path"
-        class="bbb"
-      >
-        <el-submenu index="单独单元阀">
-          <template #title>
-            <i class="iconfont icon-shujuzonglan"></i>
-            <span slot="title" class="yy">单独单元阀</span>
-          </template>
-          <el-menu-item
-            index="1"
-            @click="$router.push({ name: 'UnitSX' })"
-            ref="ABC"
+
+    <div class="ccc">
+      <div class="ddd" @click="xsbtn">
+        <div class="aaa" v-if="uu == 2">
+          <!-- <i class="el-icon-s-fold" @click="ycbtn"></i> -->
+          <div class="t">单元阀</div>
+          <el-menu
+            unique-opened
+            :collapse-transition="false"
+            router
+            :default-active="this.$route.path"
+            class="bbb"
           >
-            <i class="el-icon-menu"></i>
-            <span slot="title">单独单元阀</span>
-          </el-menu-item>
-        </el-submenu>
-        <el-submenu index="带户阀单元阀">
-          <template #title>
-            <i class="iconfont icon-shujuzonglan"></i>
-            <span slot="title" class="yy">带户阀单元阀</span>
-          </template>
-          <el-menu-item
-            index="2"
-            @click="$router.push({ name: 'Unit' })"
-            ref="ABC"
-          >
-            <i class="el-icon-menu"></i>
-            <span slot="title">单独单元阀</span>
-          </el-menu-item>
-        </el-submenu>
-        <!-- <el-submenu index="工艺控制">
+            <el-submenu index="单独单元阀">
+              <template #title>
+                <i class="iconfont icon-shujuzonglan"></i>
+                <span slot="title" class="yy">单独单元阀</span>
+              </template>
+              <el-menu-item
+                index="1"
+                @click="$router.push({ name: 'UnitSX' })"
+                ref="ABC"
+              >
+                <i class="el-icon-menu"></i>
+                <span slot="title">单独单元阀</span>
+              </el-menu-item>
+            </el-submenu>
+            <el-submenu index="带户阀单元阀">
+              <template #title>
+                <i class="iconfont icon-shujuzonglan"></i>
+                <span slot="title" class="yy">带户阀单元阀</span>
+              </template>
+              <el-menu-item
+                index="2"
+                @click="$router.push({ name: 'Unit' })"
+                ref="ABC"
+              >
+                <i class="el-icon-menu"></i>
+                <span slot="title">单独单元阀</span>
+              </el-menu-item>
+            </el-submenu>
+            <!-- <el-submenu index="工艺控制">
           <template #title>
             <i class="iconfont icon-kongzhi"></i>
             <span slot="title" class="yy">工艺控制</span>
@@ -55,7 +58,7 @@
             <span slot="title">工艺控制</span>
           </el-menu-item>
         </el-submenu> -->
-        <!-- <el-submenu index="历史查询">
+            <!-- <el-submenu index="历史查询">
           <template #title>
             <i class="iconfont icon-icon_A3"></i>
             <span slot="title" class="yy">历史查询</span>
@@ -77,7 +80,7 @@
             <span slot="title">曲线查询</span>
           </el-menu-item>
         </el-submenu> -->
-        <!-- <el-submenu index="故障报警">
+            <!-- <el-submenu index="故障报警">
           <template #title>
             <i class="iconfont icon-guzhang"></i>
             <span slot="title" class="yy">故障报警</span>
@@ -99,7 +102,7 @@
             <span slot="title">报警查询</span>
           </el-menu-item>
         </el-submenu> -->
-        <!-- <el-submenu index="报表系统">
+            <!-- <el-submenu index="报表系统">
           <template #title>
             <i class="iconfont icon-baobiao"></i>
             <span slot="title" class="yy">报表系统</span>
@@ -121,7 +124,7 @@
             <span slot="title">区间报表</span>
           </el-menu-item>
         </el-submenu> -->
-        <!-- <el-submenu index="参数修改">
+            <!-- <el-submenu index="参数修改">
           <template #title>
             <i class="iconfont icon-jianyifankui"></i>
             <span slot="title" class="yy">参数修改</span>
@@ -135,11 +138,8 @@
             <span slot="title">参数修改</span>
           </el-menu-item>
         </el-submenu> -->
-      </el-menu>
-    </div>
-    <div class="ccc">
-      <div class="ddd" @click="xsbtn">
-        <i class="el-icon-s-unfold"></i>
+          </el-menu>
+        </div>
       </div>
     </div>
     <div class="bbb">

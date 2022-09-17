@@ -11,7 +11,7 @@
       <div class="a">
         <div class="t">
           <span>换热站：{{ obj01.station }}</span>
-          <span>小区:{{ obj01.community }}</span>
+          <span>小区:{{ obj01.housing }}</span>
           <span>楼：{{ obj01.tower }}</span>
           <span>单元：{{ obj01.unit }}</span>
           <!-- <span>室：{{ obj01.num }}</span> -->
@@ -218,7 +218,7 @@ export default {
     gg() {
       console.log("gggg");
       let data = {
-        sid: "97",
+        sid: this.sid,
         startTime: this.startTime,
         endTime: this.endTime,
       };

@@ -1,5 +1,6 @@
 <template>
   <div class="unit-container">
+    <div class="ti">带户阀单元阀数据展示</div>
     <div class="condition-box">
       <el-form :inline="true" :model="dataForm" ref="dataForm">
         <el-form-item prop="name" label="">
@@ -155,8 +156,8 @@
         </el-table-column>
 
       
-        <el-table-column label="一次侧" align="center">
-                    <!-- <el-table-column
+        <el-table-column label="立杠一" align="center">
+                    <el-table-column
             prop="fv1sp"
             label="1#阀门给定(%)"
             width="110"
@@ -171,11 +172,11 @@
                 v-model="scope.row.fv1sp"
                 onkeyup="this.value=this.value.replace(/[\u4E00-\u9FA5]/g,'') "
                 oninput="if(value>100)value=100;if(value<0)value=0"
-                @change="changeInput(scope.row)"
+                @change="changeInputAAA(scope.row)"
               >
               </el-input>
             </template>
-          </el-table-column> -->
+          </el-table-column>
           <el-table-column
             prop="fv1fb"
             label="阀门反馈(%)"
@@ -193,8 +194,8 @@
          <el-table-column label="回压(MPa)" prop="pt2" width="65">
           </el-table-column>
             </el-table-column>
-                   <el-table-column label="二次侧" align="center">
-                                         <!-- <el-table-column
+                   <el-table-column label="立杠二" align="center">
+                                         <el-table-column
             prop="fv2sp"
             label="1#阀门给定(%)"
             width="110"
@@ -209,11 +210,11 @@
                 v-model="scope.row.fv2sp"
                 onkeyup="this.value=this.value.replace(/[\u4E00-\u9FA5]/g,'') "
                 oninput="if(value>100)value=100;if(value<0)value=0"
-                @change="changeInput(scope.row)"
+                @change="changeInputBBB(scope.row)"
               >
               </el-input>
             </template>
-          </el-table-column> -->
+          </el-table-column>
           <el-table-column
             prop="fv2fb"
             label="阀门反馈(%)"
@@ -221,14 +222,29 @@
             fixed
             align="center"
           >
+                  <template slot-scope="scope">
+            {{ scope.row.fv2fb | kong }}
+          </template>
           </el-table-column>
           <el-table-column label="供温(℃)" prop="te3" width="65">
+                    <template slot-scope="scope">
+            {{ scope.row.te3 | kong }}
+          </template>
           </el-table-column>
              <el-table-column label="回温(℃)" prop="te4" width="65">
+                         <template slot-scope="scope">
+            {{ scope.row.te4 | kong }}
+          </template>
           </el-table-column>
           <el-table-column label="供压(MPa)" prop="pt3" width="65">
+                           <template slot-scope="scope">
+            {{ scope.row.pt3 | kong }}
+          </template>
           </el-table-column>
          <el-table-column label="回压(MPa)" prop="pt4" width="65">
+                          <template slot-scope="scope">
+            {{ scope.row.pt4 | kong }}
+          </template>
           </el-table-column>
             </el-table-column>
       
@@ -258,12 +274,13 @@
     </div>
     <!-- <div v-show="tt === 5"></div> -->
     <div>
-      <SysDlialog ref="dialog" :title="title" :rowData="rowData"> </SysDlialog>
+      <SysDlialogH ref="dialog" :title="title" :rowData="rowData"> </SysDlialogH>
     </div>
   </div>
 </template>
 <script>
-import SysDlialog from "./SysDlialog"; ////
+import SysDlialogH from "./SysDlialogH"; ////
+import { AiUnitFv1sp } from "@/utils/common";
 //临时数据
 //import { options } from "assets/js/common/doorSelect";
 import FileSaver from "file-saver";
@@ -281,9 +298,9 @@ export default {
         colorTwo: "#fff",
       },
       selectID: [],
-      station: "",
+      station: null,
 
-      community: "",
+      community: null,
       noData: null,
       hour2: null,
       TonoData: null,
@@ -502,8 +519,47 @@ export default {
         });
       //结束
     },
-    changeInput(v) {
-      console.log("****", v);
+    changeInputAAA(v) {
+      console.log("*******", v);
+      let msg = {
+        UserName: "admin",
+        sid: parseFloat(v.sid),
+        // sdate: this.setriqi,
+        // stime: this.setshijian,
+        tag: "FV1SP",
+        tagValue: parseFloat(v.fv1fb),
+        // openValue: parseFloat(this.setFV1SP),
+      };
+      console.log("msg11111", msg);
+      // if (this.$stompClientAiUnit.connected === true) {
+      //   this.$stompClientAiUnit.send(
+      //     "/hbty/fySetAiValve",
+      //     {},
+      //     JSON.stringify(msg)
+      //   );
+      // } else {
+      // }
+    },
+    changeInputBBB(v) {
+      console.log("*******", v);
+      let msg = {
+        UserName: "admin",
+        sid: parseFloat(v.sid),
+        // sdate: this.setriqi,
+        // stime: this.setshijian,
+        tag: "FV2SP",
+        tagValue: parseFloat(v.fv2fb),
+        // openValue: parseFloat(this.setFV1SP),
+      };
+      console.log("msg2222", msg);
+      // if (this.$stompClientAiUnit.connected === true) {
+      //   this.$stompClientAiUnit.send(
+      //     "/hbty/fySetAiValve",
+      //     {},
+      //     JSON.stringify(msg)
+      //   );
+      // } else {
+      // }
     },
     reset() {
       // this.station = null;
@@ -572,7 +628,7 @@ export default {
     changeInput() {},
   },
   components: {
-    SysDlialog,
+    SysDlialogH,
   },
 };
 </script>
@@ -831,6 +887,12 @@ export default {
 //   }
 // }
 .unit-container {
+  .ti {
+    position: absolute;
+    right: 5px;
+    color: rgb(28, 223, 28);
+    font-size: 20px;
+  }
   color: #fff;
   width: 100%;
   height: 100%;

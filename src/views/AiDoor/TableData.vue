@@ -1,5 +1,6 @@
 <template>
   <div class="unit-container">
+    <div class="ti">户阀数据展示</div>
     <div class="condition-box">
       <el-form :inline="true" :model="dataForm" ref="dataForm">
         <el-form-item prop="name" label="">
@@ -182,6 +183,19 @@
           width="150"
           align="center"
         >
+          <template slot-scope="scope">
+            <el-input
+              type="number"
+              size="mini"
+              max="100"
+              min="0"
+              v-model="scope.row.valveSetOpening"
+              onkeyup="this.value=this.value.replace(/[\u4E00-\u9FA5]/g,'') "
+              oninput="if(value>100)value=100;if(value<0)value=0"
+              @change="changeInput(scope.row)"
+            >
+            </el-input>
+          </template>
         </el-table-column>
 
         <el-table-column label="操作" width="250" fixed="right" align="center">
@@ -214,6 +228,7 @@
   </div>
 </template>
 <script>
+import { inDoorFvsp } from "@/utils/common";
 import SysDlialog from "./SysDlialog"; ////
 //临时数据
 //import { options } from "assets/js/common/doorSelect";
@@ -232,16 +247,16 @@ export default {
         colorTwo: "#fff",
       },
       selectID: [],
-      station: "",
+      station: null,
 
-      community: "",
+      community: null,
       noData: null,
       hour2: null,
       TonoData: null,
       Tohour2: null,
       pageIndex: 1,
       pageSize: 25,
-      value: null,
+      value: [],
       totalCount: 0,
       title: "户阀曲线查询",
       selectStationSid: null,
@@ -259,6 +274,9 @@ export default {
       // options: options,
       options: [],
       datah: 850, ///数据报表的高度 动态改
+      // disabled: {
+      //   is: "qwer", //设置点击后的禁用
+      // },
     };
   },
   created() {
@@ -442,6 +460,7 @@ export default {
     },
     changeInput(v) {
       console.log("****", v);
+      inDoorFvsp(v.sid, v.valveSetOpening);
     },
     reset() {
       // this.station = null;
@@ -767,6 +786,12 @@ export default {
 //   }
 // }
 .unit-container {
+  .ti {
+    position: absolute;
+    right: 5px;
+    color: rgb(28, 223, 28);
+    font-size: 20px;
+  }
   color: #fff;
   width: 100%;
   height: 100%;

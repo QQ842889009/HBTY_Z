@@ -30,9 +30,20 @@ function alarm(data, len) {
     }
   }
 }
+function alarmsettings(data, len, dataInitArray) {
+  if (data.length == 0) {
+    for (let i = 0; i < len; i++) {
+      // console.log("c", dataInitArray)
+      dataInitArray.sid = i
+      let obj = _.cloneDeep(dataInitArray)
 
+      data.push(obj)
+    }
+  }
+}
 export default {
   station,
   stations,
-  alarm
+  alarm,
+  alarmsettings
 }

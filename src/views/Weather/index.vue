@@ -3,7 +3,7 @@
     <!-- <div class="hua">
       <div class="dian"><i class="el-icon-s-unfold"></i></div>
     </div> -->
-    <div class="aaa" v-if="uu == 2">
+    <div class="aaa" v-if="uu == 5">
       <i class="el-icon-s-fold" @click="ycbtn"></i>
       <div class="t">气象</div>
       <el-menu
@@ -20,7 +20,7 @@
           </template>
           <el-menu-item
             index="1"
-            @click="$router.push({ name: 'TableData' })"
+            @click="$router.push({ name: 'WeatherData' })"
             ref="ABC"
           >
             <i class="el-icon-menu"></i>

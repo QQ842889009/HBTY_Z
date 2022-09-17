@@ -1,94 +1,21 @@
 <template>
   <div class="unit-container">
-    {{ vv }}
-    <!-- {{ dataForm.alarmConfirm }} -->
-    <!-- <div class="condition-box">
-      <el-form :inline="true" :model="dataForm" ref="dataForm">
-        <el-form-item prop="name" label="55555:">
-          <el-select
-            size="small"
-            class="selectStation"
-            v-model="selectStationSid"
-            filterable
-            placeholder="选择换热站"
-            @change="dd"
-          >
-            <el-option
-              v-for="item in infoArr"
-              :key="item.sid"
-              :label="item.station"
-              :value="item.sid"
-            >
-            </el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item label="类型:">
-          <el-select
-            size="small"
-            v-model="dataForm.category"
-            class="input"
-            placeholder="类型"
-            clearable
-            @change="tongxun"
-          >
-            <el-option label="温度" value="te" />
-            <el-option label="压力" value="pt" />
-            <el-option label="液位" value="lt" />
-            <el-option label="循环泵" value="bp" />
-            <el-option label="补水泵" value="mp" />
-          </el-select>
-        </el-form-item>
-
-        <el-form-item label="时间:">
-          <DateTimePicker
-            class="picker"
-            @EmitDateTimePicker="receiveDateTimePicker"
-          ></DateTimePicker>
-        </el-form-item>
-        <el-form-item label="是否被确认:">
-          <el-select
-            size="small"
-            v-model="dataForm.alarmConfirm"
-            class="input"
-            placeholder="是否被确认"
-            clearable
-            @change="tongxun"
-          >
-            <el-option label="被确认" value="1" />
-            <el-option label="未处理" value="0" />
-          </el-select>
-        </el-form-item>
-
-        <el-form-item>
-          <el-button
-            size="medium"
-            icon="el-icon-refresh-left"
-            type="primary"
-            @click="reset()"
-            >重置</el-button
-          >
-          <el-button
-            size="medium"
-            icon="el-icon-refresh-left"
-            type="primary"
-            @click="exportExcel111('报警数据')"
-            >导出</el-button
-          >
-        </el-form-item>
-      </el-form>
-    </div> -->
-
     <div class="table">
       <el-table
+        v-loading="dataListLoading"
+        fixed
         ref="report-table"
+        :data="vv.slice((currentPage - 1) * pageSize, currentPage * pageSize)"
         style="width: 100%"
         max-height="910"
+        class="customer-table"
         :cell-style="{ padding: '1.8px 0' }"
-        id="el-table"
-        :data="
-          tableData.slice((currentPage - 1) * pageSize, currentPage * pageSize)
-        "
         :header-cell-style="headerStyle"
+        id="el-table"
+        @selection-change="handleSelectionChange"
+        :row-class-name="tableRowClassName"
+        :style="zebarCrossingStyle"
+        :row-key="getRowKey"
       >
         <el-table-column
           prop="stationName"
@@ -132,55 +59,97 @@
         </el-table-column>
         <el-table-column label="操作" width="100" fixed="right">
           <template slot-scope="scope">
-            <el-button type="primary" size="mini" @click="affirm" fixed="right"
+            <el-button
+              type="success"
+              size="mini"
+              @click="affirm(scope.row)"
+              fixed="right"
               >确认报警</el-button
             >
           </template>
         </el-table-column>
       </el-table>
+
       <el-pagination
-        align="center"
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
         :current-page="currentPage"
         :page-sizes="[25, 30]"
         :page-size="pageSize"
         layout="total, sizes, prev, pager, next, jumper"
-        :total="total"
+        :total="vv.length"
       >
       </el-pagination>
     </div>
-
-    <!-- <div>
-      <SysDlialog ref="dialog" :title="title" :rowData="rowData"> </SysDlialog>
-    </div> -->
+    <!-- <div v-show="tt === 5"></div> -->
   </div>
 </template>
 <script>
-import DateTimePicker from "components/common/DateTimePicker";
 import SysDlialog from "./SysDlialog"; ////
-import { options } from "assets/js/common/doorSelect";
+//临时数据
+//import { options } from "assets/js/common/doorSelect";
 import FileSaver from "file-saver";
 import XLSX from "xlsx";
 export default {
   data() {
     return {
-      showAlarmHistoryData: [],
-      tableData: [],
       tableData333: [],
       currentPage: 1, // 当前页码
       total: 50, // 总条数
-      pageSize: 10, // 每页的数据条数
+      pageSize: 25, // 每页的数据条数
+      dataListLoading: false,
+      //斑马线颜色
+      zebarCrossing: {
+        crossingOne: "#0dc41a",
+        crossingTwo: "#155f14",
+        //crossingTwo: "#224394",
+        colorOne: "#fff",
+        colorTwo: "#fff",
+      },
+      selectID: [],
+      station: "",
+
+      community: "",
+      noData: null,
+      hour2: null,
+      TonoData: null,
+      Tohour2: null,
+      pageIndex: 1,
+      pageSize: 25,
+      value: null,
+      totalCount: 0,
+      title: "室温曲线查询",
+      selectStationSid: null,
+      rowData: {},
+      infoArr: [],
+      multipleSelection: [],
+      myData: [],
+      tableData: [],
+      info: "",
+      dataForm: {
+        malfunction: null, //故障
+        communication: null, //通讯
+      },
+
+      // options: options,
+      options: [],
+      datah: 850, ///数据报表的高度 动态改
     };
   },
   created() {
-    this.meterb;
+    // this.askData();
+    // this.asd();
+    // this.requestIndoorData();
   },
   watch: {},
   computed: {
+    vv() {
+      this.tableData333 = this.$store.getters.stationAlarmSet;
+      return this.tableData333;
+    },
     headerStyle() {
       return {
-        background: "#66B1FF",
+        background: "#0dc41a",
         padding: "5px 0",
         height: "30px",
         borderColor: "#006CC1",
@@ -191,33 +160,73 @@ export default {
         borderColor: "black",
       };
     },
-    meterb() {
-      this.tableData = this.$store.getters.stationAlarmSet;
-
-      this.total = this.tableData.length; //数据的长度给分页总数用
-      // this.sss = this.$store.getters.LKgetMeter_hufa;
-    },
-    vv() {
-      this.tableData333 = this.$store.getters.stationAlarmSet;
-      return this.tableData333;
+    // 斑马线的颜色
+    zebarCrossingStyle() {
+      return {
+        "--crossingOne": this.zebarCrossing.crossingOne,
+        "--crossingTwo": this.zebarCrossing.crossingTwo,
+        "--colorOne": this.zebarCrossing.colorOne,
+        "--colorTwo": this.zebarCrossing.colorTwo,
+      };
     },
   },
-  mounted() {},
+  mounted() {
+    // this.dd();
+  },
   methods: {
-    //每页条数改变时触发 选择一页显示多少行
+    affirm(v) {
+      // console.log("vvv", v);
+
+      let data = {
+        userId: parseInt(localStorage.getItem("userId")),
+        id: v.id,
+      };
+      console.log("----", data);
+      this.$http.post("plcdata/tems/plc/confirmWarning", data).then((res) => {
+        console.log("报警确认----", res);
+        if (res.code == 200) {
+          this.$message({
+            message: "操作成功",
+            type: "success",
+            duration: 500,
+          });
+        } else {
+          this.$message({
+            message: "操作失败",
+            type: "error",
+            duration: 500,
+          });
+        }
+      });
+    },
     handleSizeChange(val) {
       console.log(`每页 ${val} 条`);
       this.currentPage = 1;
       this.pageSize = val;
+    },
+    handleSelectionChange(val) {
+      this.multipleSelection = val;
     },
     //当前页改变时触发 跳转其他页
     handleCurrentChange(val) {
       //console.log(`当前页: ${val}`);
       this.currentPage = val;
     },
-    affirm() {
-      console.log("确认报警");
+
+    //解决[ElTable] prop row-key is required的错误
+    getRowKey(row) {
+      return row.id;
     },
+    tableRowClassName({ row, rowIndex }) {
+      if (this.selectID.length == 0) {
+        if ((rowIndex + 1) % 2 === 0) {
+          return "crossingOne"; //类名
+        } else {
+          return "crossingTwo"; //类名
+        }
+      }
+    },
+
     exportExcel111(excelName) {
       try {
         const $e = this.$refs["report-table"].$el;
@@ -244,32 +253,279 @@ export default {
   },
   components: {
     SysDlialog,
-    DateTimePicker,
   },
 };
 </script>
+<style lang="scss" >
+.el-cascader-menu__wrap {
+  height: 208px;
+  background-color: green !important;
+  color: #fff !important;
+}
+.el-cascader-node:not(.is-disabled):focus,
+.el-cascader-node:not(.is-disabled):hover {
+  background-color: rgba(62, 243, 16, 0.69);
+}
+</style>
 <style lang="scss" scoped>
 ::v-deep {
-  .el-form-item__label {
-    text-align: right;
-    vertical-align: middle;
-    float: left;
-    font-size: 23px;
-    color: #606266;
-    line-height: 40px;
-    padding: 0 12px 0 0;
+  .el-cascader__dropdown {
+    margin: 5px 0;
+    margin-top: 5px;
+    font-size: 14px;
+    background-color: #ebb563 !important;
+    border: 1px solid #e4e7ed;
+    border-radius: 4px;
+    box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+  }
+
+  //去固定的线
+  .el-table__fixed-right::before {
+    background-color: transparent !important ;
+  }
+  .el-table__fixed::before {
+    background-color: transparent !important ;
+  }
+  //el-table__fixed-body-wrapper
+  //去表格的线
+  .el-table--border,
+  .el-table--group {
+    border: none;
+    // border-right-color: rgb(235, 238, 245);
+    // border-right-style: solid;
+    // border-right-width: 1px;
+    // border-bottom-color: rgb(235, 238, 245);
+    // border-bottom-style: solid;
+    // border-bottom-width: 1px;
+  }
+  .table-SelectedRow-bgcolor {
+    td {
+      background-color: #ebb563 !important;
+    }
+  }
+  .el-table__row > td {
+    /* 去除表格线 */
+    border: none;
+  }
+  .el-table th.is-leaf {
+    border-bottom: none; //去多余的横线
+  }
+  .el-table th.is-leaf {
+    border-bottom: none; //去多余的横线
+  }
+  .el-pagination {
+    // text-align: center;
+    color: #000;
+    height: 30px;
+    // padding: 0.2rem 0.1rem;
+    // background-color: rgb(241, 158, 62); //选中页码的颜色
+  }
+  .el-pagination.is-background .el-pager li:not(.disabled) {
+    color: rgb(141, 138, 138);
+    background-color: #14375c; //没有被选中的页码颜色
+    background-color: transparent !important;
+    background-color: red;
+    //background-color: transparent;
+  }
+  .el-pagination.is-background .el-pager li:not(.disabled).active {
+    color: rgb(241, 158, 62);
+    background-color: rgb(241, 158, 62); //选中页码的颜色
+    //background-color: transparent !important;
+    //background-color: transparent;
+  }
+  .el-pagination__total,
+  .el-pagination__jump {
+    color: #fff;
+  }
+  .btn-prev {
+    background-color: #14375c;
+    background-color: transparent !important;
+    //color: rgb(32, 245, 32);
+  }
+  .btn-next {
+    background-color: transparent !important;
+    color: #fff;
+  }
+  .el-pager li.btn-quicknext,
+  .el-pager li.btn-quickprev {
+    line-height: 28px;
+    color: #303133;
+    color: #fff;
+  }
+  .el-pager li {
+    padding: 0 4px;
+    background: transparent !important;
+    font-size: 13px;
+    min-width: 35.5px;
+    height: 28px;
+    line-height: 28px;
     box-sizing: border-box;
   }
+  .el-input__inner {
+    background-color: transparent !important;
+  }
+  .el-pagination__jump {
+    color: #000 !important; //前往xx页的字体颜色
+  }
+  .el-pagination__total {
+    color: #000 !important; //总条数的颜色
+  }
+  .el-checkbox__inner {
+    //color: rgb(241, 158, 62) !important; //总条数的颜色
+    background-color: #66b1ff !important; //选框的颜色
+    //border-radius: 50% !important; //圆角百分比
+  }
+  //斑马线的颜色
+  .customer-table .crossingOne {
+    background-color: var(--crossingOne);
+    // background-color: red;
+    color: var(--colorOne);
+    opacity: 1;
+  }
+  .customer-table .crossingTwo {
+    background-color: var(--crossingTwo);
+    color: var(--colorTwo);
+    opacity: 1;
+  }
+
+  //
+
+  //分页的hover颜色
+  .el-pagination.is-background .el-pager li:not(.disabled):hover {
+    color: #fff;
+    background-color: #66b1ff !important;
+  }
+  .el-pagination.is-background .el-pager li:not(.disabled).active:hover {
+    color: #14375c;
+    background-color: #66b1ff !important;
+  }
+  // //没有fixed的时候用
+  // .el-table tbody tr:hover > td {
+  //   background-color: #66b1ff;
+  //   background-color: #c0ccee;
+  //   color: #000;
+  //   font-size: 18px;
+  // }
+  //有fixed的时候用
+  .el-table__body .el-table__row.hover-row td {
+    background-color: #66b1ff;
+    color: #000;
+    font-size: 13px;
+  }
+  /*最外层透明   表格透明*/
+  .el-table,
+  .el-table__expanded-cell {
+    background-color: transparent;
+    // background-color: #061028;
+  }
+  /* 表格内背景颜色 表格透明 */
+  .el-table th,
+  .el-table tr,
+  .el-table td {
+    background-color: transparent;
+  }
+  //固定表头 目的是表头过长把单位用....表示   //表格头部多余内容...的第二步*第一部在methods中的tableRenderHeader
+  .el-table th > .cell {
+    // overflow: hidden; // 超出的文本隐藏
+    // text-overflow: ellipsis; // 溢出用省略号显示
+    // display: -webkit-box;
+    // // white-space: nowrap; // 溢出不换行
+    // //-webkit-line-clamp: 2;
+    // white-space: nowrap;
+    // -webkit-box-orient: vertical;
+    // // color: red;
+    white-space: pre;
+  }
+  .el-table--border::after,
+  .el-table--group::after,
+  .el-table::before {
+    content: "";
+    position: absolute;
+    background-color: transparent; //去多余的横线
+    z-index: 1;
+  }
 }
+// 下拉菜单开始
+/deep/.el-input--suffix .el-input__inner {
+  //padding-right: 102px;
+}
+/deep/.el-input__inner {
+  background-color: green;
+  color: #fff;
+  border: 1px solid #31cae4;
+}
+
+.el-select-dropdown__item {
+  // font-size: 7px;
+  //line-height: 19px;
+  color: #fff;
+  font-weight: 200;
+  background-color: green;
+}
+// 背景全是绿
+
+//三角色
+// .el-popper .popper__arrow {
+//   border-width: 6px;
+//   border-top-width: 6px;
+//   filter: drop-shadow(0 2px 12px rgba(5, 212, 23, 1));
+// }
+/deep/.el-select-dropdown {
+  background-color: transparent;
+  border: 1px solid blue;
+}
+/deep/.el-select-dropdown__list {
+  padding: 0;
+}
+/deep/.el-popper[x-placement^="bottom"] {
+  margin-top: 0px;
+}
+/deep/.el-popper .popper__arrow,
+/deep/.el-popper .popper__arrow::after {
+  display: none;
+}
+.el-select-dropdown__item:hover {
+  background-color: rgba(0, 225, 219, 0.690196078431373);
+  background-color: rgba(62, 243, 16, 0.69);
+}
+.el-select-dropdown__list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+//下拉菜单结束
+// 第一个选择站的开始
+
+//第一个选择站的结束
+// ::v-deep {
+//   .el-form-item__label {
+//     text-align: right;
+//     vertical-align: middle;
+//     float: left;
+//     font-size: 23px;
+//     color: #606266;
+//     line-height: 40px;
+//     padding: 0 12px 0 0;
+//     box-sizing: border-box;
+//   }
+// }
 .unit-container {
+  color: #fff;
   width: 100%;
   height: 100%;
   font-size: 30px;
-  background-color: rgb(228, 226, 213);
+  // background-color: rgb(228, 226, 213);
+  background: linear-gradient(
+    90deg,
+    rgba(30, 224, 24, 0.4) 0,
+    rgba(0, 0, 0, 0.1) 50%,
+    rgba(30, 224, 24, 0.4)
+  );
   position: relative;
   .condition-box {
     position: absolute;
-    top: 10px;
+    top: 30px;
     left: 50px;
     font-size: 30px;
   }

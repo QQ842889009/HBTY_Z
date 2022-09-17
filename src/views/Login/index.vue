@@ -183,8 +183,10 @@ export default {
           let permissions = res.permissions;
           //取出Token令牌，保存到storage中
           let token = res.token;
+          let userId = res.userId;
           localStorage.setItem("permissions", permissions);
           localStorage.setItem("token", token);
+          localStorage.setItem("userId", userId);
           //让路由跳转页面，这里的Home是home.vue页面的名字
           this.$router.push("/layout");
         } else {

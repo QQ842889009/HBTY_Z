@@ -229,6 +229,28 @@ const echartdataType = {
   一网热量: 0,
   二网热量: 0
 }
+const alarmsettings = {
+  sid: 0,
+  station: "占位",
+  BP21A: 0,
+  BP21FB: 0,
+  BP22A: 0,
+  BP22FB: 0,
+  FV1FB: 0,
+  XYV: 0,
+  LT: 2,
+  LTL: 0.6,
+  LTLL: 0.5,
+  LTH: 2.5,
+  LTHH: 2.6,
+  PT21: 0.35,
+  PT21H: 0.4,
+  PT21HH: 0.45,
+  PT22: 0.28,
+  PT22L: 0.2,
+  PT22LL: 0.18,
+  PT22HH: 0.3
+}
 //换热站报警的初始化
 // const stationAlarm = {
 //   alarmConfirm: false,
@@ -250,5 +272,6 @@ export {
   stationDataInitTemplate,
   realtimeTemplate,
   stationTemplate,
-  echartdataType
+  echartdataType,
+  alarmsettings
 }

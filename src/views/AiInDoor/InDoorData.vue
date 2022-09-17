@@ -1,5 +1,6 @@
 <template>
   <div class="unit-container">
+    <div class="ti">室内温度数据展示</div>
     <div class="condition-box">
       <el-form :inline="true" :model="dataForm" ref="dataForm">
         <el-form-item prop="name" label="">
@@ -226,9 +227,9 @@ export default {
         colorTwo: "#fff",
       },
       selectID: [],
-      station: "",
+      station: null,
 
-      community: "",
+      community: null,
       noData: null,
       hour2: null,
       TonoData: null,
@@ -762,6 +763,12 @@ export default {
 //   }
 // }
 .unit-container {
+  .ti {
+    position: absolute;
+    right: 5px;
+    color: rgb(28, 223, 28);
+    font-size: 20px;
+  }
   color: #fff;
   width: 100%;
   height: 100%;

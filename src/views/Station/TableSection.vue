@@ -81,7 +81,7 @@
         <el-table-column
           prop="space"
           label="面积"
-          width="120"
+          width="100"
           fixed="left"
           align="center"
         >
@@ -89,7 +89,7 @@
         <el-table-column
           prop="timestamp"
           label="日期时间"
-          width="150"
+          width="160"
           fixed="left"
           align="center"
         >

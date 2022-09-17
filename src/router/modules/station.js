@@ -19,6 +19,10 @@ const TeCon = () => import("views/Station/TeCon/index.vue") //
 const Visual4 = () => import("views/Visual/Visual4.vue")
 const Visual5 = () => import("views/Visual/Visual5.vue")
 const Visual6 = () => import("views/Visual/Visual6.vue")
+//断线从新连接
+const Link = () => import("views/Station/Link/LinkData.vue")
+//报警设置
+const AlarmSettings = () => import("views/Station/Alarm/AlarmSettings.vue")
 const station = {
   path: "/station",
   name: "station",
@@ -128,6 +132,18 @@ const station = {
       name: "Visual5",
       meta: { title: "测试" },
       component: Visual5
+    },
+    {
+      path: "/Link",
+      name: "Link",
+      meta: { title: "断线重连" },
+      component: Link
+    },
+    {
+      path: "/AlarmSettings",
+      name: "AlarmSettings",
+      meta: { title: "报警设置" },
+      component: AlarmSettings
     }
   ]
 }
