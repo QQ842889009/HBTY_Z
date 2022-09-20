@@ -10,7 +10,7 @@ const Unit = () => import("views/AiUnitSx/Unit.vue")
 
 const aiUnitSx = {
   path: "/AiUnitSx",
-  name: "AiUnitSx",
+  // name: "AiUnitSx",
   meta: { title: "热力站", roles: ["approve"] },
   component: AiUnitSx,
   children: [

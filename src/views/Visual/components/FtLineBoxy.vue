@@ -315,25 +315,15 @@ export default {
 
 <style lang="scss" scoped>
 .dataBlockBox {
-  position: relative;
+  // position: relative;
   overflow: hidden;
-  // background-color: rgba(17, 35, 43, 0.6);
-  // padding-top: 0.0625rem;
-  // background: url("~@/assets/img/logo/gh.png") left top no-repeat;
-  // background-size: 7rem;
-  // height: 88.3%;
-  // width: 90%;
-  // aspect-ratio: 1;
+  background-color: rgba(17, 35, 43, 0.6);
   margin-bottom: 1rem;
   // border: 1px solid #000;
   // box-shadow: 0 0 3px 4px hsl(0, 0%, 0%, 0.7);
   box-shadow: 0px 0px 5px 4px #0bbd40 inset, 0px 0px 5px -4px #0bbd40;
   text-shadow: 1px 1px 1px #0bbd40, 1px 1px 3px #0bbd40, 1px 1px 5px #0bbd40,
     1px 1px 7px #0bbd40;
-
-  // border-radius: 10px;
-  // border-top:none;
-  // filter: opacity(0.8);
   .tipBox {
     // border: 1px solid red;
     background: url("~@/assets/img/logo/gh.png") left top no-repeat;
@@ -401,7 +391,7 @@ export default {
   }
 
   .dataBox {
-    position: relative;
+    // position: relative;
     // top: 0.375rem;
     height: 100%;
 

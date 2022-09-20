@@ -15,7 +15,7 @@ const backStage = {
   // meta: { title: "可视化" },
   // component: Visual,
   path: "/backStagee", //权限管理
-  name: "backStagee",
+  // name: "backStagee",
   meta: { title: "户用列表" },
   component: backStagee, //
 

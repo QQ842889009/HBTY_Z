@@ -25,7 +25,7 @@ const Link = () => import("views/Station/Link/LinkData.vue")
 const AlarmSettings = () => import("views/Station/Alarm/AlarmSettings.vue")
 const station = {
   path: "/station",
-  name: "station",
+  // name: "station",
   meta: { title: "热力站", roles: ["approve"] },
   component: Station,
   children: [

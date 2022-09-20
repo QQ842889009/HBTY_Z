@@ -8,7 +8,7 @@ const InDoorData = () => import("views/AiInDoor/InDoorData.vue")
 // }
 const aiInDoor = {
   path: "/AiInDoor",
-  name: "AiInDoor",
+  // name: "AiInDoor",
   meta: { title: "热力站", roles: ["approve"] },
   component: AiInDoor,
   children: [

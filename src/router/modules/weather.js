@@ -9,7 +9,7 @@ const WeatherData = () => import("views/Weather/WeatherData.vue")
 
 const weather = {
   path: "/Weather",
-  name: "Weather",
+  // name: "Weather",
   meta: { title: "热力站", roles: ["approve"] },
   component: Weather,
   children: [

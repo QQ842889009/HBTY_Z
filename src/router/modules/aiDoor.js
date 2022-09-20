@@ -9,7 +9,7 @@ const TableData = () => import("views/AiDoor/TableData.vue")
 
 const aiDoor = {
   path: "/AiDoor",
-  name: "AiDoor",
+  // name: "AiDoor",
   meta: { title: "热力站", roles: ["approve"] },
   component: AiDoor,
   children: [

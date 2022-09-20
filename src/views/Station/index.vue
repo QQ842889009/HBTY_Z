@@ -324,9 +324,9 @@ export default {
 //   }
 // }
 .bbb {
-  position: absolute;
+  // position: absolute;
   width: 100%;
-  // height: 100%;
+  height: 100%;
 }
 .yy {
   padding: 10px;
