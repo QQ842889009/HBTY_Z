@@ -45,7 +45,7 @@ export default {
     //     this.vueSendToUnity("getStationsName",this.stationName);
     // }, 10000);
     window.addEventListener("message", this.unityWatch);
-    // console.log('router----', this.$route.query)
+    console.log('router----', this.$route.query.id)
   },
   computed: {
     stationName() {
@@ -63,7 +63,10 @@ export default {
         case "ReportReady":
           console.log("unity发送消息到vue成功");
           this.vueSendToUnity("getStationsName", this.stationName);
-          this.vueSendToUnity("getRouteId", this.$route.query.id);
+          if(this.$route.query.id==undefined){
+            this.vueSendToUnity("getRouteId",0);
+          }
+          else{this.vueSendToUnity("getRouteId", this.$route.query.id);}
           break;
         case "stationInfo": //自己定义的事件，代表站的数据,接受的是unity发过来的换热站id
           this.msg.sid = e.data.msg;

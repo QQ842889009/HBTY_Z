@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <title>Unity WebGL Player | tegaoya</title>
+    <title>Unity WebGL Player | hbty</title>
     <link rel="shortcut icon" href="TemplateData/favicon.ico">
     <link rel="stylesheet" href="TemplateData/style.css">
   </head>
@@ -20,7 +20,7 @@
       <div id="unity-footer">
         <div id="unity-webgl-logo"></div>
         <div id="unity-fullscreen-button"></div>
-        <div id="unity-build-title">tegaoya</div>
+        <div id="unity-build-title">hbty</div>
       </div>
     </div>
     <script>
@@ -56,14 +56,14 @@
       }
 
       var buildUrl = "Build";
-      var loaderUrl = buildUrl + "/2022-9-14.loader.js";
+      var loaderUrl = buildUrl + "/2022.loader.js";
       var config = {
-        dataUrl: buildUrl + "/2022-9-14.data.unityweb",
-        frameworkUrl: buildUrl + "/2022-9-14.framework.js.unityweb",
-        codeUrl: buildUrl + "/2022-9-14.wasm.unityweb",
+        dataUrl: buildUrl + "/2022.data.unityweb",
+        frameworkUrl: buildUrl + "/2022.framework.js.unityweb",
+        codeUrl: buildUrl + "/2022.wasm.unityweb",
         streamingAssetsUrl: "StreamingAssets",
-        companyName: "huayun",
-        productName: "tegaoya",
+        companyName: "hebeitangyi",
+        productName: "hbty",
         productVersion: "0.1",
         showBanner: unityShowBanner,
       };
@@ -118,8 +118,8 @@
       };
       document.body.appendChild(script);
 
-         //自己加的代码
-         var unityInstanceV;
+        //自己加的代码
+        var unityInstanceV;
        function reportReady() {
          window.parent.postMessage({event:"ReportReady",msg:""}, "*");
       }
@@ -137,6 +137,8 @@
       function sendMsgToUnity(unityFunction,obj) {
         unityInstanceV.SendMessage('JsTalker',unityFunction,JSON.stringify(obj))
       }
+
+
     </script>
   </body>
 </html>
