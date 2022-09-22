@@ -19,26 +19,28 @@ let connectJs = (stompClient) => {
   stompClient.connect({}, () => {
     // socketOnInfoData(stompClient);
     // //console.log("socketJs连接成功");
-    Vue.prototype.$stompClientStationAlarm = stompClient
+    Vue.prototype.$stompClientStationAlarmSet = stompClient
 
     //调用的是下面的函数，开始监听仪表数据
-    socketOnDataStationAlarm(stompClient)
+    socketOnDataStationAlarmSet(stompClient)
   }),
     (err) => {
       // 连接发生错误时的处理函数
-      // console.log(
-      //   "socketJs连接发生错误---换热站------报警-----------------------------"
-      // )
+      console.log(
+        "socketJs连接发生错误---换热站设置----------------///////////////"
+      )
 
       heartDog = 0
     }
 }
 function connected(url) {
+  console.log("aaa-----", url)
   let timer = setInterval(() => {
     if (heartDog === 1) {
       heartDog = 0
     } else {
       let socket = new SockJS(url) //创建SockJS连接。
+
       stompClient = Stomp.over(socket) //创建STOMP客户端实例。实际上封装了SockJS,这样就能在WebSocket连接上发送STOMP消息。
       stompClient.debug = null //去除调试过程中，出现再弹出框内的一大堆信息。
       stompClient.heartbeat.outgoing = 20000 //若使用STOMP 1.1 版本，默认开启了心跳检测机制（默认值都是10000ms）
@@ -49,19 +51,13 @@ function connected(url) {
   }, 5000)
 }
 
-let socketOnDataStationAlarm = (stompClient) => {
+let socketOnDataStationAlarmSet = (stompClient) => {
   if (stompClient) {
     stompClient.subscribe("/topic/getResponse", (msg) => {
-      // console.log("换热站的报警数据-------------------------", msg)
-      // console.log(
-      //   "换热站的报警数据-------------------------",
-      //   JSON.parse(msg.body).warning
-      // )
-      // console.log("换热站的报警数据CCCCCCCCC", JSON.parse(msg.body).warningC)
-      // console.log("换热站的报警数据----message", JSON.parse(msg.body).warning)
-      that.$store.commit("STATIONALARM", JSON.parse(msg.body).warning)
-
-      that.$store.commit("STATIONALARMC", JSON.parse(msg.body).warningC)
+      // console.log("换热站的报警数据", JSON.parse(msg.body).warning.length)
+      // console.log("换热站的报设置----AAA", msg)
+      //  console.log("换热站的报设置----BBB", JSON.parse(msg.body).warningtag)
+      // that.$store.commit("STATIONAlARMARRAY", JSON.parse(msg.body).warningtag) //////留着
       // console.log("换热站的报警数据", JSON.parse(msg.body).message)
       // console.log("java-----我是换热站的数据", msg)
       // console.log("1****msg");

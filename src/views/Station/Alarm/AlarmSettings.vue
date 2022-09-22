@@ -20,7 +20,7 @@
         <el-table-column
           prop="station"
           label="换热站名称"
-          width="180"
+          width="100"
           fixed
           align="center"
         >
@@ -29,7 +29,7 @@
           <el-table-column
             prop="PT21"
             label="二供压力(MPa)"
-            width="120"
+            width="95"
             fixed="left"
             align="center"
           >
@@ -37,43 +37,43 @@
           <el-table-column
             prop="PT21H"
             label="二供压力高限(MPa)"
-            width="150"
+            width="120"
             fixed="left"
             align="center"
           >
             <template slot-scope="scope">
-              <el-input
-                type="number"
+              <el-input-number
+                style="width: 100%"
                 size="mini"
-                max="1.6"
-                min="0"
+                :min="0"
+                :max="1.6"
                 v-model="scope.row.PT21H"
-                onkeyup="this.value=this.value.replace(/[\u4E00-\u9FA5]/g,'') "
-                oninput="if(value>1.6)value=1.6;if(value<0)value=0"
+                auto-complete="off"
+                :precision="2"
+                :controls="false"
                 @change="PT21HBTN(scope.row)"
-              >
-              </el-input>
+              ></el-input-number>
             </template>
           </el-table-column>
           <el-table-column
             prop="PT21HH"
             label="二供压力高高限(MPa)"
-            width="160"
+            width="135"
             fixed="left"
             align="center"
           >
             <template slot-scope="scope">
-              <el-input
-                type="number"
+              <el-input-number
+                style="width: 100%"
                 size="mini"
-                max="1.6"
-                min="0"
+                :min="0"
+                :max="1.6"
                 v-model="scope.row.PT21HH"
-                onkeyup="this.value=this.value.replace(/[\u4E00-\u9FA5]/g,'') "
-                oninput="if(value>1.6)value=1.6;if(value<0)value=0"
+                auto-complete="off"
+                :precision="2"
+                :controls="false"
                 @change="PT21HHBTN(scope.row)"
-              >
-              </el-input>
+              ></el-input-number>
             </template>
           </el-table-column>
         </el-table-column>
@@ -81,7 +81,7 @@
           <el-table-column
             prop="PT21"
             label="二回压力(MPa)"
-            width="120"
+            width="95"
             fixed="left"
             align="center"
           >
@@ -89,12 +89,12 @@
           <el-table-column
             prop="PT22L"
             label="二回压力低限(MPa)"
-            width="150"
+            width="120"
             fixed="left"
             align="center"
           >
             <template slot-scope="scope">
-              <el-input
+              <!-- <el-input
                 type="number"
                 size="mini"
                 max="1.6"
@@ -104,49 +104,60 @@
                 oninput="if(value>1.6)value=1.6;if(value<0)value=0"
                 @change="PT22LBTN(scope.row)"
               >
-              </el-input>
+              </el-input> -->
+              <el-input-number
+                style="width: 100%"
+                size="mini"
+                :min="0"
+                :max="1.6"
+                v-model="scope.row.PT22L"
+                auto-complete="off"
+                :precision="2"
+                :controls="false"
+                @change="PT22LBTN(scope.row)"
+              ></el-input-number>
             </template>
           </el-table-column>
           <el-table-column
             prop="PT22LL"
             label="二回压力低低限(MPa)"
-            width="160"
+            width="135"
             fixed="left"
             align="center"
           >
             <template slot-scope="scope">
-              <el-input
-                type="number"
+              <el-input-number
+                style="width: 100%"
                 size="mini"
-                max="1.6"
-                min="0"
+                :min="0"
+                :max="1.6"
                 v-model="scope.row.PT22LL"
-                onkeyup="this.value=this.value.replace(/[\u4E00-\u9FA5]/g,'') "
-                oninput="if(value>1.6)value=1.6;if(value<0)value=0"
+                auto-complete="off"
+                :precision="2"
+                :controls="false"
                 @change="PT22LLBTN(scope.row)"
-              >
-              </el-input>
+              ></el-input-number>
             </template>
           </el-table-column>
           <el-table-column
-            prop="PT22HH"
+            prop="PT22SP_HH"
             label="二回压力高高限(MPa)"
-            width="160"
+            width="135"
             fixed="left"
             align="center"
           >
             <template slot-scope="scope">
-              <el-input
-                type="number"
+              <el-input-number
+                style="width: 100%"
                 size="mini"
-                max="1.6"
-                min="0"
-                v-model="scope.row.PT22HH"
-                onkeyup="this.value=this.value.replace(/[\u4E00-\u9FA5]/g,'') "
-                oninput="if(value>1.6)value=1.6;if(value<0)value=0"
+                :min="0"
+                :max="1.6"
+                v-model="scope.row.PT22SP_HH"
+                auto-complete="off"
+                :precision="2"
+                :controls="false"
                 @change="PT22HHBTN(scope.row)"
-              >
-              </el-input>
+              ></el-input-number>
             </template>
           </el-table-column>
         </el-table-column>
@@ -154,7 +165,7 @@
           <el-table-column
             prop="LT"
             label="液位(m)"
-            width="95"
+            width="65"
             fixed="left"
             align="center"
           >
@@ -162,104 +173,160 @@
           <el-table-column
             prop="LTL"
             label="液位低限(m)"
-            width="120"
+            width="95"
             fixed="left"
             align="center"
           >
             <template slot-scope="scope">
-              <el-input
-                type="number"
+              <el-input-number
+                style="width: 100%"
                 size="mini"
-                max="3"
-                min="0"
+                :min="-3"
+                :max="3"
                 v-model="scope.row.LTL"
-                onkeyup="this.value=this.value.replace(/[\u4E00-\u9FA5]/g,'') "
-                oninput="if(value>3)value=3;if(value<0)value=0"
+                auto-complete="off"
+                :precision="2"
+                :controls="false"
                 @change="LTLBTN(scope.row)"
-              >
-              </el-input>
+              ></el-input-number>
             </template>
           </el-table-column>
           <el-table-column
             prop="LTLL"
             label="液位低低限(m)"
-            width="135"
+            width="105"
             fixed="left"
             align="center"
           >
             <template slot-scope="scope">
-              <el-input
-                type="number"
+              <el-input-number
+                style="width: 100%"
                 size="mini"
-                max="3"
-                min="0"
+                :min="-3"
+                :max="3"
                 v-model="scope.row.LTLL"
-                onkeyup="this.value=this.value.replace(/[\u4E00-\u9FA5]/g,'') "
-                oninput="if(value>3)value=3;if(value<0)value=0"
+                auto-complete="off"
+                :precision="2"
+                :controls="false"
                 @change="LTLLBTN(scope.row)"
-              >
-              </el-input>
+              ></el-input-number>
             </template>
           </el-table-column>
           <el-table-column
             prop="LTH"
             label="液位高限(m)"
-            width="135"
+            width="95"
             fixed="left"
             align="center"
           >
             <template slot-scope="scope">
-              <el-input
-                type="number"
+              <el-input-number
+                style="width: 100%"
                 size="mini"
-                max="3"
-                min="0"
+                :min="0"
+                :max="1.6"
                 v-model="scope.row.LTH"
-                onkeyup="this.value=this.value.replace(/[\u4E00-\u9FA5]/g,'') "
-                oninput="if(value>3)value=3;if(value<0)value=0"
+                auto-complete="off"
+                :precision="2"
+                :controls="false"
                 @change="LTHBTN(scope.row)"
-              >
-              </el-input>
+              ></el-input-number>
+            </template>
+          </el-table-column>
+        </el-table-column>
+        <el-table-column label="变频·阀门设置" align="center">
+          <el-table-column
+            prop="BP21FB"
+            label="1#循环泵低限"
+            width="130"
+            fixed="left"
+            align="center"
+          >
+            <template slot-scope="scope">
+              <el-input-number
+                style="width: 100%"
+                size="mini"
+                :min="-50"
+                :max="50"
+                v-model="scope.row.BP21FB"
+                auto-complete="off"
+                :precision="2"
+                :controls="false"
+                @change="BP21BTN(scope.row)"
+              ></el-input-number>
             </template>
           </el-table-column>
           <el-table-column
-            prop="LTHH"
-            label="液位高高限(m)"
-            width="135"
+            prop="BP22FB"
+            label="2#循环泵低限"
+            width="130"
             fixed="left"
             align="center"
           >
             <template slot-scope="scope">
-              <el-input
-                type="number"
+              <el-input-number
+                style="width: 100%"
                 size="mini"
-                max="3"
-                min="0"
-                v-model="scope.row.LTHH"
-                onkeyup="this.value=this.value.replace(/[\u4E00-\u9FA5]/g,'') "
-                oninput="if(value>3)value=3;if(value<0)value=0"
-                @change="LTHHBTN(scope.row)"
-              >
-              </el-input>
+                :min="-50"
+                :max="50"
+                v-model="scope.row.BP22FB"
+                auto-complete="off"
+                :precision="2"
+                :controls="false"
+                @change="BP22BTN(scope.row)"
+              ></el-input-number>
+            </template>
+          </el-table-column>
+          <el-table-column
+            prop="FV1FB"
+            label="一网阀门低限"
+            width="130"
+            fixed="left"
+            align="center"
+          >
+            <template slot-scope="scope">
+              <el-input-number
+                style="width: 100%"
+                size="mini"
+                :min="-100"
+                :max="100"
+                v-model="scope.row.FV1FB"
+                auto-complete="off"
+                :precision="2"
+                :controls="false"
+                @change="FV1BTN(scope.row)"
+              ></el-input-number>
+            </template>
+          </el-table-column>
+          <el-table-column
+            prop="FV2FB"
+            label="二网阀门低限"
+            width="150"
+            fixed="left"
+            align="center"
+          >
+            <template slot-scope="scope">
+              <el-input-number
+                style="width: 100%"
+                size="mini"
+                :min="-100"
+                :max="100"
+                v-model="scope.row.FV2FB"
+                auto-complete="off"
+                :precision="2"
+                :controls="false"
+                @change="FV2BTN(scope.row)"
+              ></el-input-number>
             </template>
           </el-table-column>
         </el-table-column>
       </el-table>
-      <!-- 
-      <el-pagination
-        @size-change="handleSizeChange"
-        @current-change="handleCurrentChange"
-        :current-page="currentPage"
-        :page-sizes="[33, 33]"
-        :page-size="pageSize"
-        layout="total, sizes, prev, pager, next, jumper"
-        :total="vv.length"
-      >
-      </el-pagination> -->
     </div>
   </div>
 </template>
 <script>
+import SockJS from "sockjs-client";
+import Stomp from "stompjs";
 import SysDlialog from "./SysDlialog"; ////
 //临时数据
 //import { options } from "assets/js/common/doorSelect";
@@ -268,7 +335,8 @@ import XLSX from "xlsx";
 export default {
   data() {
     return {
-      tableData333: [],
+      tableData: [],
+      tableDataTemp: [],
       currentPage: 1, // 当前页码
       total: 50, // 总条数
       pageSize: 33, // 每页的数据条数
@@ -299,7 +367,7 @@ export default {
       infoArr: [],
       multipleSelection: [],
       myData: [],
-      tableData: [],
+
       info: "",
       dataForm: {
         malfunction: null, //故障
@@ -312,6 +380,8 @@ export default {
     };
   },
   created() {
+    this.connection();
+    // this.meterb;
     // this.askData();
     // this.asd();
     // this.requestIndoorData();
@@ -320,7 +390,7 @@ export default {
   computed: {
     vv() {
       this.tableData333 = this.$store.getters.alarmsettings;
-      console.log("---------999", this.tableData333);
+      // console.log("---------999", this.tableData333);
       return this.tableData333;
     },
     headerStyle() {
@@ -350,29 +420,263 @@ export default {
     // this.dd();
   },
   methods: {
-    PT21HBTN(v1) {
-      console.log("v1v2", v1);
-      console.log("v1v2", v2);
-      // let msg = {
-      //   name: "admin",
-      //   sid: v.sid,
-      //   // sdate: this.setriqi,
-      //   // stime: this.setshijian,
-      //   plcTag: "PT21H",
-      //   tagValue: v.PT21H,
-      // };
+    connection() {
+      console.log("99999999-----------------------------");
+      //初始化weosocket
+      // 定义客户端的认证信息,按需求配置
+      // 获取STOMP子协议的客户端对象
+      // `http://221.206.242.116:9000/tems/publicTagServer`;
+      let socket = new SockJS(
+        `http://221.206.242.116:9000/tems/publicTagServer`
+      ); //接口地址
+      const stompClient = Stomp.over(socket);
+      this.stompClient = stompClient;
+      stompClient.debug = null;
+      //  const useName = window.sessionStorage.getItem("userName");
+      let headers = {
+        //请求需要携带的一些入参
+        username: "useName",
+      };
+      const _this = this;
+      // 向服务器发起websocket连接
+      stompClient.connect(
+        headers,
+        () => {
+          stompClient.subscribe(`/topic/getResponse`, (msg) => {
+            // console.log(
+            //   "qqqqqqqqq************-------------",
+            //   JSON.parse(msg.body).warningtag
+            // );
+            console.log("CCCCCCCCCC", JSON.parse(msg.body).warningtagC);
+            this.$store.commit(
+              "STATIONAlARMARRAY",
+              JSON.parse(msg.body).warningtag
+            );
+            // this.$store.commit(
+            //   "STATIONAlARMARRAYaffirm",
+            //   JSON.parse(msg.body).warningtagC
+            // );
+          });
+        },
+        (err) => {
+          // 连接发生错误时的处理函数
+          console.log("失败");
+          console.log(err);
+          // this.$router.push("/login");
+        }
+      );
     },
-    PT21HHBTN(v1) {
-      console.log("v1v2", v1);
-      console.log("v1v2", v2);
-      // let msg = {
-      //   name: "admin",
-      //   sid: v.sid,
-      //   // sdate: this.setriqi,
-      //   // stime: this.setshijian,
-      //   plcTag: "PT21H",
-      //   tagValue: v.PT21H,
-      // };
+    disconnect() {
+      if (this.stompClient) {
+        console.log("进来了吗------", this.stompClient);
+        this.stompClient.disconnect();
+      }
+    }, // 断开连接
+    wwss() {},
+    PT21HBTN(v) {
+      console.log("v1v2", v);
+
+      let msg = {
+        // name: "admin",
+        id: parseInt(v.id),
+        sid: v.sid16,
+        // sdate: this.setriqi,
+        // stime: this.setshijian,
+        tag: "pt21_h",
+        num: parseFloat(v.PT21H),
+      };
+      if (this.stompClient) {
+        console.log("报警设置设置连接是同的-------------");
+        console.log(msg);
+        this.stompClient.send("/alone", {}, JSON.stringify(msg));
+      } else {
+        console.log("b报警设置失败");
+      }
+    },
+    PT22LBTN(v) {
+      console.log("v1v2", v);
+
+      let msg = {
+        // name: "admin",
+        id: parseInt(v.id),
+        sid: v.sid16,
+        // sdate: this.setriqi,
+        // stime: this.setshijian,
+        tag: "pt22_L",
+        num: parseFloat(v.PT22L),
+      };
+      if (this.stompClient) {
+        console.log("报警设置设置连接是同的-------------");
+        console.log(msg);
+        this.stompClient.send("/alone", {}, JSON.stringify(msg));
+      } else {
+        console.log("b报警设置失败");
+      }
+    },
+    PT22LLBTN(v) {
+      let msg = {
+        // name: "admin",
+        userName: "admin", //localStorage.getItem("userId"),
+        sid: v.sid,
+        plcTag: "PT22_LL",
+        tagValue: v.PT22LL,
+      };
+      console.log("----------------pt22ll----------------", msg);
+      if (this.$stompClient.connected === true) {
+        // console.log("发送数据成化")
+        this.$stompClient.send("/hbty/fySetupPLCA", {}, JSON.stringify(msg));
+      }
+    },
+    PT21HHBTN(v) {
+      let msg = {
+        // name: "admin",
+        userName: "admin", //localStorage.getItem("userId"),
+        sid: v.sid,
+        plcTag: "PT21_HH",
+        tagValue: v.PT21HH,
+      };
+      console.log("------PT21HH------------", msg);
+      if (this.$stompClient.connected === true) {
+        // console.log("发送数据成化")
+        this.$stompClient.send("/hbty/fySetupPLCA", {}, JSON.stringify(msg));
+      }
+    },
+    PT22HHBTN(v) {
+      let msg = {
+        // name: "admin",
+        userName: "admin", //localStorage.getItem("userId"),
+        sid: v.sid,
+        plcTag: "PT22SP_HH",
+        tagValue: v.PT22SP_HH,
+      };
+      console.log("------PT22HH------------", msg);
+      if (this.$stompClient.connected === true) {
+        // console.log("发送数据成化")
+        this.$stompClient.send("/hbty/fySetupPLCA", {}, JSON.stringify(msg));
+      }
+    },
+    LTLLBTN(v) {
+      let msg = {
+        // name: "admin",
+        userName: "admin", //localStorage.getItem("userId"),
+        sid: v.sid,
+        plcTag: "LT_LL",
+        tagValue: v.LTLL,
+      };
+
+      if (this.$stompClient.connected === true) {
+        // console.log("发送数据成化")
+        this.$stompClient.send("/hbty/fySetupPLCA", {}, JSON.stringify(msg));
+      }
+    },
+    LTLBTN(v) {
+      let msg = {
+        // name: "admin",
+        userName: "admin", //localStorage.getItem("userId"),
+        sid: v.sid,
+        plcTag: "LT_L",
+        tagValue: v.LTL,
+      };
+      console.log("液位低限");
+      if (this.$stompClient.connected === true) {
+        // console.log("发送数据成化")
+        this.$stompClient.send("/hbty/fySetupPLCA", {}, JSON.stringify(msg));
+      }
+    },
+    LTHBTN(v) {
+      let msg = {
+        // name: "admin",
+        userName: "admin", //localStorage.getItem("userId"),
+        sid: v.sid,
+        plcTag: "LT_H",
+        tagValue: v.LTH,
+      };
+
+      if (this.$stompClient.connected === true) {
+        // console.log("发送数据成化")
+        this.$stompClient.send("/hbty/fySetupPLCA", {}, JSON.stringify(msg));
+      }
+    },
+
+    BP21BTN(v) {
+      // console.log("v1v2", v);
+
+      let msg = {
+        // name: "admin",
+        id: parseInt(v.id),
+        sid: v.sid16,
+        // sdate: this.setriqi,
+        // stime: this.setshijian,
+        tag: "bp21fb",
+        num: parseFloat(v.BP21FB),
+      };
+      if (this.stompClient) {
+        console.log("报警设置设置连接是同的-------------");
+        console.log(msg);
+        this.stompClient.send("/alone", {}, JSON.stringify(msg));
+      } else {
+        console.log("b报警设置失败");
+      }
+    },
+    BP22BTN(v) {
+      console.log("v1v2", v);
+
+      let msg = {
+        // name: "admin",
+        id: parseInt(v.id),
+        sid: v.sid16,
+        // sdate: this.setriqi,
+        // stime: this.setshijian,
+        tag: "bp22fb",
+        num: parseFloat(v.BP22FB),
+      };
+      if (this.stompClient) {
+        console.log("报警设置设置连接是同的-------------");
+        console.log(msg);
+        this.stompClient.send("/alone", {}, JSON.stringify(msg));
+      } else {
+        console.log("b报警设置失败");
+      }
+    },
+    FV1BTN(v) {
+      console.log("v1v2", v);
+
+      let msg = {
+        // name: "admin",
+        id: parseInt(v.id),
+        sid: v.sid16,
+        // sdate: this.setriqi,
+        // stime: this.setshijian,
+        tag: "fv1fb",
+        num: parseFloat(v.FV1FB),
+      };
+      if (this.stompClient) {
+        console.log("报警设置设置连接是同的-------------");
+        console.log(msg);
+        this.stompClient.send("/alone", {}, JSON.stringify(msg));
+      } else {
+        console.log("b报警设置失败");
+      }
+    },
+    FV2BTN(v) {
+      console.log("v1v2", v);
+
+      let msg = {
+        // name: "admin",
+        id: parseInt(v.id),
+        sid: v.sid16,
+        // sdate: this.setriqi,
+        // stime: this.setshijian,
+        tag: "fv2fb",
+        num: parseFloat(v.FV2FB),
+      };
+      if (this.stompClient) {
+        console.log("报警设置设置连接是同的-------------");
+        console.log(msg);
+        this.stompClient.send("/alone", {}, JSON.stringify(msg));
+      } else {
+        console.log("b报警设置失败");
+      }
     },
     changeInputAAA(v) {
       console.log("vvvvvvvv++v++v++vvv", v);
@@ -464,6 +768,13 @@ export default {
       }
     },
   },
+
+  destroyed() {
+    console.log("rrrrr");
+    // this.websocketclose() //离开路由之后断开websocket连接
+    this.disconnect();
+  },
+
   components: {
     SysDlialog,
   },

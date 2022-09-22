@@ -203,6 +203,13 @@
             <el-button
               type="success"
               size="mini"
+              @click="inquire(scope.row)"
+              fixed="right"
+              >请求数据</el-button
+            >
+            <el-button
+              type="success"
+              size="mini"
               @click="searchHistoryList(scope.row)"
               fixed="right"
               >历史查询</el-button
@@ -313,6 +320,24 @@ export default {
     this.dd();
   },
   methods: {
+    inquire(v) {
+      let msgRequest = {
+        sid: String(v.sid),
+      };
+      if (this.$stompClientAiUnit.connected === true) {
+        this.$stompClientAiUnit.send(
+          "/hbty/fyGetValveData",
+          {},
+          JSON.stringify(msgRequest)
+        );
+        let timerRequest = setTimeout(() => {
+          this.requestIndoorData();
+          // this.requestIndoorData();
+          clearTimeout(timerRequest);
+        }, 5000);
+      } else {
+      }
+    },
     //时间日期格式
     dateFormat(row, column, cellValue, index) {
       const daterc = row[column.property];
@@ -590,7 +615,7 @@ export default {
   }
   .el-pagination {
     // text-align: center;
-    color: #000;
+    color: #fff;
     height: 30px;
     // padding: 0.2rem 0.1rem;
     // background-color: rgb(241, 158, 62); //选中页码的颜色
@@ -640,10 +665,10 @@ export default {
     background-color: transparent !important;
   }
   .el-pagination__jump {
-    color: #000 !important; //前往xx页的字体颜色
+    color: #fff !important; //前往xx页的字体颜色
   }
   .el-pagination__total {
-    color: #000 !important; //总条数的颜色
+    color: #fff !important; //总条数的颜色
   }
   .el-checkbox__inner {
     //color: rgb(241, 158, 62) !important; //总条数的颜色

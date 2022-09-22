@@ -65,8 +65,17 @@ let connected = function (url) {
 
 //************************************************************************************************************************* * **建立三网表数据的连接
 let socketOnDataSx = (stompClient) => {
-  //
-
+  ////热源四信的请求
+  stompClient.send("/hbty/aiHotDataInfos", {}, JSON.stringify({})) //热源四信的请求
+  //四新热源
+  stompClient.subscribe("/data/wtOnAiHotData", (msg) => {
+    console.log("热源de********？四芯", msg)
+    //console.log(msg);
+    //console.log("热源de********？四芯-----");
+    //console.log(msg.body);
+    manageDataSx.aiHot(JSON.parse(msg.body))
+    // manageDataAiUnitSx.aiHot(JSON.parse(msg.body));
+  })
   stompClient.subscribe("/data/wtOnAiWeatherData", (msg) => {
     //四信气象
     console.log("四信的气象")

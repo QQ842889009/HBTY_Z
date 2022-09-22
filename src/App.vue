@@ -22,11 +22,30 @@ export default {
       bg2: require("assets/img/logo/header2.png"), //头部背景图
     };
   },
-  created() {},
+  created() {
+    this.askData();
+  },
   computed: {},
   mounted() {},
   updated() {},
-  methods: {},
+  methods: {
+    askData() {
+      console.log("********************");
+
+      this.$http({
+        method: "get",
+        url: "plcdata/tems/plc/stationInfo", //
+      })
+        .then((res) => {
+          console.log("接受到的数据plcdata/tems/plc/stationInfo", res);
+
+          this.$store.commit("CC", res);
+        })
+        .catch((erroe) => {
+          console.log("发送数据失败");
+        });
+    },
+  },
   components: {},
 };
 </script>

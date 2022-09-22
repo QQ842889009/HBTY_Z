@@ -1,16 +1,15 @@
 <template>
   <div class="unit-container">
     <div class="table">
-      <P>实时报警展示</P>
       <el-table
         v-loading="dataListLoading"
         fixed
         ref="report-table"
         :data="vv.slice((currentPage - 1) * pageSize, currentPage * pageSize)"
         style="width: 100%"
-        max-height="910"
+        max-height="995"
         class="customer-table"
-        :cell-style="{ padding: '1.8px 0' }"
+        :cell-style="{ padding: '0px 0' }"
         :header-cell-style="headerStyle"
         id="el-table"
         @selection-change="handleSelectionChange"
@@ -19,153 +18,253 @@
         :row-key="getRowKey"
       >
         <el-table-column
-          prop="stationName"
+          prop="station"
           label="换热站名称"
-          width="350"
+          width="180"
           fixed
           align="center"
         >
         </el-table-column>
-        <el-table-column
-          prop="timeStr"
-          label="报警日期时间"
-          width="350"
-          fixed="left"
-          align="center"
-        >
+        <el-table-column label="二供压力设置" align="center">
+          <el-table-column
+            prop="PT21"
+            label="二供压力(MPa)"
+            width="120"
+            fixed="left"
+            align="center"
+          >
+          </el-table-column>
+          <el-table-column
+            prop="PT21H"
+            label="二供压力高限tt(MPa)"
+            width="150"
+            fixed="left"
+            align="center"
+          >
+            <template slot-scope="scope">
+              <!-- <el-input
+                type="number"
+                size="mini"
+                max="1.6"
+                min="0"
+                v-model="scope.row.PT21H"
+                @change="PT21HBTN(scope.row)"
+              >
+              </el-input> -->
+              <el-input-number
+                style="width: 100%"
+                size="mini"
+                :min="0"
+                :max="1.6"
+                v-model="scope.row.PT21H"
+                auto-complete="off"
+                :precision="2"
+                :controls="false"
+                @change="PT21HBTN(scope.row)"
+              ></el-input-number>
+            </template>
+          </el-table-column>
+          <el-table-column
+            prop="PT21HH"
+            label="二供压力高高限(MPa)"
+            width="160"
+            fixed="left"
+            align="center"
+          >
+            <template slot-scope="scope">
+              <el-input
+                type="number"
+                size="mini"
+                max="1.6"
+                min="0"
+                v-model="scope.row.PT21HH"
+                onkeyup="this.value=this.value.replace(/[\u4E00-\u9FA5]/g,'') "
+                oninput="if(value>1.6)value=1.6;if(value<0)value=0"
+                @change="PT21HHBTN(scope.row)"
+              >
+              </el-input>
+            </template>
+          </el-table-column>
         </el-table-column>
-        <el-table-column
-          prop="tagValue"
-          label="真实值"
-          width="250"
-          fixed="left"
-          align="center"
-        >
+        <el-table-column label="二回压力设置" align="center">
+          <el-table-column
+            prop="PT21"
+            label="二回压力(MPa)"
+            width="120"
+            fixed="left"
+            align="center"
+          >
+          </el-table-column>
+          <el-table-column
+            prop="PT22L"
+            label="二回压力低限(MPa)"
+            width="150"
+            fixed="left"
+            align="center"
+          >
+            <template slot-scope="scope">
+              <el-input
+                type="number"
+                size="mini"
+                max="1.6"
+                min="0"
+                v-model="scope.row.PT22L"
+                onkeyup="this.value=this.value.replace(/[\u4E00-\u9FA5]/g,'') "
+                oninput="if(value>1.6)value=1.6;if(value<0)value=0"
+                @change="PT22LBTN(scope.row)"
+              >
+              </el-input>
+            </template>
+          </el-table-column>
+          <el-table-column
+            prop="PT22LL"
+            label="二回压力低低限(MPa)"
+            width="160"
+            fixed="left"
+            align="center"
+          >
+            <template slot-scope="scope">
+              <el-input
+                type="number"
+                size="mini"
+                max="1.6"
+                min="0"
+                v-model="scope.row.PT22LL"
+                onkeyup="this.value=this.value.replace(/[\u4E00-\u9FA5]/g,'') "
+                oninput="if(value>1.6)value=1.6;if(value<0)value=0"
+                @change="PT22LLBTN(scope.row)"
+              >
+              </el-input>
+            </template>
+          </el-table-column>
+          <el-table-column
+            prop="PT22HH"
+            label="二回压力高高限(MPa)"
+            width="160"
+            fixed="left"
+            align="center"
+          >
+            <template slot-scope="scope">
+              <el-input
+                type="number"
+                size="mini"
+                max="1.6"
+                min="0"
+                v-model="scope.row.PT22HH"
+                onkeyup="this.value=this.value.replace(/[\u4E00-\u9FA5]/g,'') "
+                oninput="if(value>1.6)value=1.6;if(value<0)value=0"
+                @change="PT22HHBTN(scope.row)"
+              >
+              </el-input>
+            </template>
+          </el-table-column>
         </el-table-column>
-        <el-table-column
-          prop="limitTagValue"
-          label="设定值"
-          width="250"
-          fixed="left"
-          align="center"
-        >
-        </el-table-column>
-        <el-table-column
-          prop="alarmTip"
-          label="报警描述"
-          width="650"
-          fixed="left"
-          align="center"
-        >
-        </el-table-column>
-        <el-table-column label="操作" width="100" fixed="right">
-          <template slot-scope="scope">
-            <el-button
-              type="success"
-              size="mini"
-              @click="affirm(scope.row)"
-              fixed="right"
-              >确认报警</el-button
-            >
-          </template>
+        <el-table-column label="液位设置" align="center">
+          <el-table-column
+            prop="LT"
+            label="液位(m)"
+            width="95"
+            fixed="left"
+            align="center"
+          >
+          </el-table-column>
+          <el-table-column
+            prop="LTL"
+            label="液位低限(m)"
+            width="120"
+            fixed="left"
+            align="center"
+          >
+            <template slot-scope="scope">
+              <el-input
+                type="number"
+                size="mini"
+                max="3"
+                min="0"
+                v-model="scope.row.LTL"
+                onkeyup="this.value=this.value.replace(/[\u4E00-\u9FA5]/g,'') "
+                oninput="if(value>3)value=3;if(value<0)value=0"
+                @change="LTLBTN(scope.row)"
+              >
+              </el-input>
+            </template>
+          </el-table-column>
+          <el-table-column
+            prop="LTLL"
+            label="液位低低限(m)"
+            width="135"
+            fixed="left"
+            align="center"
+          >
+            <template slot-scope="scope">
+              <el-input
+                type="number"
+                size="mini"
+                max="3"
+                min="0"
+                v-model="scope.row.LTLL"
+                onkeyup="this.value=this.value.replace(/[\u4E00-\u9FA5]/g,'') "
+                oninput="if(value>3)value=3;if(value<0)value=0"
+                @change="LTLLBTN(scope.row)"
+              >
+              </el-input>
+            </template>
+          </el-table-column>
+          <el-table-column
+            prop="LTH"
+            label="液位高限(m)"
+            width="135"
+            fixed="left"
+            align="center"
+          >
+            <template slot-scope="scope">
+              <el-input
+                type="number"
+                size="mini"
+                max="3"
+                min="0"
+                v-model="scope.row.LTH"
+                onkeyup="this.value=this.value.replace(/[\u4E00-\u9FA5]/g,'') "
+                oninput="if(value>3)value=3;if(value<0)value=0"
+                @change="LTHBTN(scope.row)"
+              >
+              </el-input>
+            </template>
+          </el-table-column>
+          <!-- <el-table-column
+            prop="LTHH"
+            label="液位高高限(m)"
+            width="135"
+            fixed="left"
+            align="center"
+          >
+            <template slot-scope="scope">
+              <el-input
+                type="number"
+                size="mini"
+                max="3"
+                min="0"
+                v-model="scope.row.LTHH"
+                onkeyup="this.value=this.value.replace(/[\u4E00-\u9FA5]/g,'') "
+                oninput="if(value>3)value=3;if(value<0)value=0"
+                @change="LTHHBTN(scope.row)"
+              >
+              </el-input>
+            </template>
+          </el-table-column> -->
         </el-table-column>
       </el-table>
-
+      <!-- 
       <el-pagination
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
         :current-page="currentPage"
-        :page-sizes="[10]"
+        :page-sizes="[33, 33]"
         :page-size="pageSize"
         layout="total, sizes, prev, pager, next, jumper"
         :total="vv.length"
       >
-      </el-pagination>
-    </div>
-    <!-- <div v-show="tt === 5"></div> -->
-    <div class="tableC">
-      <P>确认过的报警展示</P>
-      <el-table
-        v-loading="dataListLoading"
-        fixed
-        ref="report-table"
-        :data="
-          vvC.slice((currentPageC - 1) * pageSizeC, currentPageC * pageSizeC)
-        "
-        style="width: 100%"
-        max-height="910"
-        class="customer-table"
-        :cell-style="{ padding: '1.8px 0' }"
-        :header-cell-style="headerStyle"
-        id="el-table"
-        @selection-change="handleSelectionChange"
-        :row-class-name="tableRowClassName"
-        :style="zebarCrossingStyle"
-        :row-key="getRowKey"
-      >
-        <el-table-column
-          prop="stationName"
-          label="换热站名称"
-          width="350"
-          fixed
-          align="center"
-        >
-        </el-table-column>
-        <el-table-column
-          prop="timeStr"
-          label="报警日期时间"
-          width="350"
-          fixed="left"
-          align="center"
-        >
-        </el-table-column>
-        <el-table-column
-          prop="tagValue"
-          label="真实值"
-          width="250"
-          fixed="left"
-          align="center"
-        >
-        </el-table-column>
-        <el-table-column
-          prop="limitTagValue"
-          label="设定值"
-          width="250"
-          fixed="left"
-          align="center"
-        >
-        </el-table-column>
-        <el-table-column
-          prop="alarmTip"
-          label="报警描述"
-          width="650"
-          fixed="left"
-          align="center"
-        >
-        </el-table-column>
-        <!-- <el-table-column label="操作" width="100" fixed="right">
-          <template slot-scope="scope">
-            <el-button
-              type="success"
-              size="mini"
-              @click="affirm(scope.row)"
-              fixed="right"
-              >确认报警</el-button
-            >
-          </template>
-        </el-table-column> -->
-      </el-table>
-
-      <el-pagination
-        @size-change="handleSizeChangeC"
-        @current-change="handleCurrentChangeC"
-        :current-page="currentPageC"
-        :page-sizes="[10]"
-        :page-size="pageSizeC"
-        layout="total, sizes, prev, pager, next, jumper"
-        :total="vvC.length"
-      >
-      </el-pagination>
+      </el-pagination> -->
     </div>
   </div>
 </template>
@@ -178,13 +277,11 @@ import XLSX from "xlsx";
 export default {
   data() {
     return {
-      tableData333: [],
-      tableData444: [],
+      tableData: [],
+      tableDataTemp: [],
       currentPage: 1, // 当前页码
-      currentPageC: 1, // 当前页码
       total: 50, // 总条数
-      pageSize: 10, // 每页的数据条数
-      pageSizeC: 10, // 每页的数据条数
+      pageSize: 33, // 每页的数据条数
       dataListLoading: false,
       //斑马线颜色
       zebarCrossing: {
@@ -203,7 +300,7 @@ export default {
       TonoData: null,
       Tohour2: null,
       pageIndex: 1,
-      pageSize: 10,
+      pageSize: 33,
       value: null,
       totalCount: 0,
       title: "室温曲线查询",
@@ -212,7 +309,7 @@ export default {
       infoArr: [],
       multipleSelection: [],
       myData: [],
-      tableData: [],
+
       info: "",
       dataForm: {
         malfunction: null, //故障
@@ -225,25 +322,46 @@ export default {
     };
   },
   created() {
+    // this.meterb;
     // this.askData();
     // this.asd();
     // this.requestIndoorData();
   },
   watch: {},
   computed: {
+    // meterb() {
+    //   this.tableData = this.$store.getters.alarmsettings; //报警的数组
+
+    //   this.tableDataTemp = this.$store.getters.stationDataAndInfo; //全部数据的数组
+    //   console.log(
+    //     "----------------------------this.tableDataTemp",
+    //     this.tableDataTemp
+    //   );
+    //   // this.RestrictArray = this.$store.getters.getLkAlarmLimData;
+    //   // this.RestrictArray_shezhi = this.$store.getters.MLRestrictArray_shezhi;
+    //   for (let i = 0; i < this.tableData.length; i++) {
+    //     // this.tableData[i].aLTH = this.RestrictArray[i].aLTH;
+    //     // this.tableData[i].aLTL = this.RestrictArray[i].aLTL;
+    //     // this.tableData[i].aPT21H = this.RestrictArray[i].aPT21H;
+    //     // this.tableData.aPT22L = this.RestrictArray[i].aPT22L;
+    //     this.tableData[i].PT21 = this.tableDataTemp[i].PT21;
+    //     this.tableData[i].PT22 = this.tableDataTemp[i].PT22;
+    //     this.tableData[i].LT = this.tableDataTemp[i].LT;
+    //     // this.tableData.station = this.tableDataTemp[i].Station;
+    //   }
+
+    //   this.row = parseInt(this.tableData.length / this.pageSize);
+    // },
     vv() {
-      this.tableData333 = this.$store.getters.stationAlarmSet;
+      this.tableData333 = this.$store.getters.alarmsettings;
+      console.log("---------999", this.tableData333);
       return this.tableData333;
-    },
-    vvC() {
-      this.tableData444 = this.$store.getters.stationAlarmSetC;
-      return this.tableData444;
     },
     headerStyle() {
       return {
         background: "#0dc41a",
         padding: "5px 0",
-        height: "30px",
+        height: "20px",
         borderColor: "#006CC1",
         textAlign: "center",
         // color: "#FEFEFE",
@@ -266,6 +384,56 @@ export default {
     // this.dd();
   },
   methods: {
+    wwss() {},
+    PT21HBTN(v) {
+      console.log("v1v2", v);
+
+      let msg = {
+        // name: "admin",
+        id: parseInt(v.id),
+        sid: v.sid16,
+        // sdate: this.setriqi,
+        // stime: this.setshijian,
+        tag: "pt21_h",
+        num: parseFloat(v.PT21H),
+      };
+      if (this.$stompClientStationAlarmSet.connected === true) {
+        console.log("报警设置设置连接是同的-------------");
+        console.log(msg);
+        this.$stompClientStationAlarmSet.send(
+          "/taglimitwarning/update",
+          {},
+          JSON.stringify(msg)
+        );
+      } else {
+        console.log("b报警设置失败");
+      }
+    },
+    PT21HHBTN(v1) {
+      console.log("v1v2", v1);
+      console.log("v1v2", v2);
+      // let msg = {
+      //   name: "admin",
+      //   sid: v.sid,
+      //   // sdate: this.setriqi,
+      //   // stime: this.setshijian,
+      //   plcTag: "PT21H",
+      //   tagValue: v.PT21H,
+      // };
+    },
+    changeInputAAA(v) {
+      console.log("vvvvvvvv++v++v++vvv", v);
+      let msg = {
+        name: "admin",
+        sid: v.sid,
+        // sdate: this.setriqi,
+        // stime: this.setshijian,
+        plcTag: "PT21HH",
+        tagValue: this.setPT21_H,
+      };
+      this.dialogVisible_PT21_H = false;
+      this.$wsSend("/hbty/fySetLimitData", msg);
+    },
     affirm(v) {
       // console.log("vvv", v);
 
@@ -296,11 +464,6 @@ export default {
       this.currentPage = 1;
       this.pageSize = val;
     },
-    handleSizeChangeC(val) {
-      console.log(`每页 ${val} 条`);
-      this.currentPageC = 1;
-      this.pageSizeC = val;
-    },
     handleSelectionChange(val) {
       this.multipleSelection = val;
     },
@@ -308,10 +471,6 @@ export default {
     handleCurrentChange(val) {
       //console.log(`当前页: ${val}`);
       this.currentPage = val;
-    },
-    handleCurrentChangeC(val) {
-      //console.log(`当前页: ${val}`);
-      this.currentPageC = val;
     },
 
     //解决[ElTable] prop row-key is required的错误
@@ -414,11 +573,9 @@ export default {
   .el-table th.is-leaf {
     border-bottom: none; //去多余的横线
   }
-  //12345页的颜色
   .el-pagination {
     // text-align: center;
     color: #000;
-    color: #fff;
     height: 30px;
     // padding: 0.2rem 0.1rem;
     // background-color: rgb(241, 158, 62); //选中页码的颜色
@@ -466,13 +623,12 @@ export default {
   }
   .el-input__inner {
     background-color: transparent !important;
-    // color: #fff !important; //前往xx页的字体颜色
   }
   .el-pagination__jump {
-    color: #fff !important; //前往xx页的字体颜色
+    color: #000 !important; //前往xx页的字体颜色
   }
   .el-pagination__total {
-    color: #fff !important; //总条数的颜色
+    color: #000 !important; //总条数的颜色
   }
   .el-checkbox__inner {
     //color: rgb(241, 158, 62) !important; //总条数的颜色
@@ -617,15 +773,15 @@ export default {
 .unit-container {
   color: #fff;
   width: 100%;
-  height: 100%;
+  height: 1000px;
   font-size: 30px;
-  // background-color: rgb(228, 226, 213);
-  background: linear-gradient(
-    90deg,
-    rgba(30, 224, 24, 0.4) 0,
-    rgba(0, 0, 0, 0.1) 50%,
-    rgba(30, 224, 24, 0.4)
-  );
+  // background-color: red;
+  // background: linear-gradient(
+  //   90deg,
+  //   rgba(30, 224, 24, 0.4) 0,
+  //   rgba(0, 0, 0, 0.1) 50%,
+  //   rgba(30, 224, 24, 0.4)
+  // );
   position: relative;
   .condition-box {
     position: absolute;
@@ -635,23 +791,13 @@ export default {
   }
   .table {
     position: absolute;
-    top: 20px;
+    top: 0px;
     width: 1880px;
-    height: 970px;
-    // background-color: palevioletred;
+    height: 995px;
+    //background-color: palevioletred;
     overflow: auto;
-    margin: 0px 20px 20px 20px;
-    padding: 0px 20px 20px 20px;
-  }
-  .tableC {
-    position: absolute;
-    top: 500px;
-    width: 1880px;
-    height: 970px;
-    // background-color: palevioletred;
-    overflow: auto;
-    margin: 0px 20px 20px 20px;
-    padding: 0px 20px 20px 20px;
+    margin: 0px 20px 0px 20px;
+    padding: 0px 20px 0px 20px;
   }
 }
 </style>

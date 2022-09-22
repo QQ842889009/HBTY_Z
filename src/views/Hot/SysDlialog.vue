@@ -1,51 +1,37 @@
 <template>
   <div class="dialog-consumer">
-    <el-dialog
-      :modal-append-to-body="false"
-      :title="title"
-      :visible.sync="dialogVisible"
-      :width="width + 'px'"
-      :height="height + 'px'"
-      :before-close="handleClose"
-    >
-      <div class="a">
-        <div class="t">
-          <span>换热站：{{ obj01.station }}</span>
-          <span>小区:{{ obj01.housing }}</span>
-          <span>楼：{{ obj01.tower }}</span>
-          <span>单元：{{ obj01.unit }}</span>
-          <!-- <span>室：{{ obj01.num }}</span>
-          <span>联系人：{{ obj01.householder_name }}</span> -->
-        </div>
-        <div class="shijian">
-          <DateTimePicker
-            class="picker"
-            @EmitDateTimePicker="receiveDateTimePicker"
-          ></DateTimePicker>
-        </div>
-        <div class="quxian">
-          <EchartLineDB
-            :getData="indoorque"
-            title_name="带户阀的单元阀"
-            :isSort="false"
-            :isShowDB="false"
-            :showLenged="true"
-            dbTem="35"
-          />
-        </div>
+    <div class="a">
+      <div class="shijian">
+        <DateTimePicker
+          class="picker"
+          :colors="colors"
+          @EmitDateTimePicker="receiveDateTimePicker"
+        ></DateTimePicker>
       </div>
-    </el-dialog>
+      <div class="quxian">
+        <EchartLineDB
+          :getData="indoorque"
+          title_name="热源历史查询"
+          :isSort="false"
+          :isShowDB="false"
+          :showLenged="true"
+          dbTem="35"
+        />
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
-import qs from "qs"; //
+import qs from "qs";
 import axios from "axios";
+import Weather from "../Visual/components/WeatherForecastOwn.vue";
 import EchartLineDB from "../Visual/components/EchartLineDBTwoyAxis.vue"; //
 import DateTimePicker from "components/common/DateTimePicker";
 export default {
   components: {
     DateTimePicker,
+    Weather,
     EchartLineDB,
   },
   name: "ArticleList",
@@ -78,57 +64,33 @@ export default {
   },
   data() {
     return {
-      //显示信息用到的//
+      colors: "#fff",
+      //显示信息用到的
       obj01: {},
       labelPosition: "right",
       sn: null,
-      ai_num: null,
       startTime: null,
       endTime: null,
       value2: [],
-      dialogVisible: false,
+      dialogVisible: true,
       indoorque: [
         {
-          created_time: "2022-06-23",
-          te1: "24",
-          te2: "20",
-          te3: "18",
-          te4: "22",
-          pt1: "12",
-          pt2: "12",
-          pt3: "12",
-          pt4: "12",
-
-          fv1fb: "12",
-          fv2fb: "12",
+          event_time: "2022-06-23",
+          te: "24",
+          // windDir: "西北风",
+          // wind_po: 1,
+          // humidity: 36.6,
+          // beam: 9971,
+          // windSp: 22,
         },
         {
-          created_time: "2022-07-23",
-          te1: "10",
-          te2: "5",
-          te3: "5",
-          te4: "3",
-          pt1: "4",
-          pt2: "6",
-          pt3: "6",
-          pt4: "5",
-
-          fv1fb: "12",
-          fv2fb: "12",
-        },
-        {
-          created_time: "2022-08-23",
-          te1: "24",
-          te2: "20",
-          te3: "18",
-          te4: "22",
-          pt1: "12",
-          pt2: "12",
-          pt3: "12",
-          pt4: "12",
-
-          fv1fb: "12",
-          fv2fb: "12",
+          event_time: "2022-06-24",
+          te: "10",
+          // windDir: "西风",
+          // wind_po: 3,
+          // humidity: 38.5,
+          // beam: 10021,
+          // windSp: 32,
         },
       ],
     };
@@ -165,7 +127,7 @@ export default {
     start22() {
       // this.getDate();
       this.getDate();
-      this.ai_num = this.rowData.aiNum;
+      this.sn = this.rowData.sn;
       // this.sn = this.rowData.sn;
       // console.log("kaishi----------", this.rowData.sn);
       this.receiveDateTimePicker(this.value2);
@@ -212,18 +174,28 @@ export default {
       this.indoorque = [
         {
           event_time: "2022-06-23",
-          temp: "24",
+          te: "24",
+          windDir: "西北风",
+          wind_po: 1,
+          humidity: 36.6,
+          beam: 9971,
+          windSp: 22,
         },
         {
           event_time: "2022-06-24",
-          temp: "10",
+          te: "10",
+          windDir: "西风",
+          wind_po: 3,
+          humidity: 38.5,
+          beam: 10021,
+          windSp: 32,
         },
       ];
     },
     receiveDateTimePicker(v) {
       this.startTime = v[0];
       this.endTime = v[1];
-      this.ai_num = this.rowData.aiNum;
+      this.sn = this.rowData.sn;
       this.gg();
       if (v.length > 0) {
         // let a = v[0];
@@ -252,18 +224,18 @@ export default {
     gg() {
       console.log("gggg");
       let data = {
-        ai_num: this.ai_num,
+        // sn: this.sn,
         startTime: this.startTime,
         endTime: this.endTime,
       };
-      console.log("黑蚂蚁楼宇的历史查询", data);
+      console.log("气象的条件", data);
       this.$http
-        .post("AiUnit/buildingms/datas/searchDatasbyAiNum", data)
+        .post("hotw/hotandewather/weather/getWeatherDatas", data)
         .then((res) => {
-          console.log("42个的楼宇", res);
-          this.obj01 = res.station_and_housiong;
+          console.log("气象的数据", res);
+          // this.obj01 = res.houser;
           this.indoorque = res.result;
-          console.log("this.indoorque", this.indoorque);
+          // console.log("this.obj01", this.obj01);
         });
     },
   },
@@ -337,7 +309,7 @@ export default {
   position: relative;
   .shijian {
     position: absolute;
-    left: 1080px;
+    left: 1400px;
   }
   .t {
     width: 850px;
@@ -351,10 +323,16 @@ export default {
     }
   }
   .quxian {
-    height: 400px;
-    width: 1480px;
+    height: 500px;
+    width: 1810px;
     background-color: #fff;
-    box-shadow: 10px 10px 25px #888888;
+    box-shadow: 10px 10px 25px #11e634;
+    background: linear-gradient(
+      90deg,
+      rgba(30, 224, 24, 0.4) 0,
+      rgba(0, 0, 0, 0.1) 50%,
+      rgba(30, 224, 24, 0.4)
+    );
     position: absolute;
     top: 50px;
   }

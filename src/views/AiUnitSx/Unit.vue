@@ -693,6 +693,7 @@ export default {
     // text-align: center;
     color: #000;
     height: 30px;
+    color: #fff;
     // padding: 0.2rem 0.1rem;
     // background-color: rgb(241, 158, 62); //选中页码的颜色
   }
@@ -741,10 +742,10 @@ export default {
     background-color: transparent !important;
   }
   .el-pagination__jump {
-    color: #000 !important; //前往xx页的字体颜色
+    color: #fff !important; //前往xx页的字体颜色
   }
   .el-pagination__total {
-    color: #000 !important; //总条数的颜色
+    color: #fff !important; //总条数的颜色
   }
   .el-checkbox__inner {
     //color: rgb(241, 158, 62) !important; //总条数的颜色

@@ -60,13 +60,13 @@
             @click="exportExcel111('单独单元箱数据')"
             >导出报表</el-button
           >
-          <!-- <el-button
+          <el-button
             size="medium"
             icon="el-icon-refresh-left"
             type="success"
-            @click="exportExcel222('单元箱数据')"
-            >导出报表2</el-button
-          > -->
+            @click="set()"
+            >请求数据</el-button
+          >
         </el-form-item>
       </el-form>
     </div>
@@ -143,7 +143,7 @@
 
       
         <el-table-column label="立杠一" align="center">
-                    <el-table-column
+          <el-table-column
             prop="fv1sp"
             label="1#阀门给定(%)"
             width="110"
@@ -179,8 +179,8 @@
           </el-table-column>
          <el-table-column label="回压(MPa)" prop="pt2" width="65">
           </el-table-column>
-            </el-table-column>
-                   <el-table-column label="立杠二" align="center">
+        </el-table-column>
+        <el-table-column label="立杠二" align="center">
                                          <el-table-column
             prop="fv2sp"
             label="1#阀门给定(%)"
@@ -232,11 +232,18 @@
             {{ scope.row.pt4 | kong }}
           </template>
           </el-table-column>
-            </el-table-column>
+        </el-table-column>
       
         </el-table-column>
         <el-table-column label="操作" width="200"  align="center">
           <template slot-scope="scope">
+                <el-button
+              type="success"
+              size="mini"
+              @click="inquire(scope.row)"
+             
+              >请求数据</el-button
+            >
             <el-button
               type="success"
               size="mini"
@@ -346,6 +353,27 @@ export default {
     this.dd();
   },
   methods: {
+    inquire(v) {
+      let msgRequest = {
+        sid: parseFloat(v.sid),
+      };
+      if (this.$stompClientSx.connected === true) {
+        this.$stompClientSx.send(
+          "/hbty/fySetAiValve",
+          {},
+          JSON.stringify(msgRequest)
+        );
+        let timerRequest = setTimeout(() => {
+          this.requestIndoorData();
+          // this.requestIndoorData();
+          clearTimeout(timerRequest);
+        }, 5000);
+      } else {
+      }
+    },
+    set() {
+      this.requestIndoorData();
+    },
     //时间日期格式
     dateFormat(row, column, cellValue, index) {
       const daterc = row[column.property];
@@ -490,15 +518,16 @@ export default {
     changeInputAAA(v) {
       console.log("*******", v);
       let msg = {
-        UserName: "admin",
+        userName: "admin",
         sid: parseFloat(v.sid),
         // sdate: this.setriqi,
         // stime: this.setshijian,
         tag: "FV1SP",
         //tagValue: parseFloat(v.fv1fb),
-        tagValue: 50,
+        tagValue: v.fv1sp,
         // openValue: parseFloat(this.setFV1SP),
       };
+      console.log("四新的给定对象", msg);
       let msgRequest = {
         sid: parseFloat(v.sid),
       };
@@ -511,16 +540,16 @@ export default {
             {},
             JSON.stringify(msgRequest)
           );
-          this.requestIndoorData();
+          // this.requestIndoorData();
           clearTimeout(timerRequest);
-        }, 5000);
+        }, 15000);
       } else {
       }
     },
     changeInputBBB(v) {
       console.log("*******", v);
       let msg = {
-        UserName: "admin",
+        userName: "admin",
         sid: parseFloat(v.sid),
         // sdate: this.setriqi,
         // stime: this.setshijian,
@@ -667,6 +696,7 @@ export default {
     // text-align: center;
     color: #000;
     height: 30px;
+    color: #fff;
     // padding: 0.2rem 0.1rem;
     // background-color: rgb(241, 158, 62); //选中页码的颜色
   }
@@ -716,9 +746,11 @@ export default {
   }
   .el-pagination__jump {
     color: #000 !important; //前往xx页的字体颜色
+    color: #fff !important;
   }
   .el-pagination__total {
     color: #000 !important; //总条数的颜色
+    color: #fff !important;
   }
   .el-checkbox__inner {
     //color: rgb(241, 158, 62) !important; //总条数的颜色

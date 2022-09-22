@@ -9,7 +9,8 @@ const state = {
   stationDataAndInfo: [], //换热站数据和信息//
   stationLenght: 33, //换热站的个数
   stationInfos: [], //换热站的信息
-  stationAlarmSet: [],
+  stationAlarmSet: [], //实时报警  莫
+  stationAlarmSetC: [], //实时报警  莫
   stationTeConData: [], //装载node过来的温控数据
   alarmArr: [], //接收报警的数组可能是显示灰色的那个
   ck: 5,
@@ -25,6 +26,9 @@ const getters = {
   },
   stationAlarmSet(state) {
     return state.stationAlarmSet
+  },
+  stationAlarmSetC(state) {
+    return state.stationAlarmSetC
   },
   stationInfos(state) {
     return state.stationInfos
@@ -59,12 +63,55 @@ const mutations = {
     station.alarmsettings(state.alarmsettings, state.stationLenght, data)
   },
 
+  STATIONAlARMARRAY(state, data) {
+    console.log("-------报警设置中仓库中的BBBBB", data)
+
+    console.log(data)
+    for (let i = 0; i < state.alarmsettings.length; i++) {
+      for (let j = 0; j < data.length; j++) {
+        if (state.alarmsettings[i].sid === parseInt(data[j].sid10)) {
+          // console.log("IIIIIII", i)
+          state.alarmsettings[i].sid = parseInt(data[j].sid10)
+          state.alarmsettings[i].station = data[j].station
+          // state.alarmsettings[i].BP21A = data[j].BP21A
+          state.alarmsettings[i].BP21FB = data[j].bp21fb
+          state.alarmsettings[i].BP22FB = data[j].bp22fb
+          // // state.alarmsettings[i].BP22A = data[j].BP22A
+          // state.alarmsettings[i].BP22FB = data[j].BP22FB
+          state.alarmsettings[i].FV1FB = data[j].fv1fb
+          state.alarmsettings[i].FV2FB = data[j].fv2fb
+          // state.alarmsettings[i].XYV = data[j].XYV
+          state.alarmsettings[i].sid16 = data[j].sid16
+          state.alarmsettings[i].id = data[j].id
+          state.alarmsettings[i].LT = data[j].lt
+          state.alarmsettings[i].LTL = data[j].lt_l
+          state.alarmsettings[i].LTLL = data[j].lt_ll
+          state.alarmsettings[i].LTH = data[j].lt_h
+          // state.alarmsettings[i].LTHH = data[j].LTHH
+          state.alarmsettings[i].PT21 = data[j].pt21
+          state.alarmsettings[i].PT21H = data[j].pt21_h
+          state.alarmsettings[i].PT21HH = data[j].pt21_hh
+          state.alarmsettings[i].PT22 = data[j].pt22
+          state.alarmsettings[i].PT22L = data[j].pt22_l
+          state.alarmsettings[i].PT22LL = data[j].pt22_ll
+          state.alarmsettings[i].PT22SP_HH = data[j].pt22sp_hh
+        }
+      }
+    }
+  },
   STATIONALARM(state, data) {
     //  console.log("我是仓库中的报警", data)
     // for (let i = 0; i < data.length; i++) {
     //   state.stationAlarmSet[i] = data[i]
     // }
     state.stationAlarmSet = data
+  },
+  STATIONALARMC(state, data) {
+    //  console.log("我是仓库中的报警", data)
+    // for (let i = 0; i < data.length; i++) {
+    //   state.stationAlarmSet[i] = data[i]
+    // }
+    state.stationAlarmSetC = data
   },
   CK(state, data) {
     state.ck = data

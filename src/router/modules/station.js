@@ -23,6 +23,9 @@ const Visual6 = () => import("views/Visual/Visual6.vue")
 const Link = () => import("views/Station/Link/LinkData.vue")
 //报警设置
 const AlarmSettings = () => import("views/Station/Alarm/AlarmSettings.vue")
+//互锁
+const InterLockingData = () =>
+  import("views/Station/InterLocking/InterLockingData.vue")
 const station = {
   path: "/station",
   // name: "station",
@@ -144,6 +147,12 @@ const station = {
       name: "AlarmSettings",
       meta: { title: "报警设置" },
       component: AlarmSettings
+    },
+    {
+      path: "/InterLockingData",
+      name: "InterLockingData",
+      meta: { title: "报警设置" },
+      component: InterLockingData
     }
   ]
 }

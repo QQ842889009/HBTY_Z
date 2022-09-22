@@ -7,9 +7,9 @@
         ref="report-table"
         :data="vv.slice((currentPage - 1) * pageSize, currentPage * pageSize)"
         style="width: 100%"
-        max-height="910"
+        max-height="995"
         class="customer-table"
-        :cell-style="{ padding: '0.5px 0' }"
+        :cell-style="{ padding: '0px 0' }"
         :header-cell-style="headerStyle"
         id="el-table"
         @selection-change="handleSelectionChange"
@@ -18,61 +18,258 @@
         :row-key="getRowKey"
       >
         <el-table-column
-          label="站号"
-          prop="s"
-          width="500"
+          prop="station"
+          label="换热站名称"
+          width="180"
+          fixed
           align="center"
-          fixed="left"
         >
         </el-table-column>
-
-        <el-table-column
-          label="Sid"
-          prop="ip"
-          width="600"
-          align="center"
-          fixed="left"
-        >
-        </el-table-column>
-
-        <el-table-column label="操作" width="120" fixed="left">
-          <template slot-scope="scope">
-            <el-tooltip
-              class="item"
-              effect="dark"
-              content="请求连接"
-              placement="top"
-              :enterable="false"
-            >
-              <el-button
-                type="success"
+        <el-table-column label="二供压力设置" align="center">
+          <el-table-column
+            prop="PT21"
+            label="二供压力(MPa)"
+            width="120"
+            fixed="left"
+            align="center"
+          >
+          </el-table-column>
+          <el-table-column
+            prop="PT21H"
+            label="二供压力高限tt(MPa)"
+            width="150"
+            fixed="left"
+            align="center"
+          >
+            <template slot-scope="scope">
+              <!-- <el-input
+                type="number"
                 size="mini"
-                icon="iconfont icon-chain"
-                @click="linkB(scope.$index, scope.row)"
-                >请求连接</el-button
+                max="1.6"
+                min="0"
+                v-model="scope.row.PT21H"
+                @change="PT21HBTN(scope.row)"
               >
-            </el-tooltip>
-            <!-- 查询结束 -->
-          </template>
+              </el-input> -->
+              <el-input-number
+                style="width: 100%"
+                size="mini"
+                :min="1"
+                :max="1.6"
+                v-model="scope.row.PT21H"
+                auto-complete="off"
+                :precision="2"
+                :controls="false"
+                @change="PT21HBTN(scope.row)"
+              ></el-input-number>
+            </template>
+          </el-table-column>
+          <el-table-column
+            prop="PT21HH"
+            label="二供压力高高限(MPa)"
+            width="160"
+            fixed="left"
+            align="center"
+          >
+            <template slot-scope="scope">
+              <el-input
+                type="number"
+                size="mini"
+                max="1.6"
+                min="0"
+                v-model="scope.row.PT21HH"
+                onkeyup="this.value=this.value.replace(/[\u4E00-\u9FA5]/g,'') "
+                oninput="if(value>1.6)value=1.6;if(value<0)value=0"
+                @change="PT21HHBTN(scope.row)"
+              >
+              </el-input>
+            </template>
+          </el-table-column>
+        </el-table-column>
+        <el-table-column label="二回压力设置" align="center">
+          <el-table-column
+            prop="PT21"
+            label="二回压力(MPa)"
+            width="120"
+            fixed="left"
+            align="center"
+          >
+          </el-table-column>
+          <el-table-column
+            prop="PT22L"
+            label="二回压力低限(MPa)"
+            width="150"
+            fixed="left"
+            align="center"
+          >
+            <template slot-scope="scope">
+              <el-input
+                type="number"
+                size="mini"
+                max="1.6"
+                min="0"
+                v-model="scope.row.PT22L"
+                onkeyup="this.value=this.value.replace(/[\u4E00-\u9FA5]/g,'') "
+                oninput="if(value>1.6)value=1.6;if(value<0)value=0"
+                @change="PT22LBTN(scope.row)"
+              >
+              </el-input>
+            </template>
+          </el-table-column>
+          <el-table-column
+            prop="PT22LL"
+            label="二回压力低低限(MPa)"
+            width="160"
+            fixed="left"
+            align="center"
+          >
+            <template slot-scope="scope">
+              <el-input
+                type="number"
+                size="mini"
+                max="1.6"
+                min="0"
+                v-model="scope.row.PT22LL"
+                onkeyup="this.value=this.value.replace(/[\u4E00-\u9FA5]/g,'') "
+                oninput="if(value>1.6)value=1.6;if(value<0)value=0"
+                @change="PT22LLBTN(scope.row)"
+              >
+              </el-input>
+            </template>
+          </el-table-column>
+          <el-table-column
+            prop="PT22HH"
+            label="二回压力高高限(MPa)"
+            width="160"
+            fixed="left"
+            align="center"
+          >
+            <template slot-scope="scope">
+              <el-input
+                type="number"
+                size="mini"
+                max="1.6"
+                min="0"
+                v-model="scope.row.PT22HH"
+                onkeyup="this.value=this.value.replace(/[\u4E00-\u9FA5]/g,'') "
+                oninput="if(value>1.6)value=1.6;if(value<0)value=0"
+                @change="PT22HHBTN(scope.row)"
+              >
+              </el-input>
+            </template>
+          </el-table-column>
+        </el-table-column>
+        <el-table-column label="液位设置" align="center">
+          <el-table-column
+            prop="LT"
+            label="液位(m)"
+            width="95"
+            fixed="left"
+            align="center"
+          >
+          </el-table-column>
+          <el-table-column
+            prop="LTL"
+            label="液位低限(m)"
+            width="120"
+            fixed="left"
+            align="center"
+          >
+            <template slot-scope="scope">
+              <el-input
+                type="number"
+                size="mini"
+                max="3"
+                min="0"
+                v-model="scope.row.LTL"
+                onkeyup="this.value=this.value.replace(/[\u4E00-\u9FA5]/g,'') "
+                oninput="if(value>3)value=3;if(value<0)value=0"
+                @change="LTLBTN(scope.row)"
+              >
+              </el-input>
+            </template>
+          </el-table-column>
+          <el-table-column
+            prop="LTLL"
+            label="液位低低限(m)"
+            width="135"
+            fixed="left"
+            align="center"
+          >
+            <template slot-scope="scope">
+              <el-input
+                type="number"
+                size="mini"
+                max="3"
+                min="0"
+                v-model="scope.row.LTLL"
+                onkeyup="this.value=this.value.replace(/[\u4E00-\u9FA5]/g,'') "
+                oninput="if(value>3)value=3;if(value<0)value=0"
+                @change="LTLLBTN(scope.row)"
+              >
+              </el-input>
+            </template>
+          </el-table-column>
+          <el-table-column
+            prop="LTH"
+            label="液位高限(m)"
+            width="135"
+            fixed="left"
+            align="center"
+          >
+            <template slot-scope="scope">
+              <el-input
+                type="number"
+                size="mini"
+                max="3"
+                min="0"
+                v-model="scope.row.LTH"
+                onkeyup="this.value=this.value.replace(/[\u4E00-\u9FA5]/g,'') "
+                oninput="if(value>3)value=3;if(value<0)value=0"
+                @change="LTHBTN(scope.row)"
+              >
+              </el-input>
+            </template>
+          </el-table-column>
+          <el-table-column
+            prop="LTHH"
+            label="液位高高限(m)"
+            width="135"
+            fixed="left"
+            align="center"
+          >
+            <template slot-scope="scope">
+              <el-input
+                type="number"
+                size="mini"
+                max="3"
+                min="0"
+                v-model="scope.row.LTHH"
+                onkeyup="this.value=this.value.replace(/[\u4E00-\u9FA5]/g,'') "
+                oninput="if(value>3)value=3;if(value<0)value=0"
+                @change="LTHHBTN(scope.row)"
+              >
+              </el-input>
+            </template>
+          </el-table-column>
         </el-table-column>
       </el-table>
-
+      <!-- 
       <el-pagination
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
         :current-page="currentPage"
-        :page-sizes="[25, 30]"
+        :page-sizes="[33, 33]"
         :page-size="pageSize"
         layout="total, sizes, prev, pager, next, jumper"
         :total="vv.length"
       >
-      </el-pagination>
+      </el-pagination> -->
     </div>
-    <!-- <div v-show="tt === 5"></div> -->
   </div>
 </template>
 <script>
-// import SysDlialog from "./SysDlialog"; ////
+import SysDlialog from "./SysDlialog"; ////
 //临时数据
 //import { options } from "assets/js/common/doorSelect";
 import FileSaver from "file-saver";
@@ -80,44 +277,11 @@ import XLSX from "xlsx";
 export default {
   data() {
     return {
-      vv: [
-        { s: "0#", ip: 0 },
-        { s: "1#A", ip: 1 },
-        { s: "1#B", ip: 2 },
-        { s: "2#", ip: 3 },
-        { s: "3#A", ip: 4 },
-        { s: "3#B", ip: 5 },
-        { s: "4#", ip: 6 },
-        { s: "5#", ip: 7 },
-        { s: "6#", ip: 8 },
-        { s: "7#", ip: 9 },
-        { s: "9#", ip: 10 },
-        { s: "10#", ip: 11 },
-        { s: "11#", ip: 12 },
-        { s: "12#", ip: 13 },
-        { s: "13#", ip: 14 },
-        { s: "15#", ip: 15 },
-        { s: "16#", ip: 16 },
-        { s: "17#A", ip: 17 },
-        { s: "17#B", ip: 18 },
-        { s: "18#", ip: 19 },
-        { s: "19#A", ip: 20 },
-        { s: "19#B", ip: 21 },
-        { s: "19#C", ip: 22 },
-        { s: "20#", ip: 23 },
-        { s: "22#", ip: 24 },
-        { s: "23#高中", ip: 25 },
-        { s: "23#高区", ip: 26 },
-        { s: "23#低区", ip: 27 },
-        { s: "24#", ip: 28 },
-        { s: "25#A", ip: 29 },
-        { s: "25#B", ip: 30 },
-        { s: "26#A", ip: 31 },
-        { s: "26#B", ip: 32 },
-      ], //表需要的数组
+      tableData: [],
+      tableDataTemp: [],
       currentPage: 1, // 当前页码
       total: 50, // 总条数
-      pageSize: 25, // 每页的数据条数
+      pageSize: 33, // 每页的数据条数
       dataListLoading: false,
       //斑马线颜色
       zebarCrossing: {
@@ -136,7 +300,7 @@ export default {
       TonoData: null,
       Tohour2: null,
       pageIndex: 1,
-      pageSize: 25,
+      pageSize: 33,
       value: null,
       totalCount: 0,
       title: "室温曲线查询",
@@ -145,7 +309,7 @@ export default {
       infoArr: [],
       multipleSelection: [],
       myData: [],
-      tableData: [],
+
       info: "",
       dataForm: {
         malfunction: null, //故障
@@ -158,21 +322,43 @@ export default {
     };
   },
   created() {
+    this.meterb;
     // this.askData();
     // this.asd();
     // this.requestIndoorData();
   },
   watch: {},
   computed: {
-    // vv() {
-    //   this.tableData333 = this.$store.getters.stationAlarmSet;
-    //   return this.tableData333;
-    // },
+    meterb() {
+      this.tableData = this.$store.getters.this.$store.getters.alarmsettings; //报警的数组
+
+      this.tableDataTemp = this.$store.getters.stationDataAndInfo; //全部数据的数组
+
+      // this.RestrictArray = this.$store.getters.getLkAlarmLimData;
+      // this.RestrictArray_shezhi = this.$store.getters.MLRestrictArray_shezhi;
+      for (let i = 0; i < this.tableData.length; i++) {
+        // this.tableData[i].aLTH = this.RestrictArray[i].aLTH;
+        // this.tableData[i].aLTL = this.RestrictArray[i].aLTL;
+        // this.tableData[i].aPT21H = this.RestrictArray[i].aPT21H;
+        // this.tableData.aPT22L = this.RestrictArray[i].aPT22L;
+        this.tableData.PT21 = this.tableDataTemp[i].PT21;
+        this.tableData.PT22 = this.tableDataTemp[i].PT22;
+        this.tableData.LT = this.tableDataTemp[i].LT;
+        // this.tableData.station = this.tableDataTemp[i].Station;
+      }
+
+      this.row = parseInt(this.tableData.length / this.pageSize);
+    },
+    vv() {
+      this.tableData333 = this.$store.getters.alarmsettings;
+      console.log("---------999", this.tableData333);
+      return this.tableData333;
+    },
     headerStyle() {
       return {
         background: "#0dc41a",
         padding: "5px 0",
-        height: "30px",
+        height: "20px",
         borderColor: "#006CC1",
         textAlign: "center",
         // color: "#FEFEFE",
@@ -195,24 +381,68 @@ export default {
     // this.dd();
   },
   methods: {
-    linkB(index, row) {
-      this.ipzz = row.ip;
-      let msg = {
-        // name: "admin",
-        sid: this.ipzz,
+    PT21HBTN(v1) {
+      console.log("v1v2", v1);
 
-        status: 1,
-      };
-      if (this.$stompClient.connected === true) {
-        this.$stompClient.send(
-          "/hbty/fySetServerStatus",
-          {},
-          JSON.stringify(msg)
-        );
-        console.log("断线请求", msg);
-      }
+      // let msg = {
+      //   name: "admin",
+      //   sid: v.sid,
+      //   // sdate: this.setriqi,
+      //   // stime: this.setshijian,
+      //   plcTag: "PT21H",
+      //   tagValue: v.PT21H,
+      // };
     },
+    PT21HHBTN(v1) {
+      console.log("v1v2", v1);
+      console.log("v1v2", v2);
+      // let msg = {
+      //   name: "admin",
+      //   sid: v.sid,
+      //   // sdate: this.setriqi,
+      //   // stime: this.setshijian,
+      //   plcTag: "PT21H",
+      //   tagValue: v.PT21H,
+      // };
+    },
+    changeInputAAA(v) {
+      console.log("vvvvvvvv++v++v++vvv", v);
+      let msg = {
+        name: "admin",
+        sid: v.sid,
+        // sdate: this.setriqi,
+        // stime: this.setshijian,
+        plcTag: "PT21HH",
+        tagValue: this.setPT21_H,
+      };
+      this.dialogVisible_PT21_H = false;
+      this.$wsSend("/hbty/fySetLimitData", msg);
+    },
+    affirm(v) {
+      // console.log("vvv", v);
 
+      let data = {
+        userId: parseInt(localStorage.getItem("userId")),
+        id: v.id,
+      };
+      console.log("----", data);
+      this.$http.post("plcdata/tems/plc/confirmWarning", data).then((res) => {
+        console.log("报警确认----", res);
+        if (res.code == 200) {
+          this.$message({
+            message: "操作成功",
+            type: "success",
+            duration: 500,
+          });
+        } else {
+          this.$message({
+            message: "操作失败",
+            type: "error",
+            duration: 500,
+          });
+        }
+      });
+    },
     handleSizeChange(val) {
       console.log(`每页 ${val} 条`);
       this.currentPage = 1;
@@ -266,7 +496,7 @@ export default {
     },
   },
   components: {
-    // SysDlialog,
+    SysDlialog,
   },
 };
 </script>
@@ -329,7 +559,7 @@ export default {
   }
   .el-pagination {
     // text-align: center;
-    color: #fff;
+    color: #000;
     height: 30px;
     // padding: 0.2rem 0.1rem;
     // background-color: rgb(241, 158, 62); //选中页码的颜色
@@ -379,10 +609,10 @@ export default {
     background-color: transparent !important;
   }
   .el-pagination__jump {
-    color: #fff !important; //前往xx页的字体颜色
+    color: #000 !important; //前往xx页的字体颜色
   }
   .el-pagination__total {
-    color: #fff !important; //总条数的颜色
+    color: #000 !important; //总条数的颜色
   }
   .el-checkbox__inner {
     //color: rgb(241, 158, 62) !important; //总条数的颜色
@@ -526,16 +756,16 @@ export default {
 // }
 .unit-container {
   color: #fff;
-  width: 1920px;
-  // height: 995px;
+  width: 100%;
+  height: 1000px;
   font-size: 30px;
-  //background-color: rgb(228, 226, 213);
-  background: linear-gradient(
-    90deg,
-    rgba(30, 224, 24, 0.4) 0,
-    rgba(0, 0, 0, 0.1) 50%,
-    rgba(30, 224, 24, 0.4)
-  );
+  // background-color: red;
+  // background: linear-gradient(
+  //   90deg,
+  //   rgba(30, 224, 24, 0.4) 0,
+  //   rgba(0, 0, 0, 0.1) 50%,
+  //   rgba(30, 224, 24, 0.4)
+  // );
   position: relative;
   .condition-box {
     position: absolute;
@@ -545,14 +775,13 @@ export default {
   }
   .table {
     position: absolute;
-    top: 70px;
-    left: 280px;
+    top: 0px;
     width: 1880px;
-    // height: 970px;
-    // background-color: palevioletred;
+    height: 995px;
+    //background-color: palevioletred;
     overflow: auto;
-    margin: 0px 20px 20px 20px;
-    padding: 0px 20px 20px 20px;
+    margin: 0px 20px 0px 20px;
+    padding: 0px 20px 0px 20px;
   }
 }
 </style>

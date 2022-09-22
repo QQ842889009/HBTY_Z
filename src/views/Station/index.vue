@@ -76,6 +76,14 @@
               <span slot="title">实时报警</span>
             </el-menu-item>
             <el-menu-item
+              index="7"
+              @click="$router.push({ name: 'AlarmSettings' })"
+              ref="ABC"
+            >
+              <i class="el-icon-menu"></i>
+              <span slot="title">报警设置</span>
+            </el-menu-item>
+            <el-menu-item
               index="6"
               @click="$router.push({ name: 'HistoryAlarm' })"
               ref="ABC"
@@ -132,6 +140,20 @@
             >
               <i class="el-icon-menu"></i>
               <span slot="title">断线重连</span>
+            </el-menu-item>
+          </el-submenu>
+          <el-submenu index="互锁设置">
+            <template #title>
+              <i class="iconfont icon-jiesuo"></i>
+              <span slot="title" class="yy">互锁设置</span>
+            </template>
+            <el-menu-item
+              index="11"
+              @click="$router.push({ name: 'InterLockingData' })"
+              ref="ABC"
+            >
+              <i class="el-icon-menu"></i>
+              <span slot="title">互锁设置</span>
             </el-menu-item>
           </el-submenu>
         </el-menu>

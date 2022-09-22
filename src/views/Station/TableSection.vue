@@ -2,7 +2,7 @@
   <div class="all">
     <div class="data">
       <div class="data1">
-        <span>选择站点22：</span>
+        <span>选择站点：</span>
         <el-select
           class="selectStation"
           v-model="selectStation"
@@ -391,7 +391,7 @@ export default {
     display: flex;
     color: #000;
     position: relative;
-    top: 10px;
+    top: 0px;
     .data1 {
       flex: 1;
       //background-color: gold;
@@ -426,7 +426,7 @@ export default {
 }
 .table {
   position: absolute;
-  top: 130px;
+  top: 50px;
   width: 1880px;
   height: 970px;
   // background-color: palevioletred;

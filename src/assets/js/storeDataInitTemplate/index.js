@@ -234,9 +234,11 @@ const alarmsettings = {
   station: "占位",
   BP21A: 0,
   BP21FB: 0,
+  BP22FB: 0,
   BP22A: 0,
   BP22FB: 0,
   FV1FB: 0,
+  FV2FB: 0,
   XYV: 0,
   LT: 2,
   LTL: 0.6,
@@ -249,7 +251,10 @@ const alarmsettings = {
   PT22: 0.28,
   PT22L: 0.2,
   PT22LL: 0.18,
-  PT22HH: 0.3
+  PT22HH: 0.3,
+  id: null,
+  sid16: null,
+  PT22SP_HH: null
 }
 //换热站报警的初始化
 // const stationAlarm = {

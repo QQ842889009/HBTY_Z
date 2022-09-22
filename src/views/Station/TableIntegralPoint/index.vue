@@ -186,13 +186,13 @@
             align="center"
           >
           </el-table-column>
-          <el-table-column
+          <!-- <el-table-column
             prop="bp22fb"
             label="2#泵(Hz)"
             width="120"
             align="center"
           >
-          </el-table-column>
+          </el-table-column> -->
         </el-table-column>
         <el-table-column
           prop="lt"
