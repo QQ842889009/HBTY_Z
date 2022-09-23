@@ -427,6 +427,18 @@ export default {
             },
           ],
         },
+        {
+          name: "运行分析",
+          id: "44",
+
+          children: [
+            {
+              name: "运行分析",
+              id: "441",
+              path: "PowerDissipation",
+            },
+          ],
+        },
         // {
         //   name: "后台管理系统",
         //   id: "222",

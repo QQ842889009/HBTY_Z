@@ -57,7 +57,7 @@ let socketOnDataStationAlarm = (stompClient) => {
       //   "换热站的报警数据-------------------------",
       //   JSON.parse(msg.body).warning
       // )
-      // console.log("换热站的报警数据CCCCCCCCC", JSON.parse(msg.body).warningC)
+      console.log("换热站的报警数据CCCCCCCCC", JSON.parse(msg.body).warningC)
       // console.log("换热站的报警数据----message", JSON.parse(msg.body).warning)
       that.$store.commit("STATIONALARM", JSON.parse(msg.body).warning)
 

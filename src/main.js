@@ -50,10 +50,10 @@ new Promise((resolve, reject) => {
   store.commit("plcS7/mutaPlcDataInit", plcdataType)
   store.commit("plcS7/mutaEchartDataInit", echartdataType)
 
-  store.commit("AIUNIT", "单元AI的初始化") //*****改造新加
+  // store.commit("AIUNIT", "单元AI的初始化") //*****改造新加
 
-  store.commit("MUINDOORDATAINIT", inDoorDataInitTemplate) //
-  store.commit("MUDOORDATAINIT", doorDataInitTemplate) //
+  //store.commit("MUINDOORDATAINIT", inDoorDataInitTemplate) //
+  //store.commit("MUDOORDATAINIT", doorDataInitTemplate) //
   store.commit("STATION", stationDataInitTemplate)
   store.commit("STATIONALARMSET", alarmsettings)
 

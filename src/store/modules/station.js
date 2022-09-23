@@ -64,7 +64,7 @@ const mutations = {
   },
 
   STATIONAlARMARRAY(state, data) {
-    console.log("-------报警设置中仓库中的BBBBB", data)
+    // console.log("-------报警设置中仓库中的BBBBB", data)
 
     console.log(data)
     for (let i = 0; i < state.alarmsettings.length; i++) {
@@ -72,6 +72,16 @@ const mutations = {
         if (state.alarmsettings[i].sid === parseInt(data[j].sid10)) {
           // console.log("IIIIIII", i)
           state.alarmsettings[i].sid = parseInt(data[j].sid10)
+
+          state.alarmsettings[i].bp21a_lock = data[j].bp21a_lock
+          state.alarmsettings[i].bp22a_lock = data[j].bp22a_lock
+          state.alarmsettings[i].bp2_lock = data[j].bp2_lock
+          state.alarmsettings[i].mp1a_lock = data[j].mp1a_lock
+          state.alarmsettings[i].mp2a_lock = data[j].mp2a_lock
+          state.alarmsettings[i].lt_lock = data[j].lt_lock
+          state.alarmsettings[i].pt21_lock = data[j].pt21_lock
+          state.alarmsettings[i].pt22_lock = data[j].pt22_lock
+
           state.alarmsettings[i].station = data[j].station
           // state.alarmsettings[i].BP21A = data[j].BP21A
           state.alarmsettings[i].BP21FB = data[j].bp21fb

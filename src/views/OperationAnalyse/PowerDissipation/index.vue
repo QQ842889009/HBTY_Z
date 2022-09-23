@@ -1,206 +1,186 @@
 <template>
   <div class="unit-container">
-    <div class="table">
-      <!-- <P>实时报警展示</P> -->
-      <el-divider content-position="left">实时报警展示</el-divider>
-      <div class="allA">
-        <el-button type="success" size="mini" @click="allbtn"
-          >确认所有报警</el-button
-        >
-      </div>
+    <div class="condition-box">
+      <el-form :inline="true" :model="dataForm" ref="dataForm">
+        <el-form-item prop="name" label="">
+          <DateTimePicker
+            class="picker"
+            @EmitDateTimePicker="receiveDateTimePicker"
+          ></DateTimePicker>
+        </el-form-item>
 
-      <el-table
-        v-loading="dataListLoading"
-        fixed
-        ref="report-table"
-        :data="vv.slice((currentPage - 1) * pageSize, currentPage * pageSize)"
-        style="width: 100%"
-        max-height="910"
-        class="customer-table"
-        :cell-style="{ padding: '1.8px 0' }"
-        :header-cell-style="headerStyle"
-        id="el-table"
-        @selection-change="handleSelectionChange"
-        :row-class-name="tableRowClassName"
-        :style="zebarCrossingStyle"
-        :row-key="getRowKey"
-      >
-        <el-table-column
-          prop="stationName"
-          label="换热站名称"
-          width="350"
-          fixed
-          align="center"
-        >
-        </el-table-column>
-        <el-table-column
-          prop="timeStr"
-          label="报警日期时间"
-          width="350"
-          fixed="left"
-          align="center"
-        >
-        </el-table-column>
-        <el-table-column
-          prop="tagValue"
-          label="真实值"
-          width="250"
-          fixed="left"
-          align="center"
-        >
-        </el-table-column>
-        <el-table-column
-          prop="limitTagValue"
-          label="设定值"
-          width="250"
-          fixed="left"
-          align="center"
-        >
-        </el-table-column>
-        <el-table-column
-          prop="alarmTip"
-          label="报警描述"
-          width="650"
-          fixed="left"
-          align="center"
-        >
-        </el-table-column>
-        <el-table-column label="操作" width="100" fixed="right">
-          <template slot-scope="scope">
-            <el-button
-              type="success"
-              size="mini"
-              @click="affirm(scope.row)"
-              fixed="right"
-              >确认报警</el-button
-            >
-          </template>
-        </el-table-column>
-      </el-table>
-
-      <el-pagination
-        @size-change="handleSizeChange"
-        @current-change="handleCurrentChange"
-        :current-page="currentPage"
-        :page-sizes="[10]"
-        :page-size="pageSize"
-        layout="total, sizes, prev, pager, next, jumper"
-        :total="vv.length"
-      >
-      </el-pagination>
+        <el-form-item>
+          <el-button
+            class="pickerC"
+            size="medium"
+            icon="el-icon-refresh-left"
+            type="success"
+            @click="exportExcel111('户阀数据')"
+            >导出报表</el-button
+          >
+          <!-- <el-button
+            size="medium"
+            icon="el-icon-refresh-left"
+            type="success"
+            @click="exportExcel222('单元箱数据')"
+            >导出报表2</el-button
+          > -->
+        </el-form-item>
+      </el-form>
     </div>
-    <!-- <div v-show="tt === 5"></div> -->
-    <div class="tableC">
-      <el-divider content-position="left">确认过的报警展示</el-divider>
-      <!-- <P>确认过的报警展示</P> -->
-      <el-table
+
+    <div class="table">
+      <!-- <el-table
+      show-summary
         v-loading="dataListLoading"
         fixed
         ref="report-table"
-        :data="
-          vvC.slice((currentPageC - 1) * pageSizeC, currentPageC * pageSizeC)
-        "
+        :data="tableData"
         style="width: 100%"
-        max-height="910"
+        max-height="980"
         class="customer-table"
-        :cell-style="{ padding: '1.8px 0' }"
+       
+        :cell-style="cellStyle"
+        :render-header="tableRenderHeader"
         :header-cell-style="headerStyle"
         id="el-table"
         @selection-change="handleSelectionChange"
         :row-class-name="tableRowClassName"
         :style="zebarCrossingStyle"
         :row-key="getRowKey"
+         show-overflow-tooltip
       >
         <el-table-column
-          prop="stationName"
+          prop="Station"
           label="换热站名称"
-          width="350"
+          width="250"
+          fixed
+          align="center"
+        >
+         
+       <template slot-scope="scope">
+            
+  <el-popover trigger="hover" placement="top">
+       <P @click="rePeoplemessageCard(scope.row)">跳转换热站</P>
+          <div slot="reference" class="name-wrapper">
+           {{ scope.row.Station }}
+          </div>
+        </el-popover>
+              
+            </template>
+
+
+        </el-table-column>
+        <el-table-column
+          prop="Space"
+          label="面积(w㎡)"
+          width="200"
           fixed
           align="center"
         >
         </el-table-column>
-        <el-table-column
-          prop="timeStr"
-          label="报警日期时间"
-          width="350"
-          fixed="left"
-          align="center"
-        >
-        </el-table-column>
-        <el-table-column
-          prop="conTime"
-          label="确认报警日期时间"
-          width="350"
-          fixed="left"
-          align="center"
-        >
-        </el-table-column>
-        <el-table-column
-          prop="tagValue"
-          label="真实值"
-          width="250"
-          fixed="left"
-          align="center"
-        >
-        </el-table-column>
-        <el-table-column
-          prop="limitTagValue"
-          label="设定值"
-          width="250"
-          fixed="left"
-          align="center"
-        >
-        </el-table-column>
-        <el-table-column
-          prop="alarmTip"
-          label="报警描述"
-          width="350"
-          fixed="left"
-          align="center"
-        >
-        </el-table-column>
-        <!-- <el-table-column label="操作" width="100" fixed="right">
-          <template slot-scope="scope">
-            <el-button
-              type="success"
-              size="mini"
-              @click="affirm(scope.row)"
-              fixed="right"
-              >确认报警</el-button
-            >
-          </template>
-        </el-table-column> -->
-      </el-table>
+ 
+         
 
-      <el-pagination
-        @size-change="handleSizeChangeC"
-        @current-change="handleCurrentChangeC"
-        :current-page="currentPageC"
-        :page-sizes="[10]"
-        :page-size="pageSizeC"
-        layout="total, sizes, prev, pager, next, jumper"
-        :total="vvC.length"
+   
+      <el-table-column label="供热模式" prop="LT" width="280"  align="center">
+          </el-table-column>
+
+          <el-table-column label="热量能耗(GJ)" prop="ZFT31" width="280"  align="center">
+          </el-table-column>
+
+          <el-table-column
+            label="电量能耗(kWh)"
+            prop="DL"
+            width="280"
+          
+           align="center"
+          >
+          </el-table-column>
+           <el-table-column
+            label="补水量能耗(Kg)"
+            prop="DL"
+            width="280"
+         
+           align="center"
+          >
+          </el-table-column>
+              <el-table-column
+            label="室外温度(℃)"
+            prop="DL"
+            width="300"
+          
+           align="center"
+          >
+          </el-table-column>
+        </el-table-column>
+      </el-table> -->
+      <el-table
+        :data="tableData"
+        border
+        height="200"
+        :summary-method="getSummaries"
+        show-summary
+        style="width: 100%; margin-top: 20px"
       >
-      </el-pagination>
+        <el-table-column prop="id" label="ID" width="180"> </el-table-column>
+        <el-table-column prop="name" label="姓名"> </el-table-column>
+        <el-table-column prop="amount1" label="数值 1（元）"> </el-table-column>
+        <el-table-column prop="amount2" label="数值 2（元）"> </el-table-column>
+        <el-table-column prop="amount3" label="数值 3（元）"> </el-table-column>
+      </el-table>
     </div>
   </div>
 </template>
 <script>
-import SysDlialog from "./SysDlialog"; ////
-//临时数据
-//import { options } from "assets/js/common/doorSelect";
+import DateTimePicker from "components/common/DateTimePicker";
 import FileSaver from "file-saver";
 import XLSX from "xlsx";
 export default {
   data() {
     return {
-      tableData333: [],
-      tableData444: [],
-      currentPage: 1, // 当前页码
-      currentPageC: 1, // 当前页码
-      total: 50, // 总条数
-      pageSize: 10, // 每页的数据条数
-      pageSizeC: 10, // 每页的数据条数
+      tableData: [
+        {
+          id: "12987122",
+          name: "王小虎",
+          amount1: "234",
+          amount2: "3.2",
+          amount3: 10,
+        },
+        {
+          id: "12987123",
+          name: "王小虎",
+          amount1: "165",
+          amount2: "4.43",
+          amount3: 12,
+        },
+        {
+          id: "12987124",
+          name: "王小虎",
+          amount1: "324",
+          amount2: "1.9",
+          amount3: 9,
+        },
+        {
+          id: "12987125",
+          name: "王小虎",
+          amount1: "621",
+          amount2: "2.2",
+          amount3: 17,
+        },
+        {
+          id: "12987126",
+          name: "王小虎",
+          amount1: "539",
+          amount2: "4.1",
+          amount3: 15,
+        },
+      ],
+      ///换热站新加开始
+      // tableData: [],
+      iconColor: "red",
+      isShow: false,
+      //换热站新加结束
       dataListLoading: false,
       //斑马线颜色
       zebarCrossing: {
@@ -219,7 +199,7 @@ export default {
       TonoData: null,
       Tohour2: null,
       pageIndex: 1,
-      pageSize: 10,
+      pageSize: 33,
       value: null,
       totalCount: 0,
       title: "室温曲线查询",
@@ -228,7 +208,7 @@ export default {
       infoArr: [],
       multipleSelection: [],
       myData: [],
-      tableData: [],
+
       info: "",
       dataForm: {
         malfunction: null, //故障
@@ -241,20 +221,10 @@ export default {
     };
   },
   created() {
-    // this.askData();
-    // this.asd();
-    // this.requestIndoorData();
+    // this.tableData = this.$store.getters.stationDataAndInfo; //表格数据
   },
   watch: {},
   computed: {
-    vv() {
-      this.tableData333 = this.$store.getters.stationAlarmSet;
-      return this.tableData333;
-    },
-    vvC() {
-      this.tableData444 = this.$store.getters.stationAlarmSetC;
-      return this.tableData444;
-    },
     headerStyle() {
       return {
         background: "#0dc41a",
@@ -279,85 +249,86 @@ export default {
     },
   },
   mounted() {
-    // this.dd();
+    this.dd();
   },
   methods: {
-    allbtn() {
-      let that = this;
-      //请求后端数据的时候，让表格出现循环滚动的等待图标
-
-      let data = {
-        userId: parseInt(localStorage.getItem("userId")),
-      };
-
-      that.$http.post("plcdata/tems/plc/confirmWarninAll", data).then((res) => {
-        // console.log("user列表请求返回的数据是什么", res);
-        // let page = res.page;
-        // let list = page.list;
-        // for (let one of list) {
-        //   if (one.status == 1) {
-        //     one.status = "在职";
-        //   } else if (one.status == 2) {
-        //     one.status = "离职";
-        //   }
-        // }
-        // that.dataList = list;
-        // that.totalCount = page.totalCount;
-        // that.dataListLoading = false;
-      });
-    },
-    //确认单个报警
-    affirm(v) {
-      // console.log("vvv", v);
-
-      let data = {
-        userId: parseInt(localStorage.getItem("userId")),
-        id: v.id,
-      };
-      console.log("----", data);
-      this.$http.post("plcdata/tems/plc/confirmWarning", data).then((res) => {
-        console.log("报警确认----", res);
-        if (res.code == 200) {
-          this.$message({
-            message: "操作成功",
-            type: "success",
-            duration: 500,
-          });
+    getSummaries(param) {
+      console.log("AAA", param);
+      const { columns, data } = param;
+      const sums = [];
+      columns.forEach((column, index) => {
+        if (index === 0) {
+          sums[index] = "总价";
+          return;
+        }
+        const values = data.map((item) => Number(item[column.property]));
+        if (!values.every((value) => isNaN(value))) {
+          sums[index] = values.reduce((prev, curr) => {
+            const value = Number(curr);
+            if (!isNaN(value)) {
+              return prev + curr;
+            } else {
+              return prev;
+            }
+          }, 0);
+          sums[index] += " 元";
         } else {
-          this.$message({
-            message: "操作失败",
-            type: "error",
-            duration: 500,
-          });
+          sums[index] = "";
         }
       });
+
+      return sums;
     },
-    handleSizeChange(val) {
-      console.log(`每页 ${val} 条`);
-      this.currentPage = 1;
-      this.pageSize = val;
+    receiveDateTimePicker(v) {
+      this.startTime = v[0];
+      this.endTime = v[1];
+      this.valveCode = this.rowData.valveCode;
+      this.gg();
     },
-    handleSizeChangeC(val) {
-      console.log(`每页 ${val} 条`);
-      this.currentPageC = 1;
-      this.pageSizeC = val;
+    gg() {
+      let data = {
+        //valve_code: this.valveCode,
+        startTime: this.startTime,
+        endTime: this.endTime,
+      };
+      console.log("黑蚂蚁户阀的历史数据查询", data);
+      this.$http
+        .post("AAAHUFAhistory/household/datas/searchDatasbyValueCode", data)
+        .then((res) => {
+          console.log("室内温度历史曲线", res);
+          this.obj01 = res.station_and_housiong;
+          this.indoorque = res.result;
+          // console.log("this.obj01", this.obj01);
+        });
     },
-    handleSelectionChange(val) {
-      this.multipleSelection = val;
+    // tableRenderHeader(h, data) {
+    //   console.log("h", h, "data", data);
+    //   return h("span", [
+    //     h(
+    //       "el-tooltip",
+    //       {
+    //         attrs: {
+    //           class: "item",
+    //           effect: "dark",
+    //           content: data.column.label,
+    //           placement: "top",
+    //         },
+    //       },
+    //       [h("span", data.column.label)]
+    //     ),
+    //   ]);
+    // },
+    rePeoplemessageCard(v) {
+      console.log("FFF");
+      this.$router.push({ path: "/Visual6", query: { id: v.Sid } });
     },
-    //当前页改变时触发 跳转其他页
-    handleCurrentChange(val) {
-      //console.log(`当前页: ${val}`);
-      this.currentPage = val;
-    },
-    handleCurrentChangeC(val) {
-      //console.log(`当前页: ${val}`);
-      this.currentPageC = val;
+    cellStyle({ row, column, rowIndex, columnIndex }) {
+      return "height:4px!important;  padding:1px!important; ;color:#fff; font-family: 'Lao UI'; font-weight: 500;";
     },
 
     //解决[ElTable] prop row-key is required的错误
     getRowKey(row) {
-      return row.id;
+      return row.sid;
     },
     tableRowClassName({ row, rowIndex }) {
       if (this.selectID.length == 0) {
@@ -394,14 +365,15 @@ export default {
     },
   },
   components: {
-    SysDlialog,
+    DateTimePicker,
   },
 };
 </script>
-<style lang="scss" >
+<style lang="scss" scoped>
 .el-cascader-menu__wrap {
   height: 208px;
   background-color: green !important;
+  // background-color: #909399;
   color: #fff !important;
 }
 .el-cascader-node:not(.is-disabled):focus,
@@ -411,6 +383,18 @@ export default {
 </style>
 <style lang="scss" scoped>
 ::v-deep {
+  //固定表头 目的是表头过长把单位用....表示   //表格头部多余内容...的第二步*第一部在methods中的tableRenderHeader
+  .el-table th > .cell {
+    // overflow: hidden; // 超出的文本隐藏
+    // text-overflow: ellipsis; // 溢出用省略号显示
+    // display: -webkit-box;
+    // // white-space: nowrap; // 溢出不换行
+    // //-webkit-line-clamp: 2;
+    // white-space: nowrap;
+    // -webkit-box-orient: vertical;
+    // // color: red;
+    white-space: pre;
+  }
   .el-cascader__dropdown {
     margin: 5px 0;
     margin-top: 5px;
@@ -455,11 +439,9 @@ export default {
   .el-table th.is-leaf {
     border-bottom: none; //去多余的横线
   }
-  //12345页的颜色
   .el-pagination {
     // text-align: center;
     color: #000;
-    color: #fff;
     height: 30px;
     // padding: 0.2rem 0.1rem;
     // background-color: rgb(241, 158, 62); //选中页码的颜色
@@ -507,13 +489,12 @@ export default {
   }
   .el-input__inner {
     background-color: transparent !important;
-    // color: #fff !important; //前往xx页的字体颜色
   }
   .el-pagination__jump {
-    color: #fff !important; //前往xx页的字体颜色
+    color: #000 !important; //前往xx页的字体颜色
   }
   .el-pagination__total {
-    color: #fff !important; //总条数的颜色
+    color: #000 !important; //总条数的颜色
   }
   .el-checkbox__inner {
     //color: rgb(241, 158, 62) !important; //总条数的颜色
@@ -669,36 +650,36 @@ export default {
   );
   position: relative;
   .condition-box {
-    position: absolute;
-    top: 30px;
-    left: 50px;
+    height: 50px;
+
+    // background-color: #fff;
+    // position: absolute;
+    // top: 30px;
+    // left: 50px;
     font-size: 30px;
+    .picker {
+      position: absolute;
+      top: 10px;
+      left: 20px;
+    }
+    .pickerC {
+      position: absolute;
+      top: 10px;
+      left: 1763px;
+    }
   }
   .table {
     position: absolute;
-    top: 20px;
+    top: 50px;
     width: 1880px;
-    height: 970px;
+    height: 990px;
     // background-color: palevioletred;
     overflow: auto;
     margin: 0px 20px 20px 20px;
-    padding: 0px 20px 20px 20px;
-    .allA {
-      position: absolute;
-      z-index: 999;
-      right: 20px;
-      top: -2px;
-    }
-  }
-  .tableC {
-    position: absolute;
-    top: 500px;
-    width: 1880px;
-    height: 970px;
-    // background-color: palevioletred;
-    overflow: auto;
     margin: 0px 20px 20px 20px;
+
     padding: 0px 20px 20px 20px;
+    padding: 0px;
   }
 }
 </style>

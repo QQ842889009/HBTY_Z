@@ -9,7 +9,7 @@ import station from "./modules/station" //
 import weather from "./modules/weather" //
 import visual from "./modules/visual"
 import backStage from "./modules/backStage"
-
+import operationanalyse from "./modules/operationanalyse"
 Vue.use(VueRouter)
 
 // 解决ElementUI导航栏中的vue-router在3.0版本以上重复点菜单报错问题
@@ -71,7 +71,8 @@ export const constantRoutes = [
       aiDoor,
       aiInDoor,
       weather,
-      backStage
+      backStage,
+      operationanalyse
     ]
   }
 ]

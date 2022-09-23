@@ -196,29 +196,6 @@ export default {
       this.endTime = v[1];
       this.valveCode = this.rowData.valveCode;
       this.gg();
-      if (v.length > 0) {
-        // let a = v[0];
-        // let b = v[1];
-        // this.startingTime = Date.parse(new Date(a).toString());
-        // this.endTime = Date.parse(new Date(b).toString());
-        // console.log("1221", this.startingTime, this.endTime);
-        // let data = {
-        //   sn: this.sn,
-        //   startTime: a,
-        //   endTime: b,
-        // };
-        // this.$http
-        //   .post(
-        //     "TEhistory/roomtemperature/houser/searchDatasAndHouserholderInfoForSnAndTimeScope",
-        //     data
-        //   )
-        //   .then((res) => {
-        //     console.log("室内温度历史曲线", res);
-        //     this.obj01 = res.houser;
-        //     this.indoorque = res.datas;
-        //     console.log("this.obj01", this.obj01);
-        //   });
-      }
     },
     gg() {
       let data = {
