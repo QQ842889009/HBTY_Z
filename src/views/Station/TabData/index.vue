@@ -280,16 +280,10 @@
         layout="total, prev, pager, next"
       ></el-pagination> -->
     </div>
-    <!-- <div v-show="tt === 5"></div> -->
-    <!-- <div>
-      <SysDlialog ref="dialog" :title="title" :rowData="rowData"> </SysDlialog>
-    </div> -->
+   
   </div>
 </template>
 <script>
-// import SysDlialog from "./SysDlialog"; ////
-//临时数据
-//import { options } from "assets/js/common/doorSelect";
 import FileSaver from "file-saver";
 import XLSX from "xlsx";
 export default {

@@ -42,6 +42,13 @@
             align="center"
           >
             <template slot-scope="scope">
+              <!-- <el-input
+                oninput="value=value.replace(/[^0-9.]/g,'');if(value>1.6){value=1.6}"
+                size="mini"
+                text-align="center"
+                v-model="scope.row.PT21H"
+                @change="PT21HBTN(scope.row)"
+              ></el-input> -->
               <el-input-number
                 style="width: 100%"
                 size="mini"
@@ -390,7 +397,7 @@ export default {
   computed: {
     vv() {
       this.tableData333 = this.$store.getters.alarmsettings;
-      // console.log("---------999", this.tableData333);
+      console.log("9999---------999", this.tableData333);
       return this.tableData333;
     },
     headerStyle() {
@@ -443,10 +450,10 @@ export default {
         headers,
         () => {
           stompClient.subscribe(`/topic/getResponse`, (msg) => {
-            // console.log(
-            //   "qqqqqqqqq************-------------",
-            //   JSON.parse(msg.body).warningtag
-            // );
+            console.log(
+              "*-*-*-*-*-*-*-*-*-*--*",
+              JSON.parse(msg.body).warningtag
+            );
             console.log("CCCCCCCCCC", JSON.parse(msg.body).warningtagC);
             this.$store.commit(
               "STATIONAlARMARRAY",

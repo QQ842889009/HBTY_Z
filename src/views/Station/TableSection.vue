@@ -426,7 +426,7 @@ export default {
 }
 .table {
   position: absolute;
-  top: 50px;
+  top: 120px;
   width: 1880px;
   height: 970px;
   // background-color: palevioletred;

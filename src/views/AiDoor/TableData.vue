@@ -330,6 +330,7 @@ export default {
           {},
           JSON.stringify(msgRequest)
         );
+        console.log("msgRequest----------------", msgRequest);
         let timerRequest = setTimeout(() => {
           this.requestIndoorData();
           // this.requestIndoorData();

@@ -68,20 +68,20 @@ export default {
         {
           event_time: "2022-06-23",
           te: "24",
-          windDir:"西北风",
-          wind_po:1,
-          humidity:36.6,
-          beam:9971,
-          windSp:22
+          windDir: "西北风",
+          wind_po: 1,
+          humidity: 36.6,
+          beam: 9971,
+          windSp: 22,
         },
         {
           event_time: "2022-06-24",
           te: "10",
-          windDir:"西风",
-          wind_po:3,
-          humidity:38.5,
-          beam:10021,
-          windSp:32
+          windDir: "西风",
+          wind_po: 3,
+          humidity: 38.5,
+          beam: 10021,
+          windSp: 32,
         },
       ],
     };
@@ -163,23 +163,23 @@ export default {
       this.dialogVisible = false;
       this.obj01 = {};
       this.indoorque = [
-      {
+        {
           event_time: "2022-06-23",
           te: "24",
-          windDir:"西北风",
-          wind_po:1,
-          humidity:36.6,
-          beam:9971,
-          windSp:22
+          windDir: "西北风",
+          wind_po: 1,
+          humidity: 36.6,
+          beam: 9971,
+          windSp: 22,
         },
         {
           event_time: "2022-06-24",
           te: "10",
-          windDir:"西风",
-          wind_po:3,
-          humidity:38.5,
-          beam:10021,
-          windSp:32
+          windDir: "西风",
+          wind_po: 3,
+          humidity: 38.5,
+          beam: 10021,
+          windSp: 32,
         },
       ];
     },
@@ -317,6 +317,7 @@ export default {
     height: 500px;
     width: 1810px;
     background-color: #fff;
+    background-color: #000;
     box-shadow: 10px 10px 25px #11e634;
     background: linear-gradient(
       90deg,
