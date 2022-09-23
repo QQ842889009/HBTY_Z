@@ -6,6 +6,8 @@
     <div class="title2"> 风力: </div>
     <div class="title3"> 风向: </div>
     <div class="title4"> 风速: </div>
+    <div class="title5"> 湿度: </div>
+    <div class="title6"> 温度 </div>
   </div>
 
 </template>
@@ -57,7 +59,7 @@ export default {
           backgroundColor: "transparent",
           opacity: 0.3,
           borderWidth: "0",
-          top: "50%",
+          top: "55%",
           left: "8%",
           right: "5%",
           bottom: "5%",
@@ -74,15 +76,15 @@ export default {
           },
         },
         legend: {
-          show: true,
-          top:"65%",
-          right:"95%",
-          itemWidth:30,
-          itemHeight:20,
-          itemGap:15,
-          textStyle:{
-            color:'white',
-            fontSize:16,
+          show: false,
+          top: "65%",
+          right: "95%",
+          itemWidth: 30,
+          itemHeight: 20,
+          itemGap: 15,
+          textStyle: {
+            color: 'white',
+            fontSize: 16,
           }
         },
         xAxis: [
@@ -92,7 +94,7 @@ export default {
             type: "category",
             boundaryGap: false,
             position: "top",
-            offset: 180,
+            offset: 200,
             // zlevel: 120,
             axisLine: {
               show: false,
@@ -106,13 +108,13 @@ export default {
               rich: {
                 a: {
                   color: 'white',
-                  fontSize: 13,               
+                  fontSize: 13,
                   shadowBlur: 1,
                   borderWidth: 4,
                   borderColor: '#3498db',
                   borderRadius: 2,
-                  borderspacing:10,
-                  padding:10,
+                  borderspacing: 10,
+                  padding: 10,
                 },
               },
             },
@@ -125,7 +127,7 @@ export default {
             type: "category",
             boundaryGap: false,
             position: "top",
-            offset: 140,
+            offset: 160,
             axisLine: {
               show: false,
             },
@@ -138,12 +140,12 @@ export default {
               rich: {
                 a: {
                   color: 'white',
-                  fontSize: 15,              
+                  fontSize: 15,
                   borderWidth: 4,
                   borderColor: '#3498db',
                   borderRadius: 2,
-                  borderspacing:10,
-                  padding:[8,4],
+                  borderspacing: 10,
+                  padding: [8, 4],
                 },
               },
             },
@@ -157,7 +159,7 @@ export default {
             type: "category",
             boundaryGap: false,
             position: "top",
-            offset: 100,
+            offset: 120,
             axisLine: {
               show: false,
             },
@@ -174,8 +176,8 @@ export default {
                   borderWidth: 4,
                   borderColor: '#3498db',
                   borderRadius: 2,
-                  borderspacing:10,
-                  padding:[8,4],
+                  borderspacing: 10,
+                  padding: [8, 4],
                 },
               },
             },
@@ -189,7 +191,7 @@ export default {
             type: "category",
             boundaryGap: false,
             position: "top",
-            offset: 60,
+            offset: 80,
             axisLine: {
               show: false,
             },
@@ -206,8 +208,8 @@ export default {
                   borderWidth: 4,
                   borderColor: '#3498db',
                   borderRadius: 2,
-                  borderspacing:10,
-                  padding:[8,4],
+                  borderspacing: 10,
+                  padding: [8, 4],
                 },
               },
             },
@@ -215,13 +217,13 @@ export default {
             // nameTextStyle: {},
           },
           //#endregion
-          // 风速
+          // #region风速
           {
             id: "windSp",
             type: "category",
             boundaryGap: false,
             position: "top",
-            offset: 20,
+            offset: 40,
             axisLine: {
               show: false,
             },
@@ -238,14 +240,48 @@ export default {
                   borderWidth: 4,
                   borderColor: '#3498db',
                   borderRadius: 2,
-                  borderspacing:10,
-                  padding:[8,4],
+                  borderspacing: 10,
+                  padding: [8, 4],
                 },
               },
             },
             data: this.getWeatherOption(this.weatherInfo, "wind_sp")
             // nameTextStyle: {},
           },
+          //#endregion
+
+          // #region湿度
+          {
+            id: "humidity",
+            type: "category",
+            boundaryGap: false,
+            position: "top",
+            offset: 0,
+            axisLine: {
+              show: false,
+            },
+            axisTick: {
+              show: false,
+            },
+            axisLabel: {
+              interval: 0,
+              formatter: ["{a|{value}(m/s)}"].join("\n"),
+              rich: {
+                a: {
+                  color: 'white',
+                  fontSize: 15,
+                  borderWidth: 4,
+                  borderColor: '#3498db',
+                  borderRadius: 2,
+                  borderspacing: 10,
+                  padding: [8, 4],
+                },
+              },
+            },
+            data: this.getWeatherOption(this.weatherInfo, "humidity")
+            // nameTextStyle: {},
+          },
+          //#endregion
 
         ],
         yAxis: {
@@ -254,11 +290,11 @@ export default {
           axisLabel: {
             // formatter: "{value} °C",
             color: "white",
-            margin:50,
-            fontSize:16,
+            margin: 50,
+            fontSize: 16,
           },
-          },
-         
+        },
+
         dataset: [
           { source: this.weatherInfo }
         ],
@@ -296,36 +332,36 @@ export default {
               color: "transparent",
             },
           },
-          {
-            name: "湿度",
-            type: "line",
-            encode: { x: 'created_time', y: "humidity" },
-            symbol: "emptyCircle",
-            symbolSize: 20,
-            showSymbol: true,
-            smooth: true,
-            itemStyle: {
-              color: "rgb(34, 182, 241)",
-            },
-            label: {
-              show: true,
-              position: "bottom",
-              color: "white",
-              fontSize: "18",
-              formatter(value) {
-                var temp = value.data.humidity
-                return temp + "(%RH)"
-              },
-            },
-            lineStyle: {
-              width: 3,
-              color: "rgb(34, 182, 241) ",
-            },
-            areaStyle: {
-              opacity: 1,
-              color: "transparent",
-            },
-          },
+          // {
+          //   name: "湿度",
+          //   type: "line",
+          //   encode: { x: 'created_time', y: "humidity" },
+          //   symbol: "emptyCircle",
+          //   symbolSize: 20,
+          //   showSymbol: true,
+          //   smooth: true,
+          //   itemStyle: {
+          //     color: "rgb(34, 182, 241)",
+          //   },
+          //   label: {
+          //     show: true,
+          //     position: "bottom",
+          //     color: "white",
+          //     fontSize: "18",
+          //     formatter(value) {
+          //       var temp = value.data.humidity
+          //       return temp + "(%RH)"
+          //     },
+          //   },
+          //   lineStyle: {
+          //     width: 3,
+          //     color: "rgb(34, 182, 241) ",
+          //   },
+          //   areaStyle: {
+          //     opacity: 1,
+          //     color: "transparent",
+          //   },
+          // },
         ],
       };
       var obj = {};
@@ -405,6 +441,7 @@ export default {
   border: 3px solid #3498db;
   box-shadow: 0px 0px 5px 4px #3498db inset, 0px 0px 5px -4px #3498db;
 }
+
 .title2 {
   width: 4%;
   font-size: 22px;
@@ -416,6 +453,7 @@ export default {
   border: 3px solid #3498db;
   box-shadow: 0px 0px 5px 4px #3498db inset, 0px 0px 5px -4px #3498db;
 }
+
 .title3 {
   width: 4%;
   font-size: 22px;
@@ -427,6 +465,7 @@ export default {
   border: 3px solid #3498db;
   box-shadow: 0px 0px 5px 4px #3498db inset, 0px 0px 5px -4px #3498db;
 }
+
 .title4 {
   width: 4%;
   font-size: 22px;
@@ -434,6 +473,38 @@ export default {
   top: 37%;
   left: 0.5%;
   text-align: center;
+  background: rgba(11, 66, 114, 0.8);
+  border: 3px solid #3498db;
+  box-shadow: 0px 0px 5px 4px #3498db inset, 0px 0px 5px -4px #3498db;
+}
+
+.title5 {
+  width: 4%;
+  font-size: 22px;
+  position: absolute;
+  top: 45%;
+  left: 0.5%;
+  text-align: center;
+  background: rgba(11, 66, 114, 0.8);
+  border: 3px solid #3498db;
+  box-shadow: 0px 0px 5px 4px #3498db inset, 0px 0px 5px -4px #3498db;
+}
+
+.title6 {
+  width: 3%;
+  height: 30%;
+  font-size: 30px;
+  position: absolute;
+  top: 60%;
+  left: 0.5%;
+  text-align: center;
+  padding: 0px;
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  justify-content: center;
+  writing-mode: vertical-lr;
+  letter-spacing: 20px;
   background: rgba(11, 66, 114, 0.8);
   border: 3px solid #3498db;
   box-shadow: 0px 0px 5px 4px #3498db inset, 0px 0px 5px -4px #3498db;

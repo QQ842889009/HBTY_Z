@@ -46,7 +46,7 @@ export default {
     },
     //四新热源
     HOT(state, data) {
-      console.log("热源的数据  来到了仓库") ////
+      // console.log("热源的数据  来到了仓库") ////
       let len = data.length
       let j = parseInt(data.Sid)
       if (j < 5) {

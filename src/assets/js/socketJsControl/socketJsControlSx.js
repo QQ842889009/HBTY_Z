@@ -69,7 +69,7 @@ let socketOnDataSx = (stompClient) => {
   stompClient.send("/hbty/aiHotDataInfos", {}, JSON.stringify({})) //热源四信的请求
   //四新热源
   stompClient.subscribe("/data/wtOnAiHotData", (msg) => {
-    console.log("热源de********？四芯", msg)
+    // console.log("热源de********？四芯", msg)
     //console.log(msg);
     //console.log("热源de********？四芯-----");
     //console.log(msg.body);

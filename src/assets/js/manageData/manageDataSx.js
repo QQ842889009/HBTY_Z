@@ -66,7 +66,7 @@ let weather = (msg) => {
 }
 let aiHot = (msg) => {
   //
-  console.log("aaaaaaa999999", msg)
+  // console.log("aaaaaaa999999", msg)
   new Promise((resolve, reject) => {
     let msgJsObj = msg
     let msgJsObjFormat = {

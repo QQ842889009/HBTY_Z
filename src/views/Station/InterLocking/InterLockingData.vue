@@ -1,26 +1,33 @@
 <template>
-  <div>
-    <p>互锁</p>
-    <p>{{ data }}</p>
+  <div class="husuo">
+    
+    <HusuoCard />
+    <HusuoCard />
+    <HusuoCard />
+    <HusuoCard />
   </div>
 </template>
 
 <script>
 import SockJS from "sockjs-client";
 import Stomp from "stompjs";
+import HusuoCard  from '../../Visual/components/HusuoCard.vue'
 export default {
   data() {
     return {
       tableData: [],
     };
   },
+  components: {
+    HusuoCard
+  },
   created() {
     this.connection();
+    console.log("data--",this.data)
   },
   computed: {
     data() {
       this.tableData = this.$store.getters.alarmsettings;
-
       return this.tableData;
     },
   },
@@ -48,6 +55,7 @@ export default {
         headers,
         () => {
           stompClient.subscribe(`/topic/getResponse`, (msg) => {
+            // console.log(msg);
             this.$store.commit(
               "STATIONAlARMARRAY",
               JSON.parse(msg.body).warningtag
@@ -72,5 +80,9 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss" scoped>
+  .husuo{
+    display: flex;
+    flex-wrap:wrap;
+  }
 </style>

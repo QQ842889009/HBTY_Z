@@ -89,8 +89,8 @@ export default {
   },
   created() {
     // this.selectStation = "29";
-    this.selectDate = "2022-09-5 05:00:00";
-    this.selectTime = "0.5";
+    // this.selectDate = "2022-09-5 05:00:00";
+    // this.selectTime = "0.5";
     this.stations = this.$store.getters.stationInfos;
     // console.log('store---',this.$store.getters["stationBranch/branchInfos"]);
     this.stationInfo=this.$store.getters["stationBranch/branchInfos"];
@@ -125,7 +125,7 @@ export default {
         sid: this.selectStation,
         startTime: startTime,
         endTime: endTime,
-        size: 180
+        size: 24
       }
 
       this.myData = await this.$http.post(
@@ -146,10 +146,7 @@ export default {
 
     },
 
-    async getStationInfo() {
-      this.stationInfo = await this.$http.get("plcdata/tems/plc/stationInfoForBraName");
-      // console.log("------", this.stationInfo);
-    },
+    
     getItmeArr(staId) {
       this.myHistoryList={};
       this.myHistoryList=_.cloneDeep(historyList);

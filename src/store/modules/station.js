@@ -59,14 +59,14 @@ const mutations = {
     // station.alarmsettings(state.alarmsettings, state.stationLenght, data)
   },
   STATIONALARMSET(state, data) {
-    console.log("9999", data)
+    // console.log("9999", data)
     station.alarmsettings(state.alarmsettings, state.stationLenght, data)
   },
 
   STATIONAlARMARRAY(state, data) {
-    console.log("-------报警设置中仓库中的BBBBB", data)
+    // console.log("-------报警设置中仓库中的BBBBB", data)
 
-    console.log(data)
+    // console.log(data)
     for (let i = 0; i < state.alarmsettings.length; i++) {
       for (let j = 0; j < data.length; j++) {
         if (state.alarmsettings[i].sid === parseInt(data[j].sid10)) {
