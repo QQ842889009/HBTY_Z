@@ -78,7 +78,7 @@ let socketOnDataSx = (stompClient) => {
   })
   stompClient.subscribe("/data/wtOnAiWeatherData", (msg) => {
     //四信气象
-    console.log("四信的气象")
+    // console.log("四信的气象")
     //  console.log("来的数据是什么？qqqqqqqqqqqqqqqqqqqqqqq");
     // console.log(msg);
     // console.log("四信的气象22");

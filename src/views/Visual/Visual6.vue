@@ -253,7 +253,7 @@ export default {
           console.log("unity改变阀门给定的值", e.data.msg);
           break;
       }
-      // console.log("发送请求的msg",this.msg);
+      console.log("发送请求的msg",this.msg);
       // console.log("发送请求的event",eventName);
       if (this.$stompClient.connected === true) {
         // console.log("发送数据成化")

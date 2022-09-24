@@ -81,9 +81,9 @@ export default {
       if (j < state.inDoorInfosLenght) {
         let obj = isNumber.isNumberObj(data)
 
-        for (let key in obj) {
-          Vue.set(state.inDoorDataAndInfo[j], key, obj[key])
-        }
+        // for (let key in obj) {
+        //   Vue.set(state.inDoorDataAndInfo[j], key, obj[key])
+        // }
       }
     },
 
