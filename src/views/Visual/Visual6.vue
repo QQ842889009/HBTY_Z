@@ -1,25 +1,28 @@
 <template>
   <div style="width: 1920px; height: 1080px">
-    <iframe ref="unityIframe" src="/unity3D/index.html" frameborder="0" style="width: 100%; height: 100%"></iframe>
+    <iframe
+      ref="unityIframe"
+      src="/unity3D/index.html"
+      frameborder="0"
+      style="width: 100%; height: 100%"
+    ></iframe>
   </div>
 </template>
 
 <script>
-
-
 export default {
   data() {
     return {
       stationInfos: [],
       timer: "",
       stations: [],
-      branchInfos: [],  //分支信息
-      msg : {
-        userName: "admin",//localStorage.getItem("userId"),
+      branchInfos: [], //分支信息
+      msg: {
+        userName: "admin", //localStorage.getItem("userId"),
         sid: this.$route.query.id,
         plcTag: "",
         tagValue: "",
-      }
+      },
     };
   },
   created() {
@@ -45,7 +48,7 @@ export default {
     //     this.vueSendToUnity("getStationsName",this.stationName);
     // }, 10000);
     window.addEventListener("message", this.unityWatch);
-    console.log('router----', this.$route.query.id)
+    console.log("router----", this.$route.query.id);
   },
   computed: {
     stationName() {
@@ -63,10 +66,11 @@ export default {
         case "ReportReady":
           console.log("unity发送消息到vue成功");
           this.vueSendToUnity("getStationsName", this.stationName);
-          if(this.$route.query.id==undefined){
-            this.vueSendToUnity("getRouteId",0);
+          if (this.$route.query.id == undefined) {
+            this.vueSendToUnity("getRouteId", 0);
+          } else {
+            this.vueSendToUnity("getRouteId", this.$route.query.id);
           }
-          else{this.vueSendToUnity("getRouteId", this.$route.query.id);}
           break;
         case "stationInfo": //自己定义的事件，代表站的数据,接受的是unity发过来的换热站id
           this.msg.sid = e.data.msg;
@@ -119,6 +123,7 @@ export default {
           this.msg.plcTag = "MA_FV1";
           this.msg.tagValue = e.data.msg;
           eventName = "/hbty/fySetupPLCB";
+
           console.log("unity改变一网阀门手自动的值", e.data.msg);
           break;
 
@@ -257,13 +262,8 @@ export default {
       // console.log("发送请求的event",eventName);
       if (this.$stompClient.connected === true) {
         // console.log("发送数据成化")
-        this.$stompClient.send(
-          eventName,
-          {},
-          JSON.stringify(this.msg)
-        );
+        this.$stompClient.send(eventName, {}, JSON.stringify(this.msg));
       }
-
     },
     vueSendToUnity(unityFunction, msg) {
       this.$refs.unityIframe.contentWindow.sendMsgToUnity(unityFunction, msg);
@@ -287,7 +287,8 @@ export default {
       // console.log('branch---------', branch);
       //branch是分支的信息
       for (let i in branch) {
-        if (branch[i] != null) { //如果分支不为null，
+        if (branch[i] != null) {
+          //如果分支不为null，
           //name为分支的名称，value为分支对应的字段,i[9]是取字符串bra_name_1的最后一位
           let obj = branch[i];
           branchMsg.push(obj);
@@ -295,7 +296,6 @@ export default {
       }
       branchMsg = branchMsg.reverse();
       return branchMsg;
-
     },
 
     // beforeRouteLeave(to, from, next) {
@@ -310,9 +310,8 @@ export default {
     clearInterval(this.timer);
     window.removeEventListener("message", this.unityWatch);
   },
-}
+};
 </script>
 <style lang="scss" scoped>
-
 </style>
 

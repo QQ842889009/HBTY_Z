@@ -36,6 +36,7 @@ import { plcdataType, echartdataType } from "assets/js/storeBox/dataType.js"
 import {
   inDoorDataInitTemplate,
   stationDataInitTemplate,
+  stationDataInitTemplateReal,
   doorDataInitTemplate,
   alarmsettings
 } from "assets/js/storeDataInitTemplate" //初始化模板

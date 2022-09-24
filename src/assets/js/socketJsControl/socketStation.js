@@ -16,6 +16,7 @@ import Stomp from "stompjs"
 let heartDog = 0
 let stompClient = ""
 let connectJs = (stompClient) => {
+  console.log("BBBBBBBB-------------------", stompClient)
   stompClient.connect({}, () => {
     // socketOnInfoData(stompClient);
     // console.log("---------plc---------socketJs连接成功")
@@ -25,13 +26,14 @@ let connectJs = (stompClient) => {
     socketOnData(stompClient)
   }),
     (err) => {
-      连接发生错误时的处理函数
-      // console.log("------------plc------------socketJs连接发生错误---换热站")
+      //连接发生错误时的处理函数
+      console.log("------------plc------------socketJs连接发生错误---换热站")
 
       heartDog = 0
     }
 }
 function connected(url) {
+  console.log()
   let timer = setInterval(() => {
     if (heartDog === 1) {
       heartDog = 0
@@ -48,9 +50,10 @@ function connected(url) {
 }
 
 let socketOnData = (stompClient) => {
+  console.log("cccccccc------------------------")
   if (stompClient) {
     stompClient.subscribe("/data/wtOnPlcData", (msg) => {
-      // console.log("--------plc的数据接收-----", msg)
+      console.log("--------plc的数据接收-----", msg)
       // console.log("1****msg");
       // console.log(msg);
       // console.log(msg.body);

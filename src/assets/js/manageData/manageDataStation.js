@@ -314,6 +314,44 @@ let stationData = (msg) => {
     that.$store.commit("STATIONDATA", msg)
   })
 }
+let stationDataReal = (msg) => {
+  // console.log('---------msg',msg);
+  new Promise((resolve, reject) => {
+    let msgJsObjFormat = {
+      station: "占位",
+      sid: 0,
+      space: 0,
+      way: 0,
+      Timestamp: 1536997080,
+      date: "2030-09-11",
+      time: "00:00:00",
+      ft11_u: 0,
+      ft21_u: 0,
+      q1_u: 0,
+      te00: 0
+    }
+
+    msgJsObjFormat.sid = parseInt(msg.sid.slice(2), 16)
+    msgJsObjFormat.date = msg.sdate
+    msgJsObjFormat.time = msg.stime
+    msgJsObjFormat.Timestamp = msg.timestamp
+    msgJsObjFormat.ft11_u = msg.bd0.toFixed(1)
+    msgJsObjFormat.ft21_u = msg.bd1.toFixed(1)
+
+    msgJsObjFormat.te00 = msg.bd12.toFixed(1)
+
+    msgJsObjFormat.q1_u = msg.bd19.toFixed(1)
+    // msgJsObjFormat.Q2 = msg.bd20.toFixed(1)
+    // msgJsObjFormat.DL = msg.bd21.toFixed(1)
+    // msgJsObjFormat.ZFT31 = msg.bd24.toFixed(1)
+    // msgJsObjFormat.ZQ1 = msg.bd25.toFixed(1)
+    // msgJsObjFormat.ZQ2 = msg.bd26.toFixed(1)
+
+    resolve(msgJsObjFormat)
+  }).then((msg) => {
+    //that.$store.commit("STATIONDATA", msg)
+  })
+}
 let Comerr = (msg) => {
   new Promise((resolve, reject) => {
     resolve(msg)
@@ -326,5 +364,6 @@ let Comerr = (msg) => {
 
 export default {
   stationData,
-  Comerr
+  Comerr,
+  stationDataReal
 }

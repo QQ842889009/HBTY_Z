@@ -264,6 +264,19 @@ const alarmsettings = {
   sid16: null,
   PT22SP_HH: null
 }
+const stationDataInitTemplateReal = {
+  station: "占位",
+  sid: 0,
+  space: 0,
+  way: 0,
+  Timestamp: 1536997080,
+  date: "2030-09-11",
+  time: "00:00:00",
+  ft11_u: 0,
+  ft21_u: 0,
+  q1_u: 0,
+  te00: 0
+}
 //换热站报警的初始化
 // const stationAlarm = {
 //   alarmConfirm: false,
@@ -286,5 +299,6 @@ export {
   realtimeTemplate,
   stationTemplate,
   echartdataType,
-  alarmsettings
+  alarmsettings,
+  stationDataInitTemplateReal
 }
