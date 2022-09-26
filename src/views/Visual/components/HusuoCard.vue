@@ -35,7 +35,7 @@
             </el-col>
             <el-col :span="3">
                 <div class="grid-content bg-purple">
-                    <el-switch v-model="allData.pt21_lock" :width="60" active-value="1" inactive-value="0" active-color="#13ce66"
+                    <el-switch v-model="allData.pt21_lock" :width="60" :active-value="1" :inactive-value="0" active-color="#13ce66"
                         inactive-color="#ff4949" active-text="开" inactive-text="关" @change="changept21Lock($event)">
                     </el-switch>
                 </div>
@@ -80,7 +80,7 @@
             </el-col>
             <el-col :span="3">
                 <div class="grid-content bg-purple">
-                    <el-switch v-model="allData.pt22_lock" :width="60" active-value="1" inactive-value="0" active-color="#13ce66"
+                    <el-switch v-model="allData.pt22_lock" :width="60" :active-value="1" :inactive-value="0" active-color="#13ce66"
                         inactive-color="#ff4949" active-text="开" inactive-text="关" @change="changept22Lock($event)">
                     </el-switch>
                 </div>
@@ -129,7 +129,7 @@
             </el-col>
             <el-col :span="3">
                 <div class="grid-content bg-purple">
-                    <el-switch v-model="allData.bp21a_lock" :width="60" active-value="1" inactive-value="0" active-color="#13ce66"
+                    <el-switch v-model="allData.bp21a_lock" :width="60" :active-value="1" :inactive-value="0" active-color="#13ce66"
                         inactive-color="#ff4949" active-text="开" inactive-text="关" @change="changebp21Lock($event)">
                     </el-switch>
                 </div>
@@ -150,7 +150,7 @@
             </el-col>
             <el-col :span="3">
                 <div class="grid-content bg-purple">
-                    <el-switch v-model="allData.bp22a_lock" :width="60" active-value="1" inactive-value="0" active-color="#13ce66"
+                    <el-switch v-model="allData.bp22a_lock" :width="60" :active-value="1" :inactive-value="0" active-color="#13ce66"
                         inactive-color="#ff4949" active-text="开" inactive-text="关" @change="changebp22Lock($event)">
                     </el-switch>
                 </div>
@@ -195,7 +195,7 @@
             </el-col>
             <el-col :span="3">
                 <div class="grid-content bg-purple">
-                    <el-switch v-model="allData.lt_lock" :width="60" active-value="1" inactive-value="0" active-color="#13ce66"
+                    <el-switch v-model="allData.lt_lock" :width="60" :active-value="1" :inactive-value="0" active-color="#13ce66"
                         inactive-color="#ff4949" active-text="开" inactive-text="关" @change="changeltLock($event)">
                     </el-switch>
                 </div>
@@ -223,7 +223,7 @@ export default {
             // pt22Lock: "",//二回压力锁
             // pt22HH: "",//二回压力高高限
 
-            // bp21Lock: "",
+            // bp21Lock: 1,
             // bp22Lock: "",
 
             // lt: "", //液位   
@@ -359,6 +359,7 @@ export default {
         },
         changebp21Lock(event) {
             this.msg.plcTag="BP21A_LOCK";
+            console.log("BP21A_LOCK",event)
             this.msg.tagValue=event;
             console.log(this.msg);
             if (this.$stompClient.connected === true) {
@@ -372,7 +373,7 @@ export default {
         changebp22Lock(event) {
             console.log("----bp22Lock-----", event)
             this.msg.plcTag="BP22A_LOCK";
-            this.msg.tagValue=parseInt(event);
+            this.msg.tagValue=event;
             console.log(this.msg);
             if (this.$stompClient.connected === true) {
                 this.$stompClient.send(
