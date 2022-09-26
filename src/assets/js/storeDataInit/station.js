@@ -11,6 +11,29 @@ function station(data, len, dataInitArray) {
     }
   }
 }
+function stationreal(data, len, dataInitArray) {
+  if (data.length == 0) {
+    for (let i = 0; i < len; i++) {
+      // console.log("c", dataInitArray)
+      dataInitArray.sid = i
+      let obj = _.cloneDeep(dataInitArray)
+
+      data.push(obj)
+    }
+  }
+}
+//报警变灰的
+function stationalah(data, len, dataInitArray) {
+  if (data.length == 0) {
+    for (let i = 0; i < len; i++) {
+      // console.log("c", dataInitArray)
+      dataInitArray.sid = i
+      let obj = _.cloneDeep(dataInitArray)
+
+      data.push(obj)
+    }
+  }
+}
 function stations(data, len) {
   if (data.length == 0) {
     for (let i = 0; i < len; i++) {
@@ -45,5 +68,7 @@ export default {
   station,
   stations,
   alarm,
-  alarmsettings
+  alarmsettings,
+  stationreal,
+  stationalah
 }

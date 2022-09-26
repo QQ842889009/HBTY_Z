@@ -327,6 +327,7 @@ export default {
       if (this.$stompClientAiUnit.connected === true) {
         this.$stompClientAiUnit.send(
           "/hbty/fyGetValveData",
+
           {},
           JSON.stringify(msgRequest)
         );

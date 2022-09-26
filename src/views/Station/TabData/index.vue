@@ -397,7 +397,8 @@ export default {
       for (let i = 0; i < len; i++) {
         //通讯报警行变为灰色
         if (row.Sid == i) {
-          if (this.$store.getters.alarmArr[i] === 1) {
+          //  if (this.$store.getters.alarmArr[i] === 0) {
+          if (this.$store.getters.alarmArrJavaShow[i] === 0) {
             this.isShow = true;
             if (column.property === "Station") {
               // return "  background:#909399!important;height:40px!important;color:#ffffff!important";

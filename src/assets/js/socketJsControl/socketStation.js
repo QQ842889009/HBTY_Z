@@ -16,7 +16,7 @@ import Stomp from "stompjs"
 let heartDog = 0
 let stompClient = ""
 let connectJs = (stompClient) => {
-  console.log("BBBBBBBB-------------------", stompClient)
+  // console.log("BBBBBBBB-------------------", stompClient)
   stompClient.connect({}, () => {
     // socketOnInfoData(stompClient);
     // console.log("---------plc---------socketJs连接成功")
@@ -27,7 +27,7 @@ let connectJs = (stompClient) => {
   }),
     (err) => {
       //连接发生错误时的处理函数
-      console.log("------------plc------------socketJs连接发生错误---换热站")
+      // console.log("------------plc------------socketJs连接发生错误---换热站")
 
       heartDog = 0
     }
@@ -50,10 +50,19 @@ function connected(url) {
 }
 
 let socketOnData = (stompClient) => {
-  console.log("cccccccc------------------------")
+  // console.log("cccccccc------------------------")
   if (stompClient) {
+    //通讯终端先发这个事件----王
+    stompClient.send("/hbty/fyGetOnlinePLCs", {}, JSON.stringify({}))
+    //通讯终端接收的事件-----王
+    stompClient.subscribe("/info/wtOnDeviceStatus", (msg) => {
+      // console.log("--------plc通讯断-----", msg)
+      // console.log("--------plc通讯断-----", JSON.parse(msg.body))
+      manageDataStation.stationDatAlaH(JSON.parse(msg.body)) //数据的展示
+    })
+
     stompClient.subscribe("/data/wtOnPlcData", (msg) => {
-      console.log("--------plc的数据接收-----", msg)
+      // console.log("--------plc的数据接收-----", msg)
       // console.log("1****msg");
       // console.log(msg);
       // console.log(msg.body);
@@ -62,7 +71,7 @@ let socketOnData = (stompClient) => {
       // //console.log(JSON.parse(msg.body).map); // msg.body存放的是服务端发送给我们的信息
 
       manageDataStation.stationData(JSON.parse(msg.body).map) //数据的展示
-      //manageDataStation.stationAlarmData(JSON.parse(msg.body).map) //需要给报警数组几个数据
+      manageDataStation.stationDataReal(JSON.parse(msg.body).map) //需要给报警数组几个数据
 
       heartDog = 1
     })

@@ -318,9 +318,9 @@ let stationDataReal = (msg) => {
   // console.log('---------msg',msg);
   new Promise((resolve, reject) => {
     let msgJsObjFormat = {
-      station: "占位",
-      sid: 0,
-      space: 0,
+      // station: "占位",
+      // sid: 0,
+      // space: 0,
       way: 0,
       Timestamp: 1536997080,
       date: "2030-09-11",
@@ -349,7 +349,26 @@ let stationDataReal = (msg) => {
 
     resolve(msgJsObjFormat)
   }).then((msg) => {
-    //that.$store.commit("STATIONDATA", msg)
+    that.$store.commit("STATIONDATAREAL", msg)
+  })
+}
+//报警灰色王
+let stationDatAlaH = (msg) => {
+  // console.log('---------msg',msg);
+  new Promise((resolve, reject) => {
+    let msgJsObjFormat = {
+      // station: "占位",
+      sid: 0,
+      status: 0
+    }
+
+    msgJsObjFormat.sid = msg.sid
+
+    msgJsObjFormat.status = msg.status
+
+    resolve(msgJsObjFormat)
+  }).then((msg) => {
+    that.$store.commit("STATIONDATAALAH", msg)
   })
 }
 let Comerr = (msg) => {
@@ -365,5 +384,6 @@ let Comerr = (msg) => {
 export default {
   stationData,
   Comerr,
-  stationDataReal
+  stationDataReal,
+  stationDatAlaH
 }

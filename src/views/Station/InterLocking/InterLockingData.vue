@@ -1,9 +1,9 @@
 <template>
   <div class="husuo">
-    <div class="oneCard" v-for="(station,index) of myData" :key="index" >
-      <HusuoCard :allData="station" :sid="index"/>
+    <div class="oneCard" v-for="(station, index) of myData" :key="index">
+      <HusuoCard :allData="station" :sid="index" />
     </div>
-    
+
     <!-- <div class="block">
     <el-slider
       v-model="data.length"
@@ -17,7 +17,7 @@
 <script>
 import SockJS from "sockjs-client";
 import Stomp from "stompjs";
-import HusuoCard  from '../../Visual/components/HusuoCard.vue'
+import HusuoCard from "../../Visual/components/HusuoCard.vue";
 export default {
   data() {
     return {
@@ -25,11 +25,11 @@ export default {
     };
   },
   components: {
-    HusuoCard
+    HusuoCard,
   },
   created() {
     this.connection();
-    console.log("data--",this.myData)
+    console.log("data--", this.myData);
   },
   computed: {
     myData() {
@@ -87,20 +87,19 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  .husuo{
-    display: flex;
-    flex-wrap:wrap;
-    overflow-y:scroll;
-    height: 100%;
-  }
-  .oneCard{
-    margin-right: 1%;
-    margin-left: 3%;
-    margin-top: 1%;
-    margin-bottom: 1%;
-  }
+.husuo {
+  display: flex;
+  flex-wrap: wrap;
+  overflow-y: scroll;
+  height: 100%;
+}
+.oneCard {
+  margin-right: 1%;
+  margin-left: 3%;
+  margin-top: 1%;
+  margin-bottom: 1%;
+}
 
-  /*定义滚动条高宽及背景
+/*定义滚动条高宽及背景
  高宽分别对应横竖滚动条的尺寸*/
-
 </style>

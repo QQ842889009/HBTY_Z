@@ -5,7 +5,7 @@ import moment from "moment"
 
 //Ai单元信息**
 let doorInfos = (msg) => {
-  that.$store.commit("DOORINFO", msg)
+  // that.$store.commit("DOORINFO", msg)
 }
 
 //Ai单元数据的处理

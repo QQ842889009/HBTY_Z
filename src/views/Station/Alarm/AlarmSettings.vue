@@ -1,5 +1,6 @@
 <template>
   <div class="unit-container">
+    <!-- {{ vv[0] }} -->
     <div class="table">
       <el-table
         v-loading="dataListLoading"
@@ -42,13 +43,6 @@
             align="center"
           >
             <template slot-scope="scope">
-              <!-- <el-input
-                oninput="value=value.replace(/[^0-9.]/g,'');if(value>1.6){value=1.6}"
-                size="mini"
-                text-align="center"
-                v-model="scope.row.PT21H"
-                @change="PT21HBTN(scope.row)"
-              ></el-input> -->
               <el-input-number
                 style="width: 100%"
                 size="mini"
@@ -101,17 +95,6 @@
             align="center"
           >
             <template slot-scope="scope">
-              <!-- <el-input
-                type="number"
-                size="mini"
-                max="1.6"
-                min="0"
-                v-model="scope.row.PT22L"
-                onkeyup="this.value=this.value.replace(/[\u4E00-\u9FA5]/g,'') "
-                oninput="if(value>1.6)value=1.6;if(value<0)value=0"
-                @change="PT22LBTN(scope.row)"
-              >
-              </el-input> -->
               <el-input-number
                 style="width: 100%"
                 size="mini"
@@ -397,7 +380,7 @@ export default {
   computed: {
     vv() {
       this.tableData333 = this.$store.getters.alarmsettings;
-      console.log("9999---------999", this.tableData333);
+
       return this.tableData333;
     },
     headerStyle() {
@@ -454,7 +437,7 @@ export default {
               "*-*-*-*-*-*-*-*-*-*--*",
               JSON.parse(msg.body).warningtag
             );
-            console.log("CCCCCCCCCC", JSON.parse(msg.body).warningtagC);
+
             this.$store.commit(
               "STATIONAlARMARRAY",
               JSON.parse(msg.body).warningtag

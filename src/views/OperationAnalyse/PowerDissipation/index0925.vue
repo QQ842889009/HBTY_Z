@@ -1,10 +1,5 @@
 <template>
   <div class="unit-container">
-    {{ tableDataHHH }}
-    <br />
-    {{ tableDataGGG }}
-    <br />
-    {{ tableDataAAA }}
     <div class="condition-box">
       <el-form :inline="true" :model="dataForm" ref="dataForm">
         <el-form-item prop="name" label="">
@@ -121,22 +116,18 @@
         </el-table-column>
       </el-table> -->
       <el-table
-        :data="tableDataCCC"
+        :data="tableData"
         border
-        height="800"
+        height="200"
         :summary-method="getSummaries"
         show-summary
         style="width: 100%; margin-top: 20px"
       >
-        <el-table-column prop="station" label="station"> </el-table-column>
-        <el-table-column prop="sid" label="sid"> </el-table-column>
-        <el-table-column prop="date" label="date"> </el-table-column>
-        <el-table-column prop="time" label="time"> </el-table-column>
-        <el-table-column prop="space" label="space"> </el-table-column>
-        <el-table-column prop="ft11_u" label="ft11_u"> </el-table-column>
-        <el-table-column prop="ft21_u" label="ft21_u"> </el-table-column>
-        <el-table-column prop="q1_u" label="q1_u"> </el-table-column>
-        <el-table-column prop="te00" label="te00"> </el-table-column>
+        <el-table-column prop="id" label="ID" width="180"> </el-table-column>
+        <el-table-column prop="name" label="姓名"> </el-table-column>
+        <el-table-column prop="amount1" label="数值 1（元）"> </el-table-column>
+        <el-table-column prop="amount2" label="数值 2（元）"> </el-table-column>
+        <el-table-column prop="amount3" label="数值 3（元）"> </el-table-column>
       </el-table>
     </div>
   </div>
@@ -185,10 +176,6 @@ export default {
           amount3: 15,
         },
       ],
-      tableDataCCC: [],
-      tableDataHHH: [],
-      tableDataAAA: [],
-      tableDataGGG: [],
       ///换热站新加开始
       // tableData: [],
       iconColor: "red",
@@ -234,29 +221,10 @@ export default {
     };
   },
   created() {
-    this.aaa;
     // this.tableData = this.$store.getters.stationDataAndInfo; //表格数据
   },
   watch: {},
   computed: {
-    // vv() {
-    //   this.tableDataCCC = this.$store.getters.stationDataAndInfoReal;
-
-    //   return this.tableDataCCC;
-    // },
-    aaa() {
-      this.tableDataCCC = this.$store.getters.stationDataAndInfoReal;
-      this.tableDataHHH = this.$store.getters.alarmArrJava;
-      this.tableDataGGG = this.$store.getters.alarmArrJavaShow;
-      console.log("tableDataHHH", this.tableDataHHH);
-      for (let i = 0; i < this.tableDataHHH.length; i++) {
-        this.tableDataAAA[i] = this.tableDataHHH[i].status;
-      }
-      console.log("this.tableDataAAA", this.tableDataAAA);
-      // for (let i = 0; i < this.tableDataCCC.length; i++) {
-      //   console.log("this.tableDataCCCiiiii", i);
-      // }
-    },
     headerStyle() {
       return {
         background: "#0dc41a",
@@ -281,11 +249,11 @@ export default {
     },
   },
   mounted() {
-    // this.dd();
+    this.dd();
   },
   methods: {
     getSummaries(param) {
-      // console.log("AAA", param);
+      console.log("AAA", param);
       const { columns, data } = param;
       const sums = [];
       columns.forEach((column, index) => {
@@ -317,8 +285,39 @@ export default {
       this.valveCode = this.rowData.valveCode;
       this.gg();
     },
-    gg() {},
-
+    gg() {
+      let data = {
+        //valve_code: this.valveCode,
+        startTime: this.startTime,
+        endTime: this.endTime,
+      };
+      console.log("黑蚂蚁户阀的历史数据查询", data);
+      this.$http
+        .post("AAAHUFAhistory/household/datas/searchDatasbyValueCode", data)
+        .then((res) => {
+          console.log("室内温度历史曲线", res);
+          this.obj01 = res.station_and_housiong;
+          this.indoorque = res.result;
+          // console.log("this.obj01", this.obj01);
+        });
+    },
+    // tableRenderHeader(h, data) {
+    //   console.log("h", h, "data", data);
+    //   return h("span", [
+    //     h(
+    //       "el-tooltip",
+    //       {
+    //         attrs: {
+    //           class: "item",
+    //           effect: "dark",
+    //           content: data.column.label,
+    //           placement: "top",
+    //         },
+    //       },
+    //       [h("span", data.column.label)]
+    //     ),
+    //   ]);
+    // },
     rePeoplemessageCard(v) {
       console.log("FFF");
       this.$router.push({ path: "/Visual6", query: { id: v.Sid } });

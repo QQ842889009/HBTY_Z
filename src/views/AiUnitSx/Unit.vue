@@ -251,6 +251,13 @@
         </el-table-column>
         <el-table-column label="操作" width="200"  align="center">
           <template slot-scope="scope">
+                   <el-button
+              type="success"
+              size="mini"
+              @click="inquire(scope.row)"
+              fixed="right"
+              >请求数据</el-button
+            >
             <el-button
               type="success"
               size="mini"
@@ -361,6 +368,26 @@ export default {
     this.dd();
   },
   methods: {
+    inquire(v) {
+      let msgRequest = {
+        sid: parseInt(v.sid),
+      };
+      if (this.$stompClientAiUnit.connected === true) {
+        this.$stompClientAiUnit.send(
+          "/hbty/fyGetAIData",
+
+          {},
+          JSON.stringify(msgRequest)
+        );
+        console.log("msgRequest----------------", msgRequest);
+        let timerRequest = setTimeout(() => {
+          this.requestIndoorData();
+          // this.requestIndoorData();
+          clearTimeout(timerRequest);
+        }, 5000);
+      } else {
+      }
+    },
     //时间日期格式
     dateFormat(row, column, cellValue, index) {
       const daterc = row[column.property];
@@ -527,7 +554,7 @@ export default {
         // sdate: this.setriqi,
         // stime: this.setshijian,
         tag: "FV1SP",
-        tagValue: parseFloat(v.fv1fb),
+        tagValue: parseFloat(v.fv1sb),
         // openValue: parseFloat(this.setFV1SP),
       };
       console.log("msg11111", msg);

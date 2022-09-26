@@ -38,7 +38,8 @@ import {
   stationDataInitTemplate,
   stationDataInitTemplateReal,
   doorDataInitTemplate,
-  alarmsettings
+  alarmsettings,
+  alaH
 } from "assets/js/storeDataInitTemplate" //初始化模板
 // console.log("alarmsettings", alarmsettings)
 import socketAiUnit from "assets/js/socketJsControl/socketAiUnit" //改版后的楼宇单元和户阀的连接
@@ -56,6 +57,8 @@ new Promise((resolve, reject) => {
   //store.commit("MUINDOORDATAINIT", inDoorDataInitTemplate) //
   //store.commit("MUDOORDATAINIT", doorDataInitTemplate) //
   store.commit("STATION", stationDataInitTemplate)
+  store.commit("STATIONREAL", stationDataInitTemplateReal)
+  store.commit("ALAH", alaH)
   store.commit("STATIONALARMSET", alarmsettings)
 
   resolve()
@@ -75,9 +78,9 @@ new Promise((resolve, reject) => {
   // socketStationAlarmSet.connected(
   //   "http://10.168.1.176:9000/tems/publicTagServer" //换热站报警设置
   // )
-  socketAiInDoor.connected(
-    "http://221.206.242.116:2060/hbty/endpoint-websocket-te" //室内温度的2022生产//生产环境室内温度
-  )
+  // socketAiInDoor.connected(
+  //   "http://221.206.242.116:2060/hbty/endpoint-websocket-te" //室内温度的2022生产//生产环境室内温度
+  // )
 
   socketJsControlSx.connected(
     "http://221.206.242.116:1868/endpoint-websocket-sixin-ml" //四新的气象和热源

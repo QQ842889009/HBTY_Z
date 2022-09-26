@@ -277,6 +277,10 @@ const stationDataInitTemplateReal = {
   q1_u: 0,
   te00: 0
 }
+const alaH = {
+  sid: "占位",
+  status: 0
+}
 //换热站报警的初始化
 // const stationAlarm = {
 //   alarmConfirm: false,
@@ -300,5 +304,6 @@ export {
   stationTemplate,
   echartdataType,
   alarmsettings,
-  stationDataInitTemplateReal
+  stationDataInitTemplateReal,
+  alaH
 }
