@@ -127,22 +127,29 @@ export default {
         endTime: endTime,
         size: 24
       }
-
+      // console.log("131000000000",this.myParams)
       this.myData = await this.$http.post(
         "plcdata/tems/plc/DatasByTimeScopeAndSizeAndSid",
         this.myParams
       );
       // console.log("plcdata接受到的数据", this.myData);
-      if (this.myData == "") {
+      if (this.myData.code == 500) {
+       
+        // alert(this,myData.msg);
         this.myData = [];
-        alert("数据为空！！")
+        // console.log("=--------------",this.myData);
+        return alert("该时间段无数据");
+       
       } else {
+        // console.log("++++++++++++++++");
+        this.myData=this.myData.result;
         //添加一个时间字段。格式为2022-9-5 16：05：34
         for (let index = 0; index < this.myData.length; index++) {
           this.myData[index].SdateTime = getDate(this.myData[index].timestamp);
         }
+        this.isUpdata++;
       }
-      this.isUpdata++;
+     
 
     },
 

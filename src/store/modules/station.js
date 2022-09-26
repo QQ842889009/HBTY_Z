@@ -184,9 +184,9 @@ const mutations = {
 
         resolve(state.stationDataAndInfoReal)
       }).then((msg) => {
-        console.log("打印分析的数组", msg)
+        // console.log("打印分析的数组", msg)
         for (let i = 0; i < msg.length; i++) {
-          console.log("打印分析的数组iiiii", i)
+          // console.log("打印分析的数组iiiii", i)
           // state.alarmArrJavaShow[i] = msg[i].status
         }
         // that.$store.commit("STATIONDATAALAH", msg)
