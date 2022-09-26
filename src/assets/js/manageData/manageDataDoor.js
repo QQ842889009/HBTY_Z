@@ -34,7 +34,7 @@ let doorData = (msg) => {
 
     resolve(msgJsObjFormat)
   }).then((msg) => {
-    that.$store.commit("DOORDATA", msg) //把msg放入仓库
+    // that.$store.commit("DOORDATA", msg) //把msg放入仓库
   })
 }
 

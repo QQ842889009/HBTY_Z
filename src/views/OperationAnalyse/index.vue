@@ -12,38 +12,38 @@
           :default-active="this.$route.path"
           class="ttt"
         >
-          <el-submenu index="数据总览">
+          <el-submenu index="功耗总量">
             <template #title>
               <i class="iconfont icon-shujuzonglan"></i>
-              <span slot="title" class="yy">数据总览</span>
+              <span slot="title" class="yy">功耗总量</span>
             </template>
             <el-menu-item
               index="1"
-              @click="$router.push({ name: 'TabData' })"
+              @click="$router.push({ name: 'PowerDissipation' })"
               ref="ABC"
             >
               <i class="el-icon-menu"></i>
-              <span slot="title">数据总览</span>
+              <span slot="title">功耗总量</span>
             </el-menu-item>
           </el-submenu>
-          <el-submenu index="工艺控制">
+          <el-submenu index="222">
             <template #title>
               <i class="iconfont icon-kongzhi"></i>
-              <span slot="title" class="yy">工艺控制</span>
+              <span slot="title" class="yy">222</span>
             </template>
             <el-menu-item
               index="2"
-              @click="$router.push({ name: 'Visual6' })"
+              @click="$router.push({ name: 'EnergyConsumptionUnitArea' })"
               ref="ABC"
             >
               <i class="el-icon-menu"></i>
-              <span slot="title">工艺控制</span>
+              <span slot="title">222</span>
             </el-menu-item>
           </el-submenu>
-          <el-submenu index="历史查询">
+          <el-submenu index="333">
             <template #title>
               <i class="iconfont icon-icon_A3"></i>
-              <span slot="title" class="yy">历史查询</span>
+              <span slot="title" class="yy">333</span>
             </template>
             <el-menu-item
               index="3"
@@ -51,7 +51,7 @@
               ref="ABC"
             >
               <i class="el-icon-menu"></i>
-              <span slot="title">实时曲线</span>
+              <span slot="title">333</span>
             </el-menu-item>
             <el-menu-item
               index="4"
@@ -60,100 +60,6 @@
             >
               <i class="el-icon-menu"></i>
               <span slot="title">曲线查询</span>
-            </el-menu-item>
-          </el-submenu>
-          <el-submenu index="故障报警">
-            <template #title>
-              <i class="iconfont icon-guzhang"></i>
-              <span slot="title" class="yy">故障报警</span>
-            </template>
-            <el-menu-item
-              index="5"
-              @click="$router.push({ name: 'RealAlarm' })"
-              ref="ABC"
-            >
-              <i class="el-icon-menu"></i>
-              <span slot="title">实时报警</span>
-            </el-menu-item>
-            <el-menu-item
-              index="7"
-              @click="$router.push({ name: 'AlarmSettings' })"
-              ref="ABC"
-            >
-              <i class="el-icon-menu"></i>
-              <span slot="title">报警设置</span>
-            </el-menu-item>
-            <el-menu-item
-              index="6"
-              @click="$router.push({ name: 'HistoryAlarm' })"
-              ref="ABC"
-            >
-              <i class="el-icon-menu"></i>
-              <span slot="title">报警查询</span>
-            </el-menu-item>
-          </el-submenu>
-          <el-submenu index="报表系统">
-            <template #title>
-              <i class="iconfont icon-baobiao"></i>
-              <span slot="title" class="yy">报表系统</span>
-            </template>
-            <el-menu-item
-              index="7"
-              @click="$router.push({ name: 'TableIntegralPoint' })"
-              ref="ABC"
-            >
-              <i class="el-icon-menu"></i>
-              <span slot="title">整点报表</span>
-            </el-menu-item>
-            <el-menu-item
-              index="8"
-              @click="$router.push({ name: 'TableSection' })"
-              ref="ABC"
-            >
-              <i class="el-icon-menu"></i>
-              <span slot="title">区间报表</span>
-            </el-menu-item>
-          </el-submenu>
-          <el-submenu index="参数修改">
-            <template #title>
-              <i class="iconfont icon-jianyifankui"></i>
-              <span slot="title" class="yy">参数修改</span>
-            </template>
-            <el-menu-item
-              index="9"
-              @click="$router.push({ name: 'ChangeInfo' })"
-              ref="ABC"
-            >
-              <i class="el-icon-menu"></i>
-              <span slot="title">参数修改</span>
-            </el-menu-item>
-          </el-submenu>
-          <el-submenu index="断线重连">
-            <template #title>
-              <i class="iconfont icon-yuanchengkongzhi"></i>
-              <span slot="title" class="yy">断线重连</span>
-            </template>
-            <el-menu-item
-              index="10"
-              @click="$router.push({ name: 'Link' })"
-              ref="ABC"
-            >
-              <i class="el-icon-menu"></i>
-              <span slot="title">断线重连</span>
-            </el-menu-item>
-          </el-submenu>
-          <el-submenu index="互锁设置">
-            <template #title>
-              <i class="iconfont icon-jiesuo"></i>
-              <span slot="title" class="yy">互锁设置</span>
-            </template>
-            <el-menu-item
-              index="11"
-              @click="$router.push({ name: 'InterLockingData' })"
-              ref="ABC"
-            >
-              <i class="el-icon-menu"></i>
-              <span slot="title">互锁设置</span>
             </el-menu-item>
           </el-submenu>
         </el-menu>

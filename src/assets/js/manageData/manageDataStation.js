@@ -13,7 +13,7 @@ let stationData = (msg) => {
     let msgJsObjFormat = {
       Sid: "000",
       // Space: 12.2,
-      Sname: "林都2",
+      Sname: "林都2", //站名  没有用
       Timestamp: 1536997080,
       Sdate: "2030-09-11",
       Stime: "00:00:00",

@@ -554,16 +554,27 @@ export default {
         // sdate: this.setriqi,
         // stime: this.setshijian,
         tag: "FV2SP",
-        tagValue: parseFloat(v.fv2fb),
+        //tagValue: parseFloat(v.fv1fb),
+        tagValue: v.fv2sp,
         // openValue: parseFloat(this.setFV1SP),
       };
-      console.log("msg2222", msg);
+      console.log("四新的给定对象", msg);
+      let msgRequest = {
+        sid: parseFloat(v.sid),
+      };
+      console.log("msg11111", msg);
       if (this.$stompClientSx.connected === true) {
         this.$stompClientSx.send("/hbty/fySetAiValve", {}, JSON.stringify(msg));
-        //console.log("fa");
-        //console.log(msg);
+        let timerRequest = setTimeout(() => {
+          this.$stompClientSx.send(
+            "/hbty/fyGetAiData",
+            {},
+            JSON.stringify(msgRequest)
+          );
+          // this.requestIndoorData();
+          clearTimeout(timerRequest);
+        }, 15000);
       } else {
-        //console.log("2021林口户阀给定失败");
       }
     },
     reset() {

@@ -1,15 +1,11 @@
 <template>
   <div class="unit-container">
-    <DateTimePicker
-      class="picker"
-      @EmitDateTimePicker="receiveDateTimePicker"
-    ></DateTimePicker>
-    <!-- {{ tableDataHHH }}
+    {{ tableDataHHH }}
     <br />
     {{ tableDataGGG }}
     <br />
-    {{ tableDataAAA }} -->
-    <!-- <div class="condition-box">
+    {{ tableDataAAA }}
+    <div class="condition-box">
       <el-form :inline="true" :model="dataForm" ref="dataForm">
         <el-form-item prop="name" label="">
           <DateTimePicker
@@ -27,30 +23,18 @@
             @click="exportExcel111('户阀数据')"
             >导出报表</el-button
           >
+          <!-- <el-button
+            size="medium"
+            icon="el-icon-refresh-left"
+            type="success"
+            @click="exportExcel222('单元箱数据')"
+            >导出报表2</el-button
+          > -->
         </el-form-item>
       </el-form>
-    </div> -->
+    </div>
 
     <div class="table">
-      <el-table
-        :data="tableData"
-        border
-        height="800"
-        :summary-method="getSummaries"
-        show-summary
-        style="width: 100%; margin-top: 20px"
-      >
-        <el-table-column prop="name" label="0"> </el-table-column>
-        <el-table-column prop="amount1" label="1"> </el-table-column>
-        <el-table-column prop="amount2" label="2"> </el-table-column>
-        <!-- <el-table-column prop="amount2" label="2"> </el-table-column>
-        <el-table-column prop="amount2" label="3"> </el-table-column>
-        <el-table-column prop="space" label="space"> </el-table-column>
-        <el-table-column prop="ft11_u" label="ft11_u"> </el-table-column>
-        <el-table-column prop="ft21_u" label="ft21_u"> </el-table-column>
-        <el-table-column prop="q1_u" label="q1_u"> </el-table-column>
-        <el-table-column prop="te00" label="te00"> </el-table-column> -->
-      </el-table>
       <!-- <el-table
       show-summary
         v-loading="dataListLoading"
@@ -136,7 +120,7 @@
           </el-table-column>
         </el-table-column>
       </el-table> -->
-      <!-- <el-table
+      <el-table
         :data="tableDataCCC"
         border
         height="800"
@@ -153,7 +137,7 @@
         <el-table-column prop="ft21_u" label="ft21_u"> </el-table-column>
         <el-table-column prop="q1_u" label="q1_u"> </el-table-column>
         <el-table-column prop="te00" label="te00"> </el-table-column>
-      </el-table> -->
+      </el-table>
     </div>
   </div>
 </template>
@@ -164,43 +148,40 @@ import XLSX from "xlsx";
 export default {
   data() {
     return {
-      sum: ["amount1"], //求和的字段和求平均数的字段名字
-      avg: ["amount2"],
-
       tableData: [
         {
           id: "12987122",
           name: "王小虎",
-          amount1: "1",
-          amount2: "1",
+          amount1: "234",
+          amount2: "3.2",
           amount3: 10,
         },
         {
           id: "12987123",
           name: "王小虎",
-          amount1: "2",
-          amount2: "2",
+          amount1: "165",
+          amount2: "4.43",
           amount3: 12,
         },
         {
           id: "12987124",
           name: "王小虎",
-          amount1: "3",
-          amount2: "3",
+          amount1: "324",
+          amount2: "1.9",
           amount3: 9,
         },
         {
           id: "12987125",
           name: "王小虎",
-          amount1: "4",
-          amount2: "4",
+          amount1: "621",
+          amount2: "2.2",
           amount3: 17,
         },
         {
           id: "12987126",
           name: "王小虎",
-          amount1: "5",
-          amount2: "5",
+          amount1: "539",
+          amount2: "4.1",
           amount3: 15,
         },
       ],
@@ -208,8 +189,6 @@ export default {
       tableDataHHH: [],
       tableDataAAA: [],
       tableDataGGG: [],
-      startTime: null,
-      endTime: null,
       ///换热站新加开始
       // tableData: [],
       iconColor: "red",
@@ -305,139 +284,26 @@ export default {
     // this.dd();
   },
   methods: {
-    // getSummaries(param) {
-    //   console.log("算总和的第一步------AAA", param);
-    //   const { columns, data } = param;
-    //   console.log("算总和的第2步------BBB", columns);
-    //   console.log("算总和的第3步------CCC", data);
-    //   const sums = [];
-    //   columns.forEach((column, index) => {
-    //     console.log("算总和的第4步------DDD", column);
-    //     console.log("算总和的第5步------DDD", index);
-    //     if (index === 0) {
-    //       sums[index] = "换热站总数";
-    //       return;
-    //     }
-    //     const values = data.map((item) => Number(item[column.property]));
-    //     console.log("算总和的第6步------666", values);
-    //     if (!values.every((value) => isNaN(value))) {
-    //       sums[index] = values.reduce((prev, curr) => {
-    //         const value = Number(curr);
-    //         if (!isNaN(value)) {
-    //           return prev + curr;
-    //         } else {
-    //           return prev;
-    //         }
-    //       }, 0);
-    //       sums[index] += " 元";
-    //     } else {
-    //       sums[index] = "";
-    //     }
-    //   });
-
-    //   return sums;
-    // },
-    // 求和操作某个列
-    // getSummaries(param) {
-    //   const { columns, data } = param;
-    //   const sums = [];
-    //   columns.forEach((column, index) => {
-    //     if (index === 0) {
-    //       sums[index] = "合计:";
-    //     }
-    //     // if (index === 2) {
-    //     //   sums[index] = "总记录数:";
-    //     // }
-    //     // index >= 5 || index <= 7 是你需要计算的列
-    //     // 当然也可以指定一个或者多个列
-    //     // index === 2 || index === 3 这样值求和第二个与第三个列
-    //     else if (index === 1 || index === 1) {
-    //       const values = data.map((item) => Number(item[column.property]));
-    //       if (!values.every((value) => isNaN(value))) {
-    //         sums[index] = values.reduce((prev, curr) => {
-    //           console.log("11111111AAA", prev);
-    //           console.log("22222222BBB", curr);
-    //           const value = Number(curr);
-    //           if (!isNaN(value)) {
-    //             // 保存了两位小数点
-    //             return Math.floor((prev + curr) * 100) / 100;
-    //           } else {
-    //             // 保存了两位小数点
-    //             return Math.floor(prev * 100) / 100;
-    //           }
-    //         }, 0);
-    //         sums[index] += " 元";
-    //         //sums[index] += " 元";
-    //       } else {
-    //         sums[index] = "N/A";
-    //       }
-    //     } else if (index === 2 || index === 2) {
-    //       const values = data.map((item) => Number(item[column.property]));
-    //       if (!values.every((value) => isNaN(value))) {
-    //         sums[index] = values.reduce((prev, curr) => {
-    //           console.log("11111111AAA", prev);
-    //           console.log("22222222BBB", curr);
-    //           const value = Number(curr);
-    //           if (!isNaN(value)) {
-    //             // 保存了两位小数点
-    //             let a = Math.floor(((prev + curr) * 100) / 100);
-    //             console.log("aaa---", a);
-    //             let b = a / 5.0;
-    //             console.log("bbb---", b);
-    //             return b;
-    //           } else {
-    //             // 保存了两位小数点
-    //             return Math.floor(prev * 100) / 100;
-    //           }
-    //         }, 0);
-    //         sums[index] += " 元";
-    //         //sums[index] += " 元";
-    //       } else {
-    //         sums[index] = "N/A";
-    //       }
-    //     } else {
-    //       // sums[index] = ''
-    //     }
-    //   });
-    //   return sums;
-    // },
-    //  // 求和操作某个列和平均值
     getSummaries(param) {
+      // console.log("AAA", param);
       const { columns, data } = param;
       const sums = [];
-
       columns.forEach((column, index) => {
         if (index === 0) {
-          sums[index] = "合计/平均";
+          sums[index] = "总价";
           return;
         }
-        const sumList = this.sum || [];
-        const avgList = this.avg || [];
-        const values = data.map((item) => {
-          return Number(item[column.property]);
-        });
-
-        if (
-          sumList.includes(column.property) ||
-          avgList.includes(column.property)
-        ) {
-          let totalCount = 0; // 求平均数使用
-
+        const values = data.map((item) => Number(item[column.property]));
+        if (!values.every((value) => isNaN(value))) {
           sums[index] = values.reduce((prev, curr) => {
             const value = Number(curr);
-
             if (!isNaN(value)) {
-              totalCount++;
-
               return prev + curr;
             } else {
               return prev;
             }
           }, 0);
-          if (avgList.includes(column.property) && totalCount) {
-            sums[index] = sums[index] / totalCount;
-            sums[index] = sums[index].toFixed(2);
-          }
+          sums[index] += " 元";
         } else {
           sums[index] = "";
         }
@@ -445,43 +311,13 @@ export default {
 
       return sums;
     },
-
     receiveDateTimePicker(v) {
-      // this.startTime = v[0];
-      // this.endTime = v[1];
-      let start = v[0];
-      let end = v[1];
-      this.startTime = Date.parse(new Date(start).toString());
-      this.endTime = Date.parse(new Date(end).toString());
-      // let startTo = Date.parse(new Date(start).toString());
-      // let endTo = Date.parse(new Date(end).toString());
-      // this.valveCode = this.rowData.valveCode;
+      this.startTime = v[0];
+      this.endTime = v[1];
+      this.valveCode = this.rowData.valveCode;
       this.gg();
     },
-    gg() {
-      // console.log("gggg");
-      // let data = {
-      //   startTime: this.startTime,
-      //   endTime: this.endTime,
-      // };
-      // console.log("分析的第一个测试", data);
-      // this.$http
-      //   .post("plcdata/tems/plc/selectFt31SumAndQ1AndDL1 ", data)
-      //   .then((res) => {
-      //     console.log("返回分析的第一个测试---", res);
-      //     // if (res.datas.length == 0) {
-      //     //   this.$message({
-      //     //     message: "没有查到数据",
-      //     //     type: "error",
-      //     //     duration: 1200,
-      //     //   });
-      //     // } else {
-      //     //   this.obj01 = res.houser;
-      //     //   this.indoorque = res.datas;
-      //     // }
-      //     // console.log("this.obj01", this.obj01);
-      //   });
-    },
+    gg() {},
 
     rePeoplemessageCard(v) {
       console.log("FFF");
