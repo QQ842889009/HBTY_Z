@@ -135,7 +135,7 @@ export default {
       // console.log("plcdata接受到的数据", this.myData);
       if (this.myData.code == 500) {
        
-        // alert(this,myData.msg);
+        
         this.myData = [];
         // console.log("=--------------",this.myData);
         return alert("该时间段无数据");
