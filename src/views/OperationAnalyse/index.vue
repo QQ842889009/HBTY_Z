@@ -12,10 +12,10 @@
           :default-active="this.$route.path"
           class="ttt"
         >
-          <el-submenu index="功耗总量">
+          <el-submenu index="功耗总量11">
             <template #title>
               <i class="iconfont icon-shujuzonglan"></i>
-              <span slot="title" class="yy">功耗总量</span>
+              <span slot="title" class="yy">功耗总量11</span>
             </template>
             <el-menu-item
               index="1"
@@ -23,43 +23,35 @@
               ref="ABC"
             >
               <i class="el-icon-menu"></i>
-              <span slot="title">功耗总量</span>
+              <span slot="title">功耗总量11</span>
             </el-menu-item>
           </el-submenu>
-          <el-submenu index="222">
+          <el-submenu index="功耗单耗">
             <template #title>
               <i class="iconfont icon-kongzhi"></i>
-              <span slot="title" class="yy">222</span>
+              <span slot="title" class="yy">功耗单耗</span>
             </template>
             <el-menu-item
               index="2"
-              @click="$router.push({ name: 'EnergyConsumptionUnitArea' })"
+              @click="$router.push({ name: 'UnitSpace' })"
               ref="ABC"
             >
               <i class="el-icon-menu"></i>
-              <span slot="title">222</span>
+              <span slot="title">功耗单耗</span>
             </el-menu-item>
           </el-submenu>
-          <el-submenu index="333">
+          <el-submenu index="功耗总量">
             <template #title>
               <i class="iconfont icon-icon_A3"></i>
-              <span slot="title" class="yy">333</span>
+              <span slot="title" class="yy">功耗总量</span>
             </template>
             <el-menu-item
               index="3"
-              @click="$router.push({ name: 'Visual4' })"
+              @click="$router.push({ name: 'PowerSum' })"
               ref="ABC"
             >
               <i class="el-icon-menu"></i>
-              <span slot="title">333</span>
-            </el-menu-item>
-            <el-menu-item
-              index="4"
-              @click="$router.push({ name: 'Visual5' })"
-              ref="ABC"
-            >
-              <i class="el-icon-menu"></i>
-              <span slot="title">曲线查询</span>
+              <span slot="title">功耗总量</span>
             </el-menu-item>
           </el-submenu>
         </el-menu>

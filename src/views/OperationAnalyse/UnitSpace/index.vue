@@ -7,7 +7,7 @@
       @EmitDateTimePicker="receiveDateTimePicker"
     ></DateTimePicker>
     
-
+<!--  -->
     </div>
     <div class="dcbb">
            <el-button
@@ -90,7 +90,7 @@
         </el-table-column>
        <el-table-column
           prop="q1_sum"
-          label="热量能耗（GJ）"
+          label="热量能耗（W/㎡）"
           width="300"
           fixed
           align="center"
@@ -98,7 +98,7 @@
         </el-table-column>
         <el-table-column
           prop="dl"
-          label="电量能耗（kwh）"
+          label="电量能耗（kwh/㎡）"
           width="300"
           fixed
           align="center"
@@ -106,7 +106,7 @@
         </el-table-column>
          <el-table-column
           prop="ft31_sum"
-          label="补水量能耗（kg）"
+          label="补水量能耗（kg/㎡）"
           width="300"
           fixed
           align="center"
@@ -147,8 +147,8 @@ import XLSX from "xlsx";
 export default {
   data() {
     return {
-      sum: ["space", "q1_sum", "dl", "ft31_sum"], //求和的字段和求平均数的字段名字
-      avg: [""],
+      sum: ["space"], //求和的字段和求平均数的字段名字
+      avg: ["q1_sum", "dl", "ft31_sum"],
       startTime: null,
       endTime: null,
       ///换热站新加开始
@@ -233,7 +233,7 @@ export default {
 
       columns.forEach((column, index) => {
         if (index === 0) {
-          sums[index] = "合计";
+          sums[index] = "合计/平均";
           return;
         }
         const sumList = this.sum || [];
@@ -391,7 +391,7 @@ export default {
       //1是功耗总量
       //2是功耗单耗
       this.$http
-        .post("plcdata/tems/plc/selectFt31SumAndQ1AndDL1 ", data)
+        .post("plcdata/tems/plc/selectFt31SumAndQ1AndDL2 ", data)
         .then((res) => {
           console.log("返回分析的第一个测试---", res);
           if (res.code == 200) {

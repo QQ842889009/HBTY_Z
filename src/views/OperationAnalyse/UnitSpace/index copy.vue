@@ -90,7 +90,7 @@
         </el-table-column>
        <el-table-column
           prop="q1_sum"
-          label="热量能耗（GJ）"
+          label="热量单耗（W/㎡）"
           width="300"
           fixed
           align="center"
@@ -98,7 +98,7 @@
         </el-table-column>
         <el-table-column
           prop="dl"
-          label="电量能耗（kwh）"
+          label="电量单耗（kwh/㎡）"
           width="300"
           fixed
           align="center"
@@ -106,7 +106,7 @@
         </el-table-column>
          <el-table-column
           prop="ft31_sum"
-          label="补水量能耗（kg）"
+          label="补水量单耗（kg/㎡）"
           width="300"
           fixed
           align="center"
@@ -391,18 +391,17 @@ export default {
       //1是功耗总量
       //2是功耗单耗
       this.$http
-        .post("plcdata/tems/plc/selectFt31SumAndQ1AndDL1 ", data)
+        .post("plcdata/tems/plc/selectFt31SumAndQ1AndDL2 ", data)
         .then((res) => {
           console.log("返回分析的第一个测试---", res);
-          if (res.code == 200) {
-            this.myData = res.result;
-          } else {
+          if (res.result.length == 0) {
             this.$message({
               message: "没有查到数据",
               type: "error",
-              duration: 2000,
+              duration: 1200,
             });
-            this.myData = [];
+          } else {
+            this.myData = res.result;
           }
 
           // console.log("this.obj01", this.obj01);

@@ -58,13 +58,14 @@
           </el-date-picker>
         </el-form-item>
         <el-form-item label="角色" prop="role">
+          <!-- multiple    加上这个可以多选 -->
           <el-select
             v-model="dataForm.role"
             size="medium"
             placeholder="选择角色"
             style="width: 100%"
-            multiple
             clearable
+            multiple
           >
             <el-option
               v-for="one in roleList"
@@ -105,8 +106,8 @@
 </template>
 
 <script>
-import dayjs from "dayjs"
-console.log("----------------", dayjs)
+import dayjs from "dayjs";
+console.log("----------------", dayjs);
 export default {
   data: function () {
     return {
@@ -122,7 +123,7 @@ export default {
         hiredate: new Date(),
         role: null,
         deptId: null,
-        status: 1
+        status: 1,
       },
       roleList: [],
       deptList: [],
@@ -131,90 +132,90 @@ export default {
           {
             required: true,
             pattern: "^[a-zA-Z0-9]{5,20}$",
-            message: "用户名格式错误"
-          }
+            message: "用户名格式错误",
+          },
         ],
         password: [
           {
             required: true,
             pattern: "^[a-zA-Z0-9]{6,20}$",
-            message: "密码格式错误"
-          }
+            message: "密码格式错误",
+          },
         ],
         name: [
           {
             required: true,
             pattern: "^[\u4e00-\u9fa5]{2,10}$",
-            message: "姓名格式错误"
-          }
+            message: "姓名格式错误",
+          },
         ],
         sex: [{ required: true, message: "性别不能为空" }],
         tel: [
-          { required: true, pattern: "^1\\d{10}$", message: "电话格式错误" }
+          { required: true, pattern: "^1\\d{10}$", message: "电话格式错误" },
         ],
         email: [
           {
             required: true,
             pattern:
               "^([a-zA-Z]|[0-9])(\\w|\\-)+@[a-zA-Z0-9]+\\.([a-zA-Z]{2,4})$",
-            message: "邮箱格式错误"
-          }
+            message: "邮箱格式错误",
+          },
         ],
         hiredate: [
-          { required: true, trigger: "blur", message: "入职日期不能为空" }
+          { required: true, trigger: "blur", message: "入职日期不能为空" },
         ],
         role: [{ required: true, message: "角色不能为空" }],
         deptId: [{ required: true, message: "部门不能为空" }],
-        status: [{ required: true, message: "状态不能为空" }]
-      }
-    }
+        status: [{ required: true, message: "状态不能为空" }],
+      },
+    };
   },
 
   methods: {
     gg() {
-      let that = this
+      let that = this;
       //that.gh= that.$dayjs(that.dataForm.hiredate).format("YYYY-MM-DD"),
     },
     init: function (id) {
-      console.log("点击新增的时候id为undefined", id)
-      console.log("点击修改的时候会有对应的id", id)
-      let that = this
+      console.log("点击新增的时候id为undefined", id);
+      console.log("点击修改的时候会有对应的id", id);
+      let that = this;
       //通过这个id可通过三元运算符
-      that.dataForm.id = id || 0
+      that.dataForm.id = id || 0;
       //让这个el-dialog显示
-      that.visible = true
-      console.log("eeeeee", that.visible)
+      that.visible = true;
+      console.log("eeeeee", that.visible);
       that.$nextTick(() => {
         //清空表单
-        that.$refs["dataForm"].resetFields()
+        that.$refs["dataForm"].resetFields();
         that.$http.get("plcdata/tems/role/searchAllRole").then((res) => {
-          console.log("所有的角色", res)
-          that.roleList = res.list
-        })
+          console.log("所有的角色", res);
+          that.roleList = res.list;
+        });
         that.$http.get("plcdata/tems/dept/searchAllDept").then((res) => {
-          console.log("所有的部门", res)
-          that.deptList = res.list
-        })
+          console.log("所有的部门", res);
+          that.deptList = res.list;
+        });
         if (that.dataForm.id) {
           that.$http
             .post("plcdata/tems/user/searchById", { userId: id })
             .then((res) => {
-              that.dataForm.username = res.username
-              that.dataForm.password = res.password
-              that.dataForm.name = res.name
-              that.dataForm.sex = res.sex
-              that.dataForm.tel = res.tel
-              that.dataForm.email = res.email
-              that.dataForm.hiredate = res.hiredate
-              that.dataForm.role = JSON.parse(res.role)
-              that.dataForm.deptId = res.deptId
-              that.dataForm.status = res.status
-            })
+              that.dataForm.username = res.username;
+              that.dataForm.password = res.password;
+              that.dataForm.name = res.name;
+              that.dataForm.sex = res.sex;
+              that.dataForm.tel = res.tel;
+              that.dataForm.email = res.email;
+              that.dataForm.hiredate = res.hiredate;
+              that.dataForm.role = JSON.parse(res.role);
+              that.dataForm.deptId = res.deptId;
+              that.dataForm.status = res.status;
+            });
         }
-      })
+      });
     },
     dataFormSubmit: function () {
-      let that = this
+      let that = this;
       this.$refs["dataForm"].validate((valid) => {
         if (valid) {
           let data = {
@@ -228,9 +229,10 @@ export default {
             hiredate: dayjs(that.dataForm.hiredate).format("YYYY-MM-DD"),
             role: that.dataForm.role,
             deptId: that.dataForm.deptId,
-            status: that.dataForm.status
-          }
+            status: that.dataForm.status,
+          };
 
+          console.log("aaaaa", data);
           that.$http
             .post(
               `plcdata/tems/user/${!that.dataForm.id ? "insert" : "update"}`,
@@ -241,18 +243,18 @@ export default {
                 that.$message({
                   message: "操作成功",
                   type: "success",
-                  duration: 1200
-                })
-                that.visible = false
-                that.$emit("refreshDataList")
+                  duration: 1200,
+                });
+                that.visible = false;
+                that.$emit("refreshDataList");
               } else {
                 that.$message({
                   message: "操作失败",
                   type: "error",
-                  duration: 1200
-                })
+                  duration: 1200,
+                });
               }
-            })
+            });
           ////
           // that.$http(
           //   `user/${!that.dataForm.id ? "insert" : "update"}`,
@@ -278,14 +280,14 @@ export default {
           //   }
           // )
         }
-      })
-    }
+      });
+    },
   },
   mounted() {
-    this.gg()
+    this.gg();
     //this.gh= this.$dayjs(that.dataForm.hiredate).format("YYYY-MM-DD"),
-  }
-}
+  },
+};
 </script>
 
 <style lang="scss" scoped="scoped"></style>

@@ -3,6 +3,8 @@ const PowerDissipation = () =>
   import("views/OperationAnalyse/PowerDissipation/index.vue")
 const EnergyConsumptionUnitArea = () =>
   import("views/OperationAnalyse/EnergyConsumptionUnitArea/index.vue")
+const PowerSum = () => import("views/OperationAnalyse/PowerSum/index.vue")
+const UnitSpace = () => import("views/OperationAnalyse/UnitSpace/index.vue")
 // const ProcessControl = () => import("views/Station/ProcessControl.vue")
 // const TeControl = () => import("views/Station/TeControl.vue")
 
@@ -23,6 +25,18 @@ const operationanalyse = {
       name: "EnergyConsumptionUnitArea",
       meta: { title: "数据总览2" },
       component: EnergyConsumptionUnitArea
+    },
+    {
+      path: "/PowerSum",
+      name: "PowerSum",
+      meta: { title: "数据总览3" },
+      component: PowerSum
+    },
+    {
+      path: "/UnitSpace",
+      name: "UnitSpace",
+      meta: { title: "数据总览3" },
+      component: UnitSpace
     }
     // {
     //   path: "/ProcessControl",
