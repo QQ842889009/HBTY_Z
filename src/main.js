@@ -96,7 +96,7 @@ import "./utils/axios"
 Vue.prototype.$http
   .get("plcdata/tems/plc/stationInfoForBraName")
   .then((res) => {
-    // console.log('stationBranch---------',res);
+    console.log('stationBranch---------',res);
     store.commit("stationBranch/BRANCHINFOS", res)
   })
 Vue.use(ElementUI)

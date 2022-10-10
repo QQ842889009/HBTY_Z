@@ -117,9 +117,8 @@
         });
       };
       document.body.appendChild(script);
-
-        //自己加的代码
-        var unityInstanceV;
+       //自己加的代码
+       var unityInstanceV;
        function reportReady() {
          window.parent.postMessage({event:"ReportReady",msg:""}, "*");
       }
@@ -137,8 +136,6 @@
       function sendMsgToUnity(unityFunction,obj) {
         unityInstanceV.SendMessage('JsTalker',unityFunction,JSON.stringify(obj))
       }
-
-
     </script>
   </body>
 </html>
