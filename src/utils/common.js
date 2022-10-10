@@ -1,4 +1,4 @@
-//根据数值显示颜色
+//根据数值显示颜色//
 import that from "@/main.js"
 export function styltColor(value) {
   if (value > 18 && value <= 22) {
@@ -82,7 +82,7 @@ export function inDoorFvsp(v1, v2) {
         // v3.is = "tt"
 
         //console.log("请求户阀"+msgQu.sid);
-      }, 5000)
+      }, 10000)
       // console.log("户阀给定", msgSend)
     } else {
       console.log("户阀给定失败")

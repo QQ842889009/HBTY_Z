@@ -1,62 +1,32 @@
 <template>
+<!-- 单位面积能耗 -->
   <div class="unit-container">
-    <DateTimePicker
+    <div class="condition-box">
+      <!-- <DateTimePicker
       class="picker"
       @EmitDateTimePicker="receiveDateTimePicker"
-    ></DateTimePicker>
-    <!-- {{ tableDataHHH }}
-    <br />
-    {{ tableDataGGG }}
-    <br />
-    {{ tableDataAAA }} -->
-    <!-- <div class="condition-box">
-      <el-form :inline="true" :model="dataForm" ref="dataForm">
-        <el-form-item prop="name" label="">
-          <DateTimePicker
-            class="picker"
-            @EmitDateTimePicker="receiveDateTimePicker"
-          ></DateTimePicker>
-        </el-form-item>
+    ></DateTimePicker> -->
+    <!-- {{myData}} -->
 
-        <el-form-item>
-          <el-button
-            class="pickerC"
+    </div>
+    <div class="dcbb">
+           <el-button
             size="medium"
             icon="el-icon-refresh-left"
             type="success"
-            @click="exportExcel111('户阀数据')"
+            @click="exportExcel111('瞬时单耗')"
             >导出报表</el-button
           >
-        </el-form-item>
-      </el-form>
-    </div> -->
+    </div>
 
     <div class="table">
       <el-table
-        :data="tableData"
-        border
-        height="800"
+       show-summary
         :summary-method="getSummaries"
-        show-summary
-        style="width: 100%; margin-top: 20px"
-      >
-        <el-table-column prop="name" label="0"> </el-table-column>
-        <el-table-column prop="amount1" label="1"> </el-table-column>
-        <el-table-column prop="amount2" label="2"> </el-table-column>
-        <!-- <el-table-column prop="amount2" label="2"> </el-table-column>
-        <el-table-column prop="amount2" label="3"> </el-table-column>
-        <el-table-column prop="space" label="space"> </el-table-column>
-        <el-table-column prop="ft11_u" label="ft11_u"> </el-table-column>
-        <el-table-column prop="ft21_u" label="ft21_u"> </el-table-column>
-        <el-table-column prop="q1_u" label="q1_u"> </el-table-column>
-        <el-table-column prop="te00" label="te00"> </el-table-column> -->
-      </el-table>
-      <!-- <el-table
-      show-summary
         v-loading="dataListLoading"
         fixed
         ref="report-table"
-        :data="tableData"
+        :data="myData"
         style="width: 100%"
         max-height="980"
         class="customer-table"
@@ -72,19 +42,28 @@
          show-overflow-tooltip
       >
         <el-table-column
-          prop="Station"
+          prop="station"
           label="换热站名称"
-          width="250"
+          width="200"
           fixed
           align="center"
         >
+          <!-- <template scope="scope">
+      <router-link :to="{ name: 'helpsResolve', params: {id: scope.row.sid} }">
          
+         </router-link>
+
+  </template> -->
        <template slot-scope="scope">
-            
+              <!-- <router-link :to="{ name: 'Visual6', params: {id: scope.row.Sid} }">
+         
+         </router-link> -->
+ <!-- <div class="sub-body" @click="rePeoplemessageCard(scope.row)">{{ scope.row.name }}</div>
+              {{ scope.row.Station }} -->
   <el-popover trigger="hover" placement="top">
        <P @click="rePeoplemessageCard(scope.row)">跳转换热站</P>
           <div slot="reference" class="name-wrapper">
-           {{ scope.row.Station }}
+           {{ scope.row.station }}
           </div>
         </el-popover>
               
@@ -93,68 +72,88 @@
 
         </el-table-column>
         <el-table-column
-          prop="Space"
+          prop="space"
           label="面积(w㎡)"
-          width="200"
+          width="90"
           fixed
           align="center"
         >
         </el-table-column>
- 
-         
-
-   
-      <el-table-column label="供热模式" prop="LT" width="280"  align="center">
-          </el-table-column>
-
-          <el-table-column label="热量能耗(GJ)" prop="ZFT31" width="280"  align="center">
-          </el-table-column>
-
-          <el-table-column
-            label="电量能耗(kWh)"
-            prop="DL"
-            width="280"
-          
-           align="center"
-          >
-          </el-table-column>
-           <el-table-column
-            label="补水量能耗(Kg)"
-            prop="DL"
-            width="280"
-         
-           align="center"
-          >
-          </el-table-column>
-              <el-table-column
-            label="室外温度(℃)"
-            prop="DL"
-            width="300"
-          
-           align="center"
-          >
-          </el-table-column>
+    
+         <el-table-column
+          prop="heating_method"
+          label="供热模式"
+          width="220"
+          fixed
+          align="center"
+        >
         </el-table-column>
-      </el-table> -->
-      <!-- <el-table
-        :data="tableDataCCC"
-        border
-        height="800"
-        :summary-method="getSummaries"
-        show-summary
-        style="width: 100%; margin-top: 20px"
-      >
-        <el-table-column prop="station" label="station"> </el-table-column>
-        <el-table-column prop="sid" label="sid"> </el-table-column>
-        <el-table-column prop="date" label="date"> </el-table-column>
-        <el-table-column prop="time" label="time"> </el-table-column>
-        <el-table-column prop="space" label="space"> </el-table-column>
-        <el-table-column prop="ft11_u" label="ft11_u"> </el-table-column>
-        <el-table-column prop="ft21_u" label="ft21_u"> </el-table-column>
-        <el-table-column prop="q1_u" label="q1_u"> </el-table-column>
-        <el-table-column prop="te00" label="te00"> </el-table-column>
-      </el-table> -->
+             <el-table-column
+          prop="date"
+          label="更新日期"
+          width="220"
+          fixed
+          align="center"
+        >
+        </el-table-column>
+             <el-table-column
+          prop="time"
+          label="更新时间"
+          width="220"
+          fixed
+          align="center"
+        >
+        </el-table-column>
+       <el-table-column
+          prop="ft11_s"
+          label="一网单位流量（kg/㎡）"
+          width="220"
+          fixed
+          align="center"
+        >
+        </el-table-column>
+        <el-table-column
+          prop="ft21_s"
+         label="二网单位流量（kg/㎡）"
+          width="220"
+          fixed
+          align="center"
+        >
+        </el-table-column>
+         <el-table-column
+          prop="q1_s"
+          label="热量单耗（W/㎡）"
+          width="240"
+          fixed
+          align="center"
+        >
+        </el-table-column>
+       <el-table-column
+          prop="te00"
+          label="室外温度"
+          width="240"
+          fixed
+          align="center"
+        >
+        </el-table-column>
+
+       
+
+    
+        </el-table-column>
+      </el-table>
+
+      <!-- <el-pagination
+        @size-change="sizeChangeHandle"
+        @current-change="currentChangeHandle"
+        :current-page="pageIndex"
+        :page-sizes="[10, 20, 50]"
+        :page-size="pageSize"
+        :total="totalCount"
+        layout="total, prev, pager, next"
+      ></el-pagination> -->
     </div>
+   
   </div>
 </template>
 <script>
@@ -164,54 +163,12 @@ import XLSX from "xlsx";
 export default {
   data() {
     return {
-      sum: ["amount1"], //求和的字段和求平均数的字段名字
-      avg: ["amount2"],
-
-      tableData: [
-        {
-          id: "12987122",
-          name: "王小虎",
-          amount1: "1",
-          amount2: "1",
-          amount3: 10,
-        },
-        {
-          id: "12987123",
-          name: "王小虎",
-          amount1: "2",
-          amount2: "2",
-          amount3: 12,
-        },
-        {
-          id: "12987124",
-          name: "王小虎",
-          amount1: "3",
-          amount2: "3",
-          amount3: 9,
-        },
-        {
-          id: "12987125",
-          name: "王小虎",
-          amount1: "4",
-          amount2: "4",
-          amount3: 17,
-        },
-        {
-          id: "12987126",
-          name: "王小虎",
-          amount1: "5",
-          amount2: "5",
-          amount3: 15,
-        },
-      ],
-      tableDataCCC: [],
-      tableDataHHH: [],
-      tableDataAAA: [],
-      tableDataGGG: [],
+      sum: ["space", "q1_s", "ft11_s", "ft21_s"], //求和的字段和求平均数的字段名字
+      avg: [""],
       startTime: null,
       endTime: null,
       ///换热站新加开始
-      // tableData: [],
+      tableData: [],
       iconColor: "red",
       isShow: false,
       //换热站新加结束
@@ -241,13 +198,13 @@ export default {
       rowData: {},
       infoArr: [],
       multipleSelection: [],
-      myData: [],
+      // myData: [],
 
       info: "",
-      dataForm: {
-        malfunction: null, //故障
-        communication: null, //通讯
-      },
+      // dataForm: {
+      //   malfunction: null, //故障
+      //   communication: null, //通讯
+      // },
 
       // options: options,
       options: [],
@@ -255,28 +212,12 @@ export default {
     };
   },
   created() {
-    this.aaa;
-    // this.tableData = this.$store.getters.stationDataAndInfo; //表格数据
+    this.tableData = this.$store.getters.stationDataAndInfo; //表格数据
   },
   watch: {},
   computed: {
-    // vv() {
-    //   this.tableDataCCC = this.$store.getters.stationDataAndInfoReal;
-
-    //   return this.tableDataCCC;
-    // },
-    aaa() {
-      this.tableDataCCC = this.$store.getters.stationDataAndInfoReal;
-      this.tableDataHHH = this.$store.getters.alarmArrJava;
-      this.tableDataGGG = this.$store.getters.alarmArrJavaShow;
-      console.log("tableDataHHH", this.tableDataHHH);
-      for (let i = 0; i < this.tableDataHHH.length; i++) {
-        this.tableDataAAA[i] = this.tableDataHHH[i].status;
-      }
-      console.log("this.tableDataAAA", this.tableDataAAA);
-      // for (let i = 0; i < this.tableDataCCC.length; i++) {
-      //   console.log("this.tableDataCCCiiiii", i);
-      // }
+    myData() {
+      return this.$store.getters.stationDataAndInfoReal;
     },
     headerStyle() {
       return {
@@ -302,113 +243,16 @@ export default {
     },
   },
   mounted() {
-    // this.dd();
+    this.dd();
   },
   methods: {
-    // getSummaries(param) {
-    //   console.log("算总和的第一步------AAA", param);
-    //   const { columns, data } = param;
-    //   console.log("算总和的第2步------BBB", columns);
-    //   console.log("算总和的第3步------CCC", data);
-    //   const sums = [];
-    //   columns.forEach((column, index) => {
-    //     console.log("算总和的第4步------DDD", column);
-    //     console.log("算总和的第5步------DDD", index);
-    //     if (index === 0) {
-    //       sums[index] = "换热站总数";
-    //       return;
-    //     }
-    //     const values = data.map((item) => Number(item[column.property]));
-    //     console.log("算总和的第6步------666", values);
-    //     if (!values.every((value) => isNaN(value))) {
-    //       sums[index] = values.reduce((prev, curr) => {
-    //         const value = Number(curr);
-    //         if (!isNaN(value)) {
-    //           return prev + curr;
-    //         } else {
-    //           return prev;
-    //         }
-    //       }, 0);
-    //       sums[index] += " 元";
-    //     } else {
-    //       sums[index] = "";
-    //     }
-    //   });
-
-    //   return sums;
-    // },
-    // 求和操作某个列
-    // getSummaries(param) {
-    //   const { columns, data } = param;
-    //   const sums = [];
-    //   columns.forEach((column, index) => {
-    //     if (index === 0) {
-    //       sums[index] = "合计:";
-    //     }
-    //     // if (index === 2) {
-    //     //   sums[index] = "总记录数:";
-    //     // }
-    //     // index >= 5 || index <= 7 是你需要计算的列
-    //     // 当然也可以指定一个或者多个列
-    //     // index === 2 || index === 3 这样值求和第二个与第三个列
-    //     else if (index === 1 || index === 1) {
-    //       const values = data.map((item) => Number(item[column.property]));
-    //       if (!values.every((value) => isNaN(value))) {
-    //         sums[index] = values.reduce((prev, curr) => {
-    //           console.log("11111111AAA", prev);
-    //           console.log("22222222BBB", curr);
-    //           const value = Number(curr);
-    //           if (!isNaN(value)) {
-    //             // 保存了两位小数点
-    //             return Math.floor((prev + curr) * 100) / 100;
-    //           } else {
-    //             // 保存了两位小数点
-    //             return Math.floor(prev * 100) / 100;
-    //           }
-    //         }, 0);
-    //         sums[index] += " 元";
-    //         //sums[index] += " 元";
-    //       } else {
-    //         sums[index] = "N/A";
-    //       }
-    //     } else if (index === 2 || index === 2) {
-    //       const values = data.map((item) => Number(item[column.property]));
-    //       if (!values.every((value) => isNaN(value))) {
-    //         sums[index] = values.reduce((prev, curr) => {
-    //           console.log("11111111AAA", prev);
-    //           console.log("22222222BBB", curr);
-    //           const value = Number(curr);
-    //           if (!isNaN(value)) {
-    //             // 保存了两位小数点
-    //             let a = Math.floor(((prev + curr) * 100) / 100);
-    //             console.log("aaa---", a);
-    //             let b = a / 5.0;
-    //             console.log("bbb---", b);
-    //             return b;
-    //           } else {
-    //             // 保存了两位小数点
-    //             return Math.floor(prev * 100) / 100;
-    //           }
-    //         }, 0);
-    //         sums[index] += " 元";
-    //         //sums[index] += " 元";
-    //       } else {
-    //         sums[index] = "N/A";
-    //       }
-    //     } else {
-    //       // sums[index] = ''
-    //     }
-    //   });
-    //   return sums;
-    // },
-    //  // 求和操作某个列和平均值
     getSummaries(param) {
       const { columns, data } = param;
       const sums = [];
 
       columns.forEach((column, index) => {
         if (index === 0) {
-          sums[index] = "合计/平均";
+          sums[index] = "合计";
           return;
         }
         const sumList = this.sum || [];
@@ -434,6 +278,7 @@ export default {
               return prev;
             }
           }, 0);
+          sums[index] = sums[index].toFixed(2); // 保留2位小数，解决小数合计列
           if (avgList.includes(column.property) && totalCount) {
             sums[index] = sums[index] / totalCount;
             sums[index] = sums[index].toFixed(2);
@@ -446,48 +291,54 @@ export default {
       return sums;
     },
 
-    receiveDateTimePicker(v) {
-      // this.startTime = v[0];
-      // this.endTime = v[1];
-      let start = v[0];
-      let end = v[1];
-      this.startTime = Date.parse(new Date(start).toString());
-      this.endTime = Date.parse(new Date(end).toString());
-      // let startTo = Date.parse(new Date(start).toString());
-      // let endTo = Date.parse(new Date(end).toString());
-      // this.valveCode = this.rowData.valveCode;
-      this.gg();
-    },
-    gg() {
-      // console.log("gggg");
-      // let data = {
-      //   startTime: this.startTime,
-      //   endTime: this.endTime,
-      // };
-      // console.log("分析的第一个测试", data);
-      // this.$http
-      //   .post("plcdata/tems/plc/selectFt31SumAndQ1AndDL1 ", data)
-      //   .then((res) => {
-      //     console.log("返回分析的第一个测试---", res);
-      //     // if (res.datas.length == 0) {
-      //     //   this.$message({
-      //     //     message: "没有查到数据",
-      //     //     type: "error",
-      //     //     duration: 1200,
-      //     //   });
-      //     // } else {
-      //     //   this.obj01 = res.houser;
-      //     //   this.indoorque = res.datas;
-      //     // }
-      //     // console.log("this.obj01", this.obj01);
-      //   });
+    tableRenderHeader(h, data) {
+      console.log("h", h, "data", data);
+      return h("span", [
+        h(
+          "el-tooltip",
+          {
+            attrs: {
+              class: "item",
+              effect: "dark",
+              content: data.column.label,
+              placement: "top",
+            },
+          },
+          [h("span", data.column.label)]
+        ),
+      ]);
     },
 
     rePeoplemessageCard(v) {
-      console.log("FFF");
       this.$router.push({ path: "/Visual6", query: { id: v.Sid } });
     },
     cellStyle({ row, column, rowIndex, columnIndex }) {
+      // if (column.property === "line") {
+      //   //
+      //   return "border-color:black!important; color:#0000ff!important; padding:0px!important; background:red;";
+      // }
+      //取出换热站的长度
+      // let len = this.tableData.length;
+
+      // for (let i = 0; i < len; i++) {
+      //   //通讯报警行变为灰色
+      //   if (row.Sid == i) {
+      //     //  if (this.$store.getters.alarmArr[i] === 0) {
+      //     if (this.$store.getters.alarmArrJavaShow[i] === 0) {
+      //       this.isShow = true;
+      //       if (column.property === "Station") {
+      //         // return "  background:#909399!important;height:40px!important;color:#ffffff!important";
+      //         return " padding:0px!important; background:#909399!important;height:5px!important";
+      //       } else {
+      //         //this.iconColor = "#909399";
+
+      //         // return "  background:#909399!important;height:40px!important;color:#909399!important";
+      //         return " padding:0px!important; background:#909399!important;height:5px!important";
+      //       }
+      //     }
+      //   }
+      // }
+
       return "height:4px!important;  padding:1px!important; ;color:#fff; font-family: 'Lao UI'; font-weight: 500;";
     },
 
@@ -504,7 +355,80 @@ export default {
         }
       }
     },
+    handleSelectionChange(val) {
+      this.multipleSelection = val;
+    },
+    // infoChange(value) {
+    //   this.station = value[0];
+    //   this.community = value[1];
+    //   this.requestIndoorData();
+    // },
+    asd() {},
+    //获取信息的函数
+    dd() {},
+    async askData() {},
+    sizeChangeHandle(val) {
+      this.pageSize = val;
+      //更改每页显示记录数量后，都从第一页开始查询
+      this.pageIndex = 1;
 
+      this.requestIndoorData();
+    },
+    currentChangeHandle(val) {
+      this.pageIndex = val;
+
+      this.requestIndoorData();
+    },
+    // handleChange() {
+    //   this.requestIndoorData();
+    // },
+    // tongxun() {
+    //   this.requestIndoorData();
+    // },
+    // guzhang() {
+    //   this.requestIndoorData();
+    // },
+    receiveDateTimePicker(v) {
+      // this.startTime = v[0];
+      // this.endTime = v[1];
+      let start = v[0];
+      let end = v[1];
+      this.startTime = Date.parse(new Date(start).toString());
+      this.endTime = Date.parse(new Date(end).toString());
+      // let startTo = Date.parse(new Date(start).toString());
+      // let endTo = Date.parse(new Date(end).toString());
+      // this.valveCode = this.rowData.valveCode;
+      // this.gg();
+    },
+    // gg() {
+    //   console.log("gggg");
+    //   let data = {
+    //     startTime: this.startTime,
+    //     endTime: this.endTime,
+    //   };
+    //   console.log("分析的第一个测试", data);
+    //   //1是功耗总量
+    //   //2是功耗单耗
+    //   this.$http
+    //     .post("plcdata/tems/plc/selectFt31SumAndQ1AndDL1 ", data)
+    //     .then((res) => {
+    //       console.log("返回分析的第一个测试---", res);
+    //       if (res.code == 200) {
+    //         this.myData = res.result;
+    //       } else {
+    //         this.$message({
+    //           message: "没有查到数据",
+    //           type: "error",
+    //           duration: 2000,
+    //         });
+    //         this.myData = [];
+    //       }
+
+    //       // console.log("this.obj01", this.obj01);
+    //     });
+    // },
+    //历史查询按钮
+    // searchHistoryList(v) {},
     exportExcel111(excelName) {
       try {
         const $e = this.$refs["report-table"].$el;
@@ -530,11 +454,12 @@ export default {
     },
   },
   components: {
+    // SysDlialog,
     DateTimePicker,
   },
 };
 </script>
-<style lang="scss" scoped>
+<style lang="scss">
 .el-cascader-menu__wrap {
   height: 208px;
   background-color: green !important;
@@ -548,6 +473,17 @@ export default {
 </style>
 <style lang="scss" scoped>
 ::v-deep {
+  // 合计的开始
+  .el-table__fixed-footer-wrapper tbody td.el-table__cell {
+    border-top: 1px solid green;
+    background-color: #0dc41a;
+    color: #fff;
+  }
+  .el-table td.el-table__cell,
+  .el-table th.el-table__cell.is-leaf {
+    border-bottom: 1px solid green;
+  }
+  //合计的结束
   //固定表头 目的是表头过长把单位用....表示   //表格头部多余内容...的第二步*第一部在methods中的tableRenderHeader
   .el-table th > .cell {
     // overflow: hidden; // 超出的文本隐藏
@@ -815,24 +751,17 @@ export default {
   );
   position: relative;
   .condition-box {
-    height: 50px;
-
-    // background-color: #fff;
-    // position: absolute;
-    // top: 30px;
-    // left: 50px;
+    position: absolute;
+    top: 2px;
+    left: 20px;
     font-size: 30px;
-    .picker {
-      position: absolute;
-      top: 10px;
-      left: 20px;
-    }
-    .pickerC {
-      position: absolute;
-      top: 10px;
-      left: 1763px;
-    }
   }
+  .dcbb {
+    position: absolute;
+    top: 2px;
+    right: 30px;
+  }
+
   .table {
     position: absolute;
     top: 50px;

@@ -64,6 +64,23 @@ let weather = (msg) => {
     that.$store.commit("WEATHER", msg) //把msg放入仓库
   })
 }
+let TTweather = (msg) => {
+  console.log("wwwwww2222222")
+  new Promise((resolve, reject) => {
+    let msgJsObj = msg
+    let msgJsObjFormat = {
+      sid: 0,
+      te00: 0
+    }
+    msgJsObjFormat.sid = msgJsObj.map.aiWeatherData.sid
+
+    msgJsObjFormat.te00 = msgJsObj.map.aiWeatherData.te
+
+    resolve(msgJsObjFormat)
+  }).then((msg) => {
+    that.$store.commit("STATIONDATAREAL", msg)
+  })
+}
 let aiHot = (msg) => {
   //
   // console.log("aaaaaaa999999", msg)
@@ -106,5 +123,6 @@ let aiHot = (msg) => {
 export default {
   ///
   aiHot,
-  weather
+  weather,
+  TTweather
 }

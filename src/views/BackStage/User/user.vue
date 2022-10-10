@@ -78,13 +78,14 @@
             >查询</el-button
           >
           <el-button
-            :disabled="!this.ISAUTH.isAUth(['ROOT'])"
             size="medium"
             type="primary"
             @click="addHandle()"
+            :disabled="!this.ISAUTH.isAUth(['ROOT', 'DATA:ADMIN'])"
           >
             新增
           </el-button>
+          <!--  :disabled="!this.ISAUTH.isAUth(['ROOT'])" -->
           <!-- <el-button
             size="medium"
             type="danger"
@@ -196,6 +197,7 @@
         >
           <template #default="scope">
             <el-button
+              :disabled="!ISAUTH.isAUth(['ROOT', 'DATA:ADMIN'])"
               type="text"
               size="medium"
               @click="updateHandle(scope.row.id)"
@@ -213,7 +215,9 @@
             <el-button
               type="text"
               size="medium"
-              :disabled="scope.row.root"
+              :disabled="
+                scope.row.root || !ISAUTH.isAUth(['ROOT', 'DATA:ADMIN'])
+              "
               @click="deleteHandle(scope.row.id)"
             >
               删除

@@ -26,7 +26,10 @@
               <span slot="title">数据总览</span>
             </el-menu-item>
           </el-submenu>
-          <el-submenu index="工艺控制">
+          <el-submenu
+            index="工艺控制"
+            :disabled="!ISAUTH.isAUth(['ROOT', 'DATA:ADMIN', 'DATA:UPDATE'])"
+          >
             <template #title>
               <i class="iconfont icon-kongzhi"></i>
               <span slot="title" class="yy">工艺控制</span>
@@ -273,6 +276,13 @@ export default {
     rgba(0, 0, 0, 0.1) 50%,
     rgba(30, 224, 24, 0.4)
   );
+  .t {
+    position: absolute;
+    top: 1px;
+    right: 5px;
+    color: cornsilk;
+    // top
+  }
   //background-color: rgb(218, 28, 28);
   // margin: 5rem;
   // padding: 20px 50px 20px 50px;

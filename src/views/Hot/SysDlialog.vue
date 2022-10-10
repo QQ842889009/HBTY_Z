@@ -2,22 +2,37 @@
   <div class="dialog-consumer">
     <div class="a">
       <div class="shijian">
-        <DateTimePicker
+        <!-- <span>选择时间：</span> -->
+        <!-- <el-form :inline="true" :model="formInline" class="demo-form-inline">
+          <el-form-item label="审批人">
+            <el-input v-model="formInline.user" placeholder="审批人"></el-input>
+          </el-form-item>
+          <el-form-item label="活动区域">
+            <el-select v-model="formInline.region" placeholder="活动区域">
+              <el-option label="区域一" value="shanghai"></el-option>
+              <el-option label="区域二" value="beijing"></el-option>
+            </el-select>
+          </el-form-item>
+        </el-form> -->
+
+        <!-- <DateTimePicker
           class="picker"
           :colors="colors"
           @EmitDateTimePicker="receiveDateTimePicker"
-        ></DateTimePicker>
+        ></DateTimePicker> -->
       </div>
-      <div class="quxian">
-        <EchartLineDB
+      <!-- <div class="quxian"> -->
+      <!-- <h1>www</h1> -->
+      <!-- <EchartLineDB
           :getData="indoorque"
-          title_name="热源历史查询"
+          title_name="热源曲线"
           :isSort="false"
           :isShowDB="false"
           :showLenged="true"
           dbTem="35"
-        />
-      </div>
+        /> -->
+      <!-- <Weather :weatherInfo="indoorque" /> -->
+      <!-- </div> -->
     </div>
   </div>
 </template>
@@ -26,13 +41,11 @@
 import qs from "qs";
 import axios from "axios";
 import Weather from "../Visual/components/WeatherForecastOwn.vue";
-import EchartLineDB from "../Visual/components/EchartLineDBTwoyAxis.vue"; //
 import DateTimePicker from "components/common/DateTimePicker";
 export default {
   components: {
     DateTimePicker,
     Weather,
-    EchartLineDB,
   },
   name: "ArticleList",
 
@@ -64,6 +77,10 @@ export default {
   },
   data() {
     return {
+      formInline: {
+        user: "",
+        region: "",
+      },
       colors: "#fff",
       //显示信息用到的
       obj01: {},
@@ -228,11 +245,11 @@ export default {
         startTime: this.startTime,
         endTime: this.endTime,
       };
-      console.log("气象的条件", data);
+      console.log("热源的条件", data);
       this.$http
-        .post("hotw/hotandewather/weather/getWeatherDatas", data)
+        .post("hotw/hotandewather/hot/getHotDatasByTimeScope", data)
         .then((res) => {
-          console.log("气象的数据", res);
+          console.log("热源的数据", res);
           // this.obj01 = res.houser;
           this.indoorque = res.result;
           // console.log("this.obj01", this.obj01);
@@ -309,7 +326,9 @@ export default {
   position: relative;
   .shijian {
     position: absolute;
-    left: 1400px;
+    left: 500px;
+    width: 900px;
+    background-color: red;
   }
   .t {
     width: 850px;
@@ -326,6 +345,7 @@ export default {
     height: 500px;
     width: 1810px;
     background-color: #fff;
+    background-color: #000;
     box-shadow: 10px 10px 25px #11e634;
     background: linear-gradient(
       90deg,

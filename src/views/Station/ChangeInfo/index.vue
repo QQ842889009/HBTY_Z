@@ -257,6 +257,7 @@
         <el-table-column label="操作" width="150" fixed="right">
           <template slot-scope="scope">
             <el-button
+              :disabled="!ISAUTH.isAUth(['ROOT', 'DATA:ADMIN', 'DATA:UPDATE'])"
               type="primary"
               size="mini"
               @click="refreshData"
@@ -264,6 +265,7 @@
               >刷新</el-button
             >
             <el-button
+              :disabled="!ISAUTH.isAUth(['ROOT', 'DATA:ADMIN', 'DATA:UPDATE'])"
               type="primary"
               size="mini"
               @click="changeData(scope.row)"
@@ -316,7 +318,7 @@ export default {
       var time = v;
       // console.log("ttt", time);
       this.myData = await this.$http.get("plcdata/tems/plc/stationInfo");
-      // console.log("----", this.myData);
+      console.log("----", this.myData);
     },
     changeData(v) {
       this.title = "修改参数";

@@ -45,6 +45,9 @@
               :enterable="false"
             >
               <el-button
+                :disabled="
+                  !ISAUTH.isAUth(['ROOT', 'DATA:ADMIN', 'DATA:UPDATE'])
+                "
                 type="success"
                 size="mini"
                 icon="iconfont icon-chain"

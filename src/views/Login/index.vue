@@ -174,7 +174,7 @@ export default {
   methods: {
     submitForm(formName) {
       console.log("登录", this.ruleForm);
-      // this.$router.push("/layout");
+      //this.$router.push("/layout");
 
       this.$http.post("plcdata/tems/user/login", this.ruleForm).then((res) => {
         console.log("登录的返回数据", res);

@@ -408,11 +408,11 @@ export default {
               id: "25",
               path: "AiInDoor",
             },
-            {
-              name: "后台系统",
-              id: "26",
-              path: "backStagee",
-            },
+            // {
+            //   name: "后台系统",
+            //   id: "26",
+            //   path: "backStagee",
+            // },
           ],
         },
         {
@@ -436,6 +436,23 @@ export default {
               name: "运行分析",
               id: "441",
               path: "PowerDissipation",
+            },
+          ],
+        },
+        // {
+        //   name: "后台系统",
+        //   id: "26",
+        //   path: "backStagee",
+        // },
+        {
+          name: "后台系统",
+          id: "777",
+
+          children: [
+            {
+              name: "后台系统",
+              id: "77777",
+              path: "backStagee",
             },
           ],
         },
@@ -730,7 +747,7 @@ export default {
   width: 30%;
 
   position: relative;
-  left: 1300px;
+  left: 1250px;
 
   top: 20px;
 }

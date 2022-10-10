@@ -113,7 +113,7 @@
         >
         </el-table-column>
        <el-table-column
-          prop="Space"
+          prop="teavg"
           label="室外温度"
           width="300"
           fixed
@@ -454,6 +454,17 @@ export default {
 </style>
 <style lang="scss" scoped>
 ::v-deep {
+  // 合计的开始
+  .el-table__fixed-footer-wrapper tbody td.el-table__cell {
+    border-top: 1px solid green;
+    background-color: #0dc41a;
+    color: #fff;
+  }
+  .el-table td.el-table__cell,
+  .el-table th.el-table__cell.is-leaf {
+    border-bottom: 1px solid green;
+  }
+  //合计的结束
   //固定表头 目的是表头过长把单位用....表示   //表格头部多余内容...的第二步*第一部在methods中的tableRenderHeader
   .el-table th > .cell {
     // overflow: hidden; // 超出的文本隐藏

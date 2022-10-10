@@ -1,7 +1,8 @@
 <template>
   <div class="role-container">
     <div class="role-container-box">
-      <div v-if="this.ISAUTH.isAUth(['ROOT'])">
+      <!-- v-if="this.ISAUTH.isAUth(['ROOT'])" -->
+      <div>
         <!-- <el-form
           :inline="true"
           :model="dataForm"
@@ -109,6 +110,9 @@
           >
             <template #default="scope">
               <el-button
+                :disabled="
+                  scope.row.root || !ISAUTH.isAUth(['ROOT', 'DATA:ADMIN'])
+                "
                 type="text"
                 size="medium"
                 @click="updateHandle(scope.row.id, scope.row.systemic)"
@@ -138,6 +142,7 @@
 </template>
 
 <script>
+import { createLogger } from "vuex";
 import AddOrUpdate from "./role-add-or-update.vue";
 export default {
   components: {
@@ -179,6 +184,7 @@ export default {
       that.$http
         .post("plcdata/tems/role/searchRoleByPage", data)
         .then((res) => {
+          console.log("tttttttttt", res);
           let page = res.page;
           that.dataList = page.list;
           that.totalCount = page.totalCount;

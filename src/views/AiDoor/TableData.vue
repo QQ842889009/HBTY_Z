@@ -185,6 +185,7 @@
         >
           <template slot-scope="scope">
             <el-input
+              :disabled="!ISAUTH.isAUth(['ROOT', 'DATA:ADMIN', 'DATA:UPDATE'])"
               type="number"
               size="mini"
               max="100"
@@ -192,7 +193,7 @@
               v-model="scope.row.valveSetOpening"
               onkeyup="this.value=this.value.replace(/[\u4E00-\u9FA5]/g,'') "
               oninput="if(value>100)value=100;if(value<0)value=0"
-              @change="changeInput(scope.row)"
+              @keyup.enter.native="changeInput(scope.row)"
             >
             </el-input>
           </template>
@@ -487,7 +488,62 @@ export default {
     },
     changeInput(v) {
       console.log("****", v);
-      inDoorFvsp(v.sid, v.valveSetOpening);
+      let msg = {
+        // name: "admin",
+        sid: String(v.sid),
+        // sdate: this.setriqi,
+        // stime: this.setshijian,
+        // tag: "FVSPdanyuanfa",
+        openValue: parseFloat(v.valveSetOpening),
+      };
+      let msgRequest = {
+        sid: String(v.sid),
+      };
+      if (this.$stompClientAiUnit.connected === true) {
+        console.log("tttt");
+        this.$stompClientAiUnit.send(
+          "/hbty/fySetValveOpenValue",
+          {},
+          JSON.stringify(msg)
+        );
+
+        //发送给定事件后我要从新读取这个表的数据定义一个计时器再在里面销毁这个定时器
+        let timerRequest = setTimeout(() => {
+          this.$stompClientAiUnit.send(
+            "/hbty/fyGetValveData",
+            {},
+            JSON.stringify(msgRequest)
+          );
+          this.requestIndoorData();
+          clearTimeout(timerRequest);
+          // v3.is = "tt"
+
+          //console.log("请求户阀"+msgQu.sid);
+        }, 10000);
+        // console.log("户阀给定", msgSend)
+      } else {
+        console.log("户阀给定失败");
+      }
+    },
+    inquire(v) {
+      let msgRequest = {
+        sid: String(v.sid),
+      };
+      if (this.$stompClientAiUnit.connected === true) {
+        this.$stompClientAiUnit.send(
+          "/hbty/fyGetValveData",
+
+          {},
+          JSON.stringify(msgRequest)
+        );
+        console.log("msgRequest----------------", msgRequest);
+        let timerRequest = setTimeout(() => {
+          this.requestIndoorData();
+          // this.requestIndoorData();
+          clearTimeout(timerRequest);
+        }, 5000);
+      } else {
+      }
     },
     reset() {
       // this.station = null;

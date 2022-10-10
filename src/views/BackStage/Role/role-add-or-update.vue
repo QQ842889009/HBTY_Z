@@ -99,10 +99,10 @@ export default {
             .then((res) => {
               that.dataForm.roleName = res.roleName;
               that.dataForm.desc = res.desc;
-              that.dataForm.permissions = JSON.parse(res.permissions);
+              that.dataForm.permissions = res.permissions;
               console.log("role/searchById返回的", that.dataForm.permissions);
               //保存原始权限数据
-              that.oldPermissions = JSON.parse(res.permissions);
+              that.oldPermissions = res.permissions;
               defaultPermissions = res.defaultPermissions;
             });
           /////------
@@ -168,6 +168,7 @@ export default {
     },
     dataFormSubmit: function () {
       let that = this;
+      console.log("tttttttt", that.dataForm.permissions);
       this.$refs["dataForm"].validate((valid) => {
         if (valid) {
           //因为用户是随机选择权限，所以对选中的权限排序

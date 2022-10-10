@@ -1,71 +1,19 @@
 <template>
   <div class="unit-container">
     <div class="condition-box">
-      <!-- <el-form :inline="true" :model="dataForm" ref="dataForm">
-        <el-form-item prop="name" label="">
-          <span>选择位置:</span>
-          <el-cascader
-            :popper-append-to-body="false"
-            v-model="value"
-            :options="options"
-            :props="{ checkStrictly: true }"
-            clearable
-            @change="infoChange"
-          ></el-cascader>
-        </el-form-item>
-        <el-form-item label="">
-          <span>通讯:</span>
-          <el-select
-            v-model="noData"
-            :popper-append-to-body="false"
-            class="input"
-            placeholder="请选择"
-            size="medium"
-            clearable
-            @change="tongxun"
-          >
-            <el-option label="在线" value="0" />
-            <el-option label="离线" value="1" />
-          </el-select>
-        </el-form-item>
-        <el-form-item label="">
-          <span>故障:</span>
-          <el-select
-            v-model="hour2"
-            :popper-append-to-body="false"
-            class="input"
-            placeholder="请选择"
-            size="medium"
-            clearable
-            @change="guzhang"
-          >
-            <el-option label="故障" value="1" />
-            <el-option label="正常" value="0" />
-          </el-select>
-        </el-form-item>
-
-        <el-form-item>
-          <el-button
-            size="medium"
-            icon="el-icon-refresh-left"
-            type="success"
-            @click="exportExcel111('单元箱数据')"
-            >导出报表</el-button
-          >
-        </el-form-item>
-      </el-form> -->
+      
     </div>
 
     <div class="table">
       <el-table
         v-loading="dataListLoading"
-        fixed
+       
         ref="report-table"
         :data="tableData"
         style="width: 100%"
-        max-height="980"
+        max-height="989"
         class="customer-table"
-       
+        fixed
         :cell-style="cellStyle"
         :render-header="tableRenderHeader"
         :header-cell-style="headerStyle"
@@ -79,7 +27,7 @@
         <el-table-column
           prop="Station"
           label="换热站名称"
-          width="150"
+          width="140"
           fixed
           align="center"
         >
@@ -93,10 +41,13 @@
               <!-- <router-link :to="{ name: 'Visual6', params: {id: scope.row.Sid} }">
          
          </router-link> -->
+         <!--  -->
  <!-- <div class="sub-body" @click="rePeoplemessageCard(scope.row)">{{ scope.row.name }}</div>
               {{ scope.row.Station }} -->
-  <el-popover trigger="hover" placement="top">
-       <P @click="rePeoplemessageCard(scope.row)">跳转换热站</P>
+  <el-popover trigger="hover" placement="top":disabled="
+                  !ISAUTH.isAUth(['ROOT', 'DATA:ADMIN', 'DATA:UPDATE'])
+                " >
+       <P @click="rePeoplemessageCard(scope.row)" >跳转换热站</P>
           <div slot="reference" class="name-wrapper">
            {{ scope.row.Station }}
           </div>
@@ -108,34 +59,34 @@
         </el-table-column>
         <el-table-column
           prop="Space"
-          label="面积(w㎡)"
+          label="面积"
           width="85"
-          fixed
+         
           align="center"
         >
         </el-table-column>
         <el-table-column label="一次网" align="center">
            <el-table-column
-          prop="TE11"
-          label="供温(℃)"
+          prop="BP21S"
+          label="供温"
           width="65"
-          fixed
+        
           align="center"
         >
         </el-table-column>
-          <el-table-column label="回温(℃)" prop="TE12" width="65" >
+          <el-table-column label="回温" prop="TE12" width="65" align="center">
           </el-table-column>
-           <el-table-column label="供压(MPa)" prop="PT11" width="65">
+           <el-table-column label="供压" prop="PT11" width="65"align="center">
           </el-table-column>
 
-          <el-table-column label="除污器后压(MPa)" prop="PT11_FV" width="65">
+          <el-table-column label="除污器后压" prop="PT11_FV" width="85"align="center">
           </el-table-column>
-        <el-table-column label="回压(MPa)" prop="PT12" width="65">
+        <el-table-column label="回压" prop="PT12" width="65"align="center">
           </el-table-column>
-                 <el-table-column label="流量(t/h)" prop="FT11" width="65">
+                 <el-table-column label="流量" prop="FT11" width="65"align="center">
           </el-table-column>
     
-          <el-table-column label="电动阀(%)" prop="FV1FB" width="80">
+          <el-table-column label="电动阀" prop="FV1FB" width="80"align="center">
           </el-table-column>
           </el-table-column>
          
@@ -143,29 +94,29 @@
   <el-table-column label="二次网" align="center">
            <el-table-column
           prop="TE21"
-          label="供温(℃)"
+          label="供温"
           width="65"
-          fixed
+        
           align="center"
         >
         </el-table-column>
-          <el-table-column label="回温(℃)" prop="TE22" width="65">
+          <el-table-column label="回温" prop="TE22" width="65"align="center">
           </el-table-column>
-           <el-table-column label="供压(MPa)" prop="PT21" width="65">
+           <el-table-column label="供压" prop="PT21" width="65"align="center">
           </el-table-column>
-    <el-table-column label="回压(MPa)" prop="PT22" width="65">
+    <el-table-column label="回压" prop="PT22" width="65"align="center">
           </el-table-column>
-               <el-table-column label="泵前(MPa)" prop="PT22_BF" width="65">
-          </el-table-column>
-    
-          <el-table-column label="泵后压(MPa)" prop="PT22_BL" width="65">
-          </el-table-column>
-          <el-table-column label="流量(t/h)" prop="FT21" width="65">
+               <el-table-column label="泵前压" prop="PT22_BF" width="65"align="center">
           </el-table-column>
     
-          <el-table-column label="电动阀(%)" prop="FV2FB" width="80">
+          <el-table-column label="泵后压" prop="PT22_BL" width="65"align="center">
           </el-table-column>
-                 <el-table-column label="循环泵(Hz)" prop="BP21FB" width="80">
+          <el-table-column label="流量" prop="FT21" width="65"align="center">
+          </el-table-column>
+    
+          <el-table-column label="电动阀" prop="FV2FB" width="80"align="center">
+          </el-table-column>
+                 <el-table-column label="循环泵" prop="BP21FB" width="80"align="center">
             <template slot-scope="scope">
               <i
                 class="el-icon-loading"
@@ -192,16 +143,16 @@
               {{ scope.row.BP21FB }}
             </template>
           </el-table-column>
-                   <el-table-column label="补水后温(℃)" prop="TE22_MP" width="90">
+                   <el-table-column label="补水后温" prop="TE22_MP" width="90"align="center">
           </el-table-column>
           </el-table-column> 
      <el-table-column label="状态" align="center">
-            <el-table-column label="补水泵" prop="" width="70">
+            <el-table-column label="补水泵" prop="" width="70" align="center">
             <template slot-scope="scope">
               <i
                 class="el-icon-loading"
                 v-show="scope.row.MP1C && !scope.row.MP1A"
-                style="font-size: 20px; color: #fff; font-weight: 900"
+                style="font-size: 20px; color: #0ff11b; font-weight: 900"
               ></i>
               <i
                 class="el-icon-magic-stick"
@@ -222,12 +173,12 @@
             </template>
           </el-table-column>
    
-          <el-table-column label="潜水泵" prop="" width="70">
+          <el-table-column label="潜水泵" prop="" width="70"align="center">
             <template slot-scope="scope">
               <i
                 class="el-icon-loading"
                 v-if="scope.row.MP2S"
-                style="font-size: 20px; color: #fff; font-weight: 900"
+                style="font-size: 20px; color: #0ff11b; font-weight: 900"
               ></i>
               <i
                 class="el-icon-magic-stick"
@@ -238,12 +189,12 @@
             </template>
           </el-table-column>
          
-          <el-table-column label="泄压阀" prop="" width="70">
+          <el-table-column label="泄压阀" prop="" width="70" align="center">
             <template slot-scope="scope">
               <i
                 class="el-icon-loading"
                 v-if="scope.row.XYVC"
-                style="font-size: 20px; color: #fff; font-weight: 900"
+                style="font-size: 20px; color: #0ff11b; font-weight: 900"
               ></i>
               <i
                 class="el-icon-magic-stick"
@@ -254,17 +205,18 @@
             </template>
           </el-table-column>
           </el-table-column>      
-      <el-table-column label="液位(m)" prop="LT" width="75">
+      <el-table-column label="液位" prop="LT" width="75"align="center">
           </el-table-column>
 
-          <el-table-column label="补水量(m³)" prop="ZFT31" width="90">
+          <el-table-column label="补水量" prop="ZFT31" width="90"align="center">
           </el-table-column>
 
           <el-table-column
-            label="电 能(kWh)"
+            label="电能"
             prop="DL"
             width="95
           "
+          align="center"
           >
           </el-table-column>
         </el-table-column>
@@ -297,10 +249,10 @@ export default {
       dataListLoading: false,
       //斑马线颜色
       zebarCrossing: {
-        crossingOne: "#0dc41a",
-        crossingTwo: "#155f14",
+        crossingOne: "#037bd1",
+        crossingTwo: "#224394",
         //crossingTwo: "#224394",
-        colorOne: "#fff",
+        colorOne: "#000",
         colorTwo: "#fff",
       },
       selectID: [],
@@ -340,13 +292,13 @@ export default {
   computed: {
     headerStyle() {
       return {
-        background: "#0dc41a",
+        background: "#224394",
         padding: "5px 0",
         height: "30px",
         borderColor: "#006CC1",
         textAlign: "center",
-        // color: "#FEFEFE",
-        fontSize: "14px",
+
+        fontSize: "12px",
         color: "#fff",
         borderColor: "black",
       };
@@ -473,7 +425,7 @@ export default {
       //   return "height:5px!important;padding:0px!important;font-weight:bold;border-color:black!important; color:#0000ff!important; padding:0px!important; background:pink;";
       // }
 
-      return "height:4px!important;  padding:1px!important; ;color:#fff; font-family: 'Lao UI'; font-weight: 500;";
+      return "height:4px!important;  padding:1.2px!important; ;color:#fff; font-family: 'Lao UI'; font-weight: 500;";
     },
     //时间日期格式
     // dateFormat(row, column, cellValue, index) {
@@ -519,9 +471,9 @@ export default {
     tableRowClassName({ row, rowIndex }) {
       if (this.selectID.length == 0) {
         if ((rowIndex + 1) % 2 === 0) {
-          return "crossingOne"; //类名
+          return "crossingTwo"; //类名crossingTwo
         } else {
-          return "crossingTwo"; //类名
+          return "crossingOne"; //类名crossingOne
         }
       }
     },
@@ -679,7 +631,11 @@ export default {
   }
   .el-table__row > td {
     /* 去除表格线 */
-    border: none;
+    //border: none;
+    border-bottom-color: rgb(10, 10, 10);
+    border-right-color: rgb(13, 13, 14);
+    border-right-style: solid;
+    border-right-width: 1px;
   }
   .el-table th.is-leaf {
     border-bottom: none; //去多余的横线
@@ -773,18 +729,19 @@ export default {
     color: #14375c;
     background-color: #66b1ff !important;
   }
-  // //没有fixed的时候用
+  //没有fixed的时候用
   // .el-table tbody tr:hover > td {
   //   background-color: #66b1ff;
-  //   background-color: #c0ccee;
+  //   //background-color: #c0ccee;
   //   color: #000;
-  //   font-size: 18px;
+  //   //font-size: 18px;
   // }
   //有fixed的时候用
   .el-table__body .el-table__row.hover-row td {
-    background-color: #66b1ff;
-    color: #000;
-    font-size: 13px;
+    background-color: #2ee4f1;
+    color: #000 !important;
+    font-weight: 400;
+    // font-size: 15px;
   }
   /*最外层透明   表格透明*/
   .el-table,
@@ -892,9 +849,9 @@ export default {
   // background-color: rgb(228, 226, 213);
   background: linear-gradient(
     90deg,
-    rgba(30, 224, 24, 0.4) 0,
+    rgba(59, 62, 230, 0.4) 0,
     rgba(0, 0, 0, 0.1) 50%,
-    rgba(30, 224, 24, 0.4)
+    rgba(59, 62, 230, 0.4)
   );
   position: relative;
   .condition-box {
@@ -905,15 +862,15 @@ export default {
   }
   .table {
     position: absolute;
-    top: 10px;
-    width: 1880px;
-    height: 990px;
+    top: 2px;
+    width: 1910px;
+    height: 995px;
     // background-color: palevioletred;
     overflow: auto;
     margin: 0px 20px 20px 20px;
-    margin: 0px 20px 20px 20px;
+    margin: 0px 10px 2px 15px;
 
-    padding: 0px 20px 20px 20px;
+    padding: 0px 20px 2px 20px;
     padding: 0px;
   }
 }
