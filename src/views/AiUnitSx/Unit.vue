@@ -158,6 +158,7 @@
       
         <el-table-column label="立杠一" align="center">
                     <el-table-column
+                    
             prop="fv1sp"
             label="1#阀门给定(%)"
             width="110"
@@ -165,6 +166,9 @@
           >
             <template slot-scope="scope">
               <el-input
+               :disabled="
+                  !ISAUTH.isAUth(['ROOT', 'DATA:ADMIN', 'DATA:UPDATE'])
+                "
                 type="number"
                 size="mini"
                 max="100"
@@ -172,7 +176,8 @@
                 v-model="scope.row.fv1sp"
                 onkeyup="this.value=this.value.replace(/[\u4E00-\u9FA5]/g,'') "
                 oninput="if(value>100)value=100;if(value<0)value=0"
-                @change="changeInputAAA(scope.row)"
+              
+                 @keyup.enter.native="changeInputAAA(scope.row)"
               >
               </el-input>
             </template>
@@ -197,12 +202,16 @@
                    <el-table-column label="立杠二" align="center">
                                          <el-table-column
             prop="fv2sp"
-            label="1#阀门给定(%)"
+            label="2#阀门给定(%)"
             width="110"
             align="center"
           >
             <template slot-scope="scope">
               <el-input
+               :disabled="
+                  !ISAUTH.isAUth(['ROOT', 'DATA:ADMIN', 'DATA:UPDATE'])
+                "
+                v-show="scope.row.fv2fb>-1"
                 type="number"
                 size="mini"
                 max="100"
@@ -210,7 +219,8 @@
                 v-model="scope.row.fv2sp"
                 onkeyup="this.value=this.value.replace(/[\u4E00-\u9FA5]/g,'') "
                 oninput="if(value>100)value=100;if(value<0)value=0"
-                @change="changeInputBBB(scope.row)"
+               
+                  @keyup.enter.native="changeInputBBB(scope.row)"
               >
               </el-input>
             </template>

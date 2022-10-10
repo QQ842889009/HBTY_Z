@@ -65,7 +65,6 @@
             placeholder="选择角色"
             style="width: 100%"
             clearable
-            multiple
           >
             <el-option
               v-for="one in roleList"

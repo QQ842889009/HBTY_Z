@@ -34,9 +34,9 @@ module.exports = {
       "/plcdata": {
         //
 
-        target: "http://221.206.242.116:9000",
+        //  target: "http://221.206.242.116:9000",
 
-        // target: "http://10.168.1.176:9000",
+        target: "http://10.168.1.176:9000",
 
         changeOrigin: true,
         ws: true,
@@ -77,7 +77,7 @@ module.exports = {
       "/qwer": {
         //
         target: "http://221.206.242.116:9005",
-        // target: "http://10.168.1.176:9005", //四新数据单元阀菜单历史数据JAVA-莫
+        //target: "http://10.168.1.176:9005", //四新数据单元阀菜单历史数据JAVA-莫
         ws: true,
         changeOrigin: true,
 
@@ -107,8 +107,8 @@ module.exports = {
         }
       },
       "/hotw": {
-        target: "http://221.206.242.116:9005", //ai42个设备那个菜单和历史曲线
-        // target: "http://10.168.1.176:9005",
+        //target: "http://221.206.242.116:9005", //ai42个设备那个菜单和历史曲线/热源历史
+        target: "http://10.168.1.176:9005",
 
         // ws: true,
         changeOrigin: true,

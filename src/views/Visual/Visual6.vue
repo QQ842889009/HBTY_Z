@@ -1,5 +1,6 @@
 <template>
   <div style="width: 1920px; height: 1080px">
+    <!-- {{ dealBranch }} -->
     <iframe
       ref="unityIframe"
       src="/unity3D/index.html"
@@ -29,6 +30,7 @@ export default {
     // console.log('-------', this.$store.getters.stationDataAndInfo);
     this.stationInfos = this.$store.getters.stationDataAndInfo;
     this.stations = this.$store.getters.stationInfos;
+    console.log("this.stations", this.stations);
     this.branchInfos = this.$store.getters["stationBranch/branchInfos"];
     // console.log("---------stationInfos-", this.stationInfos);
     // console.log("-----stations-----", this.stations);
@@ -237,7 +239,7 @@ export default {
           break;
 
         case "XYVC": //泄压阀关闭开启
-          this.msg.plcTag = "XYVC";
+          this.msg.plcTag = "XYC";
           this.msg.tagValue = e.data.msg;
           eventName = "/hbty/fySetupPLCB";
           console.log("unity改变泄压阀关闭开启的值", e.data.msg);
@@ -258,7 +260,7 @@ export default {
           console.log("unity改变阀门给定的值", e.data.msg);
           break;
       }
-      console.log("发送请求的msg",this.msg);
+      console.log("发送请求的msg", this.msg);
       // console.log("发送请求的event",eventName);
       if (this.$stompClient.connected === true) {
         // console.log("发送数据成化")
@@ -287,14 +289,17 @@ export default {
       // console.log('branch---------', branch);
       //branch是分支的信息
       for (let i in branch) {
+        console.log("kankan", i);
         if (branch[i] != null) {
           //如果分支不为null，
           //name为分支的名称，value为分支对应的字段,i[9]是取字符串bra_name_1的最后一位
           let obj = branch[i];
+          console.log("obj", obj);
           branchMsg.push(obj);
         }
       }
       branchMsg = branchMsg.reverse();
+      console.log("rrrrrrr", branchMsg);
       return branchMsg;
     },
 

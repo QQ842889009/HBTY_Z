@@ -3,16 +3,43 @@
     <div class="selectBox">
       <div class="selectText"><span>数据筛选</span></div>
 
-      <el-select class="select" v-model="value" filterable placeholder="请选择换热站" @change="cleraInfo($event)">
-        <el-option v-for="item in stations" :key="item.Sid" :label="item.Station" :value="item.Sid">
+      <el-select
+        class="select"
+        v-model="value"
+        filterable
+        placeholder="请选择换热站"
+        @change="cleraInfo($event)"
+      >
+        <el-option
+          v-for="item in stations"
+          :key="item.Sid"
+          :label="item.Station"
+          :value="item.Sid"
+        >
         </el-option>
       </el-select>
     </div>
     <div class="showBox">
-      <FtLineBox title_name="二网实时温度" :getData="realtimeInfo" boxHeight="44%" :yUnit="'℃'" :isSort="false"
-        :showLenged="true" :key="isUpdata" seriesType="line" />
-      <FtLineBox title_name="二网实时压力" :getData="realtimeInfo" boxHeight="44%" :yUnit="'MPa'" :isSort="false"
-        :showLenged="true" :key="isUpdata + '-only'" seriesType="line" />
+      <FtLineBox
+        title_name="二网实时温度"
+        :getData="realtimeInfo"
+        boxHeight="44%"
+        :yUnit="'℃'"
+        :isSort="false"
+        :showLenged="true"
+        :key="isUpdata"
+        seriesType="line"
+      />
+      <FtLineBox
+        title_name="二网实时压力"
+        :getData="realtimeInfo"
+        boxHeight="44%"
+        :yUnit="'MPa'"
+        :isSort="false"
+        :showLenged="true"
+        :key="isUpdata + '-only'"
+        seriesType="line"
+      />
     </div>
   </div>
 </template>
@@ -35,7 +62,6 @@ export default {
   created() {
     this.stations = this.$store.getters.stationInfos;
     this.staPlcData = this.$store.getters.stationDataAndInfo;
-   
   },
   mounted() {
     //  this.timer=setInterval(() => {
@@ -44,8 +70,7 @@ export default {
     // }, 10000);
   },
 
-  computed: {
-  },
+  computed: {},
   methods: {
     //实时信息
     getRealtimeData(value) {
@@ -75,8 +100,6 @@ export default {
           if (this.realtimeInfo.length >= 360) {
             this.realtimeInfo.shift();
           }
-
-
         } else {
           // console.log("没有新的数据");
           obj.SdateTime = this.formatTime();
@@ -92,7 +115,6 @@ export default {
           if (this.realtimeInfo.length >= 360) {
             this.realtimeInfo.shift();
           }
-
         }
       }
     },
@@ -133,28 +155,31 @@ export default {
       //   size:120
       // }
       var mySid = parseInt(sid);
-      var plcData = await this.$http.post(
-        "plcdata/tems/plc/DatasBySid", { sid: mySid });
+      var plcData = await this.$http.post("plcdata/tems/plc/DatasBySid", {
+        sid: mySid,
+      });
       this.realtimeInfo = plcData.list;
-      console.log("realtimeInfo---111---", this.realtimeInfo);
+      console.log("realtimeInfo---7777777", plcData);
+      console.log("realtimeInfo---111---6666", this.realtimeInfo);
       if (this.realtimeInfo) {
         //传过来的数据是按时间倒序的，需要把数组倒序
         // this.realtimeInfo= this.realtimeInfo.reverse();
         //添加一个时间字段。格式为2022-9-5 16：05：34
         for (let index = 0; index < this.realtimeInfo.length; index++) {
-          this.realtimeInfo[index].SdateTime = getDate(this.realtimeInfo[index].timestamp);
+          this.realtimeInfo[index].SdateTime = getDate(
+            this.realtimeInfo[index].timestamp
+          );
         }
         // console.log("realtimeInfo---111---", this.realtimeInfo);
         this.isUpdata++;
       } else {
-        return alert('数据错误');
+        return alert("数据错误");
       }
-
     },
     cleraInfo(v) {
       console.log("选择了新的换热站", v);
       clearInterval(this.timer);
-      this.getRealtimeInfos(v)
+      this.getRealtimeInfos(v);
       this.isUpdata++;
       this.timer = setInterval(() => {
         this.getRealtimeData(this.value);

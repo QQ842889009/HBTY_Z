@@ -235,7 +235,7 @@
         >
         </el-table-column>
         <el-table-column
-          prop="ft31"
+          prop="ft31_sum"
           label="补水(m³)"
           width="120"
           fixed="right"
@@ -325,6 +325,22 @@ export default {
 
         this.myParams
       );
+      if (this.myData.code == 500) {
+        // alert(this,myData.msg);
+        this.myData = [];
+        // console.log("=--------------",this.myData);
+        return alert("该时间段无数据");
+      } else {
+        // console.log("++++++++++++++++");
+        this.myData = this.myData.result;
+        console.log("t**********his.myData ", this.myData);
+
+        //添加一个时间字段。格式为2022-9-5 16：05：34
+        // for (let index = 0; index < this.myData.length; index++) {
+        //   this.myData[index].SdateTime = getDate(this.myData[index].timestamp);
+        // }
+        // this.isUpdata++;
+      }
       // this.myData = this.myData.reverse();
       // console.log("日报表接受到的数据", this.myData);
 

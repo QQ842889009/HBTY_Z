@@ -71,7 +71,7 @@ let socketOnData = (stompClient) => {
       // //console.log(JSON.parse(msg.body).map); // msg.body存放的是服务端发送给我们的信息
 
       manageDataStation.stationData(JSON.parse(msg.body).map) //数据的展示
-      manageDataStation.stationDataReal(JSON.parse(msg.body).map) //需要给报警数组几个数据
+      manageDataStation.stationDataReal(JSON.parse(msg.body).map) //
 
       heartDog = 1
     })

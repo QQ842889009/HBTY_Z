@@ -1,6 +1,7 @@
 // import * as io from "socket.io-client"
 import Vue from "vue"
 import manageDataSx from "assets/js/manageData/manageDataSx"
+//import manageDataStation from "assets/js/manageData/manageDataStation.js" //
 // import manageDataMeterMore from "assets/js/manageDataMeterMore" ////*/
 // import manageDataMeter from "assets/js/manageDataMeter"
 // import manageDataMeterFa from "assets/js/manageDataMeterFa"
@@ -72,8 +73,9 @@ let socketOnDataSx = (stompClient) => {
     // console.log("热源de********？四芯", msg)
     //console.log(msg);
     //console.log("热源de********？四芯-----");
-    //console.log(msg.body);
+    //console.log(msg.body);//
     manageDataSx.aiHot(JSON.parse(msg.body))
+
     // manageDataAiUnitSx.aiHot(JSON.parse(msg.body));
   })
   stompClient.subscribe("/data/wtOnAiWeatherData", (msg) => {
@@ -84,6 +86,7 @@ let socketOnDataSx = (stompClient) => {
     // console.log("四信的气象22");
     // console.log(msg.body);
     manageDataSx.weather(JSON.parse(msg.body))
+    manageDataSx.TTweather(JSON.parse(msg.body))
   })
   if (stompClient) {
     stompClient.subscribe("/info/heartbeatSxEvent", (msg) => {

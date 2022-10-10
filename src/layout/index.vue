@@ -76,7 +76,7 @@ export default {
     return {
       num: 30,
       bg1: require("assets/img/logo/bgz1A.png"), //总背景图
-      bg2: require("assets/img/logo/header2.png"), //头部背景图
+      bg2: require("assets/img/logo/header1.png"), //头部背景图
     };
   },
   created() {},
@@ -156,20 +156,19 @@ export default {
   margin: 0 auto;
   position: absolute;
   top: 14px;
-  font-size: 30px;
+  font-size: 25px;
   font-weight: 500;
-  left: 750px;
-  color: rgb(14, 218, 24);
+  left: 62px;
+  color: rgb(233, 240, 241);
   // color: #000;
 }
 .alarmnum {
   position: absolute;
-  top: 30px;
-  right: 280px;
+  top: 24px;
+  right: 220px;
 }
 .RealAlarmMp3 {
   position: absolute;
   top: 30px;
-  //  right: 280px;
 }
 </style>

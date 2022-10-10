@@ -89,8 +89,8 @@
       </el-table>
     </div>
     <div>
-      <!-- <SysDlialog ref="dialog" :title="title" :rowData="rowData" class="as">
-      </SysDlialog> -->
+      <SysDlialog ref="dialog" :title="title" :rowData="rowData" class="as">
+      </SysDlialog>
     </div>
     <!-- <div v-show="tt === 5"></div> -->
   </div>

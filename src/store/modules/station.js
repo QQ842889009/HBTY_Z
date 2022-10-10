@@ -17,12 +17,23 @@ const state = {
   ck: 5,
   alarmsettings: [], //报警设置
   alarmArrJava: [],
-  alarmArrJavaShow: []
+  alarmArrJavaShow: [],
+  ////气象开始
+  weather: [
+    {
+      sid: "02"
+    }
+  ]
+  ////气象结束
 }
 
 const getters = {
   ck(state) {
     return state.ck
+  },
+  weather(state) {
+    //气象
+    return state.weather
   },
   stationDataAndInfo(state) {
     return state.stationDataAndInfo
@@ -163,7 +174,7 @@ const mutations = {
     }
   },
   STATIONDATAREAL(state, data) {
-    // console.log("-----", data)
+    // console.log("-----WWWWW", data)
     let j = parseInt(data.sid)
     if (j < state.stationLenght) {
       let obj = isNumber.isNumberObj(data)
@@ -186,8 +197,24 @@ const mutations = {
       }).then((msg) => {
         // console.log("打印分析的数组", msg)
         for (let i = 0; i < msg.length; i++) {
-          // console.log("打印分析的数组iiiii", i)
-          // state.alarmArrJavaShow[i] = msg[i].status
+          // console.log("打印分析的数组iiiii-----vvv", i, msg[i])
+
+          msg[i].ft11_s = (
+            parseInt(msg[i].ft11_u * 1000) /
+            parseFloat(msg[i].space) /
+            10000
+          ).toFixed(2)
+          msg[i].ft21_s = (
+            parseInt(msg[i].ft21_u * 1000) /
+            parseFloat(msg[i].space) /
+            10000
+          ).toFixed(2)
+
+          msg[i].q1_s = (
+            ((msg[i].q1_u / 3.6) * 1000000) /
+            parseFloat(msg[i].space) /
+            10000
+          ).toFixed(2)
         }
         // that.$store.commit("STATIONDATAALAH", msg)
       })
@@ -205,9 +232,9 @@ const mutations = {
     // }
   },
   AAA(state) {
-    for (let i = 0; i < state.stationDataAndInfoReal.length; i++) {
-      console.log("AAAIII", i)
-    }
+    // for (let i = 0; i < state.stationDataAndInfoReal.length; i++) {
+    //   console.log("AAAIII", i)
+    // }
   },
   SETROLES: (state, d) => {
     //console.log("mmmmm", d)
@@ -227,6 +254,7 @@ const mutations = {
       state.stationDataAndInfo[i].Space = data[i].space
       state.stationDataAndInfo[i].Station = data[i].station
       state.stationInfos[i].Station = data[i].station
+      state.stationDataAndInfoReal[i].heating_method = data[i].heating_method
       state.stationDataAndInfoReal[i].space = data[i].space
       state.stationDataAndInfoReal[i].station = data[i].station
     }
@@ -238,7 +266,7 @@ const mutations = {
     //   state.datas[i].comErr = data[i]
     // }
   },
-  //变灰的JAVA
+  //变灰的JAVA王
   STATIONDATAALAH(state, data) {
     // console.log("-----", data)
     let j = parseInt(data.sid)
@@ -268,6 +296,40 @@ const mutations = {
       //测试结束
 
       //  console.log("换热站数据", state.station)
+    }
+  },
+  WEATHER88(state, data) {
+    let len = data.length
+    let j = parseInt(data.Sid)
+    if (j < 3) {
+      //因为气象的sid是2
+      let obj = isNumber.isNumberObj(data)
+
+      for (let key in obj) {
+        Vue.set(state.weather[0], key, obj[key])
+      }
+    }
+  },
+  WEATHER(state, data) {
+    let len = data.length
+    let j = parseInt(data.Sid)
+    if (j < 3) {
+      //因为气象的sid是2
+      let obj = isNumber.isNumberObj(data)
+
+      new Promise((resolve, reject) => {
+        for (let key in obj) {
+          Vue.set(state.weather[0], key, obj[key])
+        }
+
+        resolve(state.weather[0])
+      }).then((msg) => {
+        console.log("来的室外温度值是多少------------------", msg)
+        console.log("rrrr------------------", state.stationDataAndInfoReal)
+        for (let i = 0; i < state.stationDataAndInfoReal.length; i++) {
+          state.stationDataAndInfoReal[i].te00 = msg.te
+        }
+      })
     }
   }
 }

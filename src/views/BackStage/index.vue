@@ -1,145 +1,46 @@
 <template>
+  <!-- 换热站 -->
   <div class="app-main-station">
-    <!-- <div class="hua">
-      <div class="dian"><i class="el-icon-s-unfold"></i></div>
-    </div> -->
-    <div class="aaa" v-if="uu == 2">
-      <i class="el-icon-s-fold" @click="ycbtn"></i>
-      <div class="t">后台管理</div>
-      <el-menu
-        unique-opened
-        :collapse-transition="false"
-        router
-        :default-active="this.$route.path"
-        class="bbb"
-      >
-        <el-submenu index="用户管理">
-          <template #title>
-            <i class="iconfont icon-shujuzonglan"></i>
-            <span slot="title" class="yy">用户管理</span>
-          </template>
-          <el-menu-item
-            index="1"
-            @click="$router.push({ name: 'user' })"
-            ref="ABC"
-          >
-            <i class="el-icon-menu"></i>
-            <span slot="title">用户管理</span>
-          </el-menu-item>
-        </el-submenu>
-        <el-submenu index="角色管理">
-          <template #title>
-            <i class="iconfont icon-shujuzonglan"></i>
-            <span slot="title" class="yy">角色管理</span>
-          </template>
-          <el-menu-item
-            index="2"
-            @click="$router.push({ name: 'role' })"
-            ref="ABC"
-          >
-            <i class="el-icon-menu"></i>
-            <span slot="title">角色管理</span>
-          </el-menu-item>
-        </el-submenu>
-        <!-- <el-submenu index="工艺控制">
-          <template #title>
-            <i class="iconfont icon-kongzhi"></i>
-            <span slot="title" class="yy">工艺控制</span>
-          </template>
-          <el-menu-item
-            index="2"
-            @click="$router.push({ name: 'Visual6' })"
-            ref="ABC"
-          >
-            <i class="el-icon-menu"></i>
-            <span slot="title">工艺控制</span>
-          </el-menu-item>
-        </el-submenu> -->
-        <!-- <el-submenu index="历史查询">
-          <template #title>
-            <i class="iconfont icon-icon_A3"></i>
-            <span slot="title" class="yy">历史查询</span>
-          </template>
-          <el-menu-item
-            index="3"
-            @click="$router.push({ name: 'Visual4' })"
-            ref="ABC"
-          >
-            <i class="el-icon-menu"></i>
-            <span slot="title">实时曲线</span>
-          </el-menu-item>
-          <el-menu-item
-            index="4"
-            @click="$router.push({ name: 'Visual5' })"
-            ref="ABC"
-          >
-            <i class="el-icon-menu"></i>
-            <span slot="title">曲线查询</span>
-          </el-menu-item>
-        </el-submenu> -->
-        <!-- <el-submenu index="故障报警">
-          <template #title>
-            <i class="iconfont icon-guzhang"></i>
-            <span slot="title" class="yy">故障报警</span>
-          </template>
-          <el-menu-item
-            index="5"
-            @click="$router.push({ name: 'RealAlarm' })"
-            ref="ABC"
-          >
-            <i class="el-icon-menu"></i>
-            <span slot="title">实时报警</span>
-          </el-menu-item>
-          <el-menu-item
-            index="6"
-            @click="$router.push({ name: 'HistoryAlarm' })"
-            ref="ABC"
-          >
-            <i class="el-icon-menu"></i>
-            <span slot="title">报警查询</span>
-          </el-menu-item>
-        </el-submenu> -->
-        <!-- <el-submenu index="报表系统">
-          <template #title>
-            <i class="iconfont icon-baobiao"></i>
-            <span slot="title" class="yy">报表系统</span>
-          </template>
-          <el-menu-item
-            index="7"
-            @click="$router.push({ name: 'TableIntegralPoint' })"
-            ref="ABC"
-          >
-            <i class="el-icon-menu"></i>
-            <span slot="title">整点报表</span>
-          </el-menu-item>
-          <el-menu-item
-            index="8"
-            @click="$router.push({ name: 'TableSection' })"
-            ref="ABC"
-          >
-            <i class="el-icon-menu"></i>
-            <span slot="title">区间报表</span>
-          </el-menu-item>
-        </el-submenu> -->
-        <!-- <el-submenu index="参数修改">
-          <template #title>
-            <i class="iconfont icon-jianyifankui"></i>
-            <span slot="title" class="yy">参数修改</span>
-          </template>
-          <el-menu-item
-            index="9"
-            @click="$router.push({ name: 'ChangeInfo' })"
-            ref="ABC"
-          >
-            <i class="el-icon-menu"></i>
-            <span slot="title">参数修改</span>
-          </el-menu-item>
-        </el-submenu> -->
-      </el-menu>
-    </div>
     <div class="ccc">
       <div class="ddd" @click="xsbtn">
-        <i class="el-icon-s-unfold"></i>
+        <!-- <i class="el-icon-s-unfold"></i> -->
+        <div class="t">后台管理</div>
+        <el-menu
+          unique-opened
+          :collapse-transition="false"
+          router
+          :default-active="this.$route.path"
+          class="ttt"
+        >
+          <el-submenu index="用户管理">
+            <template #title>
+              <i class="iconfont icon-shujuzonglan"></i>
+              <span slot="title" class="yy">用户管理</span>
+            </template>
+            <el-menu-item
+              index="1"
+              @click="$router.push({ name: 'user' })"
+              ref="ABC"
+            >
+              <i class="el-icon-menu"></i>
+              <span slot="title">用户管理</span>
+            </el-menu-item>
+          </el-submenu>
+          <el-submenu index="角色管理">
+            <template #title>
+              <i class="iconfont icon-shujuzonglan"></i>
+              <span slot="title" class="yy">角色管理</span>
+            </template>
+            <el-menu-item
+              index="2"
+              @click="$router.push({ name: 'role' })"
+              ref="ABC"
+            >
+              <i class="el-icon-menu"></i>
+              <span slot="title">角色管理</span>
+            </el-menu-item>
+          </el-submenu>
+        </el-menu>
       </div>
     </div>
     <div class="bbb">
@@ -250,6 +151,19 @@ export default {
 .app-main-station {
   width: 100%;
   height: 100%;
+  background: linear-gradient(
+    90deg,
+    rgba(30, 224, 24, 0.4) 0,
+    rgba(0, 0, 0, 0.1) 50%,
+    rgba(30, 224, 24, 0.4)
+  );
+  .t {
+    position: absolute;
+    top: 1px;
+    right: 5px;
+    color: rgb(11, 233, 66);
+    // top
+  }
   //background-color: rgb(218, 28, 28);
   // margin: 5rem;
   // padding: 20px 50px 20px 50px;
@@ -294,36 +208,36 @@ export default {
     z-index: 9998;
   }
 }
-.aaa {
-  color: #fff;
+// .aaa {
+//   color: #fff;
+//   display: none;
+//   position: relative;
+//   margin: 0px 0px;
 
-  position: relative;
-  margin: 0px 0px;
+//   z-index: 99999999;
+//   width: 212px;
+//   height: 980px;
 
-  z-index: 99999999;
-  width: 212px;
-  height: 980px;
-
-  background: rgba(0, 0, 0, 0.8);
-  //background-color: red;
-  .el-icon-s-fold {
-    font-size: 25px;
-    cursor: pointer;
-  }
-  .t {
-    position: absolute;
-    top: 1px;
-    right: 5px;
-    color: rgb(11, 233, 66);
-    // top
-  }
-  .bbb {
-    position: absolute;
-    left: 2px;
-  }
-}
+//   background: rgba(0, 0, 0, 0.8);
+//   //background-color: red;
+//   .el-icon-s-fold {
+//     font-size: 25px;
+//     cursor: pointer;
+//   }
+//   .t {
+//     position: absolute;
+//     top: 1px;
+//     right: 5px;
+//     color: rgb(11, 233, 66);
+//     // top
+//   }
+//   .bbb {
+//     position: absolute;
+//     left: 2px;
+//   }
+// }
 .bbb {
-  position: absolute;
+  // position: absolute;
   width: 100%;
   height: 100%;
 }
@@ -336,11 +250,40 @@ export default {
   height: 900px;
   position: absolute;
   z-index: 9999999;
+  .aaa {
+    color: #fff;
+    // display: none;
+    position: relative;
+    margin: 0px 0px;
+
+    z-index: 99999999;
+    width: 212px;
+    height: 980px;
+
+    background: rgba(0, 0, 0, 0.8);
+    //background-color: red;
+    .el-icon-s-fold {
+      font-size: 25px;
+      cursor: pointer;
+    }
+    .t {
+      position: absolute;
+      top: 1px;
+      right: 5px;
+      color: rgb(11, 233, 66);
+      // top
+    }
+    .ttt {
+      position: absolute;
+      left: -202px;
+    }
+  }
   //background-color: red;
   .ddd {
-    width: 25px;
-    height: 25px;
+    width: 212px;
+    height: 980px;
     background-color: green;
+    background: rgba(0, 0, 0, 0.8);
     display: none;
     position: absolute;
     top: 1px;
@@ -353,6 +296,13 @@ export default {
 .ccc:hover .ddd {
   display: block;
 }
+.ccc:hover .aaa {
+  display: block;
+}
+// .ccc:hover + .aaa {
+//   color: red;
+//   display: block;
+// }
 //隐藏显示的结束
 .el-menu {
   border-right: none;
@@ -364,7 +314,7 @@ export default {
   width: 30%;
 
   position: relative;
-  left: 1300px;
+  //left: 1300px;
 
   top: 20px;
 }

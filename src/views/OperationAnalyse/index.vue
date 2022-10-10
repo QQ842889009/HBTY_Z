@@ -12,10 +12,10 @@
           :default-active="this.$route.path"
           class="ttt"
         >
-          <el-submenu index="功耗总量11">
+          <el-submenu index="瞬时单耗">
             <template #title>
-              <i class="iconfont icon-shujuzonglan"></i>
-              <span slot="title" class="yy">功耗总量11</span>
+              <i class="iconfont icon-72-copy-copy-copy"></i>
+              <span slot="title" class="yy">瞬时单耗</span>
             </template>
             <el-menu-item
               index="1"
@@ -23,12 +23,12 @@
               ref="ABC"
             >
               <i class="el-icon-menu"></i>
-              <span slot="title">功耗总量11</span>
+              <span slot="title">瞬时单耗</span>
             </el-menu-item>
           </el-submenu>
           <el-submenu index="功耗单耗">
             <template #title>
-              <i class="iconfont icon-kongzhi"></i>
+              <i class="iconfont icon-yubaofenxi"></i>
               <span slot="title" class="yy">功耗单耗</span>
             </template>
             <el-menu-item
@@ -42,7 +42,7 @@
           </el-submenu>
           <el-submenu index="功耗总量">
             <template #title>
-              <i class="iconfont icon-icon_A3"></i>
+              <i class="iconfont icon-icon"></i>
               <span slot="title" class="yy">功耗总量</span>
             </template>
             <el-menu-item

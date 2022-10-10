@@ -120,12 +120,13 @@ export default {
 .aaa {
   font-family: electronicFont;
   color: #0bf317;
+  color: rgb(231, 231, 243);
   //color: rgb(98, 87, 245);
 }
 .app-breadcrumb {
   // background-color: #fff;
   position: absolute;
-  top: -20px;
+  top: -30px;
   left: -140px;
 }
 .el-breadcrumb {
@@ -136,8 +137,10 @@ export default {
   }
 }
 .el-dropdown-link {
+  padding: 20px 10px;
   cursor: pointer;
   color: #0bf317;
+  color: rgb(231, 231, 243);
   font-size: 15px;
   // line-height: 10px;
   .el-icon-user-solid {

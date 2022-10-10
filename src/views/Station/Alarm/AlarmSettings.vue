@@ -44,6 +44,9 @@
           >
             <template slot-scope="scope">
               <el-input-number
+                :disabled="
+                  !ISAUTH.isAUth(['ROOT', 'DATA:ADMIN', 'DATA:UPDATE'])
+                "
                 style="width: 100%"
                 size="mini"
                 :min="0"
@@ -65,6 +68,9 @@
           >
             <template slot-scope="scope">
               <el-input-number
+                :disabled="
+                  !ISAUTH.isAUth(['ROOT', 'DATA:ADMIN', 'DATA:UPDATE'])
+                "
                 style="width: 100%"
                 size="mini"
                 :min="0"
@@ -96,6 +102,9 @@
           >
             <template slot-scope="scope">
               <el-input-number
+                :disabled="
+                  !ISAUTH.isAUth(['ROOT', 'DATA:ADMIN', 'DATA:UPDATE'])
+                "
                 style="width: 100%"
                 size="mini"
                 :min="0"
@@ -111,12 +120,15 @@
           <el-table-column
             prop="PT22LL"
             label="二回压力低低限(MPa)"
-            width="135"
+            width="160"
             fixed="left"
             align="center"
           >
             <template slot-scope="scope">
               <el-input-number
+                :disabled="
+                  !ISAUTH.isAUth(['ROOT', 'DATA:ADMIN', 'DATA:UPDATE'])
+                "
                 style="width: 100%"
                 size="mini"
                 :min="0"
@@ -132,12 +144,15 @@
           <el-table-column
             prop="PT22SP_HH"
             label="二回压力高高限(MPa)"
-            width="135"
+            width="160"
             fixed="left"
             align="center"
           >
             <template slot-scope="scope">
               <el-input-number
+                :disabled="
+                  !ISAUTH.isAUth(['ROOT', 'DATA:ADMIN', 'DATA:UPDATE'])
+                "
                 style="width: 100%"
                 size="mini"
                 :min="0"
@@ -155,12 +170,12 @@
           <el-table-column
             prop="LT"
             label="液位(m)"
-            width="65"
+            width="80"
             fixed="left"
             align="center"
           >
           </el-table-column>
-          <el-table-column
+          <!-- <el-table-column
             prop="LTL"
             label="液位低限(m)"
             width="95"
@@ -180,16 +195,19 @@
                 @change="LTLBTN(scope.row)"
               ></el-input-number>
             </template>
-          </el-table-column>
+          </el-table-column> -->
           <el-table-column
             prop="LTLL"
             label="液位低低限(m)"
-            width="105"
+            width="125"
             fixed="left"
             align="center"
           >
             <template slot-scope="scope">
               <el-input-number
+                :disabled="
+                  !ISAUTH.isAUth(['ROOT', 'DATA:ADMIN', 'DATA:UPDATE'])
+                "
                 style="width: 100%"
                 size="mini"
                 :min="-3"
@@ -205,12 +223,15 @@
           <el-table-column
             prop="LTH"
             label="液位高限(m)"
-            width="95"
+            width="120"
             fixed="left"
             align="center"
           >
             <template slot-scope="scope">
               <el-input-number
+                :disabled="
+                  !ISAUTH.isAUth(['ROOT', 'DATA:ADMIN', 'DATA:UPDATE'])
+                "
                 style="width: 100%"
                 size="mini"
                 :min="0"
@@ -234,6 +255,9 @@
           >
             <template slot-scope="scope">
               <el-input-number
+                :disabled="
+                  !ISAUTH.isAUth(['ROOT', 'DATA:ADMIN', 'DATA:UPDATE'])
+                "
                 style="width: 100%"
                 size="mini"
                 :min="-50"
@@ -255,6 +279,9 @@
           >
             <template slot-scope="scope">
               <el-input-number
+                :disabled="
+                  !ISAUTH.isAUth(['ROOT', 'DATA:ADMIN', 'DATA:UPDATE'])
+                "
                 style="width: 100%"
                 size="mini"
                 :min="-50"
@@ -276,6 +303,9 @@
           >
             <template slot-scope="scope">
               <el-input-number
+                :disabled="
+                  !ISAUTH.isAUth(['ROOT', 'DATA:ADMIN', 'DATA:UPDATE'])
+                "
                 style="width: 100%"
                 size="mini"
                 :min="-100"
@@ -297,6 +327,9 @@
           >
             <template slot-scope="scope">
               <el-input-number
+                :disabled="
+                  !ISAUTH.isAUth(['ROOT', 'DATA:ADMIN', 'DATA:UPDATE'])
+                "
                 style="width: 100%"
                 size="mini"
                 :min="-100"

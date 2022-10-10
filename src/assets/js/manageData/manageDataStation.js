@@ -327,8 +327,8 @@ let stationDataReal = (msg) => {
       time: "00:00:00",
       ft11_u: 0,
       ft21_u: 0,
-      q1_u: 0,
-      te00: 0
+      q1_u: 0
+      // te00: 0
     }
 
     msgJsObjFormat.sid = parseInt(msg.sid.slice(2), 16)
@@ -338,7 +338,7 @@ let stationDataReal = (msg) => {
     msgJsObjFormat.ft11_u = msg.bd0.toFixed(1)
     msgJsObjFormat.ft21_u = msg.bd1.toFixed(1)
 
-    msgJsObjFormat.te00 = msg.bd12.toFixed(1)
+    // msgJsObjFormat.te00 = msg.bd12.toFixed(1)
 
     msgJsObjFormat.q1_u = msg.bd19.toFixed(1)
     // msgJsObjFormat.Q2 = msg.bd20.toFixed(1)
