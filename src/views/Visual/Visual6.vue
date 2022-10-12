@@ -90,7 +90,7 @@ export default {
           this.timer = setInterval(() => {
             this.vueSendToUnity("getStationInfos", msgInfo);
             // console.log("某个站的信息-=-=-=-", msgInfo.FV1SP_H);
-          }, 5000);
+          }, 2500);
           break;
         //一网阀门
         case "FV1SP_H": //开度高限
